@@ -6,30 +6,29 @@
 // Implements the ROS node "arm_control". This node waits for movement commands,
 // and then executes those commands after checking the "arm_monitor" node for
 // permission.
+// Update 6/20/12: Currently bypasses arm_monitor safety checks completely
+//                 because they don't work right. May revisit in the future.
 // =============================================================================
 
 #include "arm/arm_control.h"
 #include "arm/ArmHealth.h"
 #include "arm/MoveRequest.h"
 #include "arm/arm_commands.h"
-#include <stdio.h>
+#include <cstdio>
 
-void moveDoneCallback()
-{
-    // Could do other stuff here
-}
+void moveDoneCallback() {}
 
 ArmControl::ArmControl()
 {
-    command_sub_ = n_.subscribe("command", 1, &ArmControl::commandCallback, this);
-    arm_health_client_ = n_.serviceClient<arm::ArmHealth>("arm_health");
-    move_request_client_ = n_.serviceClient<arm::MoveRequest>("move_request");
+    command_sub_ = n_.subscribe("commands", 1, &ArmControl::callback, this);
+    //arm_health_client_ = n_.serviceClient<arm::ArmHealth>("arm_health");
+    //move_request_client_ = n_.serviceClient<arm::MoveRequest>("move_request");
     arm_ = ManusArm::instance();
     for (int i = 0; i < SIZE; i++)
-        movement_state_[i] = 0;
+        movement_states_[i] = 0;
     command_ = NONE;
-    problem_ = false;
-    last_problem_ = false;
+    //problem_ = false;
+    //last_problem_ = false;
     shutdown_ = false;
 }
 
@@ -48,29 +47,29 @@ void ArmControl::init()
         ros::shutdown();
     }
 
-    last_position_ = arm_->getCsvState();
+    //last_position_ = arm_->getCsvState();
 
     while (ros::ok() && !shutdown_)
     {
         ros::spinOnce();
-        checkHealth();
+        //checkHealth();
         executeCommand();
         command_ = NONE;        
     }
     
-    arm::ArmHealth shutdown_call;
-    shutdown_call.request.state = "shutdown";
-    arm_health_client_.call(shutdown_call);
+    //arm::ArmHealth shutdown_call;
+    //shutdown_call.request.state = "shutdown";
+    //arm_health_client_.call(shutdown_call);
     
     ROS_INFO("ARM control shutting down...");
 }
 
-void ArmControl::commandCallback(const std_msgs::Int8::ConstPtr& i)
+void ArmControl::callback(const arm::command::ConstPtr& c)
 {
-    command_ = static_cast<int>(i->data);
+    command_ = static_cast<int>(c->data);
 }
 
-void ArmControl::checkHealth()
+/*void ArmControl::checkHealth()
 {
     std::string new_position = arm_->getCsvState();
     if (new_position.compare(last_position_) != 0)
@@ -95,60 +94,60 @@ void ArmControl::checkHealth()
             
         last_position_ = new_position;//arm_->getCsvState();
     }
-}
+}*/
 
 void ArmControl::executeCommand()
 { 
     switch(command_)
     {
-    // Emergency all-stop command gets first evaluation
-    case ALL_STOP:
-        allStop();
+    // Emergency stop-all command gets first evaluation
+    case STOP_ALL:
+        stopAll();
         command_ = NONE;
         break;
         
     // Arm Control
     case ARM_FORWARD:
         // Toggle
-        if (movement_state_[ARM_Z] == 1)
-            movement_state_[ARM_Z] = 0;
-        else if (requestMove())
-            movement_state_[ARM_Z] = 1;
+        if (movement_states_[ARM_Z] == 1)
+            movement_states_[ARM_Z] = 0;
+        else //if (requestMove())
+            movement_states_[ARM_Z] = 1;
         break;
     case ARM_BACKWARD:
         // Toggle
-        if (movement_state_[ARM_Z] == -1)
-            movement_state_[ARM_Z] = 0;
-        else if (requestMove())
-            movement_state_[ARM_Z] = -1;
+        if (movement_states_[ARM_Z] == -1)
+            movement_states_[ARM_Z] = 0;
+        else //if (requestMove())
+            movement_states_[ARM_Z] = -1;
         break;                  
     case ARM_LEFT:
 	    // Toggle
-        if (movement_state_[ARM_X] == 1)
-            movement_state_[ARM_X] = 0;
-        else if (requestMove())
-            movement_state_[ARM_X] = 1;
+        if (movement_states_[ARM_X] == 1)
+            movement_states_[ARM_X] = 0;
+        else //if (requestMove())
+            movement_states_[ARM_X] = 1;
         break;   
     case ARM_RIGHT:
 	    // Toggle
-        if (movement_state_[ARM_X] == -1)
-            movement_state_[ARM_X] = 0;
-        else if (requestMove())
-            movement_state_[ARM_X] = -1;
+        if (movement_states_[ARM_X] == -1)
+            movement_states_[ARM_X] = 0;
+        else //if (requestMove())
+            movement_states_[ARM_X] = -1;
         break;         
     case ARM_UP:
 	    // Toggle
-        if (movement_state_[ARM_Y] == 1)
-            movement_state_[ARM_Y] = 0;
-        else if (requestMove())
-            movement_state_[ARM_Y] = 1;
+        if (movement_states_[ARM_Y] == 1)
+            movement_states_[ARM_Y] = 0;
+        else //if (requestMove())
+            movement_states_[ARM_Y] = 1;
         break;        
     case ARM_DOWN:
 	    // Toggle
-        if (movement_state_[ARM_Y] == -1)
-            movement_state_[ARM_Y] = 0;
-        else if (requestMove())
-            movement_state_[ARM_Y] = -1;
+        if (movement_states_[ARM_Y] == -1)
+            movement_states_[ARM_Y] = 0;
+        else //if (requestMove())
+            movement_states_[ARM_Y] = -1;
         break; 
     // Folding the arm causes it to get jammed due to all the extra wires
     // present from the camera. Until this is fixed, do not fold/unfold!
@@ -164,91 +163,91 @@ void ArmControl::executeCommand()
     // Claw control        
     case CLAW_YAW_LEFT:
         // Toggle
-        if (movement_state_[CLAW_YAW] == 1)
-            movement_state_[CLAW_YAW] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_YAW] = 1;
+        if (movement_states_[CLAW_YAW] == 1)
+            movement_states_[CLAW_YAW] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_YAW] = 1;
         break;         
     case CLAW_YAW_RIGHT:
         // Toggle
-        if (movement_state_[CLAW_YAW] == -1)
-            movement_state_[CLAW_YAW] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_YAW] = -1;
+        if (movement_states_[CLAW_YAW] == -1)
+            movement_states_[CLAW_YAW] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_YAW] = -1;
         break;          
     case CLAW_PITCH_UP:
         // Toggle
-        if (movement_state_[CLAW_PITCH] == 1)
-            movement_state_[CLAW_PITCH] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_PITCH] = 1;
+        if (movement_states_[CLAW_PITCH] == 1)
+            movement_states_[CLAW_PITCH] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_PITCH] = 1;
         break;        
     case CLAW_PITCH_DOWN:
         // Toggle
-        if (movement_state_[CLAW_PITCH] == -1)
-            movement_state_[CLAW_PITCH] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_PITCH] = -1;
+        if (movement_states_[CLAW_PITCH] == -1)
+            movement_states_[CLAW_PITCH] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_PITCH] = -1;
         break;               
     case CLAW_ROLL_LEFT:
         // Toggle
-        if (movement_state_[CLAW_ROLL] == -1)
-            movement_state_[CLAW_ROLL] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_ROLL] = -1;
+        if (movement_states_[CLAW_ROLL] == -1)
+            movement_states_[CLAW_ROLL] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_ROLL] = -1;
         break;         
     case CLAW_ROLL_RIGHT:
         // Toggle
-        if (movement_state_[CLAW_ROLL] == 1)
-            movement_state_[CLAW_ROLL] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_ROLL] = 1;
+        if (movement_states_[CLAW_ROLL] == 1)
+            movement_states_[CLAW_ROLL] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_ROLL] = 1;
         break;         
     case CLAW_GRIP_OPEN:
         // Toggle
-        if (movement_state_[CLAW_GRIP] == 1)
-            movement_state_[CLAW_GRIP] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_GRIP] = 1;
+        if (movement_states_[CLAW_GRIP] == 1)
+            movement_states_[CLAW_GRIP] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_GRIP] = 1;
         break;         
     case CLAW_GRIP_CLOSE:
         // Toggle
-        if (movement_state_[CLAW_GRIP] == -1)
-            movement_state_[CLAW_GRIP] = 0;
-        else if (requestMove())
-            movement_state_[CLAW_GRIP] = -1;
+        if (movement_states_[CLAW_GRIP] == -1)
+            movement_states_[CLAW_GRIP] = 0;
+        else //if (requestMove())
+            movement_states_[CLAW_GRIP] = -1;
         break; 
     
     // Lift control                
     case LIFT_UP:
         // Toggle
-        if (movement_state_[LIFT_UNIT] == -1)
-            movement_state_[LIFT_UNIT] = 0;
+        if (movement_states_[LIFT_UNIT] == -1)
+            movement_states_[LIFT_UNIT] = 0;
         else
-            movement_state_[LIFT_UNIT] = -1;
+            movement_states_[LIFT_UNIT] = -1;
         break;                   
     case LIFT_DOWN:
         // Toggle
-        if (movement_state_[LIFT_UNIT] == 1)
-            movement_state_[LIFT_UNIT] = 0;
+        if (movement_states_[LIFT_UNIT] == 1)
+            movement_states_[LIFT_UNIT] = 0;
         else
-            movement_state_[LIFT_UNIT] = 1;
+            movement_states_[LIFT_UNIT] = 1;
         break;                  
     
     // Other
     case SPEED_DOWN:
-        if (movement_state_[SPEED] > 0) movement_state_[SPEED]--;
-        printStates();
+        if (movement_states_[SPEED] > 0) movement_states_[SPEED]--;
+        printf("Speed[%d]\n", movement_states_[SPEED]);
         break;
     case SPEED_UP:
-        if (movement_state_[SPEED] < 4) movement_state_[SPEED]++;
-        printStates();
+        if (movement_states_[SPEED] < 4) movement_states_[SPEED]++;
+        printf("Speed[%d]\n", movement_states_[SPEED]);
         break;
     case QUERY:
         printStates();
         break;            
     case QUIT:
-        allStop();
+        stopAll();
         shutdown_ = true;
         break;    
     default:
@@ -258,7 +257,7 @@ void ArmControl::executeCommand()
         move();   
 }
 
-bool ArmControl::requestMove()
+/*bool ArmControl::requestMove()
 {
     arm::MoveRequest move_request;
     move_request.request.direction = static_cast<int8_t>(command_);
@@ -274,32 +273,32 @@ bool ArmControl::requestMove()
 	else
 	    ROS_ERROR("Error: could not call service move_request");
 	return false;
-}
+}*/
 
 void ArmControl::move()
 {   
-    arm_->moveConstant(movement_state_, &moveDoneCallback);
+    arm_->moveConstant(movement_states_, &moveDoneCallback);
 }
 
-void ArmControl::allStop()
+void ArmControl::stopAll()
 {
     for (int i = 0; i < SIZE - 1; i++)
-        movement_state_[i] = 0;
-    arm_->moveConstant(movement_state_, &moveDoneCallback);
+        movement_states_[i] = 0;
+    move();
 }
 
 void ArmControl::printStates()
 {
     printf("X[%d] Y[%d] Z[%d]\n", 
-           movement_state_[0], 
-           movement_state_[1],
-           movement_state_[2]);
-    printf("Y[%d] P[%d] R[%d] G[%d]\n",
-            movement_state_[3],
-            movement_state_[4],
-            movement_state_[5],
-            movement_state_[6]);
-    printf("L[%d] S[%d]\n", movement_state_[7], movement_state_[8]);
+           movement_states_[0],
+           movement_states_[1],
+           movement_states_[2]);
+    printf("Yaw[%d] Pitch[%d] Roll[%d] Grip[%d]\n",
+            movement_states_[3],
+            movement_states_[4],
+            movement_states_[5],
+            movement_states_[6]);
+    printf("Lift[%d] Speed[%d]\n", movement_states_[7], movement_states_[8]);
 }
 
 int main(int argc, char** argv)

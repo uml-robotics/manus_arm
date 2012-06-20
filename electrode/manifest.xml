@@ -9,7 +9,6 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/electrode</url>
   <depend package="roscpp"/>
+  <depend package="arm" />
 
 </package>
-
-

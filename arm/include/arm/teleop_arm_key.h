@@ -11,15 +11,14 @@
 
 #include "ros/ros.h"
 
-class TeleopArm
+class TeleopArmKey
 {
 public:
-    TeleopArm();
-    void init();
+    TeleopArmKey();
 
 private:
     void keyLoop();
-    int8_t getCommand(char c);
+    uint8_t getCommand(const char c);
       
     ros::NodeHandle n_;
     ros::Publisher command_pub_;

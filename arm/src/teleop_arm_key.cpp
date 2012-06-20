@@ -10,9 +10,9 @@
 // =============================================================================
 
 #include "arm/teleop_arm_key.h"
+#include "arm/command.h"
 #include "arm/key_codes.h"
 #include "arm/arm_commands.h"
-#include "std_msgs/Int8.h"
 #include <signal.h>
 #include <termios.h>
 #include <stdio.h>
@@ -20,19 +20,15 @@
 int kfd = 0;
 struct termios cooked, raw;
 
-TeleopArm::TeleopArm()
+TeleopArmKey::TeleopArmKey()
 {
-    command_pub_ = n_.advertise<std_msgs::Int8>("command", 1);
-}
-
-void TeleopArm::init()
-{
+    command_pub_ = n_.advertise<arm::command>("commands", 1);
     ROS_INFO("Keyboard control started...");
     keyLoop();
     ROS_INFO("Keyboard control shutting down...");
 }
 
-void TeleopArm::keyLoop()
+void TeleopArmKey::keyLoop()
 {
     // Get the console in raw mode
     tcgetattr(kfd, &cooked);
@@ -50,7 +46,7 @@ void TeleopArm::keyLoop()
     
     char input;
     bool shutdown = false;
-    std_msgs::Int8 command;
+    arm::command command;
 
     while (ros::ok() && !shutdown)
     {
@@ -64,108 +60,82 @@ void TeleopArm::keyLoop()
         //ROS_INFO("value: 0x%02X\n", input);
         command.data = getCommand(input);
       
-        if (command.data != static_cast<int8_t>(NONE))
+        if (command.data != NONE)
         {
             command_pub_.publish(command);
             //ROS_INFO("Command [%d] published", static_cast<int>(command.data));
         }
         
-        if (command.data == static_cast<int8_t>(QUIT))
+        if (command.data == QUIT)
             shutdown = true;
     }
 }
 
-int8_t TeleopArm::getCommand(char c)
+uint8_t TeleopArmKey::getCommand(const char c)
 {
-    int command_id;
     switch (c)
     {
+    // Emergency stop-all command gets first evaluation
+    case KEYCODE_BACKSPACE:
+        return STOP_ALL;
+
     // Arm control
     case KEYCODE_W:
-        command_id = ARM_FORWARD;
-        break;
+        return ARM_FORWARD;
     case KEYCODE_A:
-        command_id = ARM_LEFT;
-        break;
+        return ARM_LEFT;
     case KEYCODE_S:
-        command_id = ARM_BACKWARD;
-        break;
+        return ARM_BACKWARD;
     case KEYCODE_D:
-        command_id = ARM_RIGHT;
-        break;
+        return ARM_RIGHT;
     case KEYCODE_Z:
-        command_id = ARM_DOWN;
-        break;
+        return ARM_UP;
     case KEYCODE_X:
-        command_id = ARM_UP;
-        break;
-    // Folding the arm causes it to get jammed due to all the extra wires
-    // present from the camera. Until this is fixed, do not fold/unfold!
-    /*       
+        return ARM_DOWN;
+    /* Folding the arm causes it to get jammed due to all the extra wires
+     * present from the camera. Until this is fixed, do not fold/unfold!
     case KEYCODE_F:
-        command_id = FOLD;
-        break;
-         
+        return FOLD;
     case KEYCODE_U:
-        command_id = UNFOLD;
-        break;
+        return UNFOLD;
     */
     
     // Claw control     
     case KEYCODE_NUM_4:
-        command_id = CLAW_YAW_LEFT;
-        break;      
+        return CLAW_YAW_LEFT;
     case KEYCODE_NUM_6:
-        command_id = CLAW_YAW_RIGHT;
-        break;      
+        return CLAW_YAW_RIGHT;
     case KEYCODE_NUM_8:
-        command_id = CLAW_PITCH_UP;
-        break;      
+        return CLAW_PITCH_UP;
     case KEYCODE_NUM_2:
-        command_id = CLAW_PITCH_DOWN;
-        break;      
+        return CLAW_PITCH_DOWN;
     case KEYCODE_NUM_7:
-        command_id = CLAW_ROLL_LEFT;
-        break;      
+        return CLAW_ROLL_LEFT;
     case KEYCODE_NUM_9:
-        command_id = CLAW_ROLL_RIGHT;
-        break;      
+        return CLAW_ROLL_RIGHT;
     case KEYCODE_NUM_MINUS:
-        command_id = CLAW_GRIP_CLOSE;
-        break;      
+        return CLAW_GRIP_CLOSE;
     case KEYCODE_NUM_PLUS:
-        command_id = CLAW_GRIP_OPEN;
-        break;
+        return CLAW_GRIP_OPEN;
     
     // Lift control    
     case KEYCODE_UP:
-        command_id = LIFT_UP;
-        break;   
+        return LIFT_UP;
     case KEYCODE_DOWN:
-        command_id = LIFT_DOWN;
-        break;           
+        return LIFT_DOWN;
        
     // Other
     case KEYCODE_COMMA:
-        command_id = SPEED_DOWN;
-        break;
+        return SPEED_DOWN;
     case KEYCODE_PERIOD:
-        command_id = SPEED_UP;
-        break;
-    case KEYCODE_BACKSPACE:
-        command_id = ALL_STOP;
-        break;
+        return SPEED_UP;
     case KEYCODE_TAB:
-        command_id = QUERY;
-        break;               
+        return QUERY;
     case KEYCODE_Q:
-        command_id = QUIT;
-        break;     
+        return QUIT;
     default:
-        command_id = NONE;
-        break;
+        return NONE;
     }
-    return static_cast<int8_t>(command_id);
 }
 
 void quit(int sig)
@@ -180,8 +150,7 @@ int main(int argc, char** argv)
     signal(SIGINT, quit);
     
     ros::init(argc, argv, "teleop_arm_key");
-    TeleopArm teleop_arm;
-    teleop_arm.init();
+    TeleopArmKey teleop_arm_key;
     ros::shutdown(); // Allows other nodes to shutdown afterwards
     return 0;
 }

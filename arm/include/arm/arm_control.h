@@ -11,7 +11,7 @@
 
 #include "ros/ros.h"
 #include "arm/ManusArm.hpp"
-#include "std_msgs/Int8.h"
+#include "arm/command.h"
 #include <string>
 
 class ArmControl 
@@ -21,24 +21,24 @@ public:
     void init();
     
 private:  
-    void commandCallback(const std_msgs::Int8::ConstPtr& i);
-    void checkHealth();
+    void callback(const arm::command::ConstPtr& c);
+    //void checkHealth();
     void executeCommand();
-    bool requestMove();
+    //bool requestMove();
     void move();
-    void allStop();
+    void stopAll();
     void printStates();
     
     ros::NodeHandle n_;
     ros::Subscriber command_sub_;
-    ros::ServiceClient arm_health_client_;
-    ros::ServiceClient move_request_client_;
+    //ros::ServiceClient arm_health_client_;
+    //ros::ServiceClient move_request_client_;
     ManusArm* arm_;
-    int movement_state_[9];
+    int movement_states_[9];
     int command_;
-    std::string last_position_;
-    bool problem_;
-    bool last_problem_;
+    //std::string last_position_;
+    //bool problem_;
+    //bool last_problem_;
     bool shutdown_;
 };
 

@@ -24,7 +24,7 @@ enum commands { NONE,
        UNFOLD,
        SPEED_DOWN,
        SPEED_UP,
-       ALL_STOP,
+       STOP_ALL,
        QUERY,
        QUIT };
 
