@@ -1,0 +1,13 @@
+<package>
+  <description brief="arm">
+
+     arm
+
+  </description>
+  <author>Jon</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/arm</url>
+  <depend package="roscpp"/>
+
+</package>

@@ -1,0 +1,12 @@
+<stack>
+  <description brief="arm_project">
+  
+    arm_project
+    
+  </description>
+  <author>Jon</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://pr.willowgarage.com/wiki/arm_project</url>
+  <depend stack="ros"/>
+</stack>
