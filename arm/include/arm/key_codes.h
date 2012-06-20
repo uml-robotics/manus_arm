@@ -6,8 +6,8 @@
 #define KEYCODE_A         0x61 // ARM_LEFT
 #define KEYCODE_S         0x73 // ARM_BACKWARD
 #define KEYCODE_D         0x64 // ARM_RIGHT
-#define KEYCODE_Z         0x7A // ARM_DOWN
-#define KEYCODE_X         0x78 // ARM_UP
+#define KEYCODE_Z         0x7A // ARM_UP
+#define KEYCODE_X         0x78 // ARM_DOWN
 #define KEYCODE_F         0x66 // FOLD
 #define KEYCODE_U         0x75 // UNFOLD
 

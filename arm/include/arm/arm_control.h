@@ -14,6 +14,8 @@
 #include "arm/command.h"
 #include <string>
 
+void moveDoneCallback() {}
+
 class ArmControl 
 {
 public:
@@ -21,12 +23,26 @@ public:
     void init();
     
 private:  
-    void callback(const arm::command::ConstPtr& c);
+    void callback(const arm::command::ConstPtr& c)
+    {
+        command_ = static_cast<int>(c->data);
+    }
+
+    void move()
+    {
+        arm_->moveConstant(movement_states_, &moveDoneCallback);
+    }
+
+    void stopAll()
+    {
+        for (int i = 0; i < SIZE - 1; i++)
+            movement_states_[i] = 0;
+        move();
+    }
+
     //void checkHealth();
     void executeCommand();
     //bool requestMove();
-    void move();
-    void stopAll();
     void printStates();
     
     ros::NodeHandle n_;

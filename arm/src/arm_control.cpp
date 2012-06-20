@@ -16,8 +16,6 @@
 #include "arm/arm_commands.h"
 #include <cstdio>
 
-void moveDoneCallback() {}
-
 ArmControl::ArmControl()
 {
     command_sub_ = n_.subscribe("commands", 1, &ArmControl::callback, this);
@@ -62,11 +60,6 @@ void ArmControl::init()
     //arm_health_client_.call(shutdown_call);
     
     ROS_INFO("ARM control shutting down...");
-}
-
-void ArmControl::callback(const arm::command::ConstPtr& c)
-{
-    command_ = static_cast<int>(c->data);
 }
 
 /*void ArmControl::checkHealth()
@@ -123,30 +116,30 @@ void ArmControl::executeCommand()
         break;                  
     case ARM_LEFT:
 	    // Toggle
-        if (movement_states_[ARM_X] == 1)
-            movement_states_[ARM_X] = 0;
-        else //if (requestMove())
+        //if (movement_states_[ARM_X] == 1)
+        //    movement_states_[ARM_X] = 0;
+        //else //if (requestMove())
             movement_states_[ARM_X] = 1;
         break;   
     case ARM_RIGHT:
 	    // Toggle
-        if (movement_states_[ARM_X] == -1)
-            movement_states_[ARM_X] = 0;
-        else //if (requestMove())
+        //if (movement_states_[ARM_X] == -1)
+        //    movement_states_[ARM_X] = 0;
+        //else //if (requestMove())
             movement_states_[ARM_X] = -1;
         break;         
     case ARM_UP:
 	    // Toggle
-        if (movement_states_[ARM_Y] == 1)
-            movement_states_[ARM_Y] = 0;
-        else //if (requestMove())
+        //if (movement_states_[ARM_Y] == 1)
+        //    movement_states_[ARM_Y] = 0;
+        //else //if (requestMove())
             movement_states_[ARM_Y] = 1;
         break;        
     case ARM_DOWN:
 	    // Toggle
-        if (movement_states_[ARM_Y] == -1)
-            movement_states_[ARM_Y] = 0;
-        else //if (requestMove())
+        //if (movement_states_[ARM_Y] == -1)
+        //    movement_states_[ARM_Y] = 0;
+        //else //if (requestMove())
             movement_states_[ARM_Y] = -1;
         break; 
     // Folding the arm causes it to get jammed due to all the extra wires
@@ -274,18 +267,6 @@ void ArmControl::executeCommand()
 	    ROS_ERROR("Error: could not call service move_request");
 	return false;
 }*/
-
-void ArmControl::move()
-{   
-    arm_->moveConstant(movement_states_, &moveDoneCallback);
-}
-
-void ArmControl::stopAll()
-{
-    for (int i = 0; i < SIZE - 1; i++)
-        movement_states_[i] = 0;
-    move();
-}
 
 void ArmControl::printStates()
 {
