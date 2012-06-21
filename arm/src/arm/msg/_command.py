@@ -7,12 +7,14 @@ import struct
 import std_msgs.msg
 
 class command(genpy.Message):
-  _md5sum = "dd7703d5078812384ba611ee20b8fecf"
+  _md5sum = "fa1479603b148cb3631a58805d751376"
   _type = "arm/command"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Command message
 Header header
-uint8 data
+int8[9] states
+bool query
+bool quit
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -32,8 +34,8 @@ time stamp
 string frame_id
 
 """
-  __slots__ = ['header','data']
-  _slot_types = ['std_msgs/Header','uint8']
+  __slots__ = ['header','states','query','quit']
+  _slot_types = ['std_msgs/Header','int8[9]','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -43,7 +45,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,data
+       header,states,query,quit
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -54,11 +56,17 @@ string frame_id
       #message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.data is None:
-        self.data = 0
+      if self.states is None:
+        self.states = [0,0,0,0,0,0,0,0,0]
+      if self.query is None:
+        self.query = False
+      if self.quit is None:
+        self.quit = False
     else:
       self.header = std_msgs.msg.Header()
-      self.data = 0
+      self.states = [0,0,0,0,0,0,0,0,0]
+      self.query = False
+      self.quit = False
 
   def _get_types(self):
     """
@@ -80,7 +88,9 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_struct_B.pack(self.data))
+      buff.write(_struct_9b.pack(*self.states))
+      _x = self
+      buff.write(_struct_2B.pack(_x.query, _x.quit))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -107,8 +117,14 @@ string frame_id
       else:
         self.header.frame_id = str[start:end]
       start = end
-      end += 1
-      (self.data,) = _struct_B.unpack(str[start:end])
+      end += 9
+      self.states = _struct_9b.unpack(str[start:end])
+      _x = self
+      start = end
+      end += 2
+      (_x.query, _x.quit,) = _struct_2B.unpack(str[start:end])
+      self.query = bool(self.query)
+      self.quit = bool(self.quit)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -129,7 +145,9 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_struct_B.pack(self.data))
+      buff.write(self.states.tostring())
+      _x = self
+      buff.write(_struct_2B.pack(_x.query, _x.quit))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -157,12 +175,19 @@ string frame_id
       else:
         self.header.frame_id = str[start:end]
       start = end
-      end += 1
-      (self.data,) = _struct_B.unpack(str[start:end])
+      end += 9
+      self.states = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=9)
+      _x = self
+      start = end
+      end += 2
+      (_x.query, _x.quit,) = _struct_2B.unpack(str[start:end])
+      self.query = bool(self.query)
+      self.quit = bool(self.quit)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
 _struct_3I = struct.Struct("<3I")
-_struct_B = struct.Struct("<B")
+_struct_9b = struct.Struct("<9b")
+_struct_2B = struct.Struct("<2B")

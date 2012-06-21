@@ -10,19 +10,29 @@
 // =============================================================================
 
 #include "arm/teleop_arm_key.h"
-#include "arm/command.h"
 #include "arm/key_codes.h"
-#include "arm/arm_commands.h"
+#include "arm/movement_states.h"
 #include <signal.h>
 #include <termios.h>
 #include <stdio.h>
+
+#define STATES command_.request.states
 
 int kfd = 0;
 struct termios cooked, raw;
 
 TeleopArmKey::TeleopArmKey()
 {
-    command_pub_ = n_.advertise<arm::command>("commands", 1);
+    cmd_client_ = n_.serviceClient<arm::command>("commands");
+    for (int i = 0; i < 9; i++)
+        STATES[i] = 0;
+    command_.request.stop_all = false;
+    command_.request.query = false;
+    command_.request.quit = false;
+}
+
+void TeleopArmKey::init()
+{
     ROS_INFO("Keyboard control started...");
     keyLoop();
     ROS_INFO("Keyboard control shutting down...");
@@ -46,7 +56,7 @@ void TeleopArmKey::keyLoop()
     
     char input;
     bool shutdown = false;
-    arm::command command;
+    bool new_command = false;
 
     while (ros::ok() && !shutdown)
     {
@@ -58,90 +68,137 @@ void TeleopArmKey::keyLoop()
         }
       
         //ROS_INFO("value: 0x%02X\n", input);
-        command.data = getCommand(input);
+        new_command = getCommand(input);
       
-        if (command.data != NONE)
+        if (new_command)
         {
-            command_pub_.publish(command);
-            //ROS_INFO("Command [%d] published", static_cast<int>(command.data));
+            if (cmd_client_.call(command_))
+                STATES = command_.response.states;
+            else
+                ROS_ERROR("Error: could not communicate with command server");
+
+            if (command_.request.stop_all)
+                command_.request.stop_all = false;
+            else if (command_.request.query)
+                command_.request.query = false;
+            else if (command_.request.quit)
+                shutdown = true;
+
+            new_command = false;
         }
-        
-        if (command.data == QUIT)
-            shutdown = true;
     }
 }
 
-uint8_t TeleopArmKey::getCommand(const char c)
+bool TeleopArmKey::getCommand(const char c)
 {
     switch (c)
     {
     // Emergency stop-all command gets first evaluation
     case KEYCODE_BACKSPACE:
-        return STOP_ALL;
+        command_.request.stop_all = true;
+        return true;
 
     // Arm control
     case KEYCODE_W:
-        return ARM_FORWARD;
+        STATES[ARM_Z] = STATES[ARM_Z] == ARM_FORWARD ? STOP : ARM_FORWARD;
+        return true;
     case KEYCODE_A:
-        return ARM_LEFT;
+        STATES[ARM_X] = STATES[ARM_X] == ARM_LEFT ? STOP : ARM_LEFT;
+        return true;
     case KEYCODE_S:
-        return ARM_BACKWARD;
+        STATES[ARM_Z] = STATES[ARM_Z] == ARM_BACKWARD ? STOP : ARM_BACKWARD;
+        return true;
     case KEYCODE_D:
-        return ARM_RIGHT;
+        STATES[ARM_X] = STATES[ARM_X] == ARM_RIGHT ? STOP : ARM_RIGHT;
+        return true;
     case KEYCODE_Z:
-        return ARM_UP;
+        STATES[ARM_Y] = STATES[ARM_Y] == ARM_UP ? STOP : ARM_UP;
+        return true;
     case KEYCODE_X:
-        return ARM_DOWN;
-    /* Folding the arm causes it to get jammed due to all the extra wires
-     * present from the camera. Until this is fixed, do not fold/unfold!
+        STATES[ARM_Y] = STATES[ARM_Y] == ARM_DOWN ? STOP : ARM_DOWN;
+        return true;
     case KEYCODE_F:
-        return FOLD;
+        // Fold: not implemented
+        return false;
     case KEYCODE_U:
-        return UNFOLD;
-    */
+        // Unfold: not implemented
+        return false;
     
     // Claw control     
     case KEYCODE_NUM_4:
-        return CLAW_YAW_LEFT;
+        STATES[CLAW_YAW] = STATES[CLAW_YAW] == CLAW_YAW_LEFT ? STOP :
+                           CLAW_YAW_LEFT;
+        return true;
     case KEYCODE_NUM_6:
-        return CLAW_YAW_RIGHT;
+        STATES[CLAW_YAW] = STATES[CLAW_YAW] == CLAW_YAW_RIGHT ? STOP :
+                           CLAW_YAW_RIGHT;
+        return true;
     case KEYCODE_NUM_8:
-        return CLAW_PITCH_UP;
+        STATES[CLAW_PITCH] = STATES[CLAW_PITCH] == CLAW_PITCH_UP ? STOP :
+                             CLAW_PITCH_UP;
+        return true;
     case KEYCODE_NUM_2:
-        return CLAW_PITCH_DOWN;
+        STATES[CLAW_PITCH] = STATES[CLAW_PITCH] == CLAW_PITCH_DOWN ? STOP :
+                             CLAW_PITCH_DOWN;
+        return true;
     case KEYCODE_NUM_7:
-        return CLAW_ROLL_LEFT;
+        STATES[CLAW_ROLL] = STATES[CLAW_ROLL] == CLAW_ROLL_LEFT ? STOP :
+                            CLAW_ROLL_LEFT;
+        return true;
     case KEYCODE_NUM_9:
-        return CLAW_ROLL_RIGHT;
+        STATES[CLAW_ROLL] = STATES[CLAW_ROLL] == CLAW_ROLL_RIGHT ? STOP :
+                            CLAW_ROLL_RIGHT;
+        return true;
     case KEYCODE_NUM_MINUS:
-        return CLAW_GRIP_CLOSE;
+        STATES[CLAW_GRIP] = STATES[CLAW_GRIP] == CLAW_GRIP_CLOSE ? STOP :
+                            CLAW_GRIP_CLOSE;
+        return true;
     case KEYCODE_NUM_PLUS:
-        return CLAW_GRIP_OPEN;
+        STATES[CLAW_GRIP] = STATES[CLAW_GRIP] == CLAW_GRIP_OPEN ? STOP :
+                            CLAW_GRIP_OPEN;
+        return true;
     
     // Lift control    
     case KEYCODE_UP:
-        return LIFT_UP;
+        STATES[LIFT_UNIT] = STATES[LIFT_UNIT] == LIFT_UP ? STOP : LIFT_UP;
+        return true;
     case KEYCODE_DOWN:
-        return LIFT_DOWN;
+        STATES[LIFT_UNIT] = STATES[LIFT_UNIT] == LIFT_DOWN ? STOP : LIFT_DOWN;
+        return true;
        
     // Other
     case KEYCODE_COMMA:
-        return SPEED_DOWN;
+        if (STATES[SPEED] > 0)
+        {
+            STATES[SPEED]--;
+            printf("Speed[%d]\n", STATES[SPEED]);
+            return true;
+        }
+        else
+            return false;
     case KEYCODE_PERIOD:
-        return SPEED_UP;
+        if (STATES[SPEED] < 4)
+        {
+            STATES[SPEED]++;
+            printf("Speed[%d]\n", STATES[SPEED]);
+            return true;
+        }
+        else
+            return false;
     case KEYCODE_TAB:
-        return QUERY;
+        command_.request.query = true;
+        return true;
     case KEYCODE_Q:
-        return QUIT;
+        command_.request.quit = true;
+        return true;
     default:
-        return NONE;
+        return false;
     }
 }
 
 void quit(int sig)
 {
     tcsetattr(kfd, TCSANOW, &cooked);
-    ros::shutdown();
     exit(0);
 }
 
@@ -151,6 +208,6 @@ int main(int argc, char** argv)
     
     ros::init(argc, argv, "teleop_arm_key");
     TeleopArmKey teleop_arm_key;
-    ros::shutdown(); // Allows other nodes to shutdown afterwards
+    teleop_arm_key.init();
     return 0;
 }

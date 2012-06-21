@@ -10,18 +10,21 @@
 #define TELEOP_ARM_KEY_H_
 
 #include "ros/ros.h"
+#include "arm/command.h"
 
 class TeleopArmKey
 {
 public:
     TeleopArmKey();
+    void init();
 
 private:
     void keyLoop();
-    uint8_t getCommand(const char c);
+    bool getCommand(const char c);
       
     ros::NodeHandle n_;
-    ros::Publisher command_pub_;
+    ros::ServiceClient cmd_client_;
+    arm::command command_;
 };
 
 #endif

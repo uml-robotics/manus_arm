@@ -17,8 +17,8 @@ CatCreator::CatCreator()
     burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
     cat_pub_ = n_.advertise<electrode::cat>("cats", 1000);
     ROS_INFO("CAT creator running...");
-    burst_file_.open("burst_test.csv");
-    cat_file_.open("cat_test.csv");
+    //burst_file_.open("burst_test.csv");
+    //cat_file_.open("cat_test.csv");
     ros::spin();
 }
 
@@ -31,7 +31,7 @@ void CatCreator::callback(const electrode::burst::ConstPtr& b)
     cat.end.nsec = b->end.nsec;
     for (unsigned int i = 0; i < b->dishes.size(); i++)
         cat.cas.push_back(CaCalculator::getCa(b->dishes[i]));
-    toFile(*b, cat);
+    //toFile(*b, cat);
     cat_pub_.publish(cat);
 }
 

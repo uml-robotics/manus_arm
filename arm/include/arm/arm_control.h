@@ -23,39 +23,34 @@ public:
     void init();
     
 private:  
-    void callback(const arm::command::ConstPtr& c)
-    {
-        command_ = static_cast<int>(c->data);
-    }
+    bool cmdServerCallback(arm::command::Request& req,
+                           arm::command::Response& res);
 
     void move()
     {
-        arm_->moveConstant(movement_states_, &moveDoneCallback);
+        arm_->moveConstant(states_.c_array(), &moveDoneCallback);
     }
 
     void stopAll()
     {
-        for (int i = 0; i < SIZE - 1; i++)
-            movement_states_[i] = 0;
+        for (int i = 0; i < 9; i++)
+            states_[i] = 0;
         move();
     }
 
-    //void checkHealth();
     void executeCommand();
-    //bool requestMove();
     void printStates();
     
     ros::NodeHandle n_;
-    ros::Subscriber command_sub_;
+    ros::ServiceServer cmd_server_;
+    ManusArm* arm_;
+    boost::array<int, 9> states_;
+    bool shutdown_;
     //ros::ServiceClient arm_health_client_;
     //ros::ServiceClient move_request_client_;
-    ManusArm* arm_;
-    int movement_states_[9];
-    int command_;
     //std::string last_position_;
     //bool problem_;
     //bool last_problem_;
-    bool shutdown_;
 };
 
 #endif

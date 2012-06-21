@@ -20,6 +20,7 @@
 #include <exception>
 #include <vector>
 #include <time.h>
+#include "movement_states.h"
 
 // from can_comm.cpp by ktsui
 // MANUS STATUS; from Exact Dynamics
@@ -68,18 +69,6 @@ enum { LIFT,
        PITCH,
        ROLL,
        GRIP };
-
-// Indexes of movement state array
-enum { ARM_Z,
-       ARM_X,
-       ARM_Y,
-       CLAW_YAW,
-       CLAW_PITCH,
-       CLAW_ROLL,
-       CLAW_GRIP,
-       LIFT_UNIT,
-       SPEED,
-       SIZE };  
 
 /* for ARM state */
 struct armState

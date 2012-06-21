@@ -28,7 +28,7 @@ TeleopArmDish::TeleopArmDish()
 
 void TeleopArmDish::getCommands()
 {
-    arm::command command;
+    /*arm::command command;
     if (!queue_.empty())
     {
         electrode::cat cat = queue_.front();
@@ -78,7 +78,7 @@ void TeleopArmDish::getCommands()
         command.data = STOP_ALL;
         command_pub_.publish(command);
         loop_rate_->sleep();
-    }
+    }*/
 }
 
 int main(int argc, char** argv)
