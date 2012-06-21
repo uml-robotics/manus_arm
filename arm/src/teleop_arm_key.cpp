@@ -73,7 +73,10 @@ void TeleopArmKey::keyLoop()
         if (new_command)
         {
             if (cmd_client_.call(command_))
-                STATES = command_.response.states;
+            {
+                for (int i = 0; i < 9; i++)
+                    STATES[i] = command_.response.states[i];
+            }
             else
                 ROS_ERROR("Error: could not communicate with command server");
 

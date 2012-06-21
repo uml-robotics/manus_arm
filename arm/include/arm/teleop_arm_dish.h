@@ -11,13 +11,14 @@
 
 #include "ros/ros.h"
 #include "electrode/cat.h"
+#include "arm/command.h"
 #include <queue>
 
 class TeleopArmDish
 {
 public:
     TeleopArmDish();
-    ~TeleopArmDish() { delete loop_rate_; }
+    void init();
 
 private:
     void callback(const electrode::cat::ConstPtr& c) { queue_.push(*c); }
@@ -25,8 +26,8 @@ private:
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
-    ros::Publisher command_pub_;
-    ros::Rate* loop_rate_;
+    ros::ServiceClient cmd_client_;
+    arm::command command_;
     std::queue<electrode::cat> queue_;
 };
 

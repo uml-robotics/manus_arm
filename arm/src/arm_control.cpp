@@ -58,17 +58,20 @@ bool ArmControl::cmdServerCallback(arm::command::Request& req,
         printStates();
     else
     {
-        states_ = req.states;
+        for (int i = 0; i < 9; i++)
+            states_[i] = req.states[i];
         move();
     }
 
-    res.states = states_;
+    for (int i = 0; i < 9; i++)
+        res.states[i] = states_[i];
+
     return true;
 }
 
 void ArmControl::printStates()
 {
-    printf("X[%d] Y[%d] Z[%d]\n", states_[0], states_[1], states_[2]);
+    printf("X[%d] Y[%d] Z[%d]\n", states_[1], states_[2], states_[0]);
     printf("Yaw[%d] Pitch[%d] Roll[%d] Grip[%d]\n", states_[3], states_[4],
             states_[5], states_[6]);
     printf("Lift[%d] Speed[%d]\n", states_[7], states_[8]);

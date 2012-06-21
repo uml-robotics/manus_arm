@@ -41,4 +41,4 @@ target_link_libraries(arm_control ManusArm)
 rosbuild_add_executable(teleop_arm_key src/teleop_arm_key.cpp)
 
 # teleop_arm_dish.cpp : Get commands from the neuron dish
-#rosbuild_add_executable(teleop_arm_dish src/teleop_arm_dish.cpp)
+rosbuild_add_executable(teleop_arm_dish src/teleop_arm_dish.cpp)
