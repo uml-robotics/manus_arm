@@ -60,15 +60,17 @@
  */
 #define CARTESIAN_FOOT 13854.54
 
-// Indexes of position arrays
-enum { LIFT,
-       Z,
-       X,
-       Y,
-       YAW,
-       PITCH,
-       ROLL,
-       GRIP };
+// Indexes for can_frame.data array only
+// Use the indexes defined in movement_states.h for movement state arrays and
+// position state arrays
+#define LIFT 0
+#define Z 1
+#define X 2
+#define Y 3
+#define YAW 4
+#define PITCH 5
+#define ROLL 6
+#define GRIP 7
 
 /* for ARM state */
 struct armState
@@ -109,7 +111,7 @@ private:
 
 	//Motion
 	boost::thread motionThread;
-	void doMove(float target_position[], void (*callback)());
+	void doMove(float target_position[], int speed_mode, void (*callback)());
 	void doConstantMove(int movement_state[], void (*callback)()); // added by Jon
 
 public:
@@ -123,7 +125,7 @@ public:
 	void moveConstant(int movement_state[], void (*callback)()); // added by Jon
 	void fold();
 	void unfold();
-	void moveCartesian(float position[], void (*callback)());
+	void moveCartesian(float position[], int speed_mode, void (*callback)());
 };
 
 class ArmException: public std::exception

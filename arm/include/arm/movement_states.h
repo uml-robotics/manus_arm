@@ -20,7 +20,8 @@
 #define LIFT_UP -1
 #define LIFT_DOWN 1
 
-// Movement state array indexes
+// Movement state array indexes (0-8)
+// Position array indexes (0-6 only)
 #define ARM_Z 0
 #define ARM_X 1
 #define ARM_Y 2

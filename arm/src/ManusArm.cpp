@@ -127,10 +127,10 @@ void ManusArm::setCbox(int cbox, can_frame* frm)
  *
  *  We don't have a lift unit. The valid values are -1 (up), 0 (off), and 1 (down)
  */
-void ManusArm::moveCartesian(float target_position[], void (*callback)())
+void ManusArm::moveCartesian(float target_position[], int speed_mode, void (*callback)())
 {
 	//boost::thread doMove(boost::bind(&ManusArm::doMove, this, target_position, callback));
-	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, target_position, callback));
+	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, target_position, speed_mode, callback));
 }
 
 // Added by Jon
@@ -142,7 +142,7 @@ void ManusArm::moveConstant(int movement_state[], void (*callback)())
 // Added by Jon
 void ManusArm::doConstantMove(int movement_state[], void (*callback)())
 {
-    boost::this_thread::at_thread_exit(callback);
+    //boost::this_thread::at_thread_exit(callback);
     
     // Speed limits
 	const int linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
@@ -156,9 +156,9 @@ void ManusArm::doConstantMove(int movement_state[], void (*callback)())
 	setCbox(CBOX_1_CARTESIAN, &move);
 	move.can_dlc = 8;
 	move.data[LIFT] = movement_state[LIFT_UNIT];
+	move.data[Z] = linear_speed * movement_state[ARM_Z];
 	move.data[X] = linear_speed * movement_state[ARM_X];
 	move.data[Y] = linear_speed * movement_state[ARM_Y];
-	move.data[Z] = linear_speed * movement_state[ARM_Z];
 	move.data[YAW] = angular_speed * movement_state[CLAW_YAW];
 	move.data[PITCH] = angular_speed * movement_state[CLAW_PITCH];
 	move.data[ROLL] = angular_speed * movement_state[CLAW_ROLL];
@@ -169,7 +169,8 @@ void ManusArm::doConstantMove(int movement_state[], void (*callback)())
 	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 }
 
-void ManusArm::doMove(float target_position[], void (*callback)())
+void ManusArm::doMove(float target_position[], int speed_mode,
+                      void (*callback)())
 {
 
 	boost::this_thread::at_thread_exit(callback);
@@ -193,10 +194,7 @@ void ManusArm::doMove(float target_position[], void (*callback)())
 	int angular_speed_limit[5] =
 	{ 1, 3, 5, 7, 9 };
 	/* Which speed limits to use. 4 is full, kate's work used 2 when approaching user
-	 * Right now this is more or less a constant, but could be a member variable in the
-	 * arm object.
 	 */
-	int speed_mode = 1;
 
 	//error in position
 	float pos_err[6];
@@ -280,12 +278,12 @@ void ManusArm::doMove(float target_position[], void (*callback)())
 		setCbox(CBOX_1_CARTESIAN, &move);
 		move.can_dlc = 8;
 		move.data[LIFT] = 0; //Lift unit
-		move.data[X] = newSpeeds[0];
-		move.data[Y] = newSpeeds[1];
-		move.data[Z] = newSpeeds[2];
-		move.data[YAW] = newSpeeds[3];
-		move.data[PITCH] = newSpeeds[4];
-		move.data[ROLL] = newSpeeds[5];
+		move.data[Z] = newSpeeds[ARM_Z];
+		move.data[X] = newSpeeds[ARM_X];
+		move.data[Y] = newSpeeds[ARM_Y];
+		move.data[YAW] = newSpeeds[CLAW_YAW];
+		move.data[PITCH] = newSpeeds[CLAW_PITCH];
+		move.data[ROLL] = newSpeeds[CLAW_ROLL];
 		move.data[GRIP] = 0; //Gripper open/close
 
 		enqueueFrame(move);

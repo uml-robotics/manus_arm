@@ -14,7 +14,15 @@
 #include "arm/command.h"
 #include <string>
 
-void moveDoneCallback() {}
+namespace manus_arm
+{
+bool done_moving;
+const float origin[7] = { 15000.0f, -5000.0f, 18000.0f, 0.0f, 0.0f, 0.0f,
+                               -10000.0f };
+}
+
+void cartesianMoveDoneCallback() { manus_arm::done_moving = true; }
+void constantMoveDoneCallback() {}
 
 class ArmControl 
 {
@@ -26,31 +34,42 @@ private:
     bool cmdServerCallback(arm::command::Request& req,
                            arm::command::Response& res);
 
-    void move()
+    void moveConstant()
     {
-        arm_->moveConstant(states_.c_array(), &moveDoneCallback);
+        arm_->moveConstant(states_.c_array(), &constantMoveDoneCallback);
+    }
+
+    void moveCartesian()
+    {
+        arm_->moveCartesian(position_, 2, &cartesianMoveDoneCallback);
+        manus_arm::done_moving = false;
+        while (!manus_arm::done_moving && ros::ok())
+            ros::spinOnce();
+        updatePosition();
     }
 
     void stopAll()
     {
-        for (int i = 0; i < 9; i++)
+        // Set everything to 0 except speed
+        for (int i = 0; i < 8; i++)
             states_[i] = 0;
-        move();
+        moveConstant();
     }
 
-    void executeCommand();
     void printStates();
+    void updatePosition() { arm_->getPosition(position_); }
+    void printPosition()
+    {
+        for (int i = 0; i < 7; i++)
+            printf("%d[%.0f]\n", i, position_[i]);
+    }
     
     ros::NodeHandle n_;
     ros::ServiceServer cmd_server_;
     ManusArm* arm_;
     boost::array<int, 9> states_;
+    float position_[7];
     bool shutdown_;
-    //ros::ServiceClient arm_health_client_;
-    //ros::ServiceClient move_request_client_;
-    //std::string last_position_;
-    //bool problem_;
-    //bool last_problem_;
 };
 
 #endif

@@ -22,12 +22,15 @@ TeleopArmDish::TeleopArmDish()
         command_.request.stop_all = false;
         command_.request.query = false;
         command_.request.quit = false;
-    STATES[SPEED] = 2;
+    STATES[SPEED] = 1;
 }
 
 void TeleopArmDish::init()
 {
     ROS_INFO("Dish control started...");
+    cmd_client_.waitForExistence();
+    if (!cmd_client_.call(command_))
+        ROS_ERROR("Error: could not communicate with command server");
     while(ros::ok())
     {
         ros::spinOnce();
@@ -63,13 +66,13 @@ void TeleopArmDish::getCommands()
             // Determine x direction
             if (delta_x > 0)
             {
-                printf("Moving left\n");
-                STATES[ARM_X] = ARM_LEFT;
+                printf("Moving RIGHT\n");
+                STATES[ARM_X] = ARM_RIGHT;
             }
             else if (delta_x < 0)
             {
-                printf("Moving right\n");
-                STATES[ARM_X] = ARM_RIGHT;
+                printf("Moving left\n");
+                STATES[ARM_X] = ARM_LEFT;
             }
             else
             {
@@ -132,6 +135,17 @@ void TeleopArmDish::getCommands()
                 ros::Duration(second_time).sleep();
             }
         }
+        printf("Burst sequence finished\n");
+        command_.request.stop_all = true;
+        if (cmd_client_.call(command_))
+        {
+            for (int i = 0; i < 9; i++)
+                STATES[i] = command_.response.states[i];
+        }
+        else
+            ROS_ERROR("Error: could not communicate with command server");
+
+        ros::Duration(5.0).sleep();
     }
     else
     {
@@ -141,12 +155,12 @@ void TeleopArmDish::getCommands()
         if (cmd_client_.call(command_))
         {
             for (int i = 0; i < 9; i++)
-                STATES = command_.response.states;
+                STATES[i] = command_.response.states[i];
         }
         else
             ROS_ERROR("Error: could not communicate with command server");
 
-        ros::Duration(1.0).sleep();
+        ros::Duration(5.0).sleep();
     }
 
     if (command_.request.stop_all)

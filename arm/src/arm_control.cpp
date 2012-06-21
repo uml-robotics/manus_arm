@@ -20,6 +20,8 @@ ArmControl::ArmControl()
     arm_ = ManusArm::instance();
     for (int i = 0; i < 9; i++)
         states_[i] = 0;
+    for (int i = 0; i < 7; i++)
+        position_[i] = manus_arm::origin[i];
     shutdown_ = false;
 }
 
@@ -37,6 +39,10 @@ void ArmControl::init()
         printf("Init failed, bailing\n");
         ros::shutdown();
     }
+
+    // Move to origin position
+    moveCartesian();
+    printPosition();
 
     while (ros::ok() && !shutdown_)
         ros::spinOnce();
@@ -58,9 +64,20 @@ bool ArmControl::cmdServerCallback(arm::command::Request& req,
         printStates();
     else
     {
+        /*printf("Request: [%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", req.states[0],
+               req.states[1], req.states[2], req.states[3], req.states[4],
+               req.states[5], req.states[6], req.states[7], req.states[8]);
+        printf("Before : [%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", states_[0],
+               states_[1], states_[2], states_[3], states_[4],
+               states_[5], states_[6], states_[7], states_[8]);*/
         for (int i = 0; i < 9; i++)
             states_[i] = req.states[i];
-        move();
+        /*printf("After : [%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", states_[0],
+                       states_[1], states_[2], states_[3], states_[4],
+                       states_[5], states_[6], states_[7], states_[8]);*/
+        moveConstant();
+        updatePosition();
+        printPosition();
     }
 
     for (int i = 0; i < 9; i++)
