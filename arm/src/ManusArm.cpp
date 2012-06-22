@@ -142,7 +142,7 @@ void ManusArm::moveConstant(int movement_state[], void (*callback)())
 // Added by Jon
 void ManusArm::doConstantMove(int movement_state[], void (*callback)())
 {
-    //boost::this_thread::at_thread_exit(callback);
+    boost::this_thread::at_thread_exit(callback);
     
     // Speed limits
 	const int linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
@@ -172,7 +172,6 @@ void ManusArm::doConstantMove(int movement_state[], void (*callback)())
 void ManusArm::doMove(float target_position[], int speed_mode,
                       void (*callback)())
 {
-
 	boost::this_thread::at_thread_exit(callback);
 
 	/* a lot of the logic here is from can_comm.cpp's function pd_control()
@@ -215,7 +214,7 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 
 		//Calculate the error and speeds
 		register float tmp1, tmp2;
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 3; i++) // Currently only calculates for X Y Z
 		{
 			if (i == 5) // roll -180 ~ 180 : linear scaling
 			{
@@ -281,9 +280,9 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 		move.data[Z] = newSpeeds[ARM_Z];
 		move.data[X] = newSpeeds[ARM_X];
 		move.data[Y] = newSpeeds[ARM_Y];
-		move.data[YAW] = newSpeeds[CLAW_YAW];
-		move.data[PITCH] = newSpeeds[CLAW_PITCH];
-		move.data[ROLL] = newSpeeds[CLAW_ROLL];
+		move.data[YAW] = 0; //newSpeeds[CLAW_YAW]; <-- only moves X Y Z
+		move.data[PITCH] = 0; //newSpeeds[CLAW_PITCH]; <-- only moves X Y Z
+		move.data[ROLL] = 0; //newSpeeds[CLAW_ROLL]; <-- only moves X Y Z
 		move.data[GRIP] = 0; //Gripper open/close
 
 		enqueueFrame(move);
@@ -293,7 +292,7 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 
 		//Assume we are done
 		moveComplete = true;
-		for (int ii = 0; ii < 6; ii++)
+		for (int ii = 0; ii < 3; ii++) // Currently only calculates for X Y Z
 		{
 			if (fabs(pos_err[ii]) > CARTESIAN_SLOP)
 			{

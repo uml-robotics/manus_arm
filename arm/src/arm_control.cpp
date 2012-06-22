@@ -6,8 +6,8 @@
 // Implements the ROS node "arm_control". This node waits for movement commands,
 // and then executes those commands after checking the "arm_monitor" node for
 // permission. Code to init the arm is from Abe Shultz.
-// Update 6/20/12: Currently bypasses arm_monitor safety checks completely
-//                 because they don't work right. May revisit in the future.
+// Update 6/20/12: Safety checking by arm_monitor was broken and is now
+//                 unimplemented. May revisit in the future.
 // =============================================================================
 
 #include "arm/arm_control.h"
@@ -15,13 +15,11 @@
 
 ArmControl::ArmControl()
 {
-    cmd_server_ = n_.advertiseService("commands",
-                                      &ArmControl::cmdServerCallback, this);
+    cartesian_sub_ = n_.subscribe("cartesian_moves", 1000,
+                                  &ArmControl::cartesianMoveCallback, this);
+    constant_sub_ = n_.subscribe("constant_moves", 1,
+                                 &ArmControl::constantMoveCallback, this);
     arm_ = ManusArm::instance();
-    for (int i = 0; i < 9; i++)
-        states_[i] = 0;
-    for (int i = 0; i < 7; i++)
-        position_[i] = manus_arm::origin[i];
     shutdown_ = false;
 }
 
@@ -40,58 +38,34 @@ void ArmControl::init()
         ros::shutdown();
     }
 
-    // Move to origin position
-    moveCartesian();
-    printPosition();
+    arm_->moveCartesian(manus_arm::ORIGIN_POSITION, manus_arm::STD_SPEED,
+                        &cartesianMoveDoneCallback);
 
     while (ros::ok() && !shutdown_)
+    {
         ros::spinOnce();
-    
+        if (!queue_.empty())
+            moveCartesian();
+    }
+
     ROS_INFO("ARM control shutting down...");
 }
 
-bool ArmControl::cmdServerCallback(arm::command::Request& req,
-                                   arm::command::Response& res)
+void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
-    if (req.stop_all)
-        stopAll();
-    else if (req.quit)
+    if (cmd->query)
     {
-        stopAll();
-        shutdown_ = true;
+        arm_->getPosition(position_);
+        print();
     }
-    else if (req.query)
-        printStates();
     else
     {
-        /*printf("Request: [%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", req.states[0],
-               req.states[1], req.states[2], req.states[3], req.states[4],
-               req.states[5], req.states[6], req.states[7], req.states[8]);
-        printf("Before : [%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", states_[0],
-               states_[1], states_[2], states_[3], states_[4],
-               states_[5], states_[6], states_[7], states_[8]);*/
-        for (int i = 0; i < 9; i++)
-            states_[i] = req.states[i];
-        /*printf("After : [%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", states_[0],
-                       states_[1], states_[2], states_[3], states_[4],
-                       states_[5], states_[6], states_[7], states_[8]);*/
+        for (int i = 0; i < STATE_ARR_SZ; i++)
+            states_[i] = cmd->states[i];
         moveConstant();
-        updatePosition();
-        printPosition();
+        if (cmd->quit)
+            shutdown_ = true;
     }
-
-    for (int i = 0; i < 9; i++)
-        res.states[i] = states_[i];
-
-    return true;
-}
-
-void ArmControl::printStates()
-{
-    printf("X[%d] Y[%d] Z[%d]\n", states_[1], states_[2], states_[0]);
-    printf("Yaw[%d] Pitch[%d] Roll[%d] Grip[%d]\n", states_[3], states_[4],
-            states_[5], states_[6]);
-    printf("Lift[%d] Speed[%d]\n", states_[7], states_[8]);
 }
 
 int main(int argc, char** argv)

@@ -16,24 +16,22 @@
 #include <termios.h>
 #include <stdio.h>
 
-#define STATES command_.request.states
-
 int kfd = 0;
 struct termios cooked, raw;
 
 TeleopArmKey::TeleopArmKey()
 {
-    cmd_client_ = n_.serviceClient<arm::command>("commands");
-    for (int i = 0; i < 9; i++)
-        STATES[i] = 0;
-    command_.request.stop_all = false;
-    command_.request.query = false;
-    command_.request.quit = false;
+    cmd_pub_ = n_.advertise<arm::constant_move>("constant_moves", 1);
+    for (int i = 0; i < STATE_ARR_SZ; i++)
+        cmd_.states[i] = 0;
+    cmd_.query = false;
+    cmd_.quit = false;
 }
 
 void TeleopArmKey::init()
 {
     ROS_INFO("Keyboard control started...");
+    while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
     keyLoop();
     ROS_INFO("Keyboard control shutting down...");
 }
@@ -52,7 +50,7 @@ void TeleopArmKey::keyLoop()
 
     printf("\nNow reading from the keyboard.\n");
     printf("Use the keyboard to move the ARM.\n");
-    printf("Take care not to exceed its range of motion!\n\n");
+    printf("Take care not to exceed its range of motion!\n");
     
     char input;
     bool shutdown = false;
@@ -67,24 +65,16 @@ void TeleopArmKey::keyLoop()
             exit(-1);
         }
       
-        //ROS_INFO("value: 0x%02X\n", input);
+        //printf("Key value: 0x%02X\n", input);
         new_command = getCommand(input);
       
         if (new_command)
         {
-            if (cmd_client_.call(command_))
-            {
-                for (int i = 0; i < 9; i++)
-                    STATES[i] = command_.response.states[i];
-            }
-            else
-                ROS_ERROR("Error: could not communicate with command server");
+            cmd_pub_.publish(cmd_);
 
-            if (command_.request.stop_all)
-                command_.request.stop_all = false;
-            else if (command_.request.query)
-                command_.request.query = false;
-            else if (command_.request.quit)
+            if (cmd_.query)
+                cmd_.query = false;
+            if (cmd_.quit)
                 shutdown = true;
 
             new_command = false;
@@ -94,109 +84,131 @@ void TeleopArmKey::keyLoop()
 
 bool TeleopArmKey::getCommand(const char c)
 {
+    bool new_command = true;
     switch (c)
     {
-    // Emergency stop-all command gets first evaluation
     case KEYCODE_BACKSPACE:
-        command_.request.stop_all = true;
-        return true;
+        for (int i = 0; i < STATE_ARR_SZ - 1; i++)
+            cmd_.states[i] = 0;
+        break;
 
     // Arm control
     case KEYCODE_W:
-        STATES[ARM_Z] = STATES[ARM_Z] == ARM_FORWARD ? STOP : ARM_FORWARD;
-        return true;
+        cmd_.states[ARM_Z] = cmd_.states[ARM_Z] == ARM_FORWARD ? STOP :
+                             ARM_FORWARD;
+        break;
     case KEYCODE_A:
-        STATES[ARM_X] = STATES[ARM_X] == ARM_LEFT ? STOP : ARM_LEFT;
-        return true;
+        cmd_.states[ARM_X] = cmd_.states[ARM_X] == ARM_LEFT ? STOP : ARM_LEFT;
+        break;
     case KEYCODE_S:
-        STATES[ARM_Z] = STATES[ARM_Z] == ARM_BACKWARD ? STOP : ARM_BACKWARD;
-        return true;
+        cmd_.states[ARM_Z] = cmd_.states[ARM_Z] == ARM_BACKWARD ? STOP :
+                             ARM_BACKWARD;
+        break;
     case KEYCODE_D:
-        STATES[ARM_X] = STATES[ARM_X] == ARM_RIGHT ? STOP : ARM_RIGHT;
-        return true;
+        cmd_.states[ARM_X] = cmd_.states[ARM_X] == ARM_RIGHT ? STOP : ARM_RIGHT;
+        break;
     case KEYCODE_Z:
-        STATES[ARM_Y] = STATES[ARM_Y] == ARM_UP ? STOP : ARM_UP;
-        return true;
+        cmd_.states[ARM_Y] = cmd_.states[ARM_Y] == ARM_UP ? STOP : ARM_UP;
+        break;
     case KEYCODE_X:
-        STATES[ARM_Y] = STATES[ARM_Y] == ARM_DOWN ? STOP : ARM_DOWN;
-        return true;
+        cmd_.states[ARM_Y] = cmd_.states[ARM_Y] == ARM_DOWN ? STOP : ARM_DOWN;
+        break;
     case KEYCODE_F:
         // Fold: not implemented
-        return false;
+        new_command = false;
+        break;
     case KEYCODE_U:
         // Unfold: not implemented
-        return false;
+        new_command = false;
+        break;
     
     // Claw control     
     case KEYCODE_NUM_4:
-        STATES[CLAW_YAW] = STATES[CLAW_YAW] == CLAW_YAW_LEFT ? STOP :
-                           CLAW_YAW_LEFT;
-        return true;
+        cmd_.states[CLAW_YAW] = cmd_.states[CLAW_YAW] == CLAW_YAW_LEFT ? STOP :
+                                CLAW_YAW_LEFT;
+        break;
     case KEYCODE_NUM_6:
-        STATES[CLAW_YAW] = STATES[CLAW_YAW] == CLAW_YAW_RIGHT ? STOP :
-                           CLAW_YAW_RIGHT;
-        return true;
+        cmd_.states[CLAW_YAW] = cmd_.states[CLAW_YAW] == CLAW_YAW_RIGHT ? STOP :
+                                CLAW_YAW_RIGHT;
+        break;
     case KEYCODE_NUM_8:
-        STATES[CLAW_PITCH] = STATES[CLAW_PITCH] == CLAW_PITCH_UP ? STOP :
-                             CLAW_PITCH_UP;
-        return true;
+        cmd_.states[CLAW_PITCH] = cmd_.states[CLAW_PITCH] == CLAW_PITCH_UP ?
+                                  STOP : CLAW_PITCH_UP;
+        break;
     case KEYCODE_NUM_2:
-        STATES[CLAW_PITCH] = STATES[CLAW_PITCH] == CLAW_PITCH_DOWN ? STOP :
-                             CLAW_PITCH_DOWN;
-        return true;
+        cmd_.states[CLAW_PITCH] = cmd_.states[CLAW_PITCH] == CLAW_PITCH_DOWN ?
+                                  STOP : CLAW_PITCH_DOWN;
+        break;
     case KEYCODE_NUM_7:
-        STATES[CLAW_ROLL] = STATES[CLAW_ROLL] == CLAW_ROLL_LEFT ? STOP :
-                            CLAW_ROLL_LEFT;
-        return true;
+        cmd_.states[CLAW_ROLL] = cmd_.states[CLAW_ROLL] == CLAW_ROLL_LEFT ?
+                                 STOP : CLAW_ROLL_LEFT;
+        break;
     case KEYCODE_NUM_9:
-        STATES[CLAW_ROLL] = STATES[CLAW_ROLL] == CLAW_ROLL_RIGHT ? STOP :
-                            CLAW_ROLL_RIGHT;
-        return true;
+        cmd_.states[CLAW_ROLL] = cmd_.states[CLAW_ROLL] == CLAW_ROLL_RIGHT ?
+                                 STOP : CLAW_ROLL_RIGHT;
+        break;
     case KEYCODE_NUM_MINUS:
-        STATES[CLAW_GRIP] = STATES[CLAW_GRIP] == CLAW_GRIP_CLOSE ? STOP :
-                            CLAW_GRIP_CLOSE;
-        return true;
+        cmd_.states[CLAW_GRIP] = cmd_.states[CLAW_GRIP] == CLAW_GRIP_CLOSE ?
+                                 STOP : CLAW_GRIP_CLOSE;
+        break;
     case KEYCODE_NUM_PLUS:
-        STATES[CLAW_GRIP] = STATES[CLAW_GRIP] == CLAW_GRIP_OPEN ? STOP :
-                            CLAW_GRIP_OPEN;
-        return true;
+        cmd_.states[CLAW_GRIP] = cmd_.states[CLAW_GRIP] == CLAW_GRIP_OPEN ?
+                                 STOP : CLAW_GRIP_OPEN;
+        break;
     
     // Lift control    
     case KEYCODE_UP:
-        STATES[LIFT_UNIT] = STATES[LIFT_UNIT] == LIFT_UP ? STOP : LIFT_UP;
-        return true;
+        cmd_.states[LIFT_UNIT] = cmd_.states[LIFT_UNIT] == LIFT_UP ? STOP :
+                                 LIFT_UP;
+        break;
     case KEYCODE_DOWN:
-        STATES[LIFT_UNIT] = STATES[LIFT_UNIT] == LIFT_DOWN ? STOP : LIFT_DOWN;
-        return true;
+        cmd_.states[LIFT_UNIT] = cmd_.states[LIFT_UNIT] == LIFT_DOWN ? STOP :
+                                 LIFT_DOWN;
+        break;
        
     // Other
     case KEYCODE_COMMA:
-        if (STATES[SPEED] > 0)
+        if (cmd_.states[SPEED] > 0)
         {
-            STATES[SPEED]--;
-            printf("Speed[%d]\n", STATES[SPEED]);
-            return true;
+            cmd_.states[SPEED]--;
+            printf("Speed[%d]\n", cmd_.states[SPEED]);
         }
         else
-            return false;
+            new_command = false;
+        break;
     case KEYCODE_PERIOD:
-        if (STATES[SPEED] < 4)
+        if (cmd_.states[SPEED] < 4)
         {
-            STATES[SPEED]++;
-            printf("Speed[%d]\n", STATES[SPEED]);
-            return true;
+            cmd_.states[SPEED]++;
+            printf("Speed[%d]\n", cmd_.states[SPEED]);
         }
         else
-            return false;
+            new_command = false;
+        break;
     case KEYCODE_TAB:
-        command_.request.query = true;
-        return true;
+        print();
+        cmd_.query = true;
+        break;
     case KEYCODE_Q:
-        command_.request.quit = true;
-        return true;
+        for (int i = 0; i < STATE_ARR_SZ; i++)
+            cmd_.states[i] = 0;
+        cmd_.quit = true;
+        break;
     default:
-        return false;
+        new_command = false;
+        break;
     }
+
+    return new_command;
+}
+
+void TeleopArmKey::print()
+{
+    printf("\nX[%d] Y[%d] Z[%d]\n", cmd_.states[1], cmd_.states[2],
+           cmd_.states[0]);
+    printf("Yaw[%d] Pitch[%d] Roll[%d] Grip[%d]\n", cmd_.states[3],
+           cmd_.states[4], cmd_.states[5], cmd_.states[6]);
+    printf("Lift[%d] Speed[%d]\n", cmd_.states[7], cmd_.states[8]);
 }
 
 void quit(int sig)
@@ -212,5 +224,6 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "teleop_arm_key");
     TeleopArmKey teleop_arm_key;
     teleop_arm_key.init();
+    ros::shutdown(); // To allow arm_control node to shutdown
     return 0;
 }

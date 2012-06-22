@@ -32,4 +32,7 @@
 #define LIFT_UNIT 7
 #define SPEED 8
 
+#define STATE_ARR_SZ 9
+#define POS_ARR_SZ 7
+
 #endif

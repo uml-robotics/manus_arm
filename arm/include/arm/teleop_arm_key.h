@@ -10,7 +10,7 @@
 #define TELEOP_ARM_KEY_H_
 
 #include "ros/ros.h"
-#include "arm/command.h"
+#include "arm/constant_move.h"
 
 class TeleopArmKey
 {
@@ -21,10 +21,11 @@ public:
 private:
     void keyLoop();
     bool getCommand(const char c);
+    void print();
       
     ros::NodeHandle n_;
-    ros::ServiceClient cmd_client_;
-    arm::command command_;
+    ros::Publisher cmd_pub_;
+    arm::constant_move cmd_;
 };
 
 #endif
