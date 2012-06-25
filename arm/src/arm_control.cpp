@@ -11,7 +11,6 @@
 // =============================================================================
 
 #include "arm/arm_control.h"
-#include <cstdio>
 
 ArmControl::ArmControl()
 {
@@ -38,7 +37,7 @@ void ArmControl::init()
         ros::shutdown();
     }
 
-    arm_->moveCartesian(manus_arm::ORIGIN_POSITION, manus_arm::STD_SPEED,
+    arm_->moveCartesian(manus_arm::origin_position, manus_arm::STD_SPEED,
                         &cartesianMoveDoneCallback);
 
     while (ros::ok() && !shutdown_)

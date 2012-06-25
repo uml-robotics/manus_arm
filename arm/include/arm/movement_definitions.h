@@ -1,5 +1,5 @@
-#ifndef MOVEMENT_STATES_H_
-#define MOVEMENT_STATES_H_
+#ifndef MOVEMENT_DEFINITIONS_H_
+#define MOVEMENT_DEFINITIONS_H_
 
 // Movement states
 #define STOP 0
@@ -34,5 +34,13 @@
 
 #define STATE_ARR_SZ 9
 #define POS_ARR_SZ 7
+
+namespace manus_arm
+{
+bool done_moving;
+float origin_position[] = { 12000, 0, 0, 0, 0, -1500, -10000 };
+float final_position[] = { 7000, 0, 8000, 0, 0, 0, -10000 }; // Not working
+int STD_SPEED = 2;
+}
 
 #endif

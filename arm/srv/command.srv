@@ -1,9 +1,0 @@
-# Command service
-Header header
-int8[9] states
-bool stop_all
-bool query
-bool quit
----
-Header header
-int8[9] states

@@ -20,7 +20,7 @@
 #include <exception>
 #include <vector>
 #include <time.h>
-#include "movement_states.h"
+#include "movement_definitions.h"
 
 // from can_comm.cpp by ktsui
 // MANUS STATUS; from Exact Dynamics

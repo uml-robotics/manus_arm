@@ -11,7 +11,7 @@
 
 #include "arm/teleop_arm_key.h"
 #include "arm/key_codes.h"
-#include "arm/movement_states.h"
+#include "arm/movement_definitions.h"
 #include <signal.h>
 #include <termios.h>
 #include <stdio.h>

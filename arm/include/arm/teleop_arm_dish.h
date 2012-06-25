@@ -11,7 +11,7 @@
 
 #include "ros/ros.h"
 #include "electrode/cat.h"
-#include "arm/command.h"
+#include "arm/cartesian_move.h"
 #include <queue>
 
 class TeleopArmDish
@@ -22,12 +22,12 @@ public:
 
 private:
     void callback(const electrode::cat::ConstPtr& c) { queue_.push(*c); }
-    void getCommands();
+    void getCommand();
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
-    ros::ServiceClient cmd_client_;
-    arm::command command_;
+    ros::Publisher cmd_pub_;
+    arm::cartesian_move cmd_;
     std::queue<electrode::cat> queue_;
 };
 

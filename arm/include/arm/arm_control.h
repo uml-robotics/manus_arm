@@ -13,22 +13,11 @@
 #include "arm/ManusArm.hpp"
 #include "arm/cartesian_move.h"
 #include "arm/constant_move.h"
+#include "movement_definitions.h"
 #include <queue>
-#include <string>
+#include <cstdio>
 
-namespace manus_arm
-{
-bool done_moving;
-float ORIGIN_POSITION[] = { 12000, 0, 0, 0, 0, -1500, -10000 };
-float FINAL_POSITION[] = { 7000, 0, 8000, 0, 0, 0, -10000 }; // Not working
-int STD_SPEED = 2;
-}
-
-void cartesianMoveDoneCallback()
-{
-    manus_arm::done_moving = true;
-    printf("cartesianMoveDoneCallback called\n");
-}
+void cartesianMoveDoneCallback() { manus_arm::done_moving = true; }
 void constantMoveDoneCallback() {}
 
 class ArmControl 
@@ -48,6 +37,9 @@ private:
     {
         arm_->moveCartesian(queue_.front().positions.c_array(),
                             queue_.front().speed, &cartesianMoveDoneCallback);
+        printf("Moving to X[%f] Y[%f]\n",
+               queue_.front().positions[ARM_X],
+               queue_.front().positions[ARM_Y]);
         manus_arm::done_moving = false;
         while (!manus_arm::done_moving && ros::ok())
             ros::spinOnce();
