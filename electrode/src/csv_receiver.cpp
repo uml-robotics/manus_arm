@@ -29,8 +29,10 @@ void CsvReceiver::init(const char* file_name)
                                                     ("dish_states", 1000);
         ros::Rate loop_rate(1000); // 1000 dishes per second
 
-        // Wait for a subscriber before publishing
+        // Wait for a subscriber to "dish_states" before publishing
+        ROS_INFO("Waiting for subscriber...");
         while (dish_state_pub.getNumSubscribers() < 1 && ros::ok());
+        ROS_INFO("Subscriber found. Continuing...");
 
         // Initialize the start time for timestamps
         start_time_ = ros::Time::now();
@@ -45,7 +47,7 @@ void CsvReceiver::init(const char* file_name)
         file.close();
     }
     else
-        ROS_ERROR("Cannot open %s", file_name);
+        ROS_ERROR("Error: Cannot open %s", file_name);
 }
 
 const electrode::dish_state CsvReceiver::parse(const std::string& s)
@@ -72,13 +74,15 @@ const electrode::dish_state CsvReceiver::parse(const std::string& s)
 
 int main(int argc, char** argv)
 {
+    ros::init(argc, argv, "csv_receiver");
+
     if (argc != 2)
     {
-        printf("Usage: rosrun electrode csv_receiver [file]\n");
+        ROS_ERROR("Error: CSV file name not specified.\n");
         return -1;
     }
 
-    ros::init(argc, argv, "csv_receiver");
+
     CsvReceiver csv_receiver;
     csv_receiver.init(argv[1]);
     return 0;

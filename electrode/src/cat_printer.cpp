@@ -9,12 +9,12 @@
 // !!! BROKEN AS OF 6/15/12 DUE TO CHANGES TO CAT CREATOR NODE !!!
 
 #include "ros/ros.h"
-#include "electrode/trajectory.h"
+#include "electrode/cat.h"
 #include <cstdio>
 
-void callback(const electrode::trajectory::ConstPtr& t)
+void callback(const electrode::cat::ConstPtr& c)
 {
-    printf("Trajectory size: %d\n", static_cast<int>(t->cat.size()));
+    printf("Trajectory size: %d\n", static_cast<int>(c->cas.size()));
     /*for (unsigned int i = 0; i < t->cat.size(); i++)
     {
         printf("%d[x(%.3f)y(%.3f)] ", i, t->cat[i].x, t->cat[i].y);
@@ -24,7 +24,7 @@ void callback(const electrode::trajectory::ConstPtr& t)
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "trajectory_printer");
+    ros::init(argc, argv, "cat_printer");
     ros::NodeHandle n;
     ros::Subscriber cat_sub = n.subscribe("cats", 1000, callback);
     ROS_INFO("Trajectory printer running...");

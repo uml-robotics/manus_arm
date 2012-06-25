@@ -31,7 +31,12 @@ TeleopArmKey::TeleopArmKey()
 void TeleopArmKey::init()
 {
     ROS_INFO("Keyboard control started...");
+
+    // Wait for a subscriber to "constant_moves" before continuing
+    ROS_INFO("Waiting for subscriber...");
     while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
+    ROS_INFO("Subscriber found. Continuing...");
+
     keyLoop();
     ROS_INFO("Keyboard control shutting down...");
 }
@@ -56,7 +61,9 @@ void TeleopArmKey::keyLoop()
     bool shutdown = false;
     bool new_command = false;
 
-    while (ros::ok() && !shutdown)
+    // Continue only while shutdown flag has not been enabled and there is still
+    // a subscriber to receive messages
+    while (!shutdown && cmd_pub_.getNumSubscribers() > 0 && ros::ok())
     {
         // Get the next event from the keyboard  
         if(read(kfd, &input, 1) < 0)

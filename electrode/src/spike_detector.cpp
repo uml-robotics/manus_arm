@@ -11,13 +11,29 @@
 
 SpikeDetector::SpikeDetector()
 {
+    ROS_INFO("Spike detector running...");
+    burst_pub_ = n_.advertise<electrode::burst>("bursts", 1000);
+
+    // Wait for a subscriber to "bursts" before subscribing to "dish_states"
+    ROS_INFO("Waiting for subscriber...");
+    while (burst_pub_.getNumSubscribers() < 1 && ros::ok());
+    ROS_INFO("Subscriber found. Continuing...");
+
     dish_state_sub_ = n_.subscribe("dish_states",
                                    1000,
                                    &SpikeDetector::callback,
                                    this);
-    burst_pub_ = n_.advertise<electrode::burst>("bursts", 1000);
-    ROS_INFO("Spike detector running...");
-    ros::spin();
+
+    // Wait for a publisher of "dish_states" before continuing
+    ROS_INFO("Waiting for publisher...");
+    while (dish_state_sub_.getNumPublishers() < 1 && ros::ok());
+    ROS_INFO("Publisher found. Continuing...");
+
+    // Continue only while there is a publisher of "dish_states"
+    while (dish_state_sub_.getNumPublishers() > 0 && ros::ok())
+        ros::spinOnce();
+
+    ROS_INFO("Spike detector shutting down...");
 }
 
 void SpikeDetector::callback(const electrode::dish_state::ConstPtr& d)

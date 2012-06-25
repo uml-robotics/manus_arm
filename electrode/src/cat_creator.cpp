@@ -14,12 +14,28 @@
 
 CatCreator::CatCreator()
 {
-    burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
-    cat_pub_ = n_.advertise<electrode::cat>("cats", 1000);
     ROS_INFO("CAT creator running...");
+    cat_pub_ = n_.advertise<electrode::cat>("cats", 1000);
+
+    // Wait for a subscriber to "cats" before subscribing to "bursts"
+    ROS_INFO("Waiting for subscriber...");
+    while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
+    ROS_INFO("Subscriber found. Continuing...");
+
+    burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
     //burst_file_.open("burst_test.csv");
     //cat_file_.open("cat_test.csv");
-    ros::spin();
+
+    // Wait for a publisher of "bursts" before continuing
+    ROS_INFO("Waiting for publisher...");
+    while (burst_sub_.getNumPublishers() < 1 && ros::ok());
+    ROS_INFO("Publisher found. Continuing...");
+
+    // Continue only while there is a publisher of "bursts"
+    while (burst_sub_.getNumPublishers() > 0 && ros::ok())
+        ros::spinOnce();
+
+    ROS_INFO("CAT creator shutting down...");
 }
 
 void CatCreator::callback(const electrode::burst::ConstPtr& b)

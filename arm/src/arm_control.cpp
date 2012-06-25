@@ -37,8 +37,12 @@ void ArmControl::init()
         ros::shutdown();
     }
 
+    // Move into origin position to start
     arm_->moveCartesian(manus_arm::origin_position, manus_arm::STD_SPEED,
                         &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
 
     while (ros::ok() && !shutdown_)
     {
@@ -46,6 +50,13 @@ void ArmControl::init()
         if (!queue_.empty())
             moveCartesian();
     }
+
+    // Move back into origin position to finish
+    arm_->moveCartesian(manus_arm::origin_position, manus_arm::STD_SPEED,
+                        &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
 
     ROS_INFO("ARM control shutting down...");
 }

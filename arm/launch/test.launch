@@ -1,0 +1,11 @@
+<launch>
+        
+  <node pkg="arm" name="arm_control" type="arm_control"/>
+  <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
+  
+  <node pkg="electrode" name="csv_receiver" type="csv_receiver"
+        args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
+  <node pkg="electrode" name="spike_detector" type="spike_detector"/>
+  <node pkg="electrode" name="cat_creator" type="cat_creator"/>
+
+</launch>

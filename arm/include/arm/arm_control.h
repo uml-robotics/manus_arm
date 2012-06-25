@@ -18,7 +18,7 @@
 #include <cstdio>
 
 void cartesianMoveDoneCallback() { manus_arm::done_moving = true; }
-void constantMoveDoneCallback() {}
+void constantMoveDoneCallback() { printf("Constant move interrupt\n"); }
 
 class ArmControl 
 {
