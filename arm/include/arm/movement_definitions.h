@@ -38,8 +38,9 @@
 namespace manus_arm
 {
 bool done_moving;
-float origin_position[] = { 12000, 0, 0, 0, 0, -1500, -10000 };
-float final_position[] = { 7000, 0, 8000, 0, 0, 0, -10000 }; // Not working
+float origin_position[] = { 14000, 0, 0, 0, 0, 0, -10000 };
+float final_position[] = { 3400, -7300, 6200, 0, 0, 0, -10000 };
+//float final_position[] = { 10000, 0, 0, 0, 0, 0, -10000 };
 int STD_SPEED = 2;
 }
 

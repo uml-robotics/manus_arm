@@ -52,6 +52,8 @@ private:
         arm_->moveConstant(states_, &constantMoveDoneCallback);
     }
 
+    void moveSquare();
+
     void print()
     {
         printf("\n");

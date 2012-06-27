@@ -44,6 +44,9 @@ void ArmControl::init()
     while (!manus_arm::done_moving && ros::ok())
         ros::spinOnce();
 
+    // Range of motion test
+    //moveSquare();
+
     while (ros::ok() && !shutdown_)
     {
         ros::spinOnce();
@@ -51,8 +54,8 @@ void ArmControl::init()
             moveCartesian();
     }
 
-    // Move back into origin position to finish
-    arm_->moveCartesian(manus_arm::origin_position, manus_arm::STD_SPEED,
+    // Move into final position to finish
+    arm_->moveCartesian(manus_arm::final_position, manus_arm::STD_SPEED,
                         &cartesianMoveDoneCallback);
     manus_arm::done_moving = false;
     while (!manus_arm::done_moving && ros::ok())
@@ -80,6 +83,43 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
             shutdown_ = true;
         }
     }
+}
+
+void ArmControl::moveSquare()
+{
+    float square[POS_ARR_SZ];
+    for (int i = 0; i < POS_ARR_SZ; i++)
+        square[i] = manus_arm::origin_position[i];
+    square[ARM_X] = 20000;
+    square[ARM_Y] = 20000;
+    arm_->moveCartesian(square, manus_arm::STD_SPEED, &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
+
+    square[ARM_X] = -20000;
+    arm_->moveCartesian(square, manus_arm::STD_SPEED, &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
+
+    square[ARM_Y] = -20000;
+    arm_->moveCartesian(square, manus_arm::STD_SPEED, &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
+
+    square[ARM_X] = 20000;
+    arm_->moveCartesian(square, manus_arm::STD_SPEED, &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
+
+    square[ARM_Y] = 20000;
+    arm_->moveCartesian(square, manus_arm::STD_SPEED, &cartesianMoveDoneCallback);
+    manus_arm::done_moving = false;
+    while (!manus_arm::done_moving && ros::ok())
+        ros::spinOnce();
 }
 
 int main(int argc, char** argv)
