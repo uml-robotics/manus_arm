@@ -1,13 +1,13 @@
 <package>
-  <description brief="dish_viz">
+  <description brief="burst_calc">
 
-     dish_viz
+     electrode
 
   </description>
-  <author>Abraham Shultz</author>
+  <author>Jon</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/dish_viz</url>
+  <url>http://ros.org/wiki/burst_calc</url>
   <depend package="roscpp"/>
   <depend package="neuro_recv"/>
 

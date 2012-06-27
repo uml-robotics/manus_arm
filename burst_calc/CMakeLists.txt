@@ -29,8 +29,17 @@ rosbuild_genmsg()
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
-# CSV Receiver
-rosbuild_add_executable(csv_recv src/csv_recv.cpp)
+# Spike Detector
+rosbuild_add_executable(spike_detector src/spike_detector.cpp)
+rosbuild_add_library(buffer_spike_detector src/buffer_spike_detector.cpp)
+rosbuild_add_library(burst_checker src/burst_checker.cpp)
+target_link_libraries(spike_detector buffer_spike_detector)
+target_link_libraries(spike_detector burst_checker)
+
+# CAT Creator
+rosbuild_add_executable(cat_creator src/cat_creator.cpp)
 
 # Unused
-#rosbuild_add_executable(dish_generator src/dish_generator.cpp)
+#rosbuild_add_executable(cat_test src/cat_test.cpp)
+#rosbuild_add_executable(cat_printer src/cat_printer.cpp)
+#rosbuild_add_executable(visualizer src/visualizer.cpp)

@@ -8,7 +8,7 @@
 // =============================================================================
 
 #include "arm/teleop_arm_dish.h"
-#include "electrode/cat.h"
+#include "burst_calc/cat.h"
 #include "arm/movement_definitions.h"
 #include <cmath>
 
@@ -51,7 +51,7 @@ void TeleopArmDish::init()
 
 void TeleopArmDish::getCommand()
 {
-    electrode::cat cat = queue_.front();
+    burst_calc::cat cat = queue_.front();
     queue_.pop();
 
     // For each CA in the CAT, calculate and publish Cartesian command

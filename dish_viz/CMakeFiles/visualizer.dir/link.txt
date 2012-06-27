@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -O2 -g  -pthread   -shared -Wl,-soname,libvisualizer.so -o lib/libvisualizer.so CMakeFiles/visualizer.dir/src/DishVisualizer.o -L/opt/ros/fuerte/lib -lroscpp -lrostime -lrosconsole -lroscpp_serialization -lxmlrpcpp -lplotter -lXaw -lXmu -lXt -lSM -lICE -lXext -lX11 -lpng -lz -lm -Wl,-rpath,/opt/ros/fuerte/lib 

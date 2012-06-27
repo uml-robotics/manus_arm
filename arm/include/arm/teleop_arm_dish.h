@@ -10,7 +10,7 @@
 #define TELEOP_ARM_DISH_H_
 
 #include "ros/ros.h"
-#include "electrode/cat.h"
+#include "burst_calc/cat.h"
 #include "arm/cartesian_move.h"
 #include <queue>
 
@@ -21,14 +21,14 @@ public:
     void init();
 
 private:
-    void callback(const electrode::cat::ConstPtr& c) { queue_.push(*c); }
+    void callback(const burst_calc::cat::ConstPtr& c) { queue_.push(*c); }
     void getCommand();
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
     ros::Publisher cmd_pub_;
     arm::cartesian_move cmd_;
-    std::queue<electrode::cat> queue_;
+    std::queue<burst_calc::cat> queue_;
 };
 
 #endif

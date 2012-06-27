@@ -5,10 +5,10 @@
         args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
         
   <!-- spike_detector: Detect activity spikes & bursts -->
-  <node pkg="electrode" name="spike_detector" type="spike_detector"/>
+  <node pkg="burst_calc" name="spike_detector" type="spike_detector"/>
 
   <!-- cat_creator: Calculate CATs from activity bursts -->
-  <node pkg="electrode" name="cat_creator" type="cat_creator"/>
+  <node pkg="burst_calc" name="cat_creator" type="cat_creator"/>
           
   <!-- teleop_arm_dish: Generate movement commands from CATs -->
   <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>

@@ -9,6 +9,6 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/arm</url>
   <depend package="roscpp"/>
-  <depend package="electrode"/>
+  <depend package="burst_calc"/>
 
 </package>
