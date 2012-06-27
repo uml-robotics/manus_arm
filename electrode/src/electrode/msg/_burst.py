@@ -4,7 +4,7 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import electrode.msg
+import neuro_recv.msg
 import genpy
 import std_msgs.msg
 
@@ -15,7 +15,7 @@ class burst(genpy.Message):
   _full_text = """# Burst message
 Header header
 time end
-dish_state[] dishes
+neuro_recv/dish_state[] dishes
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -35,13 +35,13 @@ time stamp
 string frame_id
 
 ================================================================================
-MSG: electrode/dish_state
+MSG: neuro_recv/dish_state
 # Dish state message
 Header header
 float64[60] samples
 """
   __slots__ = ['header','end','dishes']
-  _slot_types = ['std_msgs/Header','time','electrode/dish_state[]']
+  _slot_types = ['std_msgs/Header','time','neuro_recv/dish_state[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -146,7 +146,7 @@ float64[60] samples
       (length,) = _struct_I.unpack(str[start:end])
       self.dishes = []
       for i in range(0, length):
-        val1 = electrode.msg.dish_state()
+        val1 = neuro_recv.msg.dish_state()
         _v3 = val1.header
         start = end
         end += 4
@@ -246,7 +246,7 @@ float64[60] samples
       (length,) = _struct_I.unpack(str[start:end])
       self.dishes = []
       for i in range(0, length):
-        val1 = electrode.msg.dish_state()
+        val1 = neuro_recv.msg.dish_state()
         _v7 = val1.header
         start = end
         end += 4

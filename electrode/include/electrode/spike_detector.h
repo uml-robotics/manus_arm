@@ -13,7 +13,7 @@
 #include "electrode/buffer_spike_detector.h"
 #include "electrode/burst_checker.h"
 #include "electrode/burst.h"
-#include "electrode/dish_state.h"
+#include "neuro_recv/dish_state.h"
 
 class SpikeDetector
 {
@@ -21,7 +21,7 @@ public:
     SpikeDetector();
 
 private:
-    void callback(const electrode::dish_state::ConstPtr& d);
+    void callback(const neuro_recv::dish_state::ConstPtr& d);
     const electrode::burst cleanBurst(const electrode::burst& b);
 
     ros::NodeHandle n_;

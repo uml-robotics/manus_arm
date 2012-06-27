@@ -74,7 +74,11 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
             states_[i] = cmd->states[i];
         moveConstant();
         if (cmd->quit)
+        {
+            //if (!manus_arm::done_moving)
+            //    manus_arm::done_moving = true;
             shutdown_ = true;
+        }
     }
 }
 

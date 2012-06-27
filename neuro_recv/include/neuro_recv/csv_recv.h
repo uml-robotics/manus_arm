@@ -1,5 +1,5 @@
 // =============================================================================
-// Name   : csv_receiver.h
+// Name   : csv_recv.h
 // Author : Jonathan Hasenzahl
 // Date   : 2012
 //
@@ -10,7 +10,7 @@
 #define CSV_RECEIVER_H_
 
 #include "ros/ros.h"
-#include "electrode/dish_state.h"
+#include "neuro_recv/dish_state.h"
 #include <string>
 
 class CsvReceiver
@@ -20,7 +20,7 @@ public:
     void init(const char* file_name);
 
 private:
-    const electrode::dish_state parse(const std::string& s);
+    const neuro_recv::dish_state parse(const std::string& s);
 
     ros::NodeHandle n_;
     ros::Time start_time_;

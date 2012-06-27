@@ -1,5 +1,5 @@
 // =============================================================================
-// Name   : csv_receiver.cpp
+// Name   : csv_recv.cpp
 // Author : Jonathan Hasenzahl
 // Date   : 2012
 //
@@ -7,7 +7,7 @@
 // file in order to test other nodes without needing a live link.
 // =============================================================================
 
-#include "electrode/csv_receiver.h"
+#include "neuro_recv/csv_recv.h"
 #include <fstream>
 #include <cstdio>
 
@@ -25,7 +25,7 @@ void CsvReceiver::init(const char* file_name)
         for (int i = 0; i < 10023; i++)
             file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        ros::Publisher dish_state_pub = n_.advertise<electrode::dish_state>
+        ros::Publisher dish_state_pub = n_.advertise<neuro_recv::dish_state>
                                                     ("dish_states", 1000);
         ros::Rate loop_rate(1000); // 1000 dishes per second
 
@@ -50,14 +50,14 @@ void CsvReceiver::init(const char* file_name)
         ROS_ERROR("Error: Cannot open %s", file_name);
 }
 
-const electrode::dish_state CsvReceiver::parse(const std::string& s)
+const neuro_recv::dish_state CsvReceiver::parse(const std::string& s)
 {
     // Ignore first block of data, it is an index
     int n = 0;
     int pos = s.find(',', n) + 1;
 
     double total = 0.0;
-    electrode::dish_state dish;
+    neuro_recv::dish_state dish;
     ros::Time current_time = ros::Time::now();
     dish.header.stamp.sec = (current_time - start_time_).sec;
     dish.header.stamp.nsec = (current_time - start_time_).nsec;

@@ -20,7 +20,7 @@ TeleopArmDish::TeleopArmDish()
     cmd_.positions[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
     cmd_.positions[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
     cmd_.positions[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
-    cmd_.speed = 2;
+    cmd_.speed = 3;
 }
 
 void TeleopArmDish::init()
@@ -57,23 +57,33 @@ void TeleopArmDish::getCommand()
     // For each CA in the CAT, calculate and publish Cartesian command
     for (unsigned int i = 0; i < cat.cas.size(); i++)
     {
-        // The safe range for the ARM to move in an X/Y square is -20000 arm
-        // units (AU) to +20000 AU on each axis (40001 AU total). The actual
-        // safe range for individual axes is -28000/+28000, but that depends on
-        // the other axis being at 0.
+        // The safe range, in arm units (AU), for the ARM to move in an X/Y
+        // square is -20000:20000 AU on each axis (40001 AU total). The actual
+        // safe range for each individual axis is -28000:28000, but that will
+        // shrink depending on the value of the other axis.
         //
-        // Same logic as above, and what is currently used for this data set:
+        // Each axis of the CAT grid ranges from 1:8, with 1 in the upper left
+        // corner. The midpoint of each axis is 4.5 ([1+8]/2) CAT units (CU).
         //
-        // To move in a square, and for a range of 4.16 to 4.84 on the CAT grid,
-        // .68 CAT units (CU) = 40001 AU. 4.5 is the midpoint of the CAT grid
-        // and that is what is subtracted from each CA. The result is multiplied
-        // by -57144 (-40001 / .68) to get AU. This ensures that as long as each
-        // CA is between 4 and 5 CU, the AU will never exceed the safe range.
-        // X: 4.41 - 4.59 = 0.18 -> -40001 / 0.18 =
+        // We assign the max range of 4.41:4.59 CU on the X CAT axis to the
+        // max range on the ARM Y axis (0.19 CU = 40001 AU). To convert CU to
+        // AU: ([CU - midpoint] * [-20000 / 0.09]). The resulting value will
+        // always be within the ARM safe range as long as each CA is within
+        // the max range we specified.
+        //
+        // We assign the max range of 4.16:4.84 CU on the Y CAT axis to the
+        // max range on the ARM Y axis (0.69 CU = 40001 AU). To convert CU to
+        // AU: ([CU - midpoint] * [-20000 / 0.34]). The resulting value will
+        // always be within the ARM safe range as long as each CA is within
+        // the max range we specified.
+        cmd_.positions[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
+        cmd_.positions[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
 
-        cmd_.positions[ARM_X] = (cat.cas[i].x - 4.5) * -222227;
-        cmd_.positions[ARM_Y] = (cat.cas[i].y - 4.5) * -58825;
-        //printf("x[%f] y[%f]\n", cmd_.positions[ARM_X], cmd_.positions[ARM_Y]);
+        /*
+        printf("CA  : x[%f] y[%f]\n", cat.cas[i].x, cat.cas[i].y);
+        printf("ARM : x[%f] y[%f]\n", cmd_.positions[ARM_X],
+                                      cmd_.positions[ARM_Y]);
+        */
 
         // Some error checking so we don't exceed the bounds of the ARM
         if (fabs(cmd_.positions[ARM_X] > 20000))
@@ -98,6 +108,8 @@ void TeleopArmDish::getCommand()
     cmd_.positions[ARM_X] = manus_arm::origin_position[ARM_X];
     cmd_.positions[ARM_Y] = manus_arm::origin_position[ARM_Y];
     cmd_pub_.publish(cmd_);
+
+    //ros::shutdown(); // <-- only send publish one CAT for testing
 }
 
 int main(int argc, char** argv)

@@ -1,11 +1,22 @@
 <launch>
-        
-  <node pkg="arm" name="arm_control" type="arm_control"/>
-  <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
-  
-  <node pkg="electrode" name="csv_receiver" type="csv_receiver"
+
+  <!-- csv_receiver: Read dish state data from a CSV file -->
+  <node pkg="neuro_recv" name="csv_recv" type="csv_recv"
         args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
+        
+  <!-- spike_detector: Detect activity spikes & bursts -->
   <node pkg="electrode" name="spike_detector" type="spike_detector"/>
+
+  <!-- cat_creator: Calculate CATs from activity bursts -->
   <node pkg="electrode" name="cat_creator" type="cat_creator"/>
+          
+  <!-- teleop_arm_dish: Generate movement commands from CATs -->
+  <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
+
+  <!-- arm_control: Controls the ARM -->   
+  <node pkg="arm" name="arm_control" type="arm_control"/>
+  
+  <!-- dish_viz: Visualize dish activity -->
+  <!-- <node pkg="dish_viz" name="dish_viz" type="dish_viz"/> -->
 
 </launch>

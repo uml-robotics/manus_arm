@@ -29,9 +29,6 @@ rosbuild_genmsg()
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
-# CSV Receiver
-rosbuild_add_executable(csv_receiver src/csv_receiver.cpp)
-
 # Spike Detector
 rosbuild_add_executable(spike_detector src/spike_detector.cpp)
 rosbuild_add_library(buffer_spike_detector src/buffer_spike_detector.cpp)

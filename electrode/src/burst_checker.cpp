@@ -13,7 +13,7 @@
 
 #define BURST_WINDOW 1000 // Approx. 1000 dishes per second
 
-void BurstChecker::update(const electrode::dish_state& d)
+void BurstChecker::update(const neuro_recv::dish_state& d)
 {
     if (d.samples[index_] <= baseline_)
     {

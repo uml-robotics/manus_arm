@@ -1,0 +1,15 @@
+<package>
+  <description brief="neuro_recv">
+
+     neuro_recv
+
+  </description>
+  <author>Jon</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/neuro_recv</url>
+  <depend package="roscpp"/>
+
+</package>
+
+

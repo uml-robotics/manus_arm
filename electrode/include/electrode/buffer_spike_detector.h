@@ -10,7 +10,7 @@
 #ifndef BUFFER_SPIKE_DETECTOR_H_
 #define BUFFER_SPIKE_DETECTOR_H_
 
-#include "electrode/dish_state.h"
+#include "neuro_recv/dish_state.h"
 
 #define BUFFER_SIZE 1000
 
@@ -18,7 +18,7 @@ class BufferSpikeDetector
 {
 public:
     BufferSpikeDetector() {}
-    void add(const electrode::dish_state& d)
+    void add(const neuro_recv::dish_state& d)
     {
         data_.push_back(d);
         if (isBuffered())
@@ -31,7 +31,7 @@ public:
 private:
     void calculate();
 
-    std::vector<electrode::dish_state> data_;
+    std::vector<neuro_recv::dish_state> data_;
     boost::array<double, 60> baseline_;
     boost::array<double, 60> threshold_;
 };

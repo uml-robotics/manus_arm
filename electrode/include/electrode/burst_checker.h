@@ -11,7 +11,7 @@
 #ifndef BURST_CHECKER_H_
 #define BURST_CHECKER_H_
 
-#include "electrode/dish_state.h"
+#include "neuro_recv/dish_state.h"
 #include "electrode/burst.h"
 
 class BurstChecker
@@ -46,7 +46,7 @@ public:
         return burst_;
     }
 
-    void update(const electrode::dish_state& d);
+    void update(const neuro_recv::dish_state& d);
 
     bool endOfBurst() { return end_of_burst_; }
 

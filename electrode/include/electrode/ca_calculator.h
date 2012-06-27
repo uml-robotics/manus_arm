@@ -10,7 +10,7 @@
 #ifndef CA_CALCULATOR_H_
 #define CA_CALCULATOR_H_
 
-#include "electrode/dish_state.h"
+#include "neuro_recv/dish_state.h"
 #include "electrode/ca.h"
 
 const int X_COORD_[60] = {    2, 3, 4, 5, 6, 7,
@@ -33,7 +33,7 @@ const int Y_COORD_[60] = {    1, 1, 1, 1, 1, 1,
 class CaCalculator
 {
 public:
-    static const electrode::ca getCa(const electrode::dish_state& d)
+    static const electrode::ca getCa(const neuro_recv::dish_state& d)
     {
         // Center of activity = summation(position*activity) / total activity
         double x_sum = 0.0;

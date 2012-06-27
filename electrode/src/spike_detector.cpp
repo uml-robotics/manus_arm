@@ -36,7 +36,7 @@ SpikeDetector::SpikeDetector()
     ROS_INFO("Spike detector shutting down...");
 }
 
-void SpikeDetector::callback(const electrode::dish_state::ConstPtr& d)
+void SpikeDetector::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
     if (buf_.isBuffered())
     {
@@ -76,7 +76,7 @@ const electrode::burst SpikeDetector::cleanBurst(const electrode::burst& b)
     electrode::burst clean_burst;
     for (unsigned int i = 0; i < b.dishes.size(); i++)
     {
-        electrode::dish_state d;
+        neuro_recv::dish_state d;
         for (int j = 0; j < 60; j++)
         {
             if (b.dishes[i].samples[j] > buf_.getBaseline(j))

@@ -1,0 +1,16 @@
+<package>
+  <description brief="dish_viz">
+
+     dish_viz
+
+  </description>
+  <author>Abraham Shultz</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/dish_viz</url>
+  <depend package="roscpp"/>
+  <depend package="neuro_recv"/>
+
+</package>
+
+
