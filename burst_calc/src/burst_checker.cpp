@@ -5,13 +5,30 @@
 //
 // Burst checker class for the ROS node "spike_detector". Checks for bursts and
 // generates burst sequences. Each burst checker is responsible for a single
-// burst_calc in the neuron dish.
+// channel in the neuron dish.
 // =============================================================================
 
 #include "burst_calc/burst_checker.h"
 #include <cstdio>
 
 #define BURST_WINDOW 1000 // Approx. 1000 dishes per second
+
+BurstChecker::BurstChecker()
+{
+    frame_count_ = 0;
+    spike_count_ = 0;
+    is_bursting_ = false;
+    is_possible_burst_ = false;
+    end_of_burst_ = false;
+}
+
+void BurstChecker::init(const int index, const double baseline,
+                        const double threshold)
+{
+    index_ = index;
+    baseline_ = baseline;
+    threshold_ = threshold;
+}
 
 void BurstChecker::update(const neuro_recv::dish_state& d)
 {
@@ -43,7 +60,10 @@ void BurstChecker::update(const neuro_recv::dish_state& d)
         if (is_possible_burst_)
         {
             if (++frame_count_ <= BURST_WINDOW)
+            {
                 burst_.dishes.push_back(d);
+                burst_.end = d.header.stamp;
+            }
             else
             {
                 if (is_bursting_)
@@ -71,12 +91,12 @@ void BurstChecker::update(const neuro_recv::dish_state& d)
         if (!is_possible_burst_)
         {
             is_possible_burst_ = true;
-            burst_.header.stamp.sec = d.header.stamp.sec;
-            burst_.header.stamp.nsec = d.header.stamp.nsec;
+            burst_.header.stamp = d.header.stamp;
         }
         if (spike_count_ == 3)
             is_bursting_ = true;
         burst_.dishes.push_back(d);
+        burst_.end = d.header.stamp;
     }
 
     /*printf("State: %f Frames: %d Spikes: %d Possible: %s Burst: %s End: %s\n",
@@ -86,4 +106,20 @@ void BurstChecker::update(const neuro_recv::dish_state& d)
            is_possible_burst_ ? "Yes" : "No",
            is_bursting_ ? "Yes" : "No",
            end_of_burst_ ? "Yes" : "No");*/
+}
+
+void BurstChecker::reset()
+{
+    end_of_burst_ = false;
+    burst_.dishes.clear();
+}
+
+// If there is a possible burst, returns a pointer to the start time of the
+// burst. Returns a null pointer otherwise.
+const ros::Time* BurstChecker::getTimePtr()
+{
+    if (is_possible_burst_)
+        return &burst_.header.stamp;
+    else
+        return NULL;
 }

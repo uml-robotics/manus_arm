@@ -1,34 +1,38 @@
 // =============================================================================
-// Name   : spike_detector.h
+// Name   : burst_creator.h
 // Author : Jonathan Hasenzahl
 // Date   : 2012
 //
-// Header file for the ROS node "spike_detector".
+// Header file for the ROS node "burst_creator".
 // =============================================================================
 
-#ifndef SPIKE_DETECTOR_H_
-#define SPIKE_DETECTOR_H_
+#ifndef BURST_CREATOR_H_
+#define BURST_CREATOR_H_
 
 #include "ros/ros.h"
 #include "burst_calc/buffer_spike_detector.h"
 #include "burst_calc/burst_checker.h"
 #include "burst_calc/burst.h"
 #include "neuro_recv/dish_state.h"
+#include <queue>
 
-class SpikeDetector
+class BurstCreator
 {
 public:
-    SpikeDetector();
+    BurstCreator();
+    void init();
 
 private:
+    void addDish();
     void callback(const neuro_recv::dish_state::ConstPtr& d);
-    const burst_calc::burst cleanBurst(const burst_calc::burst& b);
 
     ros::NodeHandle n_;
     ros::Subscriber dish_state_sub_;
     ros::Publisher burst_pub_;
+    std::queue<neuro_recv::dish_state> queue_;
     BufferSpikeDetector buf_;
     BurstChecker bursts_[60];
+    BurstMerger merger_;
 };
 
 #endif

@@ -50,10 +50,8 @@ void CatCreator::init()
 void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 {
     burst_calc::cat cat;
-    cat.header.stamp.sec = b->header.stamp.sec;
-    cat.header.stamp.nsec = b->header.stamp.nsec;
-    cat.end.sec = b->end.sec;
-    cat.end.nsec = b->end.nsec;
+    cat.header.stamp = b->header.stamp;
+    cat.end = b->end;
     for (unsigned int i = 0; i < b->dishes.size(); i++)
         cat.cas.push_back(CaCalculator::getCa(b->dishes[i]));
     if (save_to_file_)
@@ -65,14 +63,10 @@ void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
 {
     if (burst_file_.is_open() && cat_file_.is_open())
     {
-        burst_file_ << b.header.stamp.sec << ',' << b.header.stamp.nsec << ','
-                    << b.end.sec << ',' << b.end.nsec << ','
-                    << (b.end - b.header.stamp).sec << ','
-                    << (b.end - b.header.stamp).nsec << ",\n";
-        cat_file_ << c.header.stamp.sec << ',' << c.header.stamp.nsec << ','
-                  << c.end.sec << ',' << c.end.nsec << ','
-                  << (c.end - c.header.stamp).sec << ','
-                  << (c.end - c.header.stamp).nsec << ",\n";
+        burst_file_ << b.header.stamp.toSec() << ',' << b.end.toSec() << ','
+                    << ',' << (b.end - b.header.stamp).toSec() << ",\n";
+        cat_file_ << c.header.stamp.toSec() << ',' << c.end.toSec() << ','
+                  << ',' << (c.end - c.header.stamp).toSec() << ",\n";
 
         for (int i = 0; i < static_cast<int>(b.dishes.size()); i++)
         {
@@ -82,9 +76,8 @@ void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
                 burst_file_ << b.dishes[i].samples[j] << ',';
             burst_file_ << '\n';
 
-            cat_file_ << c.cas[i].header.stamp.sec << ','
-                      << c.cas[i].header.stamp.nsec << ','
-                      << c.cas[i].x << ',' << c.cas[i].y << ",\n";
+            cat_file_ << c.cas[i].header.stamp.toSec() << ',' << c.cas[i].x
+                      << ',' << c.cas[i].y << ",\n";
         }
     }
     else
