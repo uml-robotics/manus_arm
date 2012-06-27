@@ -15,7 +15,15 @@
 CatCreator::CatCreator()
 {
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
-    save_to_file_ = false;
+    save_to_file_ = true;
+}
+
+CatCreator::~CatCreator()
+{
+    if (burst_file_.is_open())
+        burst_file_.close();
+    if (cat_file_.is_open())
+        cat_file_.close();
 }
 
 void CatCreator::init()
@@ -24,7 +32,7 @@ void CatCreator::init()
 
     // Wait for a subscriber to "cats" before subscribing to "bursts"
     ROS_INFO("Waiting for subscriber...");
-    while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
+    //while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
 
     burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
@@ -63,10 +71,14 @@ void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
 {
     if (burst_file_.is_open() && cat_file_.is_open())
     {
-        burst_file_ << b.header.stamp.toSec() << ',' << b.end.toSec() << ','
-                    << ',' << (b.end - b.header.stamp).toSec() << ",\n";
-        cat_file_ << c.header.stamp.toSec() << ',' << c.end.toSec() << ','
-                  << ',' << (c.end - c.header.stamp).toSec() << ",\n";
+        burst_file_ << b.header.stamp.sec << ',' << b.header.stamp.nsec << ','
+                    << b.end.sec << ',' << b.end.nsec << ','
+                    << (b.end - b.header.stamp).sec << ','
+                    << (b.end - b.header.stamp).nsec << ",\n";
+        burst_file_ << c.header.stamp.sec << ',' << c.header.stamp.nsec << ','
+                    << c.end.sec << ',' << c.end.nsec << ','
+                    << (c.end - c.header.stamp).sec << ','
+                    << (c.end - c.header.stamp).nsec << ",\n";
 
         for (int i = 0; i < static_cast<int>(b.dishes.size()); i++)
         {
@@ -76,8 +88,9 @@ void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
                 burst_file_ << b.dishes[i].samples[j] << ',';
             burst_file_ << '\n';
 
-            cat_file_ << c.cas[i].header.stamp.toSec() << ',' << c.cas[i].x
-                      << ',' << c.cas[i].y << ",\n";
+            cat_file_ << c.cas[i].header.stamp.sec << ','
+                      << c.cas[i].header.stamp.nsec << ',' << c.cas[i].x << ','
+                      << c.cas[i].y << ",\n";
         }
     }
     else

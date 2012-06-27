@@ -59,7 +59,8 @@ const neuro_recv::dish_state CsvReceiver::parse(const std::string& s)
     double total = 0.0;
     neuro_recv::dish_state dish;
     ros::Time current_time = ros::Time::now();
-    dish.header.stamp = current_time - start_time_;
+    dish.header.stamp.sec = (current_time - start_time_).sec;
+    dish.header.stamp.nsec = (current_time - start_time_).nsec;
     for (int i = 0; i < 60; i++)
     {
        n = s.find(',', pos) - pos;

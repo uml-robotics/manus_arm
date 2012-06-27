@@ -34,7 +34,7 @@ rosbuild_add_executable(burst_creator src/burst_creator.cpp)
 rosbuild_add_library(buffer_spike_detector src/buffer_spike_detector.cpp)
 rosbuild_add_library(burst_checker src/burst_checker.cpp)
 rosbuild_add_library(burst_merger src/burst_merger.cpp)
-target_link_libraries(spike_detector buffer_spike_detector burst_checker burst_merger)
+target_link_libraries(burst_creator buffer_spike_detector burst_checker burst_merger)
 
 # CAT Creator
 rosbuild_add_executable(cat_creator src/cat_creator.cpp)

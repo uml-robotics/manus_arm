@@ -58,8 +58,10 @@ void BurstCreator::addDish()
             merger_.updateTime(i, bursts_[i].getTimePtr());
             if (bursts_[i].endOfBurst())
             {
-                printf("Burst from channel %2d of size %3d added to merger\n",
-                       i, static_cast<int>(bursts_[i].getBurst().dishes.size()));
+                printf("*   Burst   : [Sz %4u] [%6.3f - %6.3f] [Ch %2d]\n",
+                       bursts_[i].getBurst().dishes.size(),
+                       bursts_[i].getBurst().header.stamp.toSec(),
+                       bursts_[i].getBurst().end.toSec(), i);
                 merger_.add(bursts_[i].getBurst());
                 bursts_[i].reset();
             }
@@ -70,8 +72,10 @@ void BurstCreator::addDish()
         while (merger_.canPublish())
         {
             burst_pub_.publish(merger_.getBurst());
-            printf("FINAL burst of size %d published\n",
-                   static_cast<int>(merger_.getBurst().dishes.size()));
+            printf("*** Publish : [Sz %4u] [%6.3f - %6.3f]\n",
+                   merger_.getBurst().dishes.size(),
+                   merger_.getBurst().header.stamp.toSec(),
+                   merger_.getBurst().end.toSec());
             merger_.deletePublished();
         }
     }

@@ -8,6 +8,7 @@
 // =============================================================================
 
 #include "burst_calc/burst_merger.h"
+#include <cstdio>
 
 BurstMerger::BurstMerger()
 {
@@ -36,7 +37,8 @@ void BurstMerger::update()
         // First, compare and merge
         for (unsigned int i = 0; i < list_.size() - 1; i++)
         {
-            for (unsigned int j = i + 1; j < list_.size(); j++)
+            bool stop = false;
+            for (unsigned int j = i + 1; j < list_.size() && !stop; j++)
             {
                 // Determine if these bursts overlap:
                 //   x.start is between y.start and y.finish OR
@@ -47,8 +49,18 @@ void BurstMerger::update()
                      list_[j].header.stamp <= list_[i].end))
                 {
                     // Merge the earlier and later bursts into the later burst
+                    printf("**  Merge   : [Sz %4u] [%6.3f - %6.3f] [I  %2d]\n",
+                           list_[i].dishes.size(), list_[i].header.stamp.toSec(),
+                           list_[i].end.toSec(), i);
+                    printf("**  +       : [Sz %4u] [%6.3f - %6.3f] [I  %2d]\n",
+                           list_[j].dishes.size(),
+                           list_[j].header.stamp.toSec(), list_[j].end.toSec(), j);
                     list_[j] = merge(list_[i], list_[j]);
+                    printf("**  Result  : [Sz %4u] [%6.3f - %6.3f] [I  %2d]\n",
+                           list_[j].dishes.size(), list_[j].header.stamp.toSec(),
+                           list_[j].end.toSec(), j);
                     delete_indexes.push_back(i);
+                    stop = true;
                 }
             }
         }
@@ -140,7 +152,7 @@ burst_calc::burst BurstMerger::merge(const burst_calc::burst& b1,
         ros::Time start = x.end;
         unsigned int index = 0;
 
-        while (start <= y.dishes[index].header.stamp)
+        while (start >= y.dishes[index].header.stamp)
             index++;
 
         for (unsigned int i = index; i < y.dishes.size(); i++)

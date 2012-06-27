@@ -18,14 +18,7 @@ class CatCreator
 {
 public:
     CatCreator();
-    ~CatCreator()
-    {
-        if (burst_file_.is_open())
-            burst_file_.close();
-        if (cat_file_.is_open())
-            cat_file_.close();
-    }
-
+    ~CatCreator();
     void init();
 
 private:

@@ -12,6 +12,7 @@
 #include "ros/ros.h"
 #include "burst_calc/buffer_spike_detector.h"
 #include "burst_calc/burst_checker.h"
+#include "burst_calc/burst_merger.h"
 #include "burst_calc/burst.h"
 #include "neuro_recv/dish_state.h"
 #include <queue>
