@@ -27,8 +27,6 @@ private:
     void cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd);
     void constantMoveCallback(const arm::constant_move::ConstPtr& cmd);
     void moveCartesian();
-    void moveConstant();
-    void moveSquare();
     void print();
     
     ros::NodeHandle n_;
@@ -38,8 +36,10 @@ private:
 
     std::list<arm::position> queue_;
     int speed_;
-    float position_[POS_ARR_SZ];
+    float actual_position_[POS_ARR_SZ];
+    float target_position_[POS_ARR_SZ];
     int states_[STATE_ARR_SZ];
+    bool move_complete_;
     bool shutdown_;
 };
 

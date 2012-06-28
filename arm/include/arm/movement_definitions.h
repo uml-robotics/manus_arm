@@ -37,11 +37,16 @@
 
 namespace manus_arm
 {
-bool done_moving;
+// Arrays of speeds
+float stop[] = { 0, 0, 0, 0, 0, 0, 0 };
+
+// Arrays of positions
 float origin_position[] = { 14000, 0, 0, 0, 0, 0, -10000 };
 float final_position[] = { 3400, -7300, 6200, 0, 0, 0, -10000 };
 //float final_position[] = { 10000, 0, 0, 0, 0, 0, -10000 };
-int STD_SPEED = 2;
+
+// Standard speed
+int speed = 2;
 }
 
 #endif

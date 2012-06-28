@@ -72,6 +72,16 @@
 #define ROLL 6
 #define GRIP 7
 
+int sign(int n)
+{
+    return ((n >= 0) ? 1 : -1);
+}
+
+float sign(float n)
+{
+    return ((n >= 0) ? 1.0f : -1.0f);
+}
+
 /* for ARM state */
 struct armState
 {
