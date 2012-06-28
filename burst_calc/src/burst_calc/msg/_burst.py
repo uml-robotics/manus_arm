@@ -9,12 +9,13 @@ import genpy
 import std_msgs.msg
 
 class burst(genpy.Message):
-  _md5sum = "ae11c74ad151e2b385dba4ab886dd779"
+  _md5sum = "50fb0ef8b79d39414a8195792e3879e8"
   _type = "burst_calc/burst"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Burst message
 Header header
 time end
+int8[] channels
 neuro_recv/dish_state[] dishes
 ================================================================================
 MSG: std_msgs/Header
@@ -40,8 +41,8 @@ MSG: neuro_recv/dish_state
 Header header
 float64[60] samples
 """
-  __slots__ = ['header','end','dishes']
-  _slot_types = ['std_msgs/Header','time','neuro_recv/dish_state[]']
+  __slots__ = ['header','end','channels','dishes']
+  _slot_types = ['std_msgs/Header','time','int8[]','neuro_recv/dish_state[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -51,7 +52,7 @@ float64[60] samples
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,end,dishes
+       header,end,channels,dishes
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -64,11 +65,14 @@ float64[60] samples
         self.header = std_msgs.msg.Header()
       if self.end is None:
         self.end = genpy.Time()
+      if self.channels is None:
+        self.channels = []
       if self.dishes is None:
         self.dishes = []
     else:
       self.header = std_msgs.msg.Header()
       self.end = genpy.Time()
+      self.channels = []
       self.dishes = []
 
   def _get_types(self):
@@ -93,6 +97,10 @@ float64[60] samples
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
       buff.write(_struct_2I.pack(_x.end.secs, _x.end.nsecs))
+      length = len(self.channels)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(struct.pack(pattern, *self.channels))
       length = len(self.dishes)
       buff.write(_struct_I.pack(length))
       for val1 in self.dishes:
@@ -144,6 +152,13 @@ float64[60] samples
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.channels = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
       self.dishes = []
       for i in range(0, length):
         val1 = neuro_recv.msg.dish_state()
@@ -192,6 +207,10 @@ float64[60] samples
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
       buff.write(_struct_2I.pack(_x.end.secs, _x.end.nsecs))
+      length = len(self.channels)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(self.channels.tostring())
       length = len(self.dishes)
       buff.write(_struct_I.pack(length))
       for val1 in self.dishes:
@@ -241,6 +260,13 @@ float64[60] samples
       start = end
       end += 8
       (_x.end.secs, _x.end.nsecs,) = _struct_2I.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.channels = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=length)
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])

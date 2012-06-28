@@ -42,7 +42,7 @@ void BurstCreator::init()
             addDish();
     }
 
-    ROS_INFO("Spike detector shutting down...");
+    ROS_INFO("Burst creator shutting down...");
 }
 
 void BurstCreator::addDish()
@@ -58,7 +58,7 @@ void BurstCreator::addDish()
             merger_.updateTime(i, bursts_[i].getTimePtr());
             if (bursts_[i].endOfBurst())
             {
-                printf("*   Burst   : [Sz %4u] [%6.3f - %6.3f] [Ch %2d]\n",
+                printf("*   Burst   : [Sz %4u] [%6.3f - %6.3f] [Ch %d]\n",
                        bursts_[i].getBurst().dishes.size(),
                        bursts_[i].getBurst().header.stamp.toSec(),
                        bursts_[i].getBurst().end.toSec(), i);
@@ -72,10 +72,15 @@ void BurstCreator::addDish()
         while (merger_.canPublish())
         {
             burst_pub_.publish(merger_.getBurst());
-            printf("*** Publish : [Sz %4u] [%6.3f - %6.3f]\n",
+
+            printf("*** Publish : [Sz %4u] [%6.3f - %6.3f] [Ch",
                    merger_.getBurst().dishes.size(),
                    merger_.getBurst().header.stamp.toSec(),
                    merger_.getBurst().end.toSec());
+            for (unsigned int j = 0; j < merger_.getBurst().channels.size(); j++)
+                printf(" %d", merger_.getBurst().channels[j]);
+            printf("]\n");
+
             merger_.deletePublished();
         }
     }

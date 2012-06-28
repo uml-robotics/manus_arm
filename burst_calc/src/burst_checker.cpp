@@ -25,6 +25,7 @@ BurstChecker::BurstChecker()
 void BurstChecker::init(const int index, const double baseline,
                         const double threshold)
 {
+    burst_.channels.push_back(index);
     index_ = index;
     baseline_ = baseline;
     threshold_ = threshold;

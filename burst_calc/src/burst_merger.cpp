@@ -48,17 +48,30 @@ void BurstMerger::update()
                     (list_[j].header.stamp >= list_[i].header.stamp &&
                      list_[j].header.stamp <= list_[i].end))
                 {
-                    // Merge the earlier and later bursts into the later burst
-                    printf("**  Merge   : [Sz %4u] [%6.3f - %6.3f] [I  %2d]\n",
-                           list_[i].dishes.size(), list_[i].header.stamp.toSec(),
-                           list_[i].end.toSec(), i);
-                    printf("**  +       : [Sz %4u] [%6.3f - %6.3f] [I  %2d]\n",
+                    printf("**  Merge   : [Sz %4u] [%6.3f - %6.3f] [Ch",
+                           list_[i].dishes.size(),
+                           list_[i].header.stamp.toSec(), list_[i].end.toSec());
+                    for (unsigned int k = 0; k < list_[i].channels.size(); k++)
+                        printf(" %d", list_[i].channels[k]);
+                    printf("]\n");
+
+                    printf("**  +       : [Sz %4u] [%6.3f - %6.3f] [Ch",
                            list_[j].dishes.size(),
-                           list_[j].header.stamp.toSec(), list_[j].end.toSec(), j);
+                           list_[j].header.stamp.toSec(), list_[j].end.toSec());
+                    for (unsigned int k = 0; k < list_[j].channels.size(); k++)
+                        printf(" %d", list_[j].channels[k]);
+                    printf("]\n");
+
+                    // Merge the earlier and later bursts into the later burst
                     list_[j] = merge(list_[i], list_[j]);
-                    printf("**  Result  : [Sz %4u] [%6.3f - %6.3f] [I  %2d]\n",
-                           list_[j].dishes.size(), list_[j].header.stamp.toSec(),
-                           list_[j].end.toSec(), j);
+
+                    printf("**  Result  : [Sz %4u] [%6.3f - %6.3f] [Ch",
+                           list_[j].dishes.size(),
+                           list_[j].header.stamp.toSec(), list_[j].end.toSec());
+                    for (unsigned int k = 0; k < list_[j].channels.size(); k++)
+                        printf(" %d", list_[j].channels[k]);
+                    printf("]\n");
+
                     delete_indexes.push_back(i);
                     stop = true;
                 }
@@ -134,8 +147,12 @@ burst_calc::burst BurstMerger::merge(const burst_calc::burst& b1,
     burst_calc::burst x = b1;
     burst_calc::burst y = b2;
 
-    // If y ends before x, swap them
-    if (y.end < x.end)
+    // Swap x and y if:
+    //   y ends before x
+    //     OR
+    //   x and y end at the same time AND x starts before y
+    if ((y.end < x.end) ||
+       ((y.end == x.end) && (x.header.stamp < y.header.stamp)))
     {
         burst_calc::burst temp = x;
         x = y;
@@ -145,22 +162,29 @@ burst_calc::burst BurstMerger::merge(const burst_calc::burst& b1,
     // If x starts before y, merge x and y
     if (x.header.stamp < y.header.stamp)
     {
-        burst_calc::burst merged;
-        merged = x;
-        merged.end = y.end;
-
         ros::Time start = x.end;
+        x.end = y.end;
         unsigned int index = 0;
 
         while (start >= y.dishes[index].header.stamp)
             index++;
 
         for (unsigned int i = index; i < y.dishes.size(); i++)
-            merged.dishes.push_back(y.dishes[i]);
+            x.dishes.push_back(y.dishes[i]);
 
-        return merged;
+        // Append y's channels to x's channels
+        x.channels.insert(x.channels.end(), y.channels.begin(),
+                          y.channels.end());
+
+        return x;
     }
     // If x does not start before y, then y contains the entire burst
     else
+    {
+        // Append x's channels to y's channels
+        y.channels.insert(y.channels.end(), x.channels.begin(),
+                          x.channels.end());
+
         return y;
+    }
 }
