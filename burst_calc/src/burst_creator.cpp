@@ -11,19 +11,16 @@
 #include "burst_calc/burst_creator.h"
 #include <cstdio>
 
-BurstCreator::BurstCreator()
-{
-    burst_pub_ = n_.advertise<burst_calc::burst>("bursts", 1000);
-}
-
 void BurstCreator::init()
 {
     ROS_INFO("Burst creator running...");
     burst_pub_ = n_.advertise<burst_calc::burst>("bursts", 1000);
+    //stream_pub_ = n_.advertise<neuro_recv::dish_state>("dish_stream", 1000);
 
-    // Wait for a subscriber to "bursts" before subscribing to "dish_states"
+    // Wait for subscribers before continuing
     ROS_INFO("Waiting for subscriber...");
     while (burst_pub_.getNumSubscribers() < 1 && ros::ok());
+           //stream_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
 
     dish_state_sub_ = n_.subscribe("dish_states", 1000, &BurstCreator::callback,
@@ -106,6 +103,5 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "burst_creator");
     BurstCreator burst_creator;
-    burst_creator.init();
     return 0;
 }

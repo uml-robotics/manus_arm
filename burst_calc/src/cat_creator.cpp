@@ -30,7 +30,7 @@ void CatCreator::init(bool save_to_file, char* burst_file, char* cat_file)
 
     // Wait for a subscriber to "cats" before subscribing to "bursts"
     ROS_INFO("Waiting for subscriber...");
-    //while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
+    while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
 
     burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
@@ -55,6 +55,7 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
     burst_calc::cat cat;
     cat.header.stamp = b->header.stamp;
     cat.end = b->end;
+    cat.channels = b->channels;
     for (unsigned int i = 0; i < b->dishes.size(); i++)
         cat.cas.push_back(CaCalculator::getCa(b->dishes[i]));
     if (save_to_file_)
@@ -92,14 +93,14 @@ void CatCreator::initFile(char* burst_file, char* cat_file)
         return;
     }
 
-    burst_file_ << "index,dish_sec,dish_nsec,";
+    burst_file_ << "index,sec,nsec,";
     for (int i = 0; i < 60; i++)
     {
         burst_file_ << "channel_" << i << ',';
     }
     burst_file_ << '\n';
 
-    cat_file_ << "index,ca_sec,ca_nsec,x_coord,y_coord,\n";
+    cat_file_ << "index,sec,nsec,x_coord,y_coord,\n";
 }
 
 void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
@@ -110,12 +111,20 @@ void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
     burst_file_ << "burst_end," << b.end.sec << ',' << b.end.nsec << ",\n";
     burst_file_ << "burst_duration," << (b.end - b.header.stamp).sec << ','
                 << (b.end - b.header.stamp).nsec << ",\n";
+    burst_file_ << "bursting_channels,";
+    for (unsigned int i = 0; i < b.channels.size(); i++)
+        burst_file_ << static_cast<int>(b.channels[i]) << ',';
+    burst_file_ << '\n';
 
     cat_file_ << "cat_begin," << c.header.stamp.sec << ','
                 << c.header.stamp.nsec << ",\n";
     cat_file_ << "cat_end," << c.end.sec << ',' << c.end.nsec << ",\n";
     cat_file_ << "cat_duration," << (c.end - c.header.stamp).sec << ','
                 << (c.end - c.header.stamp).nsec << ",\n";
+    cat_file_ << "bursting_channels,";
+    for (unsigned int i = 0; i < c.channels.size(); i++)
+        cat_file_ << static_cast<int>(c.channels[i]) << ',';
+    cat_file_ << '\n';
 
     for (int i = 0; i < static_cast<int>(b.dishes.size()); i++)
     {

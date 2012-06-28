@@ -135,8 +135,6 @@ void BurstMerger::updateTime(int index, const ros::Time* t)
     else
         // Null pointer means that there is no possible burst on this channel
         times_[index] = NULL;
-
-
 }
 
 // Merges two bursts b1 and b2 into a single burst. Required conditions: the

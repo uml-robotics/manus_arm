@@ -11,23 +11,21 @@
 
 #include "ros/ros.h"
 #include "burst_calc/cat.h"
-#include "arm/cartesian_move.h"
 #include <queue>
 
 class TeleopArmDish
 {
 public:
-    TeleopArmDish();
+    TeleopArmDish() { init(); }
     void init();
 
 private:
     void callback(const burst_calc::cat::ConstPtr& c) { queue_.push(*c); }
-    void getCommand();
+    ros::Duration publishCommand();
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
     ros::Publisher cmd_pub_;
-    arm::cartesian_move cmd_;
     std::queue<burst_calc::cat> queue_;
 };
 

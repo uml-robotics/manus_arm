@@ -127,10 +127,41 @@ void ManusArm::setCbox(int cbox, can_frame* frm)
  *
  *  We don't have a lift unit. The valid values are -1 (up), 0 (off), and 1 (down)
  */
+
+// ORIGINAL PUBLIC MOVE METHOD
+// The original implementation of the method is below.
+/*
 void ManusArm::moveCartesian(float target_position[], int speed_mode, void (*callback)())
 {
-	//boost::thread doMove(boost::bind(&ManusArm::doMove, this, target_position, callback));
-	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, target_position, speed_mode, callback));
+    //boost::thread doMove(boost::bind(&ManusArm::doMove, this, target_position, callback));
+    motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, target_position, speed_mode, callback));
+}
+*/
+
+void ManusArm::moveCartesian(float speeds[], void (*callback)())
+{
+	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, speeds, callback));
+}
+
+void ManusArm::doMove(float speeds[], void (*callback)())
+{
+    boost::this_thread::at_thread_exit(callback);
+
+    struct can_frame move;
+    setCbox(CBOX_1_CARTESIAN, &move);
+    move.can_dlc = 8;
+    move.data[LIFT] = 0;
+    move.data[Z] = speeds[ARM_Z];
+    move.data[X] = speeds[ARM_X];
+    move.data[Y] = speeds[ARM_Y];
+    move.data[YAW] = speeds[CLAW_YAW];
+    move.data[PITCH] = speeds[CLAW_PITCH];
+    move.data[ROLL] = speeds[CLAW_ROLL];
+    move.data[GRIP] = speeds[CLAW_GRIP];
+    enqueueFrame(move);
+
+    // Wait 60 msec
+    boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 }
 
 // Added by Jon
@@ -169,19 +200,23 @@ void ManusArm::doConstantMove(int movement_state[], void (*callback)())
 	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 }
 
+// ORIGINAL PRIVATE MOVE METHOD
+// The original implementation of the method is below.
+/*
 void ManusArm::doMove(float target_position[], int speed_mode,
                       void (*callback)())
 {
 	boost::this_thread::at_thread_exit(callback);
 
-	/* a lot of the logic here is from can_comm.cpp's function pd_control()
-	 * Generally speaking, it works by:
-	 * 1. Calculating the difference between the current position and the desired position (the error)
-	 * 2. Multiplying the error by a speed constant
-	 * 3. Checking that the speeds are within limits
-	 * 4. Sending the speeds to the arm
-	 * Steps 1 and 2 ensure that the arm slows as it approaches the desired position
-	 */
+
+
+	// a lot of the logic here is from can_comm.cpp's function pd_control()
+	// Generally speaking, it works by:
+	// 1. Calculating the difference between the current position and the desired position (the error)
+	// 2. Multiplying the error by a speed constant
+	// 3. Checking that the speeds are within limits
+	// 4. Sending the speeds to the arm
+	// Steps 1 and 2 ensure that the arm slows as it approaches the desired position
 
 	//Speed constants for arm
 	float Kp[6] =
@@ -192,8 +227,8 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 	{ 10, 30, 50, 70, 90 };
 	int angular_speed_limit[5] =
 	{ 1, 3, 5, 7, 9 };
-	/* Which speed limits to use. 4 is full, kate's work used 2 when approaching user
-	 */
+	// Which speed limits to use. 4 is full, kate's work used 2 when approaching user
+
 
 	//error in position
 	float pos_err[6];
@@ -320,8 +355,9 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 
 	//wait 60 msec
 	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
-
 }
+*/
+
 
 void ManusArm::setCartesian()
 {

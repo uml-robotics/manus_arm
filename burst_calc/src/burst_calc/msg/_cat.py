@@ -9,12 +9,13 @@ import genpy
 import std_msgs.msg
 
 class cat(genpy.Message):
-  _md5sum = "f90714b3d2590328edaf2c8463c8023e"
+  _md5sum = "a9e7efbd18f40d368e9f31f27d0c183b"
   _type = "burst_calc/cat"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Center of activity trajectory message
 Header header
 time end
+int8[] channels
 ca[] cas
 ================================================================================
 MSG: std_msgs/Header
@@ -41,8 +42,8 @@ Header header
 float64 x
 float64 y 
 """
-  __slots__ = ['header','end','cas']
-  _slot_types = ['std_msgs/Header','time','burst_calc/ca[]']
+  __slots__ = ['header','end','channels','cas']
+  _slot_types = ['std_msgs/Header','time','int8[]','burst_calc/ca[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -52,7 +53,7 @@ float64 y
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,end,cas
+       header,end,channels,cas
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -65,11 +66,14 @@ float64 y
         self.header = std_msgs.msg.Header()
       if self.end is None:
         self.end = genpy.Time()
+      if self.channels is None:
+        self.channels = []
       if self.cas is None:
         self.cas = []
     else:
       self.header = std_msgs.msg.Header()
       self.end = genpy.Time()
+      self.channels = []
       self.cas = []
 
   def _get_types(self):
@@ -94,6 +98,10 @@ float64 y
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
       buff.write(_struct_2I.pack(_x.end.secs, _x.end.nsecs))
+      length = len(self.channels)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(struct.pack(pattern, *self.channels))
       length = len(self.cas)
       buff.write(_struct_I.pack(length))
       for val1 in self.cas:
@@ -146,6 +154,13 @@ float64 y
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.channels = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
       self.cas = []
       for i in range(0, length):
         val1 = burst_calc.msg.ca()
@@ -195,6 +210,10 @@ float64 y
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
       buff.write(_struct_2I.pack(_x.end.secs, _x.end.nsecs))
+      length = len(self.channels)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(self.channels.tostring())
       length = len(self.cas)
       buff.write(_struct_I.pack(length))
       for val1 in self.cas:
@@ -245,6 +264,13 @@ float64 y
       start = end
       end += 8
       (_x.end.secs, _x.end.nsecs,) = _struct_2I.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.channels = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=length)
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])

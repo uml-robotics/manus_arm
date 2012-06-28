@@ -28,7 +28,7 @@ public:
 
 int main(int argc, char **argv) {
 	// Set up ROS.
-	ros::init(argc, argv, "listener");
+	ros::init(argc, argv, "dish_viz");
 	ros::NodeHandle n;
 
 	// Declare variables that can be modified by launch file or command line.
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 	// while using different parameters.
 	ros::NodeHandle private_node_handle_("~");
 	private_node_handle_.param("rate", rate, int(100));
-	private_node_handle_.param("topic", topic, string("dish_states"));
+	private_node_handle_.param("topic", topic, string("dish_stream"));
 
 	// Create a new DataHandler object.
 	DataHandler *node_example = new DataHandler();

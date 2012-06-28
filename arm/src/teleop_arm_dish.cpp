@@ -8,24 +8,15 @@
 // =============================================================================
 
 #include "arm/teleop_arm_dish.h"
-#include "burst_calc/cat.h"
+#include "arm/cartesian_move.h"
+#include "arm/position.h"
 #include "arm/movement_definitions.h"
 #include <cmath>
-
-TeleopArmDish::TeleopArmDish()
-{
-    cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
-    cmd_.positions[ARM_Z] = manus_arm::origin_position[ARM_Z];
-    cmd_.positions[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
-    cmd_.positions[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
-    cmd_.positions[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
-    cmd_.positions[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
-    cmd_.speed = 3;
-}
 
 void TeleopArmDish::init()
 {
     ROS_INFO("ARM control via dish running...");
+    cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
 
     // Wait for subscriber to "cartesian_moves" before subscribing to "cats"
     ROS_INFO("Waiting for subscriber...");
@@ -44,15 +35,21 @@ void TeleopArmDish::init()
     {
         ros::spinOnce();
         if (!queue_.empty())
-            getCommand();
+        {
+            publishCommand().sleep();
+            //ros::shutdown(); // <-- shutdown after one publish for testing
+        }
     }
     ROS_INFO("ARM control via dish shutting down...");
 }
 
-void TeleopArmDish::getCommand()
+ros::Duration TeleopArmDish::publishCommand()
 {
     burst_calc::cat cat = queue_.front();
     queue_.pop();
+    arm::cartesian_move cmd;
+    cmd.header.stamp = cat.header.stamp;
+    cmd.speed = 0;
 
     // For each CA in the CAT, calculate and publish Cartesian command
     for (unsigned int i = 0; i < cat.cas.size(); i++)
@@ -76,46 +73,45 @@ void TeleopArmDish::getCommand()
         // AU: ([CU - midpoint] * [-20000 / 0.34]). The resulting value will
         // always be within the ARM safe range as long as each CA is within
         // the max range we specified.
-        cmd_.positions[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
-        cmd_.positions[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
+        arm::position p;
+        p.positions[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
+        p.positions[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
+        p.positions[ARM_Z] = manus_arm::origin_position[ARM_Z];
+        p.positions[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
+        p.positions[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
+        p.positions[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
+        p.positions[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
 
         /*
         printf("CA  : x[%f] y[%f]\n", cat.cas[i].x, cat.cas[i].y);
-        printf("ARM : x[%f] y[%f]\n", cmd_.positions[ARM_X],
-                                      cmd_.positions[ARM_Y]);
+        printf("ARM : x[%f] y[%f]\n", p.positions[ARM_X],
+                                      p.positions[ARM_Y]);
         */
 
         // Some error checking so we don't exceed the bounds of the ARM
-        if (fabs(cmd_.positions[ARM_X] > 20000))
+        if (fabs(p.positions[ARM_X] > 20000))
         {
-            ROS_ERROR("X-axis position (%f) out of bounds",
-                      cmd_.positions[ARM_X]);
-            cmd_.positions[ARM_X] = 0;
+            ROS_WARN("X-axis position (%f) out of bounds", p.positions[ARM_X]);
+            p.positions[ARM_X] = 0;
         }
-        if (fabs(cmd_.positions[ARM_Y] > 20000))
+        if (fabs(p.positions[ARM_Y] > 20000))
         {
-            ROS_ERROR("Y-axis position (%f) out of bounds",
-                      cmd_.positions[ARM_Y]);
-            cmd_.positions[ARM_Y] = 0;
+            ROS_ERROR("Y-axis position (%f) out of bounds", p.positions[ARM_Y]);
+            p.positions[ARM_Y] = 0;
         }
 
-        cmd_pub_.publish(cmd_);
+        cmd.queue.push_back(p);
     }
 
-    // CAT finished, return the ARM to origin for next sequence
-    printf("CAT %d.%d published\n", cat.header.stamp.sec,
-           cat.header.stamp.nsec);
-    cmd_.positions[ARM_X] = manus_arm::origin_position[ARM_X];
-    cmd_.positions[ARM_Y] = manus_arm::origin_position[ARM_Y];
-    cmd_pub_.publish(cmd_);
-
-    //ros::shutdown(); // <-- only send publish one CAT for testing
+    cmd_pub_.publish(cmd);
+    ROS_INFO("CAT at %.3fs published\n", cmd.header.stamp.toSec());
+    ROS_INFO("Sleeping for %.3f seconds\n", (cat.end - cat.header.stamp).toSec());
+    return cat.end - cat.header.stamp;
 }
 
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "teleop_arm_dish");
     TeleopArmDish teleop_arm_dish;
-    teleop_arm_dish.init();
     return 0;
 }

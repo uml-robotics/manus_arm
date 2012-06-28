@@ -4,8 +4,8 @@
   <node pkg="neuro_recv" name="csv_recv" type="csv_recv"
         args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
         
-  <!-- spike_detector: Detect activity spikes & bursts -->
-  <node pkg="burst_calc" name="spike_detector" type="spike_detector"/>
+  <!-- burst_creator: Detect activity spikes & bursts -->
+  <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
 
   <!-- cat_creator: Calculate CATs from activity bursts -->
   <node pkg="burst_calc" name="cat_creator" type="cat_creator"/>
