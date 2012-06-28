@@ -128,17 +128,15 @@ void ManusArm::moveCartesian(float target_position[], int speed_mode, void (*cal
 }
 */
 
-void ManusArm::moveCartesian(float speeds[], void (*callback)())
+void ManusArm::moveCartesian(float speeds[])
 {
     //printf("moveCartesian [%.3f][%.3f][%.3f][%.3f][%.3f][%.3f][%.3f]\n", speeds[0],
     //       speeds[1], speeds[2], speeds[3], speeds[4], speeds[5], speeds[6]);
-	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, speeds, callback));
+	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, speeds));
 }
 
-void ManusArm::doMove(float speeds[], void (*callback)())
+void ManusArm::doMove(float speeds[])
 {
-    boost::this_thread::at_thread_exit(callback);
-
     //printf("doMove        [%.3f][%.3f][%.3f][%.3f][%.3f][%.3f][%.3f]\n", speeds[0],
     //       speeds[1], speeds[2], speeds[3], speeds[4], speeds[5], speeds[6]);
     struct can_frame move;
@@ -159,16 +157,14 @@ void ManusArm::doMove(float speeds[], void (*callback)())
 }
 
 // Added by Jon
-void ManusArm::moveConstant(int movement_states[], void (*callback)())
+void ManusArm::moveConstant(int movement_states[])
 {
-    motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, movement_states, callback));
+    motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, movement_states));
 }
 
 // Added by Jon
-void ManusArm::doConstantMove(int movement_states[], void (*callback)())
+void ManusArm::doConstantMove(int movement_states[])
 {
-    boost::this_thread::at_thread_exit(callback);
-
     // Speed limits
 	const int linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
 	const int angular_speed_limit[5] = { 1, 3, 5, 7, 9 };

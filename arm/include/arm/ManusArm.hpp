@@ -122,8 +122,8 @@ private:
 	//Motion
 	boost::thread motionThread;
 	//void doMove(float target_position[], int speed_mode, void (*callback)()); // Original
-	void doMove(float speeds[], void (*callback)()); // New version - for interruptible movement
-	void doConstantMove(int movement_states[], void (*callback)()); // New version - for keyboard movement
+	void doMove(float speeds[]); // New version - for interruptible movement
+	void doConstantMove(int movement_states[]); // New version - for keyboard movement
 
 public:
 	static ManusArm* instance();
@@ -135,8 +135,8 @@ public:
 	//Motion commands
 	void fold();
 	void unfold();
-	void moveConstant(int movement_states[], void (*callback)()); // New version - for keyboard movement
-	void moveCartesian(float speeds[], void (*callback)()); // New version - for interruptible movement
+	void moveConstant(int movement_states[]); // New version - for keyboard movement
+	void moveCartesian(float speeds[]); // New version - for interruptible movement
 	//void moveCartesian(float position[], int speed_mode, void (*callback)()); // Original
 };
 

@@ -14,8 +14,6 @@
 #include <cstdio>
 #include <cmath>
 
-void moveDoneCallback() { printf("moveDoneCallback called\n"); }
-
 void ArmControl::init()
 {
     ROS_INFO("ARM control started...");
@@ -46,13 +44,15 @@ void ArmControl::init()
     while (ros::ok() && !shutdown_)
     {
         ros::spinOnce();
-        if (!queue_.empty())
+        /*if (!queue_.empty())
         {
             for (int i = 0; i < POS_ARR_SZ; i++)
                 target_position_[i] = queue_.front().positions[i];
-            moveCartesian();
             queue_.pop_front();
-        }
+            printf("Moving to X[%.0f] Y[%.0f]\n", target_position_[ARM_X],
+                   target_position_[ARM_Y]);
+            moveCartesian();
+        }*/
     }
 
     // Move into final position to finish
@@ -67,18 +67,23 @@ void ArmControl::cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd)
 {
     printf("cartesianMoveCallback called\n");
     // Interrupt the ARM if it is still working on its last queue
-    move_complete_ = true;
+    /*move_complete_ = true;
     queue_.clear();
 
     for (unsigned int i = 0; i < cmd->queue.size(); i++)
         queue_.push_back(cmd->queue[i]);
-    speed_ = cmd->speed;
+    speed_ = cmd->speed;*/
+
+    for (unsigned int i = 0; i < POS_ARR_SZ; i++)
+        target_position_[i] = cmd->queue[0].positions[i];
+
+    moveCartesian();
 }
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
     printf("constantMoveCallback called\n");
-    move_complete_ = true;
+
     if (cmd->query)
     {
         arm_->getPosition(actual_position_);
@@ -86,11 +91,23 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
     }
     else
     {
-        for (int i = 0; i < STATE_ARR_SZ; i++)
-            states_[i] = cmd->states[i];
-        arm_->moveConstant(states_, &moveDoneCallback);
+        if (!move_complete_)
+        {
+            move_complete_ = true;
+            arm_->getPosition(actual_position_);
+            for (int i = 0; i < POS_ARR_SZ; i++)
+                target_position_[i] = actual_position_[i];
+            moveCartesian();
+        }
+
         if (cmd->quit)
             shutdown_ = true;
+        else
+        {
+            for (int i = 0; i < STATE_ARR_SZ; i++)
+                states_[i] = cmd->states[i];
+            arm_->moveConstant(states_);
+        }
     }
 }
 
@@ -142,39 +159,9 @@ void ArmControl::moveCartesian()
             speeds[i] = fabs(control_input) > linear_speed_limit[speed_] ?
                         sign(control_input) * linear_speed_limit[speed_] :
                         control_input;
-            //printf("%d: prev: %+10.3f err %+10.3f ctrl %+10.3f spd %+10.3f\n",
-            //       i, actual_position_[i], pos_err[i], control_input, speeds[i]);
         }
 
-        /*
-        std::cout << "Target Position: ";
-        for (int ii = 0; ii < 6; ii++)
-        {
-            std::cout << target_position_[ii] << ", ";
-        }
-        std::cout << std::endl;
-
-        std::cout << "Position: ";
-        for (int ii = 0; ii < 6; ii++)
-        {
-            std::cout << actual_position_[ii] << ", ";
-        }
-        std::cout << std::endl;
-        std::cout << "Error: ";
-        for (int ii = 0; ii < 3; ii++)
-        {
-            std::cout << pos_err[ii] << ", ";
-        }
-        std::cout << std::endl;
-        std::cout << "New speeds: ";
-        for (int ii = 0; ii < 3; ii++)
-        {
-            std::cout << speeds[ii] << ", ";
-        }
-        std::cout << std::endl << std::endl;
-        */
-
-        arm_->moveCartesian(speeds, &moveDoneCallback);
+        arm_->moveCartesian(speeds);
         ros::Duration(0.06).sleep();
 
         // Assume we are done
@@ -191,7 +178,7 @@ void ArmControl::moveCartesian()
     }
 
     // Stop the arm
-    arm_->moveCartesian(manus_arm::stop, &moveDoneCallback);
+    arm_->moveCartesian(manus_arm::stop);
     ros::Duration(0.06).sleep();
 }
 

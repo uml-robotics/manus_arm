@@ -42,7 +42,7 @@ float stop[] = { 0, 0, 0, 0, 0, 0, 0 };
 
 // Arrays of positions
 float origin_position[] = { 14000, 0, 0, 0, 0, 0, -10000 };
-float final_position[] = { 3400, -7300, 6200, 0, 0, 0, -10000 };
+float final_position[] = { 8000, -4500, 6000, 0, 0, 0, -10000 };
 //float final_position[] = { 10000, 0, 0, 0, 0, 0, -10000 };
 
 // Standard speed

@@ -21,7 +21,7 @@ public:
 
 private:
     void callback(const burst_calc::cat::ConstPtr& c) { queue_.push(*c); }
-    ros::Duration publishCommand();
+    void publishCommand();
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
