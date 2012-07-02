@@ -29,23 +29,44 @@ void TeleopArmDish::init()
     while (cat_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
-    // Continue only while there is a publisher of "cats"
-    while(cat_sub_.getNumPublishers() > 0 && ros::ok())
+    // Continue only while there is a publisher of "cats" or the queue isn't
+    // empty
+    while((cat_sub_.getNumPublishers() > 0 || !queue_.empty()) && ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
-        {
             publishCommand();
-            //ros::shutdown(); // <-- shutdown after one publish for testing
-        }
     }
     ROS_INFO("ARM control via dish shutting down...");
+}
+
+void TeleopArmDish::callback(const burst_calc::cat::ConstPtr& c)
+{
+    queue_.push(*c);
+
+    static bool run_once = true;
+    if (run_once)
+    {
+        timer_ = ros::Time(0);
+        offset_ = ros::Time::now() - timer_;
+        run_once = false;
+    }
 }
 
 void TeleopArmDish::publishCommand()
 {
     burst_calc::cat cat = queue_.front();
     queue_.pop();
+
+    if (cat.header.stamp > timer_)
+    {
+        printf("\nEnd of last burst [%7.3fs] Start of new burst [%7.3fs] Sleep [%6.3fs]\n",
+               timer_.toSec(), cat.header.stamp.toSec(),
+               (cat.header.stamp - timer_).toSec());
+        ros::Duration(cat.header.stamp - timer_).sleep();
+    }
+    else
+        ROS_WARN("CAT timestamp should be greater than Timer and is not");
 
     // Get the average CA for this CAT
     double x = 0;
@@ -90,8 +111,8 @@ void TeleopArmDish::publishCommand()
     cmd.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
     cmd.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
 
-    printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
-    printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
+    //printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
+    //printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
 
     // Some error checking so we don't exceed the bounds of the ARM
     if (fabs(cmd.position[ARM_X] > 20000))
@@ -107,10 +128,12 @@ void TeleopArmDish::publishCommand()
 
     // Publish the move and wait
     cmd_pub_.publish(cmd);
-    double burst_time = (cat.end - cat.header.stamp).toSec();
-    ROS_INFO("Burst: Start [%6.3fs] Duration[%4.3fs]", cat.header.stamp.toSec(),
-             burst_time);
-    ros::Duration(burst_time).sleep();
+    ros::Duration burst_time = cat.end - cat.header.stamp;
+    printf("Burst duration    [%7.3fs]\n", burst_time.toSec());
+    burst_time.sleep();
+    timer_ = ros::Time::now() - offset_;
+    printf("Calculated end    [%7.3fs] Actual end         [%7.3fs]\n",
+           cat.end.toSec(), timer_.toSec());
 }
 
 int main(int argc, char** argv)

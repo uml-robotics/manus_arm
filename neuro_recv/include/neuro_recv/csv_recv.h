@@ -23,7 +23,7 @@ private:
     const neuro_recv::dish_state parse(const std::string& s);
 
     ros::NodeHandle n_;
-    ros::Time start_time_;
+    ros::Duration offset_;
 };
 
 #endif

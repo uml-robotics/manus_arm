@@ -20,14 +20,15 @@ public:
     void init();
 
 private:
-    void callback(const burst_calc::cat::ConstPtr& c) { queue_.push(*c); }
+    void callback(const burst_calc::cat::ConstPtr& c);
     void publishCommand();
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
     ros::Publisher cmd_pub_;
     std::queue<burst_calc::cat> queue_;
-    ros::Duration timer;
+    ros::Time timer_;
+    ros::Duration offset_;
 };
 
 #endif

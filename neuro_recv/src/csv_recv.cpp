@@ -34,8 +34,8 @@ void CsvReceiver::init(const char* file_name)
         while (dish_state_pub.getNumSubscribers() < 1 && ros::ok());
         ROS_INFO("Subscriber found. Continuing...");
 
-        // Initialize the start time for timestamps
-        start_time_ = ros::Time::now();
+        // Initialize the timestamp offset
+        offset_ = ros::Time::now() - ros::Time(0);
 
         while (getline(file, line) && ros::ok())
         {
@@ -58,9 +58,8 @@ const neuro_recv::dish_state CsvReceiver::parse(const std::string& s)
 
     double total = 0.0;
     neuro_recv::dish_state dish;
-    ros::Time current_time = ros::Time::now();
-    dish.header.stamp.sec = (current_time - start_time_).sec;
-    dish.header.stamp.nsec = (current_time - start_time_).nsec;
+    dish.header.stamp = ros::Time::now() - offset_;
+
     for (int i = 0; i < 60; i++)
     {
        n = s.find(',', pos) - pos;
@@ -81,7 +80,6 @@ int main(int argc, char** argv)
         ROS_ERROR("Error: CSV file name not specified.\n");
         return -1;
     }
-
 
     CsvReceiver csv_receiver;
     csv_receiver.init(argv[1]);
