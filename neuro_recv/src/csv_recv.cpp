@@ -27,7 +27,10 @@ void CsvReceiver::init(const char* file_name)
 
         ros::Publisher dish_state_pub = n_.advertise<neuro_recv::dish_state>
                                                     ("dish_states", 1000);
-        ros::Rate loop_rate(200); // 1000 dishes per second
+
+        // Publish at a rate of 200 dishes per second, which is 5 times slower
+        // than the actual rate of 1000 dishes per second
+        ros::Rate loop_rate(200);
 
         // Wait for a subscriber to "dish_states" before publishing
         ROS_INFO("Waiting for subscriber...");

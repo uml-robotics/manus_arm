@@ -61,7 +61,7 @@ int DishVisualizer::init() {
 					|| (row == 0 && col == COLS - 1)
 					|| (row == ROWS - 1 && col == 0))) {
 
-				int index = (COLS * row) + col;
+				//int index = (COLS * row) + col;
 				int xPos = START_X + (col * X_STEP);
 				int yPos = START_Y + (row * Y_STEP);
 				//ROS_INFO("%d, %d, %d", index, xPos, yPos);

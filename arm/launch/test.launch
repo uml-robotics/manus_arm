@@ -17,6 +17,6 @@
   <node pkg="arm" name="arm_control" type="arm_control"/>
   
   <!-- dish_viz: Visualize dish activity -->
-  <!-- <node pkg="dish_viz" name="dish_viz" type="dish_viz"/> -->
+  <node pkg="dish_viz" name="dish_viz" type="dish_viz"/>
 
 </launch>

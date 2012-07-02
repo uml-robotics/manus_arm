@@ -29,8 +29,9 @@ private:
 
     ros::NodeHandle n_;
     ros::Subscriber dish_state_sub_;
+    ros::Publisher dish_state_fwd_;
     ros::Publisher burst_pub_;
-    //ros::Publisher stream_pub_;
+    ros::Publisher burst_fwd_;
     std::queue<neuro_recv::dish_state> queue_;
     BufferSpikeDetector buf_;
     BurstChecker bursts_[60];

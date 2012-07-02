@@ -15,13 +15,16 @@ void BurstCreator::init()
 {
     ROS_INFO("Burst creator running...");
     burst_pub_ = n_.advertise<burst_calc::burst>("bursts", 1000);
-    //stream_pub_ = n_.advertise<neuro_recv::dish_state>("dish_stream", 1000);
+    burst_fwd_ = n_.advertise<burst_calc::burst>("fwd_bursts", 1);
+    dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("fwd_dish_states",
+                                                           1000);
 
     // Wait for subscribers before continuing
-    ROS_INFO("Waiting for subscriber...");
-    while (burst_pub_.getNumSubscribers() < 1 && ros::ok());
-           //stream_pub_.getNumSubscribers() < 1 && ros::ok());
-    ROS_INFO("Subscriber found. Continuing...");
+    ROS_INFO("Waiting for subscribers...");
+    while (burst_pub_.getNumSubscribers() < 1 &&
+           burst_fwd_.getNumSubscribers() < 1 &&
+           dish_state_fwd_.getNumSubscribers() < 1 && ros::ok());
+    ROS_INFO("Subscribers found. Continuing...");
 
     dish_state_sub_ = n_.subscribe("dish_states", 1000, &BurstCreator::callback,
                                    this);
@@ -70,6 +73,13 @@ void BurstCreator::addDish()
         {
             burst_pub_.publish(merger_.getBurst());
 
+            bool run_once = true;
+            if (run_once)
+            {
+                burst_fwd_.publish(merger_.getBurst());
+                run_once = false;
+            }
+
             printf("*** Publish : [Sz %4u] [%6.3f - %6.3f] [Ch",
                    merger_.getBurst().dishes.size(),
                    merger_.getBurst().header.stamp.toSec(),
@@ -97,6 +107,7 @@ void BurstCreator::addDish()
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
     queue_.push(*d);
+    dish_state_fwd_.publish(*d);
 }
 
 int main(int argc, char** argv)
