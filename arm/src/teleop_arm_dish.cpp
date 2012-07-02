@@ -12,6 +12,8 @@
 #include "arm/movement_definitions.h"
 #include <cmath>
 
+#define MIN_MOVE_TIME 0.12 // 120 msec
+
 void TeleopArmDish::init()
 {
     ROS_INFO("ARM control via dish running...");
@@ -46,11 +48,11 @@ void TeleopArmDish::publishCommand()
 {
     burst_calc::cat cat = queue_.front();
     queue_.pop();
-    double sleep_time = (cat.end - cat.header.stamp).toSec();
-    printf("This CAT lasts for %fs\n", sleep_time);
+    double burst_time = (cat.end - cat.header.stamp).toSec();
+    ROS_INFO("Duration of burst: %5.3fs", burst_time);
 
     // For each CA in the CAT, calculate and publish Cartesian command
-    for (unsigned int i = 0; i < cat.cas.size() && (i + 1) * 0.06 < sleep_time; i++)
+    for (unsigned int i = 0; i < cat.cas.size() && burst_time > 0; i++)
     {
         // The safe range, in arm units (AU), for the ARM to move in an X/Y
         // square is -20000:20000 AU on each axis (40001 AU total). The actual
@@ -73,7 +75,7 @@ void TeleopArmDish::publishCommand()
         // the max range we specified.
         arm::cartesian_move cmd;
         cmd.header.stamp = cat.cas[i].header.stamp;
-        cmd.speed = manus_arm::speed;
+        cmd.speed = 3;
 
         cmd.position[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
         cmd.position[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
@@ -95,24 +97,25 @@ void TeleopArmDish::publishCommand()
         }
         if (fabs(cmd.position[ARM_Y] > 20000))
         {
-            ROS_ERROR("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
+            ROS_WARN("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
             cmd.position[ARM_Y] = 0;
         }
 
         // Publish the move and wait
         cmd_pub_.publish(cmd);
-        ros::Duration(0.06).sleep();
+        ros::Duration(burst_time).sleep();
+        burst_time = 0; // Let's stop this after one CA
     }
     ROS_INFO("CAT at %.3fs published\n", cat.header.stamp.toSec());
 
 
     // Return to origin
-    arm::cartesian_move origin;
+    /*arm::cartesian_move origin;
     for (int i = 0; i < POS_ARR_SZ; i++)
         origin.position[i] = manus_arm::origin_position[i];
-    origin.speed = manus_arm::speed;
+    origin.speed = 4;
     cmd_pub_.publish(origin);
-    ROS_INFO("Burst ended, returning to origin");
+    ROS_INFO("Burst ended, returning to origin");*/
 }
 
 int main(int argc, char** argv)
