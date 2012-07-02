@@ -27,6 +27,7 @@ private:
     ros::Subscriber cat_sub_;
     ros::Publisher cmd_pub_;
     std::queue<burst_calc::cat> queue_;
+    ros::Duration timer;
 };
 
 #endif

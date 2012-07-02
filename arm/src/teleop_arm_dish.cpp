@@ -12,8 +12,6 @@
 #include "arm/movement_definitions.h"
 #include <cmath>
 
-#define MIN_MOVE_TIME 0.12 // 120 msec
-
 void TeleopArmDish::init()
 {
     ROS_INFO("ARM control via dish running...");
@@ -48,74 +46,71 @@ void TeleopArmDish::publishCommand()
 {
     burst_calc::cat cat = queue_.front();
     queue_.pop();
-    double burst_time = (cat.end - cat.header.stamp).toSec();
-    ROS_INFO("Duration of burst: %5.3fs", burst_time);
 
-    // For each CA in the CAT, calculate and publish Cartesian command
-    for (unsigned int i = 0; i < cat.cas.size() && burst_time > 0; i++)
+    // Get the average CA for this CAT
+    double x = 0;
+    double y = 0;
+    int size = cat.cas.size();
+    for (int i = 0; i < size; i++)
     {
-        // The safe range, in arm units (AU), for the ARM to move in an X/Y
-        // square is -20000:20000 AU on each axis (40001 AU total). The actual
-        // safe range for each individual axis is -28000:28000, but that will
-        // shrink depending on the value of the other axis.
-        //
-        // Each axis of the CAT grid ranges from 1:8, with 1 in the upper left
-        // corner. The midpoint of each axis is 4.5 ([1+8]/2) CAT units (CU).
-        //
-        // We assign the max range of 4.41:4.59 CU on the X CAT axis to the
-        // max range on the ARM Y axis (0.19 CU = 40001 AU). To convert CU to
-        // AU: ([CU - midpoint] * [-20000 / 0.09]). The resulting value will
-        // always be within the ARM safe range as long as each CA is within
-        // the max range we specified.
-        //
-        // We assign the max range of 4.16:4.84 CU on the Y CAT axis to the
-        // max range on the ARM Y axis (0.69 CU = 40001 AU). To convert CU to
-        // AU: ([CU - midpoint] * [-20000 / 0.34]). The resulting value will
-        // always be within the ARM safe range as long as each CA is within
-        // the max range we specified.
-        arm::cartesian_move cmd;
-        cmd.header.stamp = cat.cas[i].header.stamp;
-        cmd.speed = 3;
-
-        cmd.position[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
-        cmd.position[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
-        cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
-        cmd.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
-        cmd.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
-        cmd.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
-        cmd.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
-
-        //printf("CA  : x[%f] y[%f]\n", cat.cas[i].x, cat.cas[i].y);
-        //printf("ARM : x[%f] y[%f]\n", p.positions[ARM_X],
-        //                              p.positions[ARM_Y]);
-
-        // Some error checking so we don't exceed the bounds of the ARM
-        if (fabs(cmd.position[ARM_X] > 20000))
-        {
-            ROS_WARN("X-axis position (%f) out of bounds", cmd.position[ARM_X]);
-            cmd.position[ARM_X] = 0;
-        }
-        if (fabs(cmd.position[ARM_Y] > 20000))
-        {
-            ROS_WARN("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
-            cmd.position[ARM_Y] = 0;
-        }
-
-        // Publish the move and wait
-        cmd_pub_.publish(cmd);
-        ros::Duration(burst_time).sleep();
-        burst_time = 0; // Let's stop this after one CA
+        x += cat.cas[i].x;
+        y += cat.cas[i].y;
     }
-    ROS_INFO("CAT at %.3fs published\n", cat.header.stamp.toSec());
+    x /= size;
+    y /= size;
 
+    // The safe range, in arm units (AU), for the ARM to move in an X/Y
+    // square is -20000:20000 AU on each axis (40001 AU total). The actual
+    // safe range for each individual axis is -28000:28000, but that will
+    // shrink depending on the value of the other axis.
+    //
+    // Each axis of the CAT grid ranges from 1:8, with 1 in the upper left
+    // corner. The midpoint of each axis is 4.5 ([1+8]/2) CAT units (CU).
+    //
+    // We assign the max range of 4.41:4.59 CU on the X CAT axis to the
+    // max range on the ARM Y axis (0.19 CU = 40001 AU). To convert CU to
+    // AU: ([CU - midpoint] * [-20000 / 0.09]). The resulting value will
+    // always be within the ARM safe range as long as each CA is within
+    // the max range we specified.
+    //
+    // We assign the max range of 4.16:4.84 CU on the Y CAT axis to the
+    // max range on the ARM Y axis (0.69 CU = 40001 AU). To convert CU to
+    // AU: ([CU - midpoint] * [-20000 / 0.34]). The resulting value will
+    // always be within the ARM safe range as long as each CA is within
+    // the max range we specified.
+    arm::cartesian_move cmd;
+    cmd.header.stamp = cat.header.stamp;
+    cmd.speed = 3;
 
-    // Return to origin
-    /*arm::cartesian_move origin;
-    for (int i = 0; i < POS_ARR_SZ; i++)
-        origin.position[i] = manus_arm::origin_position[i];
-    origin.speed = 4;
-    cmd_pub_.publish(origin);
-    ROS_INFO("Burst ended, returning to origin");*/
+    cmd.position[ARM_X] = (x - 4.5) * -222222;
+    cmd.position[ARM_Y] = (y - 4.5) * -58823;
+    cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
+    cmd.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
+    cmd.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
+    cmd.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
+    cmd.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
+
+    printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
+    printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
+
+    // Some error checking so we don't exceed the bounds of the ARM
+    if (fabs(cmd.position[ARM_X] > 20000))
+    {
+        ROS_WARN("X-axis position (%f) out of bounds", cmd.position[ARM_X]);
+        cmd.position[ARM_X] = 0;
+    }
+    if (fabs(cmd.position[ARM_Y] > 20000))
+    {
+        ROS_WARN("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
+        cmd.position[ARM_Y] = 0;
+    }
+
+    // Publish the move and wait
+    cmd_pub_.publish(cmd);
+    double burst_time = (cat.end - cat.header.stamp).toSec();
+    ROS_INFO("Burst: Start [%6.3fs] Duration[%4.3fs]", cat.header.stamp.toSec(),
+             burst_time);
+    ros::Duration(burst_time).sleep();
 }
 
 int main(int argc, char** argv)
