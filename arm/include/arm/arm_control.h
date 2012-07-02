@@ -12,7 +12,6 @@
 #include "ros/ros.h"
 #include "arm/ManusArm.hpp"
 #include "arm/cartesian_move.h"
-#include "arm/position.h"
 #include "arm/constant_move.h"
 #include "movement_definitions.h"
 #include <list>
@@ -34,7 +33,6 @@ private:
     ros::Subscriber constant_sub_;
     ManusArm* arm_;
 
-    std::list<arm::position> queue_;
     int speed_;
     float actual_position_[POS_ARR_SZ];
     float target_position_[POS_ARR_SZ];

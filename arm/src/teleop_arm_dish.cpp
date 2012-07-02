@@ -9,7 +9,6 @@
 
 #include "arm/teleop_arm_dish.h"
 #include "arm/cartesian_move.h"
-#include "arm/position.h"
 #include "arm/movement_definitions.h"
 #include <cmath>
 
@@ -27,14 +26,14 @@ void TeleopArmDish::init()
 
     // Wait for a publisher of "cats" before continuing
     ROS_INFO("Waiting for publisher...");
-    //while (cat_sub_.getNumPublishers() < 1 && ros::ok());
+    while (cat_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
     // Continue only while there is a publisher of "cats"
-    //while(cat_sub_.getNumPublishers() > 0 && ros::ok())
+    while(cat_sub_.getNumPublishers() > 0 && ros::ok())
     {
         ros::spinOnce();
-        //if (!queue_.empty())
+        if (!queue_.empty())
         {
             publishCommand();
             //ros::shutdown(); // <-- shutdown after one publish for testing
@@ -45,33 +44,13 @@ void TeleopArmDish::init()
 
 void TeleopArmDish::publishCommand()
 {
-    //burst_calc::cat cat = queue_.front();
-    //queue_.pop();
-    arm::cartesian_move cmd;
-    //cmd.header.stamp = cat.header.stamp;
-    cmd.speed = 2;
-
-    // Begin test stuff
-    arm::position p;
-    p.positions[ARM_Z] = manus_arm::origin_position[ARM_Z];
-    p.positions[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
-    p.positions[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
-    p.positions[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
-    p.positions[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
-    p.positions[ARM_X] = 20000;
-    p.positions[ARM_Y] = 20000;
-    cmd.queue.push_back(p);
-    cmd_pub_.publish(cmd);
-    ros::Duration(1.0).sleep();
-    cmd.queue.clear();
-    p.positions[ARM_Y] = -20000;
-    cmd.queue.push_back(p);
-    cmd_pub_.publish(cmd);
-    printf("It should change direction NOW");
-    // End test stuff
+    burst_calc::cat cat = queue_.front();
+    queue_.pop();
+    double sleep_time = (cat.end - cat.header.stamp).toSec();
+    printf("This CAT lasts for %fs\n", sleep_time);
 
     // For each CA in the CAT, calculate and publish Cartesian command
-    /*for (unsigned int i = 0; i < cat.cas.size(); i++)
+    for (unsigned int i = 0; i < cat.cas.size() && (i + 1) * 0.06 < sleep_time; i++)
     {
         // The safe range, in arm units (AU), for the ARM to move in an X/Y
         // square is -20000:20000 AU on each axis (40001 AU total). The actual
@@ -92,50 +71,48 @@ void TeleopArmDish::publishCommand()
         // AU: ([CU - midpoint] * [-20000 / 0.34]). The resulting value will
         // always be within the ARM safe range as long as each CA is within
         // the max range we specified.
-        arm::position p;
-        p.positions[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
-        p.positions[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
-        p.positions[ARM_Z] = manus_arm::origin_position[ARM_Z];
-        p.positions[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
-        p.positions[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
-        p.positions[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
-        p.positions[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
+        arm::cartesian_move cmd;
+        cmd.header.stamp = cat.cas[i].header.stamp;
+        cmd.speed = manus_arm::speed;
+
+        cmd.position[ARM_X] = (cat.cas[i].x - 4.5) * -222222;
+        cmd.position[ARM_Y] = (cat.cas[i].y - 4.5) * -58823;
+        cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
+        cmd.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
+        cmd.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
+        cmd.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
+        cmd.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
 
         //printf("CA  : x[%f] y[%f]\n", cat.cas[i].x, cat.cas[i].y);
         //printf("ARM : x[%f] y[%f]\n", p.positions[ARM_X],
         //                              p.positions[ARM_Y]);
 
         // Some error checking so we don't exceed the bounds of the ARM
-        if (fabs(p.positions[ARM_X] > 20000))
+        if (fabs(cmd.position[ARM_X] > 20000))
         {
-            ROS_WARN("X-axis position (%f) out of bounds", p.positions[ARM_X]);
-            p.positions[ARM_X] = 0;
+            ROS_WARN("X-axis position (%f) out of bounds", cmd.position[ARM_X]);
+            cmd.position[ARM_X] = 0;
         }
-        if (fabs(p.positions[ARM_Y] > 20000))
+        if (fabs(cmd.position[ARM_Y] > 20000))
         {
-            ROS_ERROR("Y-axis position (%f) out of bounds", p.positions[ARM_Y]);
-            p.positions[ARM_Y] = 0;
+            ROS_ERROR("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
+            cmd.position[ARM_Y] = 0;
         }
 
-        cmd.queue.push_back(p);
+        // Publish the move and wait
+        cmd_pub_.publish(cmd);
+        ros::Duration(0.06).sleep();
     }
+    ROS_INFO("CAT at %.3fs published\n", cat.header.stamp.toSec());
 
-    // Publish the move, wait, and then return back to origin after time is up
-    cmd_pub_.publish(cmd);
-    ROS_INFO("CAT at %.3fs published\n", cmd.header.stamp.toSec());
 
-    // Sleep for the length of the burst
-    ROS_INFO("Sleeping for %.3f seconds\n", (cat.end - cat.header.stamp).toSec());
-    (cat.end - cat.header.stamp).sleep();
-
-    // Return to origin after time is up
-    cmd.queue.clear();
-    arm::position origin;
+    // Return to origin
+    arm::cartesian_move origin;
     for (int i = 0; i < POS_ARR_SZ; i++)
-        origin.positions[i] = manus_arm::origin_position[i];
-    cmd.queue.push_back(origin);
-    cmd_pub_.publish(cmd);
-    ROS_INFO("Burst ended, returning to origin");*/
+        origin.position[i] = manus_arm::origin_position[i];
+    origin.speed = manus_arm::speed;
+    cmd_pub_.publish(origin);
+    ROS_INFO("Burst ended, returning to origin");
 }
 
 int main(int argc, char** argv)

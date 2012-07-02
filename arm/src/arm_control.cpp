@@ -42,18 +42,7 @@ void ArmControl::init()
     moveCartesian();
 
     while (ros::ok() && !shutdown_)
-    {
         ros::spinOnce();
-        /*if (!queue_.empty())
-        {
-            for (int i = 0; i < POS_ARR_SZ; i++)
-                target_position_[i] = queue_.front().positions[i];
-            queue_.pop_front();
-            printf("Moving to X[%.0f] Y[%.0f]\n", target_position_[ARM_X],
-                   target_position_[ARM_Y]);
-            moveCartesian();
-        }*/
-    }
 
     // Move into final position to finish
     for (int i = 0; i < POS_ARR_SZ; i++)
@@ -66,16 +55,10 @@ void ArmControl::init()
 void ArmControl::cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd)
 {
     printf("cartesianMoveCallback called\n");
-    // Interrupt the ARM if it is still working on its last queue
-    /*move_complete_ = true;
-    queue_.clear();
-
-    for (unsigned int i = 0; i < cmd->queue.size(); i++)
-        queue_.push_back(cmd->queue[i]);
-    speed_ = cmd->speed;*/
 
     for (unsigned int i = 0; i < POS_ARR_SZ; i++)
-        target_position_[i] = cmd->queue[0].positions[i];
+        target_position_[i] = cmd->position[i];
+    speed_ = cmd->speed;
 
     moveCartesian();
 }
@@ -91,14 +74,10 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
     }
     else
     {
-        if (!move_complete_)
-        {
-            move_complete_ = true;
-            arm_->getPosition(actual_position_);
-            for (int i = 0; i < POS_ARR_SZ; i++)
-                target_position_[i] = actual_position_[i];
-            moveCartesian();
-        }
+        arm_->getPosition(actual_position_);
+        for (int i = 0; i < POS_ARR_SZ; i++)
+            target_position_[i] = actual_position_[i];
+        moveCartesian();
 
         if (cmd->quit)
             shutdown_ = true;
@@ -110,23 +89,6 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
         }
     }
 }
-
-/*void ArmControl::moveCartesian()
-{
-    arm::position p = queue_.front();
-    queue_.pop_front();
-    arm_->moveCartesian(p.positions.c_array(), speed_,
-                        &manus_arm::cartesianMoveDoneCallback);
-    printf("Moving to X[%.0f] Y[%.0f]\n", p.positions[ARM_X],
-           p.positions[ARM_Y]);
-    printf("Z[%.0f] Y[%.0f] P[%.0f] R[%.0f] G[%.0f] S[%d]\n",
-           p.positions[ARM_Z], p.positions[CLAW_YAW], p.positions[CLAW_ROLL],
-           p.positions[CLAW_GRIP], speed_);
-    manus_arm::done_moving = false;
-    while (!manus_arm::done_moving && ros::ok())
-        ros::spinOnce();
-    arm_->getPosition(position_);
-}*/
 
 void ArmControl::moveCartesian()
 {

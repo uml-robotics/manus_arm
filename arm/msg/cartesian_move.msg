@@ -1,4 +1,4 @@
 # Cartesian movement message
 Header header
-position[] queue
+float32[7] position
 int8 speed

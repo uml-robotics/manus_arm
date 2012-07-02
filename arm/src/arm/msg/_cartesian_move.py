@@ -4,16 +4,15 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import arm.msg
 import std_msgs.msg
 
 class cartesian_move(genpy.Message):
-  _md5sum = "5036813167008e958ef6ca079d779a4d"
+  _md5sum = "5554538b4ced31aaaff5755be933d0ee"
   _type = "arm/cartesian_move"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Cartesian movement message
 Header header
-position[] queue
+float32[7] position
 int8 speed
 ================================================================================
 MSG: std_msgs/Header
@@ -33,14 +32,9 @@ time stamp
 # 1: global frame
 string frame_id
 
-================================================================================
-MSG: arm/position
-# Position message
-Header header
-float32[7] positions
 """
-  __slots__ = ['header','queue','speed']
-  _slot_types = ['std_msgs/Header','arm/position[]','int8']
+  __slots__ = ['header','position','speed']
+  _slot_types = ['std_msgs/Header','float32[7]','int8']
 
   def __init__(self, *args, **kwds):
     """
@@ -50,7 +44,7 @@ float32[7] positions
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,queue,speed
+       header,position,speed
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -61,13 +55,13 @@ float32[7] positions
       #message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.queue is None:
-        self.queue = []
+      if self.position is None:
+        self.position = [0.,0.,0.,0.,0.,0.,0.]
       if self.speed is None:
         self.speed = 0
     else:
       self.header = std_msgs.msg.Header()
-      self.queue = []
+      self.position = [0.,0.,0.,0.,0.,0.,0.]
       self.speed = 0
 
   def _get_types(self):
@@ -90,21 +84,7 @@ float32[7] positions
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      length = len(self.queue)
-      buff.write(_struct_I.pack(length))
-      for val1 in self.queue:
-        _v1 = val1.header
-        buff.write(_struct_I.pack(_v1.seq))
-        _v2 = _v1.stamp
-        _x = _v2
-        buff.write(_struct_2I.pack(_x.secs, _x.nsecs))
-        _x = _v1.frame_id
-        length = len(_x)
-        if python3 or type(_x) == unicode:
-          _x = _x.encode('utf-8')
-          length = len(_x)
-        buff.write(struct.pack('<I%ss'%length, length, _x))
-        buff.write(_struct_7f.pack(*val1.positions))
+      buff.write(_struct_7f.pack(*self.position))
       buff.write(_struct_b.pack(self.speed))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
@@ -117,8 +97,6 @@ float32[7] positions
     try:
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.queue is None:
-        self.queue = None
       end = 0
       _x = self
       start = end
@@ -134,33 +112,8 @@ float32[7] positions
       else:
         self.header.frame_id = str[start:end]
       start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      self.queue = []
-      for i in range(0, length):
-        val1 = arm.msg.position()
-        _v3 = val1.header
-        start = end
-        end += 4
-        (_v3.seq,) = _struct_I.unpack(str[start:end])
-        _v4 = _v3.stamp
-        _x = _v4
-        start = end
-        end += 8
-        (_x.secs, _x.nsecs,) = _struct_2I.unpack(str[start:end])
-        start = end
-        end += 4
-        (length,) = _struct_I.unpack(str[start:end])
-        start = end
-        end += length
-        if python3:
-          _v3.frame_id = str[start:end].decode('utf-8')
-        else:
-          _v3.frame_id = str[start:end]
-        start = end
-        end += 28
-        val1.positions = _struct_7f.unpack(str[start:end])
-        self.queue.append(val1)
+      end += 28
+      self.position = _struct_7f.unpack(str[start:end])
       start = end
       end += 1
       (self.speed,) = _struct_b.unpack(str[start:end])
@@ -184,21 +137,7 @@ float32[7] positions
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      length = len(self.queue)
-      buff.write(_struct_I.pack(length))
-      for val1 in self.queue:
-        _v5 = val1.header
-        buff.write(_struct_I.pack(_v5.seq))
-        _v6 = _v5.stamp
-        _x = _v6
-        buff.write(_struct_2I.pack(_x.secs, _x.nsecs))
-        _x = _v5.frame_id
-        length = len(_x)
-        if python3 or type(_x) == unicode:
-          _x = _x.encode('utf-8')
-          length = len(_x)
-        buff.write(struct.pack('<I%ss'%length, length, _x))
-        buff.write(val1.positions.tostring())
+      buff.write(self.position.tostring())
       buff.write(_struct_b.pack(self.speed))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
@@ -212,8 +151,6 @@ float32[7] positions
     try:
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.queue is None:
-        self.queue = None
       end = 0
       _x = self
       start = end
@@ -229,33 +166,8 @@ float32[7] positions
       else:
         self.header.frame_id = str[start:end]
       start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      self.queue = []
-      for i in range(0, length):
-        val1 = arm.msg.position()
-        _v7 = val1.header
-        start = end
-        end += 4
-        (_v7.seq,) = _struct_I.unpack(str[start:end])
-        _v8 = _v7.stamp
-        _x = _v8
-        start = end
-        end += 8
-        (_x.secs, _x.nsecs,) = _struct_2I.unpack(str[start:end])
-        start = end
-        end += 4
-        (length,) = _struct_I.unpack(str[start:end])
-        start = end
-        end += length
-        if python3:
-          _v7.frame_id = str[start:end].decode('utf-8')
-        else:
-          _v7.frame_id = str[start:end]
-        start = end
-        end += 28
-        val1.positions = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=7)
-        self.queue.append(val1)
+      end += 28
+      self.position = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=7)
       start = end
       end += 1
       (self.speed,) = _struct_b.unpack(str[start:end])
@@ -267,4 +179,3 @@ _struct_I = genpy.struct_I
 _struct_7f = struct.Struct("<7f")
 _struct_3I = struct.Struct("<3I")
 _struct_b = struct.Struct("<b")
-_struct_2I = struct.Struct("<2I")
