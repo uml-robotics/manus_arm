@@ -16,7 +16,6 @@
 
 void ArmControl::init()
 {
-    ROS_INFO("ARM control started...");
     cartesian_sub_ = n_.subscribe("cartesian_moves", 1000,
                                   &ArmControl::cartesianMoveCallback, this);
     constant_sub_ = n_.subscribe("constant_moves", 1,
@@ -48,8 +47,6 @@ void ArmControl::init()
     for (int i = 0; i < POS_ARR_SZ; i++)
         target_position_[i] = manus_arm::final_position[i];
     moveCartesian();
-
-    ROS_INFO("ARM control shutting down...");
 }
 
 void ArmControl::cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd)

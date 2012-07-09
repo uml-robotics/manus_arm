@@ -12,6 +12,7 @@
 #include "DishVisualizer.h"
 #include "neuro_recv/dish_state.h"
 #include "burst_calc/burst.h"
+#include "burst_calc/ranges.h"
 #include <queue>
 #include <string>
 
@@ -21,15 +22,17 @@ public:
     DataHandler() {}
 
     void init(int rate, const std::string& dish_topic,
-              const std::string& burst_topic);
+              const std::string& burst_topic, const std::string& ranges_topic);
     void update();
-    void dishCallback(const neuro_recv::dish_state::ConstPtr &d);
-    void burstCallback(const burst_calc::burst::ConstPtr &b);
+    void dishCallback(const neuro_recv::dish_state::ConstPtr& d);
+    void burstCallback(const burst_calc::burst::ConstPtr& b);
+    void rangesCallback(const burst_calc::ranges::ConstPtr& r);
 
 private:
     ros::NodeHandle n_;
     ros::Subscriber dish_sub_;
     ros::Subscriber burst_sub_;
+    ros::Subscriber ranges_sub_;
     DishVisualizer dViz;
     std::queue<neuro_recv::dish_state> queue_;
     bool start_;

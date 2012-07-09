@@ -24,7 +24,6 @@ CatCreator::~CatCreator()
 
 void CatCreator::init(bool save_to_file, char* burst_file, char* cat_file)
 {
-    ROS_INFO("CAT creator running...");
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
     save_to_file_ = save_to_file;
 
@@ -46,8 +45,6 @@ void CatCreator::init(bool save_to_file, char* burst_file, char* cat_file)
     // Continue only while there is a publisher of "bursts"
     while (burst_sub_.getNumPublishers() > 0 && ros::ok())
         ros::spinOnce();
-
-    ROS_INFO("CAT creator shutting down...");
 }
 
 void CatCreator::callback(const burst_calc::burst::ConstPtr& b)

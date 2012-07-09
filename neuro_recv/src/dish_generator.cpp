@@ -19,7 +19,7 @@
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "dish_generator");
+    /*ros::init(argc, argv, "dish_generator");
     ros::NodeHandle n;
     ros::Publisher dish_state_pub = n.advertise<burst_calc::dish_state>
                                                ("dish_states", 1000);
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
         }
         dish_state_pub.publish(dish);
         loop_rate.sleep();
-    }
+    }*/
     
     return 0;
 }

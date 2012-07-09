@@ -30,15 +30,11 @@ TeleopArmKey::TeleopArmKey()
 
 void TeleopArmKey::init()
 {
-    ROS_INFO("Keyboard control started...");
-
     // Wait for a subscriber to "constant_moves" before continuing
     ROS_INFO("Waiting for subscriber...");
     while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
-
     keyLoop();
-    ROS_INFO("Keyboard control shutting down...");
 }
 
 void TeleopArmKey::keyLoop()

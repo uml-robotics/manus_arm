@@ -24,14 +24,21 @@ void BufferSpikeDetector::calculate()
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < 60; j++)
+        {
             sum[j] += data_[i].samples[j];
+
+            if (data_[i].samples[j] > max_volts_[j])
+                max_volts_[j] = data_[i].samples[j];
+            else if (data_[i].samples[j] < min_volts_[j])
+                min_volts_[j] = data_[i].samples[j];
+        }
     }
 
     // Calculate each baseline and initialize each sum of squares
     double sum_squares[60];
     for (int i = 0; i < 60; i++)
     {
-        baseline_[i] = sum[i] / size;
+        baselines_[i] = sum[i] / size;
         sum_squares[i] = 0.0;
     }
 
@@ -39,7 +46,7 @@ void BufferSpikeDetector::calculate()
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < 60; j++)
-            sum_squares[j] += pow(data_[i].samples[j] - baseline_[j], 2);
+            sum_squares[j] += pow(data_[i].samples[j] - baselines_[j], 2);
     }
 
     // Calculate each standard deviation and threshold
@@ -47,6 +54,18 @@ void BufferSpikeDetector::calculate()
     for (int i = 0; i < 60; i++)
     {
         stdev[i] = sqrt(sum_squares[i] / (size - 1));
-        threshold_[i] = stdev[i] * STDEV_MULT + baseline_[i];
+        thresholds_[i] = stdev[i] * STDEV_MULT + baselines_[i];
     }
+}
+
+burst_calc::ranges BufferSpikeDetector::getRanges()
+{
+    burst_calc::ranges ranges;
+    for (int i = 0; i < 60; i++)
+    {
+        ranges.baselines[i] = thresholds_[i];
+        ranges.min_volts[i] = min_volts_[i];
+        ranges.max_volts[i] = max_volts_[i];
+    }
+    return ranges;
 }

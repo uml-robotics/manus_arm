@@ -17,7 +17,6 @@ void CsvReceiver::init(const char* file_name)
 
     if (file.is_open())
     {
-        ROS_INFO("Reading from CSV file...");
         std::string line;
 
         // Skip the first 23 lines (header data) and the next 10,000 lines
@@ -45,7 +44,6 @@ void CsvReceiver::init(const char* file_name)
             dish_state_pub.publish(parse(line));
             loop_rate.sleep();
         }
-
         ROS_INFO("Reached end of CSV file.");
         file.close();
     }

@@ -11,6 +11,7 @@
 #define BUFFER_SPIKE_DETECTOR_H_
 
 #include "neuro_recv/dish_state.h"
+#include "burst_calc/ranges.h"
 
 #define BUFFER_SIZE 1000
 
@@ -24,16 +25,19 @@ public:
         if (isBuffered())
             calculate();
     }
-    double getBaseline(int index) { return baseline_[index]; }
-    double getThreshold(int index) { return threshold_[index]; }
+    double getBaseline(int index) { return baselines_[index]; }
+    double getThreshold(int index) { return thresholds_[index]; }
     bool isBuffered() { return data_.size() >= BUFFER_SIZE; }
+    burst_calc::ranges getRanges();
 
 private:
     void calculate();
 
     std::vector<neuro_recv::dish_state> data_;
-    boost::array<double, 60> baseline_;
-    boost::array<double, 60> threshold_;
+    boost::array<double, 60> baselines_;
+    boost::array<double, 60> thresholds_;
+    boost::array<double, 60> min_volts_;
+    boost::array<double, 60> max_volts_;
 };
 
 #endif

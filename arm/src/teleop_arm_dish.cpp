@@ -14,7 +14,6 @@
 
 void TeleopArmDish::init()
 {
-    ROS_INFO("ARM control via dish running...");
     cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
 
     // Wait for subscriber to "cartesian_moves" before subscribing to "cats"
@@ -37,7 +36,6 @@ void TeleopArmDish::init()
         if (!queue_.empty())
             publishCommand();
     }
-    ROS_INFO("ARM control via dish shutting down...");
 }
 
 void TeleopArmDish::callback(const burst_calc::cat::ConstPtr& c)

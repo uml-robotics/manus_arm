@@ -9,15 +9,16 @@
 // =============================================================================
 
 #include "burst_calc/burst_creator.h"
+#include "burst_calc/ranges.h"
 #include <cstdio>
 
 void BurstCreator::init()
 {
-    ROS_INFO("Burst creator running...");
     burst_pub_ = n_.advertise<burst_calc::burst>("bursts", 1000);
     burst_fwd_ = n_.advertise<burst_calc::burst>("fwd_bursts", 1);
     dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("fwd_dish_states",
                                                            1000);
+    ranges_pub_ = n_.advertise<burst_calc::ranges>("ranges", 1);
 
     // Wait for subscribers before continuing
     ROS_INFO("Waiting for subscribers...");
@@ -41,8 +42,6 @@ void BurstCreator::init()
         if (!queue_.empty())
             addDish();
     }
-
-    ROS_INFO("Burst creator shutting down...");
 }
 
 void BurstCreator::addDish()
@@ -95,11 +94,12 @@ void BurstCreator::addDish()
     {
         buf_.add(d);
         // After every add, check if we now are buffered so we can init the
-        // BurstCheckers
+        // BurstCheckers. The volt ranges are also published to dish_viz.
         if (buf_.isBuffered())
         {
             for (int i = 0; i < 60; i++)
                 bursts_[i].init(i, buf_.getBaseline(i), buf_.getThreshold(i));
+            ranges_pub_.publish(buf_.getRanges());
         }
     }
 }

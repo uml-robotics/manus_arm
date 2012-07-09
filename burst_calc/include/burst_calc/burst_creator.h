@@ -32,6 +32,7 @@ private:
     ros::Publisher dish_state_fwd_;
     ros::Publisher burst_pub_;
     ros::Publisher burst_fwd_;
+    ros::Publisher ranges_pub_;
     std::queue<neuro_recv::dish_state> queue_;
     BufferSpikeDetector buf_;
     BurstChecker bursts_[60];
