@@ -1,8 +1,13 @@
 <launch>
 
   <!-- csv_receiver: Read dish state data from a CSV file -->
+  <!--
   <node pkg="neuro_recv" name="csv_recv" type="csv_recv"
         args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
+  -->
+  
+  <!-- brian_recv: Simulated dish state data from a Brian model -->
+  <node pkg="neuro_recv" name="brian_recv" type="brian_recv.py"/>
         
   <!-- burst_creator: Detect activity spikes & bursts -->
   <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>

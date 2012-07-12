@@ -19,13 +19,13 @@
 
 int main(int argc, char** argv)
 {
-    /*ros::init(argc, argv, "dish_generator");
+    ros::init(argc, argv, "dish_generator");
     ros::NodeHandle n;
-    ros::Publisher dish_state_pub = n.advertise<burst_calc::dish_state>
+    ros::Publisher dish_state_pub = n.advertise<neuro_recv::dish_state>
                                                ("dish_states", 1000);
     ros::Rate loop_rate(1000); // 1000 dishes per second
     
-    burst_calc::dish_state dish;
+    neuro_recv::dish_state dish;
     srand(time(NULL));
     
     ROS_INFO("Dish generator running...");
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
         }
         dish_state_pub.publish(dish);
         loop_rate.sleep();
-    }*/
+    }
     
     return 0;
 }

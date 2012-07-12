@@ -57,7 +57,6 @@ const neuro_recv::dish_state CsvReceiver::parse(const std::string& s)
     int n = 0;
     int pos = s.find(',', n) + 1;
 
-    double total = 0.0;
     neuro_recv::dish_state dish;
     dish.header.stamp = ros::Time::now() - offset_;
 
@@ -66,7 +65,6 @@ const neuro_recv::dish_state CsvReceiver::parse(const std::string& s)
        n = s.find(',', pos) - pos;
        dish.samples[i] = atof(s.substr(pos, n).c_str());
        pos += n + 1;
-       total += dish.samples[i];
     }
 
     return dish;
