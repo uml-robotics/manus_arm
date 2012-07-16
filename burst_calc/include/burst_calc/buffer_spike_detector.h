@@ -18,7 +18,7 @@
 class BufferSpikeDetector
 {
 public:
-    BufferSpikeDetector() {}
+    BufferSpikeDetector();
     void add(const neuro_recv::dish_state& d)
     {
         data_.push_back(d);

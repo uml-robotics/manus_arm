@@ -12,6 +12,11 @@
 #include "arm/movement_definitions.h"
 #include <cmath>
 
+#define MIDPOINT 4.5
+#define MAX_RANGE_FROM_MIDPOINT 1.0
+#define ARM_SAFE_RANGE 20000.0
+#define COORD(x) (x - MIDPOINT) * -(ARM_SAFE_RANGE / MAX_RANGE_FROM_MIDPOINT)
+
 void TeleopArmDish::init()
 {
     cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
@@ -64,7 +69,8 @@ void TeleopArmDish::publishCommand()
         ros::Duration(cat.header.stamp - timer_).sleep();
     }
     else
-        ROS_WARN("CAT timestamp should be greater than Timer and is not");
+        ROS_WARN("Timer [%.3s] is greater than CAT timestamp [%.3s]",
+                 timer_.toSec(), cat.header.stamp.toSec());
 
     // Get the average CA for this CAT
     double x = 0;
@@ -87,11 +93,11 @@ void TeleopArmDish::publishCommand()
     // corner. The midpoint of each axis is 4.5 ([1+8]/2) CAT units (CU).
     //
     // We assign the max range of 4.41:4.59 CU on the X CAT axis to the
-    // max range on the ARM Y axis (0.19 CU = 40001 AU). To convert CU to
+    // max range on the ARM X axis (0.19 CU = 40001 AU). To convert CU to
     // AU: ([CU - midpoint] * [-20000 / 0.09]). The resulting value will
     // always be within the ARM safe range as long as each CA is within
     // the max range we specified.
-    //
+
     // We assign the max range of 4.16:4.84 CU on the Y CAT axis to the
     // max range on the ARM Y axis (0.69 CU = 40001 AU). To convert CU to
     // AU: ([CU - midpoint] * [-20000 / 0.34]). The resulting value will
@@ -101,8 +107,8 @@ void TeleopArmDish::publishCommand()
     cmd.header.stamp = cat.header.stamp;
     cmd.speed = 3;
 
-    cmd.position[ARM_X] = (x - 4.5) * -222222;
-    cmd.position[ARM_Y] = (y - 4.5) * -58823;
+    cmd.position[ARM_X] = COORD(x);
+    cmd.position[ARM_Y] = COORD(y);
     cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
     cmd.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
     cmd.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];

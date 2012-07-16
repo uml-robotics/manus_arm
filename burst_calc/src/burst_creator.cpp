@@ -98,7 +98,12 @@ void BurstCreator::addDish()
         if (buf_.isBuffered())
         {
             for (int i = 0; i < 60; i++)
+            {
                 bursts_[i].init(i, buf_.getBaseline(i), buf_.getThreshold(i));
+                printf("%d: Baseline[%.3f] Threshold[%.3f]\n", i,
+                       buf_.getBaseline(i), buf_.getThreshold(i));
+            }
+
             ranges_pub_.publish(buf_.getRanges());
         }
     }
@@ -108,6 +113,7 @@ void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
     queue_.push(*d);
     dish_state_fwd_.publish(*d);
+    //ROS_INFO("Dish state %f received", d->header.stamp.toSec());
 }
 
 int main(int argc, char** argv)

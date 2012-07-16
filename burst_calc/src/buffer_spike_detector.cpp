@@ -11,7 +11,17 @@
 #include <cstdio>
 #include <cmath>
 
-#define STDEV_MULT 2.5
+#define STDEV_MULT 1.5
+
+BufferSpikeDetector::BufferSpikeDetector()
+{
+    // Initialize min and max volts to fake values so they will update properly
+    for (int i = 0; i < 60; i++)
+    {
+        min_volts_[i] = 1.0;
+        max_volts_[i] = -1.0;
+    }
+}
 
 void BufferSpikeDetector::calculate()
 {

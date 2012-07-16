@@ -54,6 +54,28 @@ def brianRecv(connections, channels):
             Ci[connection[0], connection[1]] = -9*mV
         else:
             Ce[connection[0], connection[1]] = 1.62*mV
+
+    # Create a 1-dimensional list of all the neurons to record
+    print 'Recorded neurons:',
+    recorded_neurons = list()
+    for channel in channels:
+        if channel != None:
+            for neuron in channel:
+                recorded_neurons.append(neuron)
+                print neuron,
+    print
+    print 'Length of recorded neurons array', len(recorded_neurons)
+    
+    # Create a monitor to record the voltages of each neuron every 1 ms.
+    # If timestep = 1, then 10 actions are recorded every ms.
+    # If timestep = 10, then 1 action is recorded every ms.
+    # Setting timestep to 1 is in effect 30 s of simulation in just 3 s.
+    M = StateMonitor(P, "v", record=recorded_neurons, timestep=1)
+        
+    # Run the simulation for 30 seconds
+    rospy.loginfo("Running simulation for 30 seconds...")
+    run(3 * second)
+    rospy.loginfo("Simulation finished.")    
         
     # Initialize timestamp offset
     offset = rospy.Time.now() - rospy.Time(0)
@@ -62,38 +84,40 @@ def brianRecv(connections, channels):
     loop_rate = rospy.Rate(200)
 
     # Main loop
-    while not rospy.is_shutdown():
-        # Run the simulation for 1 ms (1000 updates/sec)
-        run(1 * ms)
-        
+    rospy.loginfo('Publishing dish states...')
+    
+    # For each dish state in the record
+    for current_dish in range(len(M[recorded_neurons[0]])):
         # Initialize a new dish state
         d = dish_state()
         d.header.stamp = rospy.Time.now() - offset
         
+        # For each channel in a single dish state:
         for index in range(60):
+            #print 'Index', index, ':',
+            # If there are no neurons on this channel, use 0.0 for volts
             if channels[index] == None:
                 d.samples[index] = 0.0
-            elif len(channels[index]) == 1:
-                d.samples[index] = P.state("v")[channels[index][0]]
+                #print channels[index], ':', d.samples[index]
+            # Else get the average of the volts of the neurons on this channel
             else:
                 sum = 0.0
-                count = 0
-                for n in channels[index]:
-                    sum += P.state("v")[n]
-                    count += 1
-                    #print 'V: ', P.state("v")[n], ' Sum: ', sum, ' Count: ', count
-                d.samples[index] = sum / count
-            #print index, ': ', d.samples[index]
+                for neuron in channels[index]:
+                    sum += M[neuron][current_dish]
+                    #print
+                    #print 'Len:', len(channels[index]), 'Neuron:', neuron, 'State:', M[neuron][current_dish], 'Sum:', sum
+                d.samples[index] = sum / len(channels[index])
+                #print 'Average: ', d.samples[index]
                 
-        #rospy.loginfo(d)
         pub.publish(d)
-        print 'Published'
-        #rospy.signal_shutdown("For testing")
         loop_rate.sleep()
+        
+    print (rospy.Time.now() - offset).to_sec(), 's to publish 1000 dish states'
+    rospy.loginfo('Publishing finished.')
 
+# Populates a 60-channel list using data from an x,y map
 def channelizer(pad_neuron_map):
     channels = list()
-    index = 0
     for row in range(8):
         for col in range(8):
             if row == 0 and col == 0:
@@ -105,7 +129,6 @@ def channelizer(pad_neuron_map):
             elif row == 7 and col == 7:
                 continue
             channels.append(pad_neuron_map[(row, col)])
-            index += 1
     return channels
         
 if __name__ == '__main__':

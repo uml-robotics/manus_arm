@@ -50,6 +50,7 @@ void DataHandler::update()
 void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
 {
     queue_.push(*d);
+    //ROS_INFO("dishCallback called");
 }
 
 void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)
@@ -60,7 +61,10 @@ void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)
 void DataHandler::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
     dViz.setVoltRanges(r->baselines, r->min_volts, r->max_volts);
-    ROS_INFO("rangesCallback called");
+    for (int i = 0; i < 60; i++)
+        printf("%d: Min[%.3f] Base[%.3f] Max[%.3f]\n", i, r->min_volts[i],
+               r->baselines[i], r->max_volts[i]);
+    //ROS_INFO("rangesCallback called");
 }
 
 int main(int argc, char **argv) {
