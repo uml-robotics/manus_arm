@@ -1,6 +1,7 @@
 <launch>
 
-    <arg name="receiver_node" value="csv_recv"/>
+    <!-- brian_recv.py or csv_recv -->
+    <arg name="receiver_node" value="brian_recv.py"/>
         
     <rosparam>
         arm_speed: 3
@@ -8,34 +9,34 @@
         max_range_from_midpoint: 0.5
         loop_rate: 200
         buffer_size: 1000
-        stdev_mult: 1.5
+        stdev_mult: 2.5
         burst_window: 1000
         brian_connections_file_path: '/home/jon/Python/connections_2012-7-12-16:14:11.pickle'
         brian_pad_neuron_map_file_path: '/home/jon/Python/pad_2012-7-12-16:14:11.pickle'
         csv_file_path: '/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv'
-        burst_log_path: 'none'
-        cat_log_path: 'none'
+        burst_log_path: '/home/jon/brian_burst.csv'
+        cat_log_path: '/home/jon/brian_cat.csv'
     </rosparam>
-
+    
     <!-- Node Manager -->
-    <node pkg="node_manager_fkie" name="nm" type="nm"/>
-
-    <!-- Receiver Node -->
-    <node pkg="neuro_recv" name="recv" type="$(arg receiver_node)"/>
-        
-    <!-- burst_creator: Detect activity spikes & bursts -->
-    <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
-
-    <!-- cat_creator: Calculate CATs from activity bursts -->
-    <node pkg="burst_calc" name="cat_creator" type="cat_creator"/>
-          
-    <!-- teleop_arm_dish: Generate movement commands from CATs -->
-    <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
+    <!-- <node pkg="node_manager_fkie" name="nm" type="nm"/> -->    
 
     <!-- arm_control: Controls the ARM -->   
     <node pkg="arm" name="arm_control" type="arm_control"/>
   
     <!-- dish_viz: Visualize dish activity -->
     <node pkg="dish_viz" name="dish_viz" type="dish_viz"/>
+    
+    <!-- teleop_arm_dish: Generate movement commands from CATs -->
+    <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
+    
+    <!-- cat_creator: Calculate CATs from activity bursts -->
+    <node pkg="burst_calc" name="cat_creator" type="cat_creator"/>
 
+    <!-- burst_creator: Detect activity spikes & bursts -->
+    <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
+
+    <!-- Receiver Node -->
+    <node pkg="neuro_recv" name="recv" type="$(arg receiver_node)"/>
+        
 </launch>

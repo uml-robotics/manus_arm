@@ -64,14 +64,14 @@ void CatCreator::init()
 
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
 
-    // Wait for a subscriber to "cats" before subscribing to "bursts"
+    // Wait for a subscriber to "cats"
     ROS_INFO("Waiting for subscriber...");
     while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
 
     burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
 
-    // Wait for a publisher of "bursts" before continuing
+    // Wait for a publisher of "bursts"
     ROS_INFO("Waiting for publisher...");
     while (burst_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
@@ -79,8 +79,8 @@ void CatCreator::init()
     if (save_to_file_)
         initFile(burst_file.c_str(), cat_file.c_str());
 
-    // Continue only while there is a publisher of "bursts"
-    while (burst_sub_.getNumPublishers() > 0 && ros::ok())
+    // Continue only while a subscriber exists
+    while (cat_pub_.getNumSubscribers() > 0 && ros::ok())
         ros::spinOnce();
 }
 

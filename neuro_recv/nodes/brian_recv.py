@@ -68,15 +68,15 @@ def brianRecv(connections, channels):
     # Setting timestep to 1 is in effect 30 s of simulation in just 3 s.
     M = StateMonitor(P, "v", record=recorded_neurons, timestep=1)
         
-    # Run the simulation for 30 seconds
-    rospy.loginfo("Running simulation for 30 seconds...")
-    run(3 * second)
-    rospy.loginfo("Simulation finished.")    
+    # Run the simulation
+    rospy.loginfo("Running simulation...")
+    run(2.1 * second)
+    rospy.loginfo("Simulation finished")    
         
     # Initialize timestamp offset
     offset = rospy.Time.now() - rospy.Time(0)
 
-    # Set a loop rate of 200 Hz
+    # Get loop rate parameter
     try:
         rate = rospy.get_param('loop_rate')
     except KeyError:
@@ -84,7 +84,6 @@ def brianRecv(connections, channels):
         rate = 200
     loop_rate = rospy.Rate(rate)
 
-    # Main loop
     rospy.loginfo('Publishing dish states...')
     
     # For each dish state in the record
@@ -113,8 +112,8 @@ def brianRecv(connections, channels):
         pub.publish(d)
         loop_rate.sleep()
         
-    print (rospy.Time.now() - offset).to_sec(), 's to publish 1000 dish states'
-    rospy.loginfo('Publishing finished.')
+    rospy.loginfo((rospy.Time.now() - offset).to_sec(), 's to publish 1000 dish states')
+    rospy.loginfo('Publishing finished')
 
 # Populates a 60-channel list using data from an x,y map
 def channelizer(pad_neuron_map):

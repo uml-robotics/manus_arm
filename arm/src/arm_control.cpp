@@ -58,8 +58,10 @@ void ArmControl::init()
 
 void ArmControl::cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd)
 {
-    ROS_INFO("Moving to X[%10.3f] Y[%10.3f]", cmd->position[ARM_X],
-             cmd->position[ARM_Y]);
+    //ROS_INFO("Moving to X[%10.3f] Y[%10.3f]", cmd->position[ARM_X],
+    //         cmd->position[ARM_Y]);
+    printf("[%.3f][%.3f] Moving\n", ros::Time::now().toSec(),
+           cmd->header.stamp.toSec());
 
     for (unsigned int i = 0; i < POS_ARR_SZ; i++)
         target_position_[i] = cmd->position[i];

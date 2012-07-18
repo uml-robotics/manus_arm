@@ -19,7 +19,7 @@
 class DataHandler
 {
 public:
-    DataHandler() {}
+    DataHandler() { dishes_received_ = 0;}
     void init();
 
 private:
@@ -35,6 +35,8 @@ private:
     DishVisualizer dViz;
     std::queue<neuro_recv::dish_state> queue_;
     bool start_;
+    int buffer_size_;
+    int dishes_received_;
 };
 
 #endif

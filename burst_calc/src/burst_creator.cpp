@@ -50,8 +50,7 @@ void BurstCreator::init()
     // Wait for subscribers before continuing
     ROS_INFO("Waiting for subscribers...");
     while (burst_pub_.getNumSubscribers() < 1 &&
-           burst_fwd_.getNumSubscribers() < 1 &&
-           dish_state_fwd_.getNumSubscribers() < 1 && ros::ok());
+           burst_fwd_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscribers found. Continuing...");
 
     dish_state_sub_ = n_.subscribe("dish_states", 1000, &BurstCreator::callback,
@@ -62,8 +61,9 @@ void BurstCreator::init()
     while (dish_state_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
-    // Continue only while there is a publisher of "dish_states"
-    while (dish_state_sub_.getNumPublishers() > 0 && ros::ok())
+    // Continue only while there are both subscribers
+    while (burst_pub_.getNumSubscribers() > 0 &&
+           burst_fwd_.getNumSubscribers() > 0 && ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
@@ -114,6 +114,8 @@ void BurstCreator::addDish()
                 printf(" %d", merger_.getBurst().channels[j]);
             printf("]\n");
 
+            ROS_INFO("Burst %.3f published", merger_.getBurst().header.stamp.toSec());
+
             merger_.deletePublished();
         }
     }
@@ -128,7 +130,7 @@ void BurstCreator::addDish()
             {
                 bursts_[i].init(i, buf_.getBaseline(i), buf_.getThreshold(i),
                                 burst_window_);
-                printf("%d: Baseline[%.3f] Threshold[%.3f]\n", i,
+                printf("%d: Baseline[%f] Threshold[%f]\n", i,
                        buf_.getBaseline(i), buf_.getThreshold(i));
             }
 

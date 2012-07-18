@@ -39,21 +39,20 @@ void TeleopArmDish::init()
 
     cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
 
-    // Wait for subscriber to "cartesian_moves" before subscribing to "cats"
+    // Wait for subscriber to "cartesian_moves"
     ROS_INFO("Waiting for subscriber...");
     while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
 
     cat_sub_ = n_.subscribe("cats", 1000, &TeleopArmDish::callback, this);
 
-    // Wait for a publisher of "cats" before continuing
+    // Wait for a publisher of "cats"
     ROS_INFO("Waiting for publisher...");
     while (cat_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
-    // Continue only while there is a publisher of "cats" or the queue isn't
-    // empty
-    while((cat_sub_.getNumPublishers() > 0 || !queue_.empty()) && ros::ok())
+    // Continue only while a subscriber exists
+    while(cmd_pub_.getNumSubscribers() > 0 && ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
@@ -68,7 +67,24 @@ void TeleopArmDish::callback(const burst_calc::cat::ConstPtr& c)
     static bool run_once = true;
     if (run_once)
     {
-        timer_ = ros::Time(0);
+        // Get loop rate parameter
+        int loop_rate;
+        if (!n_.getParam("loop_rate", loop_rate))
+        {
+            ROS_ERROR("Could not load loop_rate parameter, default will be used");
+            loop_rate = 200;
+        }
+
+        // Get buffer size parameter
+        int buffer_size;
+        if (!n_.getParam("buffer_size", buffer_size))
+        {
+            ROS_ERROR("Could not load buffer_size parameter, default will be used");
+            buffer_size = 1000;
+        }
+
+        // The offset will have a delay equal to the time it takes to buffer
+        timer_ = ros::Time(buffer_size / loop_rate);
         offset_ = ros::Time::now() - timer_;
         run_once = false;
     }
@@ -79,9 +95,12 @@ void TeleopArmDish::publishCommand()
     burst_calc::cat cat = queue_.front();
     queue_.pop();
 
+    printf("\n[%.3f][%.3f] Creating new command\n", ros::Time::now().toSec(),
+           cat.header.stamp.toSec());
+
     if (cat.header.stamp > timer_)
     {
-        printf("\nEnd of last burst [%7.3fs] Start of new burst [%7.3fs] Sleep [%6.3fs]\n",
+        printf("End of last burst [%7.3fs] Start of new burst [%7.3fs] Sleep [%6.3fs]\n",
                timer_.toSec(), cat.header.stamp.toSec(),
                (cat.header.stamp - timer_).toSec());
         ros::Duration(cat.header.stamp - timer_).sleep();
@@ -139,12 +158,12 @@ void TeleopArmDish::publishCommand()
     // Some error checking so we don't exceed the bounds of the ARM
     if (fabs(cmd.position[ARM_X] > 20000))
     {
-        ROS_WARN("X-axis position (%f) out of bounds", cmd.position[ARM_X]);
+        ROS_ERROR("X-axis position (%f) out of bounds", cmd.position[ARM_X]);
         cmd.position[ARM_X] = 0;
     }
     if (fabs(cmd.position[ARM_Y] > 20000))
     {
-        ROS_WARN("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
+        ROS_ERROR("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
         cmd.position[ARM_Y] = 0;
     }
 
