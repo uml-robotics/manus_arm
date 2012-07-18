@@ -11,8 +11,6 @@
 #include "burst_calc/burst_checker.h"
 #include <cstdio>
 
-#define BURST_WINDOW 1000 // Approx. 1000 dishes per second
-
 BurstChecker::BurstChecker()
 {
     frame_count_ = 0;
@@ -22,13 +20,14 @@ BurstChecker::BurstChecker()
     end_of_burst_ = false;
 }
 
-void BurstChecker::init(const int index, const double baseline,
-                        const double threshold)
+void BurstChecker::init(int index, double baseline, double threshold,
+                        int burst_window)
 {
     burst_.channels.push_back(index);
     index_ = index;
     baseline_ = baseline;
     threshold_ = threshold;
+    burst_window_ = burst_window;
 }
 
 void BurstChecker::update(const neuro_recv::dish_state& d)
@@ -60,7 +59,7 @@ void BurstChecker::update(const neuro_recv::dish_state& d)
         // Otherwise, end the possible burst.
         if (is_possible_burst_)
         {
-            if (++frame_count_ <= BURST_WINDOW)
+            if (++frame_count_ <= burst_window_)
             {
                 burst_.dishes.push_back(d);
                 burst_.end = d.header.stamp;

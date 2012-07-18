@@ -18,7 +18,7 @@ class BurstChecker
 {
 public:
     BurstChecker();
-    void init(const int index, const double baseline, const double threshold);
+    void init(int index, double baseline, double threshold, int burst_window);
     void update(const neuro_recv::dish_state& d);
     void reset();
     const ros::Time* getTimePtr();
@@ -36,6 +36,7 @@ private:
     bool is_bursting_;
     bool is_possible_burst_;
     bool end_of_burst_;
+    int burst_window_;
 };
 
 #endif

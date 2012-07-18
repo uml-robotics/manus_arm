@@ -37,6 +37,7 @@ private:
     BufferSpikeDetector buf_;
     BurstChecker bursts_[60];
     BurstMerger merger_;
+    int burst_window_;
 };
 
 #endif

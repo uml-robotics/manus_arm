@@ -13,21 +13,15 @@
 #include "neuro_recv/dish_state.h"
 #include "burst_calc/ranges.h"
 
-#define BUFFER_SIZE 1000
-
 class BufferSpikeDetector
 {
 public:
     BufferSpikeDetector();
-    void add(const neuro_recv::dish_state& d)
-    {
-        data_.push_back(d);
-        if (isBuffered())
-            calculate();
-    }
+    void init(int buffer_size, double stdev_mult);
+    void add(const neuro_recv::dish_state& d);
     double getBaseline(int index) { return baselines_[index]; }
     double getThreshold(int index) { return thresholds_[index]; }
-    bool isBuffered() { return data_.size() >= BUFFER_SIZE; }
+    bool isBuffered() { return data_.size() >= buffer_size_; }
     burst_calc::ranges getRanges();
 
 private:
@@ -38,6 +32,8 @@ private:
     boost::array<double, 60> thresholds_;
     boost::array<double, 60> min_volts_;
     boost::array<double, 60> max_volts_;
+    int buffer_size_;
+    double stdev_mult_;
 };
 
 #endif

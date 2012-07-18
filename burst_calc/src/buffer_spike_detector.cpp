@@ -11,8 +11,6 @@
 #include <cstdio>
 #include <cmath>
 
-#define STDEV_MULT 1.5
-
 BufferSpikeDetector::BufferSpikeDetector()
 {
     // Initialize min and max volts to fake values so they will update properly
@@ -21,6 +19,19 @@ BufferSpikeDetector::BufferSpikeDetector()
         min_volts_[i] = 1.0;
         max_volts_[i] = -1.0;
     }
+}
+
+void BufferSpikeDetector::init(int buffer_size, double stdev_mult)
+{
+    buffer_size_ = buffer_size;
+    stdev_mult_ = stdev_mult;
+}
+
+void BufferSpikeDetector::add(const neuro_recv::dish_state& d)
+{
+    data_.push_back(d);
+    if (isBuffered())
+        calculate();
 }
 
 void BufferSpikeDetector::calculate()
@@ -64,7 +75,7 @@ void BufferSpikeDetector::calculate()
     for (int i = 0; i < 60; i++)
     {
         stdev[i] = sqrt(sum_squares[i] / (size - 1));
-        thresholds_[i] = stdev[i] * STDEV_MULT + baselines_[i];
+        thresholds_[i] = stdev[i] * stdev_mult_ + baselines_[i];
     }
 }
 

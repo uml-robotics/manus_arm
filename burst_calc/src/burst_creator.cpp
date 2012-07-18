@@ -14,6 +14,33 @@
 
 void BurstCreator::init()
 {
+    // Get buffer_size parameter
+    int buffer_size;
+    if (!n_.getParam("buffer_size", buffer_size))
+    {
+        ROS_ERROR("Could not load buffer_size parameter, default will be used");
+        buffer_size = 1000;
+    }
+
+    // Get stdev_mult parameter
+    double stdev_mult;
+    if (!n_.getParam("stdev_mult", stdev_mult))
+    {
+        ROS_ERROR("Could not load stdev_mult parameter, default will be used");
+        stdev_mult = 3.0;
+    }
+
+    // Get burst_window parameter
+    if (!n_.getParam("burst_window", burst_window_))
+    {
+        ROS_ERROR("Could not load burst_window parameter, default will be used");
+        burst_window_ = 1000;
+    }
+
+    // Init the BufferSpikeDetector
+    buf_.init(buffer_size, stdev_mult);
+
+    // Init the subscribers and publishers
     burst_pub_ = n_.advertise<burst_calc::burst>("bursts", 1000);
     burst_fwd_ = n_.advertise<burst_calc::burst>("fwd_bursts", 1);
     dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("fwd_dish_states",
@@ -99,7 +126,8 @@ void BurstCreator::addDish()
         {
             for (int i = 0; i < 60; i++)
             {
-                bursts_[i].init(i, buf_.getBaseline(i), buf_.getThreshold(i));
+                bursts_[i].init(i, buf_.getBaseline(i), buf_.getThreshold(i),
+                                burst_window_);
                 printf("%d: Baseline[%.3f] Threshold[%.3f]\n", i,
                        buf_.getBaseline(i), buf_.getThreshold(i));
             }
