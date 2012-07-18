@@ -4,13 +4,9 @@ import rospy
 from neuro_recv.msg import dish_state
 from brian import *
 from pickle import Unpickler
-from pprint import pprint
 import random
-import argparse
 
 def brianRecv(connections, channels):
-    # Initialize ROS and setup the dish state publisher
-    rospy.init_node('brian_recv')
     pub = rospy.Publisher('dish_states', dish_state)
     
     # Wait for a subscriber before publishing
@@ -81,7 +77,12 @@ def brianRecv(connections, channels):
     offset = rospy.Time.now() - rospy.Time(0)
 
     # Set a loop rate of 200 Hz
-    loop_rate = rospy.Rate(200)
+    try:
+        rate = rospy.get_param('loop_rate')
+    except KeyError:
+        rospy.logerr('Could not get loop_rate parameter, default will be used')
+        rate = 200
+    loop_rate = rospy.Rate(rate)
 
     # Main loop
     rospy.loginfo('Publishing dish states...')
@@ -132,22 +133,31 @@ def channelizer(pad_neuron_map):
     return channels
         
 if __name__ == '__main__':
-    # Get the connections filename
-    #argparser = argparse.ArgumentParser("Load and run an existing saved network")
-    #argparser.add_argument("conn_path", type=str, nargs=1, help="the connectivity pickle file to load and run")
-    #argparser.add_argument("pad_path", type=str, nargs=1, help="the pad neuron map pickle file to load and run")
-    #args = argparser.parse_args()
+    rospy.init_node('brian_recv')
     
-    # Load the files
-    with open('/home/jon/Python/connections_2012-7-12-16:14:11.pickle') as infile:
-        connections = Unpickler(infile).load()
-    with open('/home/jon/Python/pad_2012-7-12-16:14:11.pickle') as infile:
-        pad_neuron_map = Unpickler(infile).load()
-        
-    # Get list of neurons for each channel from the pad neuron map
-    channels = channelizer(pad_neuron_map)
-    
-    # Run the ROS node
+    # Get the file name parameters
     try:
-        brianRecv(connections, channels)
-    except rospy.ROSInterruptException: pass
+        connections_file_name = rospy.get_param('brian_connections_file_path')
+        pad_neuron_map_file_name = rospy.get_param('brian_pad_neuron_map_file_path')
+    except KeyError:
+        rospy.logfatal('Could not load file name parameters')
+    else:
+        # Load the files
+        try:
+            connections_file = open(connections_file_name)
+            pad_neuron_map_file = open(pad_neuron_map_file_name)
+        except IOError:
+            rospy.logfatal('Could not open pickle files')
+        else:
+            connections = Unpickler(connections_file).load()
+            pad_neuron_map = Unpickler(pad_neuron_map_file).load()
+            connections_file.close()
+            pad_neuron_map_file.close()
+            
+            # Get list of neurons for each channel from the pad neuron map
+            channels = channelizer(pad_neuron_map)
+            
+            # Run the ROS node
+            try:
+                brianRecv(connections, channels)
+            except rospy.ROSInterruptException: pass

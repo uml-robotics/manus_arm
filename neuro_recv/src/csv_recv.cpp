@@ -21,7 +21,10 @@ void CsvReceiver::init()
         file.open(file_name.c_str());
     }
     else
+    {
         ROS_FATAL("Could not load csv_file_path parameter");
+        return;
+    }
 
     // Get loop rate parameter
     int rate;
