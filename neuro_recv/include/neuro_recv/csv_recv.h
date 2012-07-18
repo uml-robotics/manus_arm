@@ -17,7 +17,7 @@ class CsvReceiver
 {
 public:
     CsvReceiver() {}
-    void init(const char* file_name);
+    void init();
 
 private:
     const neuro_recv::dish_state parse(const std::string& s);

@@ -1,27 +1,35 @@
 <launch>
-
-  <!-- csv_receiver: Read dish state data from a CSV file -->
-  <!--
-  <node pkg="neuro_recv" name="csv_recv" type="csv_recv"
-        args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
-  -->
-  
-  <!-- brian_recv: Simulated dish state data from a Brian model -->
-  <node pkg="neuro_recv" name="brian_recv" type="brian_recv.py"/>
         
-  <!-- burst_creator: Detect activity spikes & bursts -->
-  <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
+    <rosparam>
+        csv_file_path: '/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv'
+        loop_rate: 200
+    </rosparam>
 
-  <!-- cat_creator: Calculate CATs from activity bursts -->
-  <node pkg="burst_calc" name="cat_creator" type="cat_creator"/>
-          
-  <!-- teleop_arm_dish: Generate movement commands from CATs -->
-  <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
+    <!-- Node Manager -->
+    <node pkg="node_manager_fkie" name="nm" type="nm"/>
 
-  <!-- arm_control: Controls the ARM -->   
-  <node pkg="arm" name="arm_control" type="arm_control"/>
+    <!-- csv_receiver: Read dish state data from a CSV file -->
+
+    <node pkg="neuro_recv" name="csv_recv" type="csv_recv"
+          args="/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv"/>
+    
   
-  <!-- dish_viz: Visualize dish activity -->
-  <node pkg="dish_viz" name="dish_viz" type="dish_viz"/>
+    <!-- brian_recv: Simulated dish state data from a Brian model -->
+    <!-- <node pkg="neuro_recv" name="brian_recv" type="brian_recv.py"/> -->
+        
+    <!-- burst_creator: Detect activity spikes & bursts -->
+    <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
+
+    <!-- cat_creator: Calculate CATs from activity bursts -->
+    <node pkg="burst_calc" name="cat_creator" type="cat_creator"/>
+          
+    <!-- teleop_arm_dish: Generate movement commands from CATs -->
+    <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
+
+    <!-- arm_control: Controls the ARM -->   
+    <node pkg="arm" name="arm_control" type="arm_control"/>
+  
+    <!-- dish_viz: Visualize dish activity -->
+    <node pkg="dish_viz" name="dish_viz" type="dish_viz"/>
 
 </launch>
