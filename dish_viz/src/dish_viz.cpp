@@ -8,20 +8,31 @@
 #include "dish_viz.h"
 
 
-void DataHandler::init(int rate, const std::string& dish_topic,
-                       const std::string& burst_topic,
-                       const std::string& ranges_topic)
+void DataHandler::init()
 {
     dViz.init();
-    dish_sub_ = n_.subscribe(dish_topic.c_str(), 1000,
+
+    dish_sub_ = n_.subscribe("fwd_dish_states", 1000,
                              &DataHandler::dishCallback, this);
-    burst_sub_ = n_.subscribe(burst_topic.c_str(), 1,
-                              &DataHandler::burstCallback, this);
-    ranges_sub_ = n_.subscribe(ranges_topic.c_str(), 1,
-                               &DataHandler::rangesCallback, this);
+    burst_sub_ = n_.subscribe("fwd_bursts", 1, &DataHandler::burstCallback,
+                              this);
+    ranges_sub_ = n_.subscribe("ranges", 1, &DataHandler::rangesCallback,
+                               this);
+
+    // Wait for signal to start (call to rangesCallback)
+    ROS_INFO("Waiting to start...");
     start_ = false;
     while (!start_)
         ros::spinOnce();
+    ROS_INFO("Starting...");
+
+    // Get loop rate parameter
+    int rate;
+    if (!n_.getParam("loop_rate", rate))
+    {
+        ROS_ERROR("Could not load loop_rate parameter, default will be used");
+        rate = 200;
+    }
 
     ros::Rate loop_rate(rate);
     ros::Time start = ros::Time::now();
@@ -33,7 +44,7 @@ void DataHandler::init(int rate, const std::string& dish_topic,
         loop_rate.sleep();
     }
 
-    ROS_INFO("Duration: %.3fs", (ros::Time::now() - start).toSec());
+    ROS_INFO("Playback duration: %.3fs", (ros::Time::now() - start).toSec());
 }
 
 void DataHandler::update()
@@ -67,28 +78,11 @@ void DataHandler::rangesCallback(const burst_calc::ranges::ConstPtr& r)
     //ROS_INFO("rangesCallback called");
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	ros::init(argc, argv, "dish_viz");
-
-
-	// Declare variables that can be modified by launch file or command line.
-	int rate;
-	string dish_topic;
-	string burst_topic;
-	string ranges_topic;
-
-	// Initialize node parameters from launch file or command line.
-	// Use a private node handle so that multiple instances of the node can be run simultaneously
-	// while using different parameters.
-	ros::NodeHandle private_node_handle_("~");
-	private_node_handle_.param("rate", rate, 200);
-	private_node_handle_.param("dish_topic", dish_topic, string("fwd_dish_states"));
-	private_node_handle_.param("burst_topic", burst_topic, string("fwd_bursts"));
-	private_node_handle_.param("ranges_topic", ranges_topic, string("ranges"));
-
 	DataHandler dh;
-	dh.init(rate, dish_topic, burst_topic, ranges_topic);
-
+	dh.init();
 	return 0;
 }
 

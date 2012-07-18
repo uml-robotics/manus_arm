@@ -20,15 +20,14 @@ class DataHandler
 {
 public:
     DataHandler() {}
+    void init();
 
-    void init(int rate, const std::string& dish_topic,
-              const std::string& burst_topic, const std::string& ranges_topic);
+private:
     void update();
     void dishCallback(const neuro_recv::dish_state::ConstPtr& d);
     void burstCallback(const burst_calc::burst::ConstPtr& b);
     void rangesCallback(const burst_calc::ranges::ConstPtr& r);
 
-private:
     ros::NodeHandle n_;
     ros::Subscriber dish_sub_;
     ros::Subscriber burst_sub_;

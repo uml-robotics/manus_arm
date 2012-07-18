@@ -1,4 +1,6 @@
 <launch>
+
+    <arg name="receiver_node" value="csv_recv"/>
         
     <rosparam>
         brian_connections_file_path: '/home/jon/Python/connections_2012-7-12-16:14:11.pickle'
@@ -10,12 +12,8 @@
     <!-- Node Manager -->
     <node pkg="node_manager_fkie" name="nm" type="nm"/>
 
-    <!-- csv_receiver: Read dish state data from a CSV file -->
-    <!-- <node pkg="neuro_recv" name="csv_recv" type="csv_recv"/> -->
-    
-  
-    <!-- brian_recv: Simulated dish state data from a Brian model -->
-    <node pkg="neuro_recv" name="brian_recv" type="brian_recv.py"/>
+    <!-- Receiver Node -->
+    <node pkg="neuro_recv" name="recv" type="$(arg receiver_node)"/>
         
     <!-- burst_creator: Detect activity spikes & bursts -->
     <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
