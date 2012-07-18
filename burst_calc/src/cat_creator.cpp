@@ -22,10 +22,47 @@ CatCreator::~CatCreator()
         cat_file_.close();
 }
 
-void CatCreator::init(bool save_to_file, char* burst_file, char* cat_file)
+void CatCreator::init()
 {
+    save_to_file_ = true;
+
+    // Get burst log path parameter
+    std::string burst_file;
+    if (n_.getParam("burst_log_path", burst_file))
+    {
+        if (burst_file.compare("none") == 0)
+        {
+            ROS_WARN("CSV logging is disabled");
+            save_to_file_ = false;
+        }
+    }
+    else
+    {
+        ROS_ERROR("Could not load burst_log_path parameter");
+        save_to_file_ = false;
+    }
+
+    // Get cat log path parameter
+    std::string cat_file;
+    if (save_to_file_)
+    {
+        if (n_.getParam("cat_log_path", cat_file))
+        {
+            if (cat_file.compare("none") == 0)
+            {
+                ROS_WARN("CSV logging is disabled");
+                save_to_file_ = false;
+            }
+        }
+        else
+        {
+            ROS_ERROR("Could not load burst_log_path parameter");
+            save_to_file_ = false;
+        }
+    }
+
+
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
-    save_to_file_ = save_to_file;
 
     // Wait for a subscriber to "cats" before subscribing to "bursts"
     ROS_INFO("Waiting for subscriber...");
@@ -40,7 +77,7 @@ void CatCreator::init(bool save_to_file, char* burst_file, char* cat_file)
     ROS_INFO("Publisher found. Continuing...");
 
     if (save_to_file_)
-        initFile(burst_file, cat_file);
+        initFile(burst_file.c_str(), cat_file.c_str());
 
     // Continue only while there is a publisher of "bursts"
     while (burst_sub_.getNumPublishers() > 0 && ros::ok())
@@ -60,7 +97,7 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
     cat_pub_.publish(cat);
 }
 
-void CatCreator::initFile(char* burst_file, char* cat_file)
+void CatCreator::initFile(const char* burst_file, const char* cat_file)
 {
     burst_file_.open(burst_file);
     if (burst_file_.is_open())
@@ -71,7 +108,7 @@ void CatCreator::initFile(char* burst_file, char* cat_file)
     }
     else
     {
-        ROS_WARN("Cannot open %s. CSV logging will be disabled.", burst_file);
+        ROS_ERROR("Cannot open %s. CSV logging will be disabled.", burst_file);
         save_to_file_ = false;
         return;
     }
@@ -85,7 +122,7 @@ void CatCreator::initFile(char* burst_file, char* cat_file)
     }
     else
     {
-        ROS_WARN("Cannot open %s. CSV logging will be disabled.", cat_file);
+        ROS_ERROR("Cannot open %s. CSV logging will be disabled.", cat_file);
         save_to_file_ = false;
         return;
     }
@@ -141,21 +178,6 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "cat_creator");
     CatCreator cat_creator;
-
-    if (argc > 1)
-    {
-        if (strcmp(argv[1], "--file") == 0 || strcmp(argv[1], "-f") == 0)
-        {
-            if (argc == 4)
-                cat_creator.init(true, argv[2], argv[3]);
-            else
-                ROS_ERROR("You must specify exactly two file names.");
-        }
-        else
-            ROS_ERROR("Option %s not recognized. Use --file or -f.", argv[1]);
-    }
-    else
-        cat_creator.init(false, NULL, NULL);
-
+    cat_creator.init();
     return 0;
 }

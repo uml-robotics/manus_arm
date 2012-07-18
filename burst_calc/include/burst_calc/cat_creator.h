@@ -19,11 +19,11 @@ class CatCreator
 public:
     CatCreator() {}
     ~CatCreator();
-    void init(bool save_to_file, char* burst_file, char* cat_file);
+    void init();
 
 private:
     void callback(const burst_calc::burst::ConstPtr& b);
-    void initFile(char* burst_file, char* cat_file);
+    void initFile(const char* burst_file, const char* cat_file);
     void toFile(const burst_calc::burst& b, const burst_calc::cat& c);
 
     ros::NodeHandle n_;
