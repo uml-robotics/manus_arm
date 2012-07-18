@@ -21,9 +21,16 @@ void ArmControl::init()
     constant_sub_ = n_.subscribe("constant_moves", 1,
                                  &ArmControl::constantMoveCallback, this);
     arm_ = ManusArm::instance();
-    speed_ = manus_arm::speed;
     shutdown_ = false;
     
+    // Get ARM speed parameter
+    if (!n_.getParam("arm_speed", speed_))
+    {
+        ROS_ERROR("Could not load arm_speed parameter, default will be used");
+        speed_ = 2;
+    }
+
+    // Init the ARM
     try
     {
         arm_->init("can0");

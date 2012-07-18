@@ -22,6 +22,7 @@ public:
 private:
     void callback(const burst_calc::cat::ConstPtr& c);
     void publishCommand();
+    double getArmCoord(double coord);
 
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
@@ -29,6 +30,9 @@ private:
     std::queue<burst_calc::cat> queue_;
     ros::Time timer_;
     ros::Duration offset_;
+    int speed_;
+    double arm_safe_range_;
+    double max_range_from_midpoint_;
 };
 
 #endif

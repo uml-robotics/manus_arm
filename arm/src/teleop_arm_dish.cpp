@@ -13,12 +13,30 @@
 #include <cmath>
 
 #define MIDPOINT 4.5
-#define MAX_RANGE_FROM_MIDPOINT 1.0
-#define ARM_SAFE_RANGE 20000.0
-#define COORD(x) (x - MIDPOINT) * -(ARM_SAFE_RANGE / MAX_RANGE_FROM_MIDPOINT)
 
 void TeleopArmDish::init()
 {
+    // Get ARM speed parameter
+    if (!n_.getParam("arm_speed", speed_))
+    {
+        ROS_ERROR("Could not load arm_speed parameter, default will be used");
+        speed_ = 2;
+    }
+
+    // Get ARM safe range parameter
+    if (!n_.getParam("arm_safe_range", arm_safe_range_))
+    {
+        ROS_ERROR("Could not load arm_safe_range parameter, default will be used");
+        arm_safe_range_ = 20000.0;
+    }
+
+    // Get max range from midpoint parameter
+    if (!n_.getParam("max_range_from_midpoint", max_range_from_midpoint_))
+    {
+        ROS_ERROR("Could not load max_range_from_midpoint parameter, default will be used");
+        max_range_from_midpoint_ = 1.0;
+    }
+
     cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
 
     // Wait for subscriber to "cartesian_moves" before subscribing to "cats"
@@ -105,10 +123,10 @@ void TeleopArmDish::publishCommand()
     // the max range we specified.
     arm::cartesian_move cmd;
     cmd.header.stamp = cat.header.stamp;
-    cmd.speed = 3;
+    cmd.speed = speed_;
 
-    cmd.position[ARM_X] = COORD(x);
-    cmd.position[ARM_Y] = COORD(y);
+    cmd.position[ARM_X] = getArmCoord(x);
+    cmd.position[ARM_Y] = getArmCoord(y);
     cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
     cmd.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
     cmd.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
@@ -138,6 +156,11 @@ void TeleopArmDish::publishCommand()
     timer_ = ros::Time::now() - offset_;
     printf("Calculated end    [%7.3fs] Actual end         [%7.3fs]\n",
            cat.end.toSec(), timer_.toSec());
+}
+
+double TeleopArmDish::getArmCoord(double coord)
+{
+    return (coord - MIDPOINT) * -(arm_safe_range_ / max_range_from_midpoint_);
 }
 
 int main(int argc, char** argv)
