@@ -1,0 +1,15 @@
+<package>
+  <description brief="time_server">
+
+     time_server
+
+  </description>
+  <author>Jon</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/time_server</url>
+  <depend package="roscpp"/>
+
+</package>
+
+

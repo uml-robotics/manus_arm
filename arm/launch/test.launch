@@ -20,7 +20,10 @@
     </rosparam>
     
     <!-- Node Manager -->
-    <!-- <node pkg="node_manager_fkie" name="nm" type="nm"/> -->    
+    <!-- <node pkg="node_manager_fkie" name="nm" type="nm"/> -->
+    
+    <!-- Time Server -->
+    <node pkg="time_server" name="time_server" type="time_server"/>    
 
     <!-- ARM Control -->   
     <node pkg="arm" name="arm_control" type="arm_control"/>

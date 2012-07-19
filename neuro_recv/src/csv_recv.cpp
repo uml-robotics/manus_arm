@@ -8,11 +8,14 @@
 // =============================================================================
 
 #include "neuro_recv/csv_recv.h"
+#include "time_server/time_srv.h"
 #include <fstream>
 #include <cstdio>
 
 void CsvReceiver::init()
 {
+    client_ = n_.serviceClient<time_server::time_srv>("time_service");
+
     // Get file name parameter
     std::string file_name;
     std::ifstream file;
@@ -26,18 +29,8 @@ void CsvReceiver::init()
         return;
     }
 
-    // Get loop rate parameter
-    int rate;
-    if (!n_.getParam("loop_rate", rate))
-    {
-        ROS_ERROR("Could not load loop_rate parameter, default will be used");
-        rate = 200;
-    }
-
     if (file.is_open())
     {
-        std::string line;
-
         // Skip the first 23 lines (header data) and the next 10,000 lines
         // (to account for initialization)
         for (int i = 0; i < 10023; i++)
@@ -48,36 +41,79 @@ void CsvReceiver::init()
 
         // Wait for a subscriber to "dish_states" before publishing
         ROS_INFO("Waiting for subscriber...");
-        while (dish_state_pub.getNumSubscribers() < 1 && ros::ok());
+        //while (dish_state_pub.getNumSubscribers() < 1 && ros::ok());
         ROS_INFO("Subscriber found. Continuing...");
 
-        // Publish at a rate of 200 dishes per second, which is 5 times slower
-        // than the actual rate of 1000 dishes per second
+        // Get buffer_size parameter
+        int buffer_size;
+        if (!n_.getParam("buffer_size", buffer_size))
+        {
+            ROS_ERROR("Could not load buffer_size parameter, default will be used");
+            buffer_size = 1000;
+        }
+
+        // Get loop rate parameter
+        int rate;
+        if (!n_.getParam("loop_rate", rate))
+        {
+            ROS_ERROR("Could not load loop_rate parameter, default will be used");
+            rate = 200;
+        }
         ros::Rate loop_rate(rate);
 
-        // Initialize the timestamp offset
-        offset_ = ros::Time::now() - ros::Time(0);
-
-        while (getline(file, line) && ros::ok())
+        // Publish the buffer dishes without a timestamp
+        std::string line;
+        int num_dishes = 0;
+        while (num_dishes++ < buffer_size && ros::ok())
         {
-            dish_state_pub.publish(parse(line));
+            getline(file, line);
+            dish_state_pub.publish(parse(line, false));
             loop_rate.sleep();
         }
-        ROS_INFO("Reached end of CSV file");
+
+        // Initialize the timestamp offset and seed the time server
+        offset_ = ros::Time::now() - ros::Time(0);
+        time_server::time_srv seed;
+        seed.request.target = ros::Time(0) + offset_;
+        if (client_.call(seed))
+        {
+            ROS_INFO("Time server seeded successfully");
+            // Publish the rest of the dishes with a timestamp
+            while (getline(file, line) && ros::ok())
+            {
+                dish_state_pub.publish(parse(line, true));
+                loop_rate.sleep();
+            }
+
+            ROS_INFO("Reached end of CSV file");
+
+            time_server::time_srv test;
+            test.request.target = ros::Time::now() - offset_;
+            client_.call(test);
+            printf("Local time  : %f\n", test.request.target.toSec());
+            printf("Server time : %f\n", test.response.actual.toSec());
+            printf("Delta       : %f\n", test.response.delta.toSec());
+        }
+        else
+            ROS_FATAL("Time server did not respond");
+
+
         file.close();
     }
     else
         ROS_FATAL("Could not open file");
 }
 
-const neuro_recv::dish_state CsvReceiver::parse(const std::string& s)
+const neuro_recv::dish_state CsvReceiver::parse(const std::string& s,
+                                                bool record_time)
 {
     // Ignore first block of data, it is an index
     int n = 0;
     int pos = s.find(',', n) + 1;
 
     neuro_recv::dish_state dish;
-    dish.header.stamp = ros::Time::now() - offset_;
+    if (record_time)
+        dish.header.stamp = ros::Time::now() - offset_;
 
     for (int i = 0; i < 60; i++)
     {

@@ -1,29 +1,29 @@
 // =============================================================================
-// Name   : csv_recv.h
+// Name   : time_server.h
 // Author : Jonathan Hasenzahl
 // Date   : 2012
 //
-// Header file for the ROS node "csv_receiver".
+// Header file for the ROS node "time_server".
 // =============================================================================
 
-#ifndef CSV_RECEIVER_H_
-#define CSV_RECEIVER_H_
+#ifndef TIME_SERVER_H_
+#define TIME_SERVER_H_
 
 #include "ros/ros.h"
-#include "neuro_recv/dish_state.h"
-#include <string>
+#include "time_server/time_srv.h"
 
-class CsvReceiver
+class TimeServer
 {
 public:
-    CsvReceiver() {}
+    TimeServer() {};
     void init();
 
 private:
-    const neuro_recv::dish_state parse(const std::string&, bool record_time);
+    bool service(time_server::time_srv::Request& req,
+                 time_server::time_srv::Response& res);
 
     ros::NodeHandle n_;
-    ros::ServiceClient client_;
+    ros::ServiceServer service_;
     ros::Duration offset_;
 };
 
