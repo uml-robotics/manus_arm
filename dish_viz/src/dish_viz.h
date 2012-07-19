@@ -19,7 +19,7 @@
 class DataHandler
 {
 public:
-    DataHandler() { dishes_received_ = 0;}
+    DataHandler() { dishes_received_ = 0; }
     void init();
 
 private:
@@ -32,6 +32,7 @@ private:
     ros::Subscriber dish_sub_;
     ros::Subscriber burst_sub_;
     ros::Subscriber ranges_sub_;
+    ros::ServiceClient time_client_;
     DishVisualizer dViz;
     std::queue<neuro_recv::dish_state> queue_;
     bool start_;

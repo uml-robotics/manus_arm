@@ -11,7 +11,7 @@
 void TimeServer::init()
 {
     service_ = n_.advertiseService("time_service", &TimeServer::service, this);
-
+    ROS_INFO("Time server running...");
     ros::spin();
 }
 
@@ -21,7 +21,8 @@ bool TimeServer::service(time_server::time_srv::Request& req,
     static bool run_once = true;
     if (run_once)
     {
-        offset_ = req.target - ros::Time(0);
+        offset_ = ros::Time::now() - ros::Time(0);
+        ROS_INFO("Time server seeded successfully");
         run_once = false;
     }
 

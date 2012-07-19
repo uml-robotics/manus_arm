@@ -10,5 +10,6 @@
   <url>http://ros.org/wiki/arm</url>
   <depend package="roscpp"/>
   <depend package="burst_calc"/>
+  <depend package="time_server"/>
 
 </package>

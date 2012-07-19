@@ -11,5 +11,6 @@
   <depend package="roscpp"/>
   <depend package="neuro_recv"/>
   <depend package="burst_calc"/>
+  <depend package="time_server"/>
 
 </package>

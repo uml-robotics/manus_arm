@@ -8,14 +8,11 @@
 // =============================================================================
 
 #include "neuro_recv/csv_recv.h"
-#include "time_server/time_srv.h"
 #include <fstream>
 #include <cstdio>
 
 void CsvReceiver::init()
 {
-    client_ = n_.serviceClient<time_server::time_srv>("time_service");
-
     // Get file name parameter
     std::string file_name;
     std::ifstream file;
@@ -73,31 +70,15 @@ void CsvReceiver::init()
 
         // Initialize the timestamp offset and seed the time server
         offset_ = ros::Time::now() - ros::Time(0);
-        time_server::time_srv seed;
-        seed.request.target = ros::Time(0) + offset_;
-        if (client_.call(seed))
+
+        // Publish the rest of the dishes with a timestamp
+        while (getline(file, line) && ros::ok())
         {
-            ROS_INFO("Time server seeded successfully");
-            // Publish the rest of the dishes with a timestamp
-            while (getline(file, line) && ros::ok())
-            {
-                dish_state_pub.publish(parse(line, true));
-                loop_rate.sleep();
-            }
-
-            ROS_INFO("Reached end of CSV file");
-
-            time_server::time_srv test;
-            test.request.target = ros::Time::now() - offset_;
-            client_.call(test);
-            printf("Local time  : %f\n", test.request.target.toSec());
-            printf("Server time : %f\n", test.response.actual.toSec());
-            printf("Delta       : %f\n", test.response.delta.toSec());
+            dish_state_pub.publish(parse(line, true));
+            loop_rate.sleep();
         }
-        else
-            ROS_FATAL("Time server did not respond");
 
-
+        ROS_INFO("Reached end of CSV file");
         file.close();
     }
     else

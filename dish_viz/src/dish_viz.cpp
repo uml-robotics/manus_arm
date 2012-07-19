@@ -6,10 +6,12 @@
  */
 
 #include "dish_viz.h"
+#include "time_server/time_srv.h"
 
 void DataHandler::init()
 {
     dViz.init();
+    time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
 
     dish_sub_ = n_.subscribe("fwd_dish_states", 1000,
                              &DataHandler::dishCallback, this);
@@ -43,9 +45,20 @@ void DataHandler::init()
     ros::Rate loop_rate(rate);
     ros::Time start = ros::Time::now();
 
+    int step = 0;
     while (ros::ok() & !queue_.empty())
     {
         ros::spinOnce();
+        if (++step == 1000)
+        {
+            time_server::time_srv check;
+            check.request.target = queue_.front().header.stamp;
+            time_client_.call(check);
+            printf("Dish start time : %f\n", check.request.target.toSec());
+            printf("Server time     : %f\n", check.response.actual.toSec());
+            printf("Delta           : %f\n\n", check.response.delta.toSec());
+            step = 0;
+        }
         update();
         loop_rate.sleep();
     }
@@ -58,8 +71,8 @@ void DataHandler::update()
     if (!queue_.empty())
     {
         neuro_recv::dish_state d = queue_.front();
-        printf("[%.3f][%.3f] Queue size: %d\n", ros::Time::now().toSec(),
-                   d.header.stamp.toSec(), static_cast<int>(queue_.size()));
+        //printf("[%.3f][%.3f] Queue size: %d\n", ros::Time::now().toSec(),
+        //           d.header.stamp.toSec(), static_cast<int>(queue_.size()));
         for(int i = 0; i < 60; i++)
             dViz.update(i, static_cast<double>(d.samples[i]));
         queue_.pop();

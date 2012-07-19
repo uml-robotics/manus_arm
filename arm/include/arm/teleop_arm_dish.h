@@ -27,9 +27,8 @@ private:
     ros::NodeHandle n_;
     ros::Subscriber cat_sub_;
     ros::Publisher cmd_pub_;
+    ros::ServiceClient time_client_;
     std::queue<burst_calc::cat> queue_;
-    ros::Time timer_;
-    ros::Duration offset_;
     int speed_;
     double arm_safe_range_;
     double max_range_from_midpoint_;

@@ -10,10 +10,13 @@
 
 #include "burst_calc/burst_creator.h"
 #include "burst_calc/ranges.h"
+#include "time_server/time_srv.h"
 #include <cstdio>
 
 void BurstCreator::init()
 {
+    time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
+
     // Get buffer_size parameter
     int buffer_size;
     if (!n_.getParam("buffer_size", buffer_size))
@@ -95,16 +98,23 @@ void BurstCreator::addDish()
 
         merger_.update();
 
+        static bool run_once = true; // Flag to seed the time server
+
         while (merger_.canPublish())
         {
-            burst_pub_.publish(merger_.getBurst());
-
-            bool run_once = true;
+            // Seed the time server and start the visualizer
             if (run_once)
             {
+                time_server::time_srv seed;
+                if (time_client_.call(seed))
+                    ROS_INFO("Time server seeded successfully");
+                else
+                    ROS_ERROR("Time server is not responding");
                 burst_fwd_.publish(merger_.getBurst());
                 run_once = false;
             }
+
+            burst_pub_.publish(merger_.getBurst());
 
             printf("*** Publish : [Sz %4d] [%6.3f - %6.3f] [Ch",
                    static_cast<int>(merger_.getBurst().dishes.size()),
