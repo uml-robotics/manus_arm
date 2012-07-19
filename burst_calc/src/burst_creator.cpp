@@ -84,8 +84,8 @@ void BurstCreator::addDish()
             merger_.updateTime(i, bursts_[i].getTimePtr());
             if (bursts_[i].endOfBurst())
             {
-                printf("*   Burst   : [Sz %4u] [%6.3f - %6.3f] [Ch %d]\n",
-                       bursts_[i].getBurst().dishes.size(),
+                printf("*   Burst   : [Sz %4d] [%6.3f - %6.3f] [Ch %d]\n",
+                       static_cast<int>(bursts_[i].getBurst().dishes.size()),
                        bursts_[i].getBurst().header.stamp.toSec(),
                        bursts_[i].getBurst().end.toSec(), i);
                 merger_.add(bursts_[i].getBurst());
@@ -106,8 +106,8 @@ void BurstCreator::addDish()
                 run_once = false;
             }
 
-            printf("*** Publish : [Sz %4u] [%6.3f - %6.3f] [Ch",
-                   merger_.getBurst().dishes.size(),
+            printf("*** Publish : [Sz %4d] [%6.3f - %6.3f] [Ch",
+                   static_cast<int>(merger_.getBurst().dishes.size()),
                    merger_.getBurst().header.stamp.toSec(),
                    merger_.getBurst().end.toSec());
             for (unsigned int j = 0; j < merger_.getBurst().channels.size(); j++)

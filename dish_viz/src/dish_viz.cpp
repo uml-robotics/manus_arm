@@ -58,8 +58,8 @@ void DataHandler::update()
     if (!queue_.empty())
     {
         neuro_recv::dish_state d = queue_.front();
-        printf("[%.3f][%.3f] Updating\n", ros::Time::now().toSec(),
-                   d.header.stamp.toSec());
+        printf("[%.3f][%.3f] Queue size: %d\n", ros::Time::now().toSec(),
+                   d.header.stamp.toSec(), static_cast<int>(queue_.size()));
         for(int i = 0; i < 60; i++)
             dViz.update(i, static_cast<double>(d.samples[i]));
         queue_.pop();

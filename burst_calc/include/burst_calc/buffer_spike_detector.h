@@ -21,7 +21,7 @@ public:
     void add(const neuro_recv::dish_state& d);
     double getBaseline(int index) { return baselines_[index]; }
     double getThreshold(int index) { return thresholds_[index]; }
-    bool isBuffered() { return data_.size() >= buffer_size_; }
+    bool isBuffered() { return static_cast<int>(data_.size()) >= buffer_size_; }
     burst_calc::ranges getRanges();
 
 private:

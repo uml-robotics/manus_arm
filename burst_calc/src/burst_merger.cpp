@@ -48,15 +48,15 @@ void BurstMerger::update()
                     (list_[j].header.stamp >= list_[i].header.stamp &&
                      list_[j].header.stamp <= list_[i].end))
                 {
-                    printf("**  Merge   : [Sz %4u] [%6.3f - %6.3f] [Ch",
-                           list_[i].dishes.size(),
+                    printf("**  Merge   : [Sz %4d] [%6.3f - %6.3f] [Ch",
+                           static_cast<int>(list_[i].dishes.size()),
                            list_[i].header.stamp.toSec(), list_[i].end.toSec());
                     for (unsigned int k = 0; k < list_[i].channels.size(); k++)
                         printf(" %d", list_[i].channels[k]);
                     printf("]\n");
 
-                    printf("**  +       : [Sz %4u] [%6.3f - %6.3f] [Ch",
-                           list_[j].dishes.size(),
+                    printf("**  +       : [Sz %4d] [%6.3f - %6.3f] [Ch",
+                           static_cast<int>(list_[j].dishes.size()),
                            list_[j].header.stamp.toSec(), list_[j].end.toSec());
                     for (unsigned int k = 0; k < list_[j].channels.size(); k++)
                         printf(" %d", list_[j].channels[k]);
@@ -65,8 +65,8 @@ void BurstMerger::update()
                     // Merge the earlier and later bursts into the later burst
                     list_[j] = merge(list_[i], list_[j]);
 
-                    printf("**  Result  : [Sz %4u] [%6.3f - %6.3f] [Ch",
-                           list_[j].dishes.size(),
+                    printf("**  Result  : [Sz %4d] [%6.3f - %6.3f] [Ch",
+                           static_cast<int>(list_[j].dishes.size()),
                            list_[j].header.stamp.toSec(), list_[j].end.toSec());
                     for (unsigned int k = 0; k < list_[j].channels.size(); k++)
                         printf(" %d", list_[j].channels[k]);

@@ -100,13 +100,13 @@ void TeleopArmDish::publishCommand()
 
     if (cat.header.stamp > timer_)
     {
-        printf("End of last burst [%7.3fs] Start of new burst [%7.3fs] Sleep [%6.3fs]\n",
+        printf("End of last burst [%7.3f] Start of new burst [%7.3f] Sleep [%6.3f]\n",
                timer_.toSec(), cat.header.stamp.toSec(),
                (cat.header.stamp - timer_).toSec());
         ros::Duration(cat.header.stamp - timer_).sleep();
     }
     else
-        ROS_WARN("Timer [%.3s] is greater than CAT timestamp [%.3s]",
+        ROS_WARN("Timer [%.3f] is greater than CAT timestamp [%.3f]",
                  timer_.toSec(), cat.header.stamp.toSec());
 
     // Get the average CA for this CAT
@@ -170,10 +170,10 @@ void TeleopArmDish::publishCommand()
     // Publish the move and wait
     cmd_pub_.publish(cmd);
     ros::Duration burst_time = cat.end - cat.header.stamp;
-    printf("Burst duration    [%7.3fs]\n", burst_time.toSec());
+    printf("Burst duration    [%7.3f]\n", burst_time.toSec());
     burst_time.sleep();
     timer_ = ros::Time::now() - offset_;
-    printf("Calculated end    [%7.3fs] Actual end         [%7.3fs]\n",
+    printf("Calculated end    [%7.3f] Actual end         [%7.3f]\n",
            cat.end.toSec(), timer_.toSec());
 }
 

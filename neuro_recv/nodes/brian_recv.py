@@ -67,14 +67,18 @@ def brianRecv(connections, channels):
     # If timestep = 10, then 1 action is recorded every ms.
     # Setting timestep to 1 is in effect 30 s of simulation in just 3 s.
     M = StateMonitor(P, "v", record=recorded_neurons, timestep=1)
+
+    # Get running time parameter
+    try:
+        running_time = rospy.get_param('brian_running_time')
+    except KeyError:
+        rospy.logerr('Could not get brian_running_time parameter, default will be used')
+        running_time = 30.0
         
     # Run the simulation
     rospy.loginfo("Running simulation...")
-    run(2.1 * second)
+    run(running_time / 10 * second)
     rospy.loginfo("Simulation finished")    
-        
-    # Initialize timestamp offset
-    offset = rospy.Time.now() - rospy.Time(0)
 
     # Get loop rate parameter
     try:
@@ -86,8 +90,19 @@ def brianRecv(connections, channels):
 
     rospy.loginfo('Publishing dish states...')
     
+    # Open log file for debugging
+    log = open('/home/jon/brian_log.csv', 'w')
+    log.write(',')
+    for i in range(60):
+        log.write(str(i) + ',')
+    log.write('\n')
+    
+    # Initialize timestamp offset
+    offset = rospy.Time.now() - rospy.Time(0)    
+    
     # For each dish state in the record
     for current_dish in range(len(M[recorded_neurons[0]])):
+        #log.write(str(current_dish) + ',')
         # Initialize a new dish state
         d = dish_state()
         d.header.stamp = rospy.Time.now() - offset
@@ -108,12 +123,14 @@ def brianRecv(connections, channels):
                     #print 'Len:', len(channels[index]), 'Neuron:', neuron, 'State:', M[neuron][current_dish], 'Sum:', sum
                 d.samples[index] = sum / len(channels[index])
                 #print 'Average: ', d.samples[index]
-                
+            #log.write(str(d.samples[index]) + ',')
+        
+        #log.write('\n')        
         pub.publish(d)
         loop_rate.sleep()
         
-    rospy.loginfo((rospy.Time.now() - offset).to_sec(), 's to publish 1000 dish states')
-    rospy.loginfo('Publishing finished')
+    rospy.loginfo('Publishing finished in ' + str((rospy.Time.now() - offset).to_sec()) + 's')
+    #log.close()
 
 # Populates a 60-channel list using data from an x,y map
 def channelizer(pad_neuron_map):
