@@ -3,11 +3,8 @@
 // Author : Jonathan Hasenzahl
 // Date   : 2012
 //
-// Implements the ROS node "arm_control". This node waits for movement commands,
-// and then executes those commands after checking the "arm_monitor" node for
-// permission. Code to init the arm is from Abe Shultz.
-// Update 6/20/12: Safety checking by arm_monitor was broken and is now
-//                 unimplemented. May revisit in the future.
+// Implements the ROS node "arm_control". This node moves the arm based on
+// commands from teleop nodes. Code to init the arm is from Abe Shultz.
 // =============================================================================
 
 #include "arm/arm_control.h"

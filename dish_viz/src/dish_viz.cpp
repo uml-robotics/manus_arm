@@ -81,6 +81,7 @@ void DataHandler::update()
 
 void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
 {
+    // Don't start storing dishes in the queue until the buffer is done
     if (dishes_received_ < buffer_size_)
         dishes_received_++;
     else

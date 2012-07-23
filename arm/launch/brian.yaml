@@ -8,5 +8,5 @@ burst_window: 1000
 brian_running_time: 21.0
 brian_connections_file_path: '/home/jon/ros_workspace/other_stuff/pickle/connections_2012-7-12-16:14:11.pickle'
 brian_pad_neuron_map_file_path: '/home/jon/ros_workspace/other_stuff/pickle/pad_2012-7-12-16:14:11.pickle'
-burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_burst.csv'
-cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_cat.csv'
+burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_burst_log.csv'
+cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_cat_log.csv'

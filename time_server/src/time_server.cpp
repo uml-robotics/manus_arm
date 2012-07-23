@@ -18,6 +18,9 @@ void TimeServer::init()
 bool TimeServer::service(time_server::time_srv::Request& req,
                          time_server::time_srv::Response& res)
 {
+    // To start the clock, we wait for the first service call. The difference
+    // between the actual start of dish generation in a receiver node and the
+    // start of the clock here is only a few milliseconds.
     static bool run_once = true;
     if (run_once)
     {
@@ -26,6 +29,7 @@ bool TimeServer::service(time_server::time_srv::Request& req,
         run_once = false;
     }
 
+    // Calculate the responses
     res.actual = ros::Time::now() - offset_;
     res.delta = req.target - res.actual;
     return true;

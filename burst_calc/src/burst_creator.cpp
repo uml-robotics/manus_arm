@@ -64,9 +64,8 @@ void BurstCreator::init()
     while (dish_state_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
-    // Continue only while there are both subscribers
-    while (burst_pub_.getNumSubscribers() > 0 &&
-           burst_fwd_.getNumSubscribers() > 0 && ros::ok())
+    // Main loop
+    while (ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
@@ -81,6 +80,14 @@ void BurstCreator::addDish()
 
     if (buf_.isBuffered())
     {
+        // For each channel:
+        // 1. Update the burst checker
+        // 2. Update the time in merger
+        // 3. If a burst has ended, add it to the merger and reset the checker
+        // 4. Update the merger
+        // 5. If the merger has a burst to publish:
+        //    1. Publish the burst
+        //    2. Delete the burst from the merger
         for (int i = 0; i < 60; i++)
         {
             bursts_[i].update(d);
@@ -98,7 +105,8 @@ void BurstCreator::addDish()
 
         merger_.update();
 
-        static bool run_once = true; // Flag to seed the time server
+        // Flag to seed the time server
+        static bool run_once = true;
 
         while (merger_.canPublish())
         {
@@ -152,7 +160,7 @@ void BurstCreator::addDish()
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
     queue_.push(*d);
-    dish_state_fwd_.publish(*d);
+    dish_state_fwd_.publish(*d); // Forward the dish state to dish_viz
     //ROS_INFO("Dish state %f received", d->header.stamp.toSec());
 }
 
