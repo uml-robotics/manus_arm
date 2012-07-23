@@ -34,9 +34,6 @@ rosbuild_add_executable(arm_control src/arm_control.cpp)
 rosbuild_add_library(ManusArm src/ManusArm.cpp)
 target_link_libraries(arm_control ManusArm)
 
-# arm_monitor.cpp : Monitors ARM position
-#rosbuild_add_executable(arm_monitor src/arm_monitor.cpp)
-
 # teleop_arm_key.cpp : Use the keyboard to move the ARM
 rosbuild_add_executable(teleop_arm_key src/teleop_arm_key.cpp)
 

@@ -5,6 +5,6 @@ loop_rate: 200
 buffer_size: 1000
 stdev_mult: 2.5
 burst_window: 1000
-csv_file_path: '/home/jon/ams_thesis/data_sets/labview/no56_labviewdatafile.csv'
-burst_log_path: '/home/jon/brian_burst.csv'
-cat_log_path: '/home/jon/brian_cat.csv'
+csv_file_path: '/home/jon/ros_workspace/other_stuff/logs/csv/no56_labviewdatafile.csv'
+burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_burst.csv'
+cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_cat.csv'
