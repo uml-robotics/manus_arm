@@ -54,8 +54,8 @@ void TeleopArmDish::init()
     while (cat_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
-    // Continue only while a subscriber exists
-    while(cmd_pub_.getNumSubscribers() > 0 && ros::ok())
+    // Main loop
+    while(ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
@@ -103,6 +103,7 @@ void TeleopArmDish::publishCommand()
             cmd.header.stamp = cat.header.stamp;
             cmd.speed = speed_;
 
+            // Right now only X/Y movement is implemented
             cmd.position[ARM_X] = getArmCoord(x);
             cmd.position[ARM_Y] = getArmCoord(y);
             cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
@@ -126,7 +127,7 @@ void TeleopArmDish::publishCommand()
                 cmd.position[ARM_Y] = 0;
             }
 
-            // Publish the move and wait
+            // Publish the move and wait for the duration of the burst
             cmd_pub_.publish(cmd);
             ROS_INFO("Command published, sleeping for %.3fs",
                      (cat.end - cat.header.stamp).toSec());

@@ -1,7 +1,7 @@
 <launch>
 
     <!-- Launch file for CSV playback -->
-    <arg name="receiver_node" value="csv_recv.py"/>
+    <arg name="receiver_node" value="csv_recv"/>
     <rosparam command="load" file="$(find arm)/launch/csv.yaml"/>
     
     <!-- Node Manager -->

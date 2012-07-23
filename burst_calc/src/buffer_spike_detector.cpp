@@ -30,6 +30,8 @@ void BufferSpikeDetector::init(int buffer_size, double stdev_mult)
 void BufferSpikeDetector::add(const neuro_recv::dish_state& d)
 {
     data_.push_back(d);
+
+    // Calculate the baselines and thresholds if there are enough dish states
     if (isBuffered())
         calculate();
 }

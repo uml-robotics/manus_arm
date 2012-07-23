@@ -79,13 +79,14 @@ void CatCreator::init()
     if (save_to_file_)
         initFile(burst_file.c_str(), cat_file.c_str());
 
-    // Continue only while a subscriber exists
-    while (cat_pub_.getNumSubscribers() > 0 && ros::ok())
-        ros::spinOnce();
+    ros::spin();
 }
 
 void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 {
+    // All the work is done in the callback. Each dish state has a CA calculated
+    // and added to the vector in the CAT message. The CAT is then logged and
+    // published.
     burst_calc::cat cat;
     cat.header.stamp = b->header.stamp;
     cat.end = b->end;
