@@ -37,6 +37,33 @@ from pprint import pprint
 import Image
 
 '''
+Data structure for a MEA channel pad
+    neurons: list of neurons within range of the pad
+    total_weight: combined weights of all the neurons
+'''
+class Channel():
+    def __init__(self):
+        self.neurons = []
+        self.total_weight = 0.0
+        
+    def add(self, neuron):
+        self.neurons.append(neuron)
+        self.total_weight += neuron.weight
+        
+    def size(self):
+        return len(self.data)
+
+'''
+Data structure for a neuron that is close to a channel pad.
+    id: unique id of the neuron
+    weight: distance from the center of the pad
+'''
+class CloseNeuron():
+    def __init__(self, id, dist):
+        self.id = id
+        self.weight = 40.0 - dist
+
+'''
 Take a 2-D Numpy array and fill it in with a density map. The map values are in the range 
 0-1 and describe the probability of there being a cell soma located at that location. 
 1 is a cell, 0 is no cell. 
@@ -325,9 +352,11 @@ if __name__ == '__main__':
     ignore_corners = True #Corner electrodes are frequently used as reference points, not recorded
     pad_dia = 30 #In um
     pad_spacing = 200 #again, in um, center to center
+    pad_threshold = 40 #In um; how far a neuron can be from the center of a pad
     
-    #For each pad, check the neurons to find the closest one that is within a soma diameter
-    #of the pad. That neuron is the one recorded at that pad when the simulation runs.
+    #For each pad, check the neurons to find all that are within a soma diameter
+    #of the pad. Those neurons are used to record at that pad when the
+    #simulation runs.
     pad_neuron_map = {}
     for pad_x in xrange(0,pad_rows):
         for pad_y in xrange (0,pad_cols):
@@ -340,22 +369,25 @@ if __name__ == '__main__':
                     continue
                 elif pad_x == (pad_rows - 1) and pad_y == (pad_cols - 1):
                     continue 
+                
             #Calculate the pad location in um
             pad_x_loc = pad_x * pad_spacing
             pad_y_loc = pad_y * pad_spacing
              
             #For each neuron, determine how close it is to the pad
-            close_neurons = []
+            close_neurons = Channel()
             for neuron in neuron_list:
                 #Neuron grid is in soma diameters, convert to um
                 neuron_x_loc = neuron[0][0] * soma_dia
                 neuron_y_loc = neuron[0][1] * soma_dia
+                #Calculate distance from center of pad
                 dist = math.sqrt((neuron_x_loc - pad_x_loc)**2 + (neuron_y_loc - pad_y_loc)**2)
-                if dist < 40:
+                #
+                if dist <= pad_threshold:
                     #Close enough to influence pad
-                    close_neurons.append(neuron[1])
+                    close_neurons.add(neuron[1], dist)
                     
-            if len(close_neurons) == 0:
+            if close_neurons.size() == 0:
                 pad_neuron_map[(pad_x, pad_y)] = None
             else:
                 pad_neuron_map[(pad_x, pad_y)] = close_neurons

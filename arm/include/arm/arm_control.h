@@ -12,7 +12,9 @@
 #include "ros/ros.h"
 #include "arm/ManusArm.hpp"
 #include "arm/cartesian_move.h"
+#include "arm/cartesian_moves.h"
 #include "arm/constant_move.h"
+#include "time_server/time_srv.h"
 #include "movement_definitions.h"
 #include <list>
 
@@ -23,7 +25,7 @@ public:
     void init();
     
 private:
-    void cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd);
+    void cartesianMovesCallback(const arm::cartesian_moves::ConstPtr& cmd);
     void constantMoveCallback(const arm::constant_move::ConstPtr& cmd);
     void moveCartesian();
     void print();
@@ -31,6 +33,7 @@ private:
     ros::NodeHandle n_;
     ros::Subscriber cartesian_sub_;
     ros::Subscriber constant_sub_;
+    ros::ServiceClient time_client_;
     ManusArm* arm_;
 
     int speed_;

@@ -16,8 +16,6 @@
 #define START_Y START_X
 #define ROWS 8
 #define COLS ROWS
-#define MIN_VOLT -0.000981
-#define MAX_VOLT 0.000734
 
 DishVisualizer::DishVisualizer() {
 	isInit = FALSE;

@@ -6,7 +6,9 @@ from brian import *
 from pickle import Unpickler
 import random
 
-def brianRecv(connections, channels):
+# Runs a Brian simulation "P" and records and publishes voltages captured by
+# the multielectrode array "channels"
+def brianRecv(P, channels):
     pub = rospy.Publisher('dish_states', dish_state)
     
     # Wait for a subscriber before publishing
@@ -14,50 +16,14 @@ def brianRecv(connections, channels):
     while pub.get_num_connections() < 1 and not rospy.is_shutdown():
         pass
     rospy.loginfo('Subscriber found. Continuing...')
-    
-    # LIF model, different time constants for excitory and inhibitory
-    eqs = Equations('''
-          dv/dt = (ge+gi-(v+49*mV))/(20*ms) : volt
-          dge/dt = -ge/(5*ms)               : volt
-          dgi/dt = -gi/(10*ms)              : volt
-          ''')
 
-    # Get the neuron count. This is kind of hacky, as it depends on the
-    # links being stored in increasing order. The +1 is because they are indexed
-    # from zero. 
-    neuron_count = connections[-1][0] + 1
-    
-    # Set up the population based on the count and equations
-    P = NeuronGroup(neuron_count, eqs, threshold=-50*mV, reset=-60*mV)
-    P.v = -60*mV + (15 * rand(len(P))) * mV  
-    
-    # Partition population based on assumption of 25% inhibitory, 75% excitatory
-    excitory_count = int(neuron_count * 0.75)
-    inhib_count = neuron_count - excitory_count
-    #Pe = P.subgroup(excitory_count)
-    #Pi = P.subgroup(inhib_count)
-    
-    # Set up connections. First, pick a random set of inhibitory neuron ids. 
-    # Everything else is excitatory. Then create the connection objects and 
-    # populate them according to the connectivity list
-    inhib_neurons = random.sample(xrange(neuron_count), inhib_count)
-    Ce = Connection (P, P, 'ge')
-    Ci = Connection (P, P, 'gi')
-    for connection in connections:
-        prune = random.randint(0,100)
-        #if prune < percent_connected:
-        if connection[0] in inhib_neurons:
-            Ci[connection[0], connection[1]] = -9*mV
-        else:
-            Ce[connection[0], connection[1]] = 1.62*mV
-
-    # Create a 1-dimensional list of all the neurons to record
+    # Create a list of all the neurons to record
     print 'Recorded neurons:',
-    recorded_neurons = list()
+    recorded_neurons = []
     for channel in channels:
         if channel != None:
-            for neuron in channel:
-                recorded_neurons.append(neuron)
+            for neuron in channel.neurons:
+                recorded_neurons.append(neuron.id)
                 print neuron,
     print
     print 'Length of recorded neurons array', len(recorded_neurons)
@@ -109,16 +75,14 @@ def brianRecv(connections, channels):
         
         # For each channel in a single dish state:
         for index in range(60):
+            d.samples[index] = 0.0
             #print 'Index', index, ':',
-            # If there are no neurons on this channel, use 0.0 for volts
-            if channels[index] == None:
-                d.samples[index] = 0.0
-                #print channels[index], ':', d.samples[index]
-            # Else get the average of the volts of the neurons on this channel
-            else:
-                sum = 0.0
-                for neuron in channels[index]:
-                    sum += M[neuron][current_dish]
+            
+            # Get the weighted average of the volts of the neurons on this 
+            # channel 
+            if channels[index] != None:
+                for neuron in channels[index].neurons:
+                    d.samples[index] += M[neuron.id][current_dish] * neuron.weight / channels[index].total_weight
                     #print
                     #print 'Len:', len(channels[index]), 'Neuron:', neuron, 'State:', M[neuron][current_dish], 'Sum:', sum
                 d.samples[index] = sum / len(channels[index])
@@ -132,9 +96,49 @@ def brianRecv(connections, channels):
     rospy.loginfo('Publishing finished in ' + str((rospy.Time.now() - offset).to_sec()) + 's')
     #log.close()
 
+# Creates and returns a Brian simulation based on "connections" array
+def createSimulation(connections):
+    # LIF model, different time constants for excitory and inhibitory
+    eqs = Equations('''
+          dv/dt = (ge+gi-(v+49*mV))/(20*ms) : volt
+          dge/dt = -ge/(5*ms)               : volt
+          dgi/dt = -gi/(10*ms)              : volt
+          ''')
+
+    # Get the neuron count. This is kind of hacky, as it depends on the
+    # links being stored in increasing order. The +1 is because they are indexed
+    # from zero. 
+    neuron_count = connections[-1][0] + 1
+    
+    # Set up the population based on the count and equations
+    P = NeuronGroup(neuron_count, eqs, threshold=-50*mV, reset=-60*mV)
+    P.v = -60*mV + (15 * rand(len(P))) * mV  
+    
+    # Partition population based on assumption of 25% inhibitory, 75% excitatory
+    excitory_count = int(neuron_count * 0.75)
+    inhib_count = neuron_count - excitory_count
+    #Pe = P.subgroup(excitory_count)
+    #Pi = P.subgroup(inhib_count)
+    
+    # Set up connections. First, pick a random set of inhibitory neuron ids. 
+    # Everything else is excitatory. Then create the connection objects and 
+    # populate them according to the connectivity list
+    inhib_neurons = random.sample(xrange(neuron_count), inhib_count)
+    Ce = Connection (P, P, 'ge')
+    Ci = Connection (P, P, 'gi')
+    for connection in connections:
+        prune = random.randint(0,100)
+        #if prune < percent_connected:
+        if connection[0] in inhib_neurons:
+            Ci[connection[0], connection[1]] = -9*mV
+        else:
+            Ce[connection[0], connection[1]] = 1.62*mV
+    
+    return P    
+
 # Populates a 60-channel list using data from an x,y map
 def channelizer(pad_neuron_map):
-    channels = list()
+    channels = []
     for row in range(8):
         for col in range(8):
             if row == 0 and col == 0:
@@ -173,7 +177,10 @@ if __name__ == '__main__':
             # Get list of neurons for each channel from the pad neuron map
             channels = channelizer(pad_neuron_map)
             
+            # Create simulation
+            P = createSimulation(connections)
+            
             # Run the ROS node
             try:
-                brianRecv(connections, channels)
+                brianRecv(P, channels)
             except rospy.ROSInterruptException: pass

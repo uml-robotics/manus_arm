@@ -9,6 +9,7 @@
 
 #include "arm/teleop_arm_dish.h"
 #include "arm/cartesian_move.h"
+#include "arm/cartesian_moves.h"
 #include "time_server/time_srv.h"
 #include "arm/movement_definitions.h"
 #include <cmath>
@@ -40,7 +41,7 @@ void TeleopArmDish::init()
         max_range_from_midpoint_ = 1.0;
     }
 
-    cmd_pub_ = n_.advertise<arm::cartesian_move>("cartesian_moves", 1000);
+    cmd_pub_ = n_.advertise<arm::cartesian_moves>("cartesian_moves", 1000);
 
     // Wait for subscriber to "cartesian_moves"
     ROS_INFO("Waiting for subscriber...");
@@ -87,44 +88,42 @@ void TeleopArmDish::publishCommand()
             ROS_INFO("Sleeping for %.3fs", cat_start.response.delta.toSec());
             cat_start.response.delta.sleep();
 
-            // Get the average CA for this CAT
-            double x = 0;
-            double y = 0;
+            //
+            arm::cartesian_moves cmd;
+            cmd.header.stamp = cat.header.stamp;
+            cmd.end = cat.end;
             int size = cat.cas.size();
             for (int i = 0; i < size; i++)
             {
-                x += cat.cas[i].x;
-                y += cat.cas[i].y;
-            }
-            x /= size;
-            y /= size;
+                arm::cartesian_move move;
+                move.header.stamp = cat.header.stamp;
+                move.speed = speed_;
 
-            arm::cartesian_move cmd;
-            cmd.header.stamp = cat.header.stamp;
-            cmd.speed = speed_;
+                // Right now only X/Y movement is implemented
+                move.position[ARM_X] = getArmCoord(cat.cas[i].x);
+                move.position[ARM_Y] = getArmCoord(cat.cas[i].y);
+                move.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
+                move.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
+                move.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
+                move.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
+                move.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
 
-            // Right now only X/Y movement is implemented
-            cmd.position[ARM_X] = getArmCoord(x);
-            cmd.position[ARM_Y] = getArmCoord(y);
-            cmd.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
-            cmd.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
-            cmd.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
-            cmd.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
-            cmd.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
+                //printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
+                //printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
 
-            //printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
-            //printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
+                // Some error checking so we don't exceed the bounds of the ARM
+                if (fabs(move.position[ARM_X] > 20000))
+                {
+                    ROS_ERROR("X-axis position (%f) out of bounds", move.position[ARM_X]);
+                    move.position[ARM_X] = 0;
+                }
+                if (fabs(move.position[ARM_Y] > 20000))
+                {
+                    ROS_ERROR("Y-axis position (%f) out of bounds", move.position[ARM_Y]);
+                    move.position[ARM_Y] = 0;
+                }
 
-            // Some error checking so we don't exceed the bounds of the ARM
-            if (fabs(cmd.position[ARM_X] > 20000))
-            {
-                ROS_ERROR("X-axis position (%f) out of bounds", cmd.position[ARM_X]);
-                cmd.position[ARM_X] = 0;
-            }
-            if (fabs(cmd.position[ARM_Y] > 20000))
-            {
-                ROS_ERROR("Y-axis position (%f) out of bounds", cmd.position[ARM_Y]);
-                cmd.position[ARM_Y] = 0;
+                cmd.moves.push_back(move);
             }
 
             // Publish the move and wait for the duration of the burst

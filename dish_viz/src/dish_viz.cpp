@@ -49,7 +49,7 @@ void DataHandler::init()
     while (ros::ok() & !queue_.empty())
     {
         ros::spinOnce();
-        if (++step == 1000)
+        if (++step == 200)
         {
             time_server::time_srv check;
             check.request.target = queue_.front().header.stamp;

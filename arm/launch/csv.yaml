@@ -1,6 +1,6 @@
 arm_speed: 3
 arm_safe_range: 20000.0
-max_range_from_midpoint: 0.5
+max_range_from_midpoint: 0.34
 loop_rate: 200
 buffer_size: 1000
 stdev_mult: 2.5

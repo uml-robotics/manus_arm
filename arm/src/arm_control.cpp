@@ -14,9 +14,10 @@
 void ArmControl::init()
 {
     cartesian_sub_ = n_.subscribe("cartesian_moves", 1000,
-                                  &ArmControl::cartesianMoveCallback, this);
+                                  &ArmControl::cartesianMovesCallback, this);
     constant_sub_ = n_.subscribe("constant_moves", 1,
                                  &ArmControl::constantMoveCallback, this);
+    time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
     arm_ = ManusArm::instance();
     shutdown_ = false;
     
@@ -53,18 +54,40 @@ void ArmControl::init()
     moveCartesian();
 }
 
-void ArmControl::cartesianMoveCallback(const arm::cartesian_move::ConstPtr& cmd)
+void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
+                                        cmd)
 {
-    //ROS_INFO("Moving to X[%10.3f] Y[%10.3f]", cmd->position[ARM_X],
-    //         cmd->position[ARM_Y]);
-    printf("[%.3f][%.3f] Moving\n", ros::Time::now().toSec(),
-           cmd->header.stamp.toSec());
+    time_server::time_srv end_check;
+    end_check.request.target = cmd->end;
 
-    for (unsigned int i = 0; i < POS_ARR_SZ; i++)
-        target_position_[i] = cmd->position[i];
-    speed_ = cmd->speed;
+    for (unsigned int i = 0; i < cmd->moves.size(); i++)
+    {
+        if (time_client_.call(end_check))
+        {
+            printf("CAT end time : %f\n", end_check.request.target.toSec());
+            printf("CA run time  : %f\n", cmd->moves[i].header.stamp.toSec());
+            printf("Server time  : %f\n", end_check.response.actual.toSec());
+            printf("Delta        : %f\n", end_check.response.delta.toSec());
 
-    moveCartesian();
+            if (end_check.response.delta > ros::Duration(-0.2))
+            {
+                for (unsigned int j = 0; j < POS_ARR_SZ; j++)
+                    target_position_[j] = cmd->moves[i].position[j];
+                speed_ = cmd->moves[i].speed;
+                moveCartesian();
+            }
+            else
+            {
+                ROS_INFO("Out of time, movement sequence over!");
+                return;
+            }
+        }
+        else
+        {
+            ROS_ERROR("Time server is not responding");
+            return;
+        }
+    }
 }
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
