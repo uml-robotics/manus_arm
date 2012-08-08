@@ -1,12 +1,12 @@
-arm_speed: 3
+arm_speed: 2
 arm_safe_range: 20000.0
 max_range_from_midpoint: 1.5
 loop_rate: 200
 buffer_size: 1000
-stdev_mult: 1.5
-burst_window: 1000
+stdev_mult: 2.5
+burst_window: 200
 brian_running_time: 21.0
-brian_connections_file_path: '/home/jon/ros_workspace/other_stuff/pickle/connections_2012-7-12-16:14:11.pickle'
-brian_pad_neuron_map_file_path: '/home/jon/ros_workspace/other_stuff/pickle/pad_2012-7-12-16:14:11.pickle'
+brian_connections_file_path: '/home/jon/ros_workspace/other_stuff/pickle/connections_2012-8-8-10:51:10.pickle'
+brian_pad_neuron_map_file_path: '/home/jon/ros_workspace/other_stuff/pickle/pad_2012-8-8-10:51:10.pickle'
 burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_burst_log.csv'
 cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_cat_log.csv'

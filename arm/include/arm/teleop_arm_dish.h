@@ -21,7 +21,8 @@ public:
 
 private:
     void callback(const burst_calc::cat::ConstPtr& c);
-    void publishCommand();
+    void publishCartesianMove();
+    void publishConstantMove();
     double getArmCoord(double coord);
 
     ros::NodeHandle n_;

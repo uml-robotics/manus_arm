@@ -10,6 +10,7 @@
 #include "arm/teleop_arm_dish.h"
 #include "arm/cartesian_move.h"
 #include "arm/cartesian_moves.h"
+#include "arm/constant_move_time.h"
 #include "time_server/time_srv.h"
 #include "arm/movement_definitions.h"
 #include <cmath>
@@ -41,7 +42,10 @@ void TeleopArmDish::init()
         max_range_from_midpoint_ = 1.0;
     }
 
-    cmd_pub_ = n_.advertise<arm::cartesian_moves>("cartesian_moves", 1000);
+    // Cartesian commands or constant move commands, for now you can use one
+    // or the other. Keep one commented out.
+    //cmd_pub_ = n_.advertise<arm::cartesian_moves>("cartesian_moves", 1000);
+    cmd_pub_ = n_.advertise<arm::constant_move_time>("constant_move_times", 1);
 
     // Wait for subscriber to "cartesian_moves"
     ROS_INFO("Waiting for subscriber...");
@@ -60,7 +64,7 @@ void TeleopArmDish::init()
     {
         ros::spinOnce();
         if (!queue_.empty())
-            publishCommand();
+            publishConstantMove();
     }
 }
 
@@ -69,7 +73,7 @@ void TeleopArmDish::callback(const burst_calc::cat::ConstPtr& c)
     queue_.push(*c);
 }
 
-void TeleopArmDish::publishCommand()
+void TeleopArmDish::publishCartesianMove()
 {
     burst_calc::cat cat = queue_.front();
     queue_.pop();
@@ -125,6 +129,78 @@ void TeleopArmDish::publishCommand()
 
                 cmd.moves.push_back(move);
             }
+
+            // Publish the move and wait for the duration of the burst
+            cmd_pub_.publish(cmd);
+            ROS_INFO("Command published, sleeping for %.3fs",
+                     (cat.end - cat.header.stamp).toSec());
+            (cat.end - cat.header.stamp).sleep();
+
+            time_server::time_srv cat_end;
+            cat_end.request.target = cat.end;
+            time_client_.call(cat_end);
+            printf("CAT end time : %f\n", cat.end.toSec());
+            printf("Server time  : %f\n", cat_end.response.actual.toSec());
+            printf("Delta        : %f\n", cat_end.response.delta.toSec());
+        }
+        else
+            ROS_ERROR("CAT start time is behind server time, no command will be issued");
+    }
+    else
+        ROS_ERROR("Time server is not responding, no command will be issued");
+}
+
+void TeleopArmDish::publishConstantMove()
+{
+    burst_calc::cat cat = queue_.front();
+    queue_.pop();
+    time_server::time_srv cat_start;
+    cat_start.request.target = cat.header.stamp;
+
+    if (time_client_.call(cat_start))
+    {
+        printf("CAT start time : %f\n", cat.header.stamp.toSec());
+        printf("Server time    : %f\n", cat_start.response.actual.toSec());
+        printf("Delta          : %f\n", cat_start.response.delta.toSec());
+
+        // The delta shouldn't be negative (server time is <= CAT time)
+        if (cat_start.response.delta >= ros::Duration(0))
+        {
+            ROS_INFO("Sleeping for %.3fs", cat_start.response.delta.toSec());
+            (cat_start.response.delta).sleep();
+
+            arm::constant_move_time cmd;
+            cmd.header.stamp = cat.header.stamp;
+            cmd.end = cat.end;
+            int size = cat.cas.size();
+            int x = 0;
+            int y = 0;
+
+            // Increment by 1 if the coordinate - midpoint is positive, else
+            // decrement by 1
+            for (int i = 0; i < size; i++)
+            {
+                x += cat.cas[i].x - MIDPOINT > 0 ? 1 : -1;
+                y += cat.cas[i].y - MIDPOINT > 0 ? 1 : -1;
+            }
+
+            // Set the applicable movement states.
+            // If axis - midpoint is positive, movement is up/right
+            // If axis - midpoint is negative, movement is down/left
+            // NOTE: The logic is currently backwards from what is stated to
+            // match the upside-down view of the dish_viz node
+            printf("X: %d Y: %d\n", x, y);
+            cmd.move.states[ARM_X] = x > 0 ? ARM_RIGHT : ARM_LEFT;
+            cmd.move.states[ARM_Y] = y > 0 ? ARM_UP : ARM_DOWN;
+            cmd.move.states[SPEED] = speed_;
+
+            // Everything else is 0 (doesn't move)
+            cmd.move.states[ARM_Z] = 0;
+            cmd.move.states[CLAW_YAW] = 0;
+            cmd.move.states[CLAW_PITCH] = 0;
+            cmd.move.states[CLAW_ROLL] = 0;
+            cmd.move.states[CLAW_GRIP] = 0;
+            cmd.move.states[LIFT_UNIT] = 0;
 
             // Publish the move and wait for the duration of the burst
             cmd_pub_.publish(cmd);

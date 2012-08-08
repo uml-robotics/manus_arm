@@ -17,6 +17,9 @@ void ArmControl::init()
                                   &ArmControl::cartesianMovesCallback, this);
     constant_sub_ = n_.subscribe("constant_moves", 1,
                                  &ArmControl::constantMoveCallback, this);
+    constant_time_sub_ = n_.subscribe("constant_move_times", 1,
+                                      &ArmControl::constantMoveTimeCallback,
+                                      this);
     time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
     arm_ = ManusArm::instance();
     shutdown_ = false;
@@ -115,6 +118,43 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
             arm_->moveConstant(states_);
         }
     }
+}
+
+void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPtr &cmd)
+{
+    time_server::time_srv end_check;
+    end_check.request.target = cmd->end;
+
+    if (time_client_.call(end_check))
+    {
+        if (end_check.response.delta > ros::Duration(0))
+        {
+            printf("Move start time : %f\n", cmd->header.stamp.toSec());
+            printf("Server time     : %f\n", end_check.response.actual.toSec());
+            printf("Delta           : %f\n", (cmd->header.stamp -
+                    end_check.response.actual).toSec());
+
+            for (int i = 0; i < STATE_ARR_SZ; i++)
+                states_[i] = cmd->move.states[i];
+            arm_->moveConstant(states_);
+            ROS_INFO("Moving...");
+
+            if (end_check.response.delta < ros::Duration(1.0))
+                end_check.response.delta.sleep();
+            else
+                ros::Duration(1.0).sleep();
+
+            // Stop
+            for (int i = 0; i < STATE_ARR_SZ; i++)
+                states_[i] = 0;
+            arm_->moveConstant(states_);
+            ROS_INFO("Movement finished");
+        }
+        else
+            ROS_ERROR("This movement would have started after its ending time");
+    }
+    else
+        ROS_ERROR("Time server is not responding, movement command skipped");
 }
 
 void ArmControl::moveCartesian()

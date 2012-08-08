@@ -1,10 +1,10 @@
-arm_speed: 3
+arm_speed: 1
 arm_safe_range: 20000.0
 max_range_from_midpoint: 0.34
 loop_rate: 200
 buffer_size: 1000
 stdev_mult: 2.5
-burst_window: 1000
+burst_window: 200
 csv_file_path: '/home/jon/ros_workspace/other_stuff/csv/no56_labviewdatafile.csv'
 burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_burst_log.csv'
 cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_cat_log.csv'

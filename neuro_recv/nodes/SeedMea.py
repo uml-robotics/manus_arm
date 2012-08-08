@@ -46,22 +46,34 @@ class Channel():
         self.neurons = []
         self.total_weight = 0.0
         
+    def __str__(self):
+        name = 'Weight:' + str(self.total_weight)
+        if len(self.neurons) == 0:
+            name += '[No neurons]'
+        else:
+            for neuron in self.neurons:
+                name += '[' + str(neuron) + ']'
+        return name
+        
     def add(self, neuron):
         self.neurons.append(neuron)
         self.total_weight += neuron.weight
         
     def size(self):
-        return len(self.data)
+        return len(self.neurons)
 
 '''
 Data structure for a neuron that is close to a channel pad.
-    id: unique id of the neuron
+    data: unique id of the neuron
     weight: distance from the center of the pad
 '''
 class CloseNeuron():
-    def __init__(self, id, dist):
-        self.id = id
+    def __init__(self, data, dist):
+        self.data = data
         self.weight = 40.0 - dist
+        
+    def __str__(self):
+        return str(self.data) + ':' + str(self.weight)
 
 '''
 Take a 2-D Numpy array and fill it in with a density map. The map values are in the range 
@@ -383,15 +395,17 @@ if __name__ == '__main__':
                 #Calculate distance from center of pad
                 dist = math.sqrt((neuron_x_loc - pad_x_loc)**2 + (neuron_y_loc - pad_y_loc)**2)
                 #
-                if dist <= pad_threshold:
+                if dist < pad_threshold:
                     #Close enough to influence pad
-                    close_neurons.add(neuron[1], dist)
+                    close_neurons.add(CloseNeuron(neuron[1], dist))
                     
             if close_neurons.size() == 0:
                 pad_neuron_map[(pad_x, pad_y)] = None
+                print '(' + str(pad_x) + ',' + str(pad_y) + '): None'
             else:
                 pad_neuron_map[(pad_x, pad_y)] = close_neurons
-    pprint(pad_neuron_map)
+                print '(' + str(pad_x) + ',' + str(pad_y) + '):' + str(close_neurons)
+    #pprint(pad_neuron_map)
     
     #Save the pad neuron map list
     with open("pad_{0}.pickle".format(file_date), "w") as outfile:
