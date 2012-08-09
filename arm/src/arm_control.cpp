@@ -46,7 +46,10 @@ void ArmControl::init()
     // Move into origin position to start
     for (int i = 0; i < POS_ARR_SZ; i++)
         target_position_[i] = manus_arm::origin_position[i];
+    int temp_speed = speed_;
+    speed_ = 2;
     moveCartesian();
+    speed_ = temp_speed;
 
     while (ros::ok() && !shutdown_)
         ros::spinOnce();
@@ -54,6 +57,7 @@ void ArmControl::init()
     // Move into final position to finish
     for (int i = 0; i < POS_ARR_SZ; i++)
         target_position_[i] = manus_arm::final_position[i];
+    speed_ = 2;
     moveCartesian();
 }
 
@@ -129,20 +133,23 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
     {
         if (end_check.response.delta > ros::Duration(0))
         {
-            printf("Move start time : %f\n", cmd->header.stamp.toSec());
-            printf("Server time     : %f\n", end_check.response.actual.toSec());
-            printf("Delta           : %f\n", (cmd->header.stamp -
+            printf("Move start time  : %f\n", cmd->header.stamp.toSec());
+            printf("Server time      : %f\n", end_check.response.actual.toSec());
+            printf("Delta            : %f\n", (cmd->header.stamp -
                     end_check.response.actual).toSec());
+            printf("Duration of move : %f\n", end_check.response.delta.toSec());
 
             for (int i = 0; i < STATE_ARR_SZ; i++)
                 states_[i] = cmd->move.states[i];
             arm_->moveConstant(states_);
             ROS_INFO("Moving...");
 
-            if (end_check.response.delta < ros::Duration(1.0))
+            /*if (end_check.response.delta < ros::Duration(0.25))
+                ros::Duration(0.25).sleep();
+            else if (end_check.response.delta > ros::Duration(0.75))
+                ros::Duration(0.75).sleep();
+            else*/
                 end_check.response.delta.sleep();
-            else
-                ros::Duration(1.0).sleep();
 
             // Stop
             for (int i = 0; i < STATE_ARR_SZ; i++)

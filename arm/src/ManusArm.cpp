@@ -166,10 +166,14 @@ void ManusArm::moveConstant(int movement_states[])
 void ManusArm::doConstantMove(int movement_states[])
 {
     // Speed limits
-	const int linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
+	const int x_linear_speed_limit[5] = { 5, 15, 25, 35, 45 }; // 50% less than original
+	const int y_linear_speed_limit[5] = { 5, 15, 25, 35, 45 }; // 50% less than original
+	const int z_linear_speed_limit[5] = { 10, 30, 50, 70, 90 }; // original speed limits
 	const int angular_speed_limit[5] = { 1, 3, 5, 7, 9 };
 	const int grip_speed_limit[5] = { 1, 4, 7, 10, 14 };
-	int linear_speed = linear_speed_limit[movement_states[SPEED]];
+	int x_linear_speed = x_linear_speed_limit[movement_states[SPEED]];
+	int y_linear_speed = y_linear_speed_limit[movement_states[SPEED]];
+	int z_linear_speed = z_linear_speed_limit[movement_states[SPEED]];
     int angular_speed = angular_speed_limit[movement_states[SPEED]];
     int grip_speed = grip_speed_limit[movement_states[SPEED]];
     
@@ -177,9 +181,9 @@ void ManusArm::doConstantMove(int movement_states[])
 	setCbox(CBOX_1_CARTESIAN, &move);
 	move.can_dlc = 8;
 	move.data[LIFT] = movement_states[LIFT_UNIT];
-	move.data[Z] = linear_speed * movement_states[ARM_Z];
-	move.data[X] = linear_speed * movement_states[ARM_X];
-	move.data[Y] = linear_speed * movement_states[ARM_Y];
+	move.data[Z] = z_linear_speed * movement_states[ARM_Z];
+	move.data[X] = x_linear_speed * movement_states[ARM_X];
+	move.data[Y] = y_linear_speed * movement_states[ARM_Y];
 	move.data[YAW] = angular_speed * movement_states[CLAW_YAW];
 	move.data[PITCH] = angular_speed * movement_states[CLAW_PITCH];
 	move.data[ROLL] = angular_speed * movement_states[CLAW_ROLL];

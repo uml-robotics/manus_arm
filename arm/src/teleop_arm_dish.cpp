@@ -90,7 +90,7 @@ void TeleopArmDish::publishCartesianMove()
         if (cat_start.response.delta >= ros::Duration(0))
         {
             ROS_INFO("Sleeping for %.3fs", cat_start.response.delta.toSec());
-            cat_start.response.delta.sleep();
+            (cat_start.response.delta - ros::Duration(0.1)).sleep();
 
             //
             arm::cartesian_moves cmd;
@@ -167,7 +167,11 @@ void TeleopArmDish::publishConstantMove()
         if (cat_start.response.delta >= ros::Duration(0))
         {
             ROS_INFO("Sleeping for %.3fs", cat_start.response.delta.toSec());
-            (cat_start.response.delta).sleep();
+            /*ROS_INFO("%.3fs - %.3fs = %.3fs sleep",
+                     cat_start.response.delta.toSec(),
+                     ros::Duration(0.1).toSec(),
+                     (cat_start.response.delta - ros::Duration(0.1)).toSec());*/
+            cat_start.response.delta.sleep();
 
             arm::constant_move_time cmd;
             cmd.header.stamp = cat.header.stamp;
@@ -190,8 +194,8 @@ void TeleopArmDish::publishConstantMove()
             // NOTE: The logic is currently backwards from what is stated to
             // match the upside-down view of the dish_viz node
             printf("X: %d Y: %d\n", x, y);
-            cmd.move.states[ARM_X] = x > 0 ? ARM_RIGHT : ARM_LEFT;
-            cmd.move.states[ARM_Y] = y > 0 ? ARM_UP : ARM_DOWN;
+            cmd.move.states[ARM_X] = x < 0 ? ARM_RIGHT : ARM_LEFT;
+            cmd.move.states[ARM_Y] = y < 0 ? ARM_UP : ARM_DOWN;
             cmd.move.states[SPEED] = speed_;
 
             // Everything else is 0 (doesn't move)

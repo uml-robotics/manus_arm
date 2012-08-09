@@ -1,4 +1,4 @@
-arm_speed: 1
+arm_speed: 2
 arm_safe_range: 20000.0
 max_range_from_midpoint: 0.34
 loop_rate: 200
