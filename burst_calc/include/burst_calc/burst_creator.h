@@ -24,7 +24,8 @@ public:
     void init();
 
 private:
-    void addDish(const neuro_recv::dish_state& d);
+    void addDish();
+    void finish();
     void callback(const neuro_recv::dish_state::ConstPtr& d);
 
     ros::NodeHandle n_;
@@ -35,7 +36,7 @@ private:
     ros::Publisher ranges_pub_;
     ros::Publisher ranges_fwd_;
     ros::ServiceClient time_client_;
-    //std::queue<neuro_recv::dish_state> queue_;
+    std::queue<neuro_recv::dish_state> queue_;
     BufferSpikeDetector buf_;
     BurstChecker bursts_[60];
     BurstMerger merger_;

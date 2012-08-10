@@ -168,6 +168,11 @@ def brianRecv(connections, channels):
         pub.publish(d)
         loop_rate.sleep()
         
+    # Last dish flag    
+    end = dish_state()
+    end.last_dish = True
+    pub.publish(last_dish)
+        
     rospy.loginfo('Publishing finished in ' + str((rospy.Time.now() - offset).to_sec()) + 's')
     log.close()
 

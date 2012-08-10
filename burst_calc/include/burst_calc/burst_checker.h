@@ -24,6 +24,7 @@ public:
     const ros::Time* getTimePtr();
 
     const burst_calc::burst& getBurst() { return burst_; }
+    bool isBursting() { return is_bursting_; }
     bool endOfBurst() { return end_of_burst_; }
 
 private:

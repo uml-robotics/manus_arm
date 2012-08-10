@@ -9,7 +9,7 @@ import genpy
 import std_msgs.msg
 
 class burst(genpy.Message):
-  _md5sum = "50fb0ef8b79d39414a8195792e3879e8"
+  _md5sum = "9fc444266caceed83ebba28b36c432e7"
   _type = "burst_calc/burst"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Burst message
@@ -40,6 +40,7 @@ MSG: neuro_recv/dish_state
 # Dish state message
 Header header
 float64[60] samples
+bool last_dish
 """
   __slots__ = ['header','end','channels','dishes']
   _slot_types = ['std_msgs/Header','time','int8[]','neuro_recv/dish_state[]']
@@ -116,6 +117,7 @@ float64[60] samples
           length = len(_x)
         buff.write(struct.pack('<I%ss'%length, length, _x))
         buff.write(_struct_60d.pack(*val1.samples))
+        buff.write(_struct_B.pack(val1.last_dish))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -183,6 +185,10 @@ float64[60] samples
         start = end
         end += 480
         val1.samples = _struct_60d.unpack(str[start:end])
+        start = end
+        end += 1
+        (val1.last_dish,) = _struct_B.unpack(str[start:end])
+        val1.last_dish = bool(val1.last_dish)
         self.dishes.append(val1)
       self.end.canon()
       return self
@@ -226,6 +232,7 @@ float64[60] samples
           length = len(_x)
         buff.write(struct.pack('<I%ss'%length, length, _x))
         buff.write(val1.samples.tostring())
+        buff.write(_struct_B.pack(val1.last_dish))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -294,6 +301,10 @@ float64[60] samples
         start = end
         end += 480
         val1.samples = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=60)
+        start = end
+        end += 1
+        (val1.last_dish,) = _struct_B.unpack(str[start:end])
+        val1.last_dish = bool(val1.last_dish)
         self.dishes.append(val1)
       self.end.canon()
       return self
@@ -303,4 +314,5 @@ float64[60] samples
 _struct_I = genpy.struct_I
 _struct_60d = struct.Struct("<60d")
 _struct_3I = struct.Struct("<3I")
+_struct_B = struct.Struct("<B")
 _struct_2I = struct.Struct("<2I")

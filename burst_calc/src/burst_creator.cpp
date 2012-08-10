@@ -65,21 +65,18 @@ void BurstCreator::init()
     while (dish_state_sub_.getNumPublishers() < 1 && ros::ok());
     ROS_INFO("Publisher found. Continuing...");
 
-    // Main loop
-    /*while (ros::ok())
+    while (ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
             addDish();
-
-    }*/
-    ros::spin();
+    }
 }
 
-void BurstCreator::addDish(const neuro_recv::dish_state& d)
+void BurstCreator::addDish()
 {
-    //neuro_recv::dish_state d = queue_.front();
-    //queue_.pop();
+    neuro_recv::dish_state d = queue_.front();
+    queue_.pop();
 
     if (buf_.isBuffered())
     {
@@ -158,12 +155,62 @@ void BurstCreator::addDish(const neuro_recv::dish_state& d)
     }
 }
 
+// Closes out any remaining bursts on the channels after the end of new dish
+// states.
+void BurstCreator::finish()
+{
+    ROS_INFO("Finishing burst creator node");
+
+    for (int i = 0; i < 60; i++)
+    {
+        // Set each time ptr to NULL so the merger won't hang onto the rest of
+        // its bursts, waiting for future bursts that will never come
+        merger_.updateTime(i, NULL);
+
+        // Grab any remaining bursts that are hanging around in the checkers
+        if (bursts_[i].isBursting())
+        {
+            merger_.add(bursts_[i].getBurst());
+            printf("*   Burst   : [Sz %4d] [%6.3f - %6.3f] [Ch %d]\n",
+                   static_cast<int>(bursts_[i].getBurst().dishes.size()),
+                   bursts_[i].getBurst().header.stamp.toSec(),
+                   bursts_[i].getBurst().end.toSec(), i);
+        }
+
+        // Update the merger with all this new info
+        merger_.update();
+
+        // Publish any remaining bursts
+        while (merger_.canPublish())
+        {
+            burst_pub_.publish(merger_.getBurst());
+
+            printf("*** Publish : [Sz %4d] [%6.3f - %6.3f] [Ch",
+                   static_cast<int>(merger_.getBurst().dishes.size()),
+                   merger_.getBurst().header.stamp.toSec(),
+                   merger_.getBurst().end.toSec());
+            for (unsigned int j = 0; j < merger_.getBurst().channels.size(); j++)
+                printf(" %d", merger_.getBurst().channels[j]);
+            printf("]\n");
+
+            ROS_INFO("Burst %.3f published", merger_.getBurst().header.stamp.toSec());
+
+            merger_.deletePublished();
+        }
+    }
+
+}
+
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
-    //queue_.push(*d);
-    dish_state_fwd_.publish(*d); // Forward the dish state to dish_viz
-    addDish(*d);
-    //ROS_INFO("Dish state %f received", d->header.stamp.toSec());
+    // Check to see if this is the last dish
+    if (d->last_dish)
+        finish();
+    else
+    {
+        dish_state_fwd_.publish(*d); // Forward the dish state to dish_viz
+        queue_.push(*d);
+    }
 }
 
 int main(int argc, char** argv)

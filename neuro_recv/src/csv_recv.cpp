@@ -38,7 +38,7 @@ void CsvReceiver::init()
 
         // Wait for a subscriber to "dish_states" before publishing
         ROS_INFO("Waiting for subscriber...");
-        //while (dish_state_pub.getNumSubscribers() < 1 && ros::ok());
+        while (dish_state_pub.getNumSubscribers() < 1 && ros::ok());
         ROS_INFO("Subscriber found. Continuing...");
 
         // Get buffer_size parameter
@@ -77,6 +77,11 @@ void CsvReceiver::init()
             dish_state_pub.publish(parse(line, true));
             loop_rate.sleep();
         }
+
+        // Last dish flag
+        neuro_recv::dish_state end;
+        end.last_dish = true;
+        dish_state_pub.publish(end);
 
         ROS_INFO("Reached end of CSV file");
         file.close();

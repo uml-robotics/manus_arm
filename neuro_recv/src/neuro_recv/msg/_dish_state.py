@@ -7,12 +7,13 @@ import struct
 import std_msgs.msg
 
 class dish_state(genpy.Message):
-  _md5sum = "f18f7a898ec89ef4fd413fce71ae3355"
+  _md5sum = "c08ea80d278c864525005be19edfdf2f"
   _type = "neuro_recv/dish_state"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Dish state message
 Header header
 float64[60] samples
+bool last_dish
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -32,8 +33,8 @@ time stamp
 string frame_id
 
 """
-  __slots__ = ['header','samples']
-  _slot_types = ['std_msgs/Header','float64[60]']
+  __slots__ = ['header','samples','last_dish']
+  _slot_types = ['std_msgs/Header','float64[60]','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -43,7 +44,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,samples
+       header,samples,last_dish
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -56,9 +57,12 @@ string frame_id
         self.header = std_msgs.msg.Header()
       if self.samples is None:
         self.samples = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
+      if self.last_dish is None:
+        self.last_dish = False
     else:
       self.header = std_msgs.msg.Header()
       self.samples = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
+      self.last_dish = False
 
   def _get_types(self):
     """
@@ -81,6 +85,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       buff.write(_struct_60d.pack(*self.samples))
+      buff.write(_struct_B.pack(self.last_dish))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -109,6 +114,10 @@ string frame_id
       start = end
       end += 480
       self.samples = _struct_60d.unpack(str[start:end])
+      start = end
+      end += 1
+      (self.last_dish,) = _struct_B.unpack(str[start:end])
+      self.last_dish = bool(self.last_dish)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -130,6 +139,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       buff.write(self.samples.tostring())
+      buff.write(_struct_B.pack(self.last_dish))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -159,6 +169,10 @@ string frame_id
       start = end
       end += 480
       self.samples = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=60)
+      start = end
+      end += 1
+      (self.last_dish,) = _struct_B.unpack(str[start:end])
+      self.last_dish = bool(self.last_dish)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -166,3 +180,4 @@ string frame_id
 _struct_I = genpy.struct_I
 _struct_60d = struct.Struct("<60d")
 _struct_3I = struct.Struct("<3I")
+_struct_B = struct.Struct("<B")
