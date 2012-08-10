@@ -11,6 +11,7 @@
 #define VOLT_DISTR_H_
 
 #include <map>
+#include <cmath>
 
 class VoltDistr
 {
@@ -33,13 +34,8 @@ public:
         }
     }
 
-    int get(double volt)
-    {
-        if (data_.count(volt) == 0)
-            return 0;
-        else
-            return data_[volt];
-    }
+    std::map<double, int>::iterator begin() { return data_.begin(); }
+    std::map<double, int>::iterator end() { return data_.end(); }
 
     void setId(int id) { id_ = id; }
     int getId() { return id_; }

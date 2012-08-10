@@ -40,6 +40,23 @@ void BurstCreator::init()
         burst_window_ = 1000;
     }
 
+    // Get volt_distr_log_path parameter
+    do_log_volt_distr_ = true;
+    if (!n_.getParam("volt_distr_log_path", volt_distr_log_path_))
+    {
+        ROS_ERROR("Could not load volt_distr_log_path parameter, logging will be disabled");
+        do_log_volt_distr_ = false;
+    }
+
+    // Get do_truncate_volts parameter
+    int do_truncate_volts;
+    if (!n_.getParam("do_truncate_volts", do_truncate_volts))
+    {
+        ROS_ERROR("Could not load do_truncate_volts parameter, default is false");
+        do_truncate_volts = 0;
+    }
+    volt_distr_creator_.setDoTruncateVolts(do_truncate_volts);
+
     // Init the BufferSpikeDetector
     buf_.init(buffer_size, stdev_mult);
 
@@ -80,6 +97,9 @@ void BurstCreator::addDish()
 
     if (buf_.isBuffered())
     {
+        // Add the dish to the volt distribution creator
+        volt_distr_creator_.add(d);
+
         // For each channel:
         // 1. Update the burst checker
         // 2. Update the time in merger
@@ -163,10 +183,6 @@ void BurstCreator::finish()
 
     for (int i = 0; i < 60; i++)
     {
-        // Set each time ptr to NULL so the merger won't hang onto the rest of
-        // its bursts, waiting for future bursts that will never come
-        merger_.updateTime(i, NULL);
-
         // Grab any remaining bursts that are hanging around in the checkers
         if (bursts_[i].isBursting())
         {
@@ -177,7 +193,11 @@ void BurstCreator::finish()
                    bursts_[i].getBurst().end.toSec(), i);
         }
 
-        // Update the merger with all this new info
+        // Set each time ptr to NULL so the merger won't hang onto the rest of
+        // its bursts, waiting for future bursts that will never come
+        merger_.updateTime(i, NULL);
+
+        // Update the merger with after giving it all this new info
         merger_.update();
 
         // Publish any remaining bursts
@@ -199,6 +219,9 @@ void BurstCreator::finish()
         }
     }
 
+    // Log the voltage distributions
+    if (do_log_volt_distr_)
+        volt_distr_creator_.toFile(volt_distr_log_path_);
 }
 
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)

@@ -36,7 +36,7 @@ void CatCreator::init()
     }
     else
     {
-        ROS_ERROR("Could not load burst_log_path parameter");
+        ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
         save_to_file_ = false;
     }
 
@@ -54,7 +54,7 @@ void CatCreator::init()
         }
         else
         {
-            ROS_ERROR("Could not load burst_log_path parameter");
+            ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
             save_to_file_ = false;
         }
     }
@@ -147,28 +147,16 @@ const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
 
 void CatCreator::initFile(const char* burst_file, const char* cat_file)
 {
-    burst_file_.open(burst_file);
-    if (burst_file_.is_open())
-    {
-        burst_file_.close();
-        remove(burst_file);
-        burst_file_.open(burst_file);
-    }
-    else
+    burst_file_.open(burst_file, std::ios_base::trunc | std::ios_base::out);
+    if (!burst_file_.is_open())
     {
         ROS_ERROR("Cannot open %s. CSV logging will be disabled.", burst_file);
         save_to_file_ = false;
         return;
     }
 
-    cat_file_.open(cat_file);
-    if (cat_file_.is_open())
-    {
-        cat_file_.close();
-        remove(cat_file);
-        cat_file_.open(cat_file);
-    }
-    else
+    cat_file_.open(cat_file, std::ios_base::trunc | std::ios_base::out);
+    if (!cat_file_.is_open())
     {
         ROS_ERROR("Cannot open %s. CSV logging will be disabled.", cat_file);
         save_to_file_ = false;

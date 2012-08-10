@@ -6,5 +6,7 @@ buffer_size: 1000
 stdev_mult: 2.5
 burst_window: 200
 csv_file_path: '/home/jon/ros_workspace/other_stuff/csv/no56_labviewdatafile.csv'
+volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr_log.csv'
 burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_burst_log.csv'
 cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_cat_log.csv'
+do_truncate_volts: 0

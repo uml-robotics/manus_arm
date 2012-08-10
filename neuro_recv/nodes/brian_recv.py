@@ -128,9 +128,16 @@ def brianRecv(connections, channels):
         rospy.logerr('Could not get loop_rate parameter, default will be used')
         rate = 200
     loop_rate = rospy.Rate(rate)
-
-    rospy.loginfo('Publishing dish states...')
     
+    # Get buffer size parameter
+    try:
+        buffer_size = rospy.get_param('buffer_size')
+    except KeyError:
+        rospy.logerr('Could not get buffer_size parameter, default will be used')
+        buffer_size = 1000
+        
+    rospy.loginfo('Publishing dish states...')
+        
     # Open log file for debugging
     log = open('/home/jon/ros_workspace/other_stuff/logs/brian_log.csv', 'w')
     log.write(',')
@@ -138,11 +145,40 @@ def brianRecv(connections, channels):
         log.write(str(i) + ',')
     log.write('\n')
     
+    # Publish the buffer dishes without a timestamp
+    log.write('buffer_dishes,\n')
+    for current_dish in range(buffer_size):    
+        log.write(str(current_dish) + ',')
+        # Initialize a new dish state
+        d = dish_state()
+        
+        # For each channel in a single dish state:
+        for index in range(60):
+            d.samples[index] = 0.0
+            #print 'Index', index, ':'
+            
+            # Get the weighted average of the volts of the neurons on this 
+            # channel 
+            if channels[index] != None:
+                for neuron in channels[index].neurons:
+                    weight = neuron.weight / channels[index].total_weight
+                    weighted = M[neuron.data][current_dish] * weight
+                    d.samples[index] += weighted
+                    #print '    Neuron: ', neuron.data, 'Weight:', weight, 'State:', M[neuron.data][current_dish]
+                    #print '    Weighted State: ', weighted, 'Total:', d.samples[index]
+            log.write(str(d.samples[index]) + ',')
+        
+        log.write('\n')        
+        pub.publish(d)
+        loop_rate.sleep()
+    
     # Initialize timestamp offset
     offset = rospy.Time.now() - rospy.Time(0)    
     
-    # For each dish state in the record
-    for current_dish in range(len(M[recorded_neurons[0]])):
+    # Publish the rest of the dishes with a timestamp
+    log.write('data_dishes,\n')
+    current_dish = buffer_size
+    while current_dish < len(M[recorded_neurons[0]]) and not rospy.is_shutdown():
         log.write(str(current_dish) + ',')
         # Initialize a new dish state
         d = dish_state()
@@ -166,12 +202,13 @@ def brianRecv(connections, channels):
         
         log.write('\n')        
         pub.publish(d)
+        current_dish += 1
         loop_rate.sleep()
         
     # Last dish flag    
     end = dish_state()
     end.last_dish = True
-    pub.publish(last_dish)
+    pub.publish(end)
         
     rospy.loginfo('Publishing finished in ' + str((rospy.Time.now() - offset).to_sec()) + 's')
     log.close()
