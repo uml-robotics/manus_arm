@@ -66,18 +66,20 @@ void BurstCreator::init()
     ROS_INFO("Publisher found. Continuing...");
 
     // Main loop
-    while (ros::ok())
+    /*while (ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
             addDish();
-    }
+
+    }*/
+    ros::spin();
 }
 
-void BurstCreator::addDish()
+void BurstCreator::addDish(const neuro_recv::dish_state& d)
 {
-    neuro_recv::dish_state d = queue_.front();
-    queue_.pop();
+    //neuro_recv::dish_state d = queue_.front();
+    //queue_.pop();
 
     if (buf_.isBuffered())
     {
@@ -158,8 +160,9 @@ void BurstCreator::addDish()
 
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
-    queue_.push(*d);
+    //queue_.push(*d);
     dish_state_fwd_.publish(*d); // Forward the dish state to dish_viz
+    addDish(*d);
     //ROS_INFO("Dish state %f received", d->header.stamp.toSec());
 }
 
