@@ -33,6 +33,7 @@ private:
     ros::Publisher burst_pub_;
     ros::Publisher burst_fwd_;
     ros::Publisher ranges_pub_;
+    ros::Publisher ranges_fwd_;
     ros::ServiceClient time_client_;
     std::queue<neuro_recv::dish_state> queue_;
     BufferSpikeDetector buf_;

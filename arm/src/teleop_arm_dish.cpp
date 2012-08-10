@@ -159,43 +159,67 @@ void TeleopArmDish::publishConstantMove()
 
     if (time_client_.call(cat_start))
     {
-        printf("CAT start time : %f\n", cat.header.stamp.toSec());
+        /*printf("CAT start time : %f\n", cat.header.stamp.toSec());
         printf("Server time    : %f\n", cat_start.response.actual.toSec());
-        printf("Delta          : %f\n", cat_start.response.delta.toSec());
+        printf("Delta          : %f\n", cat_start.response.delta.toSec());*/
 
         // The delta shouldn't be negative (server time is <= CAT time)
         if (cat_start.response.delta >= ros::Duration(0))
         {
             ROS_INFO("Sleeping for %.3fs", cat_start.response.delta.toSec());
-            /*ROS_INFO("%.3fs - %.3fs = %.3fs sleep",
-                     cat_start.response.delta.toSec(),
-                     ros::Duration(0.1).toSec(),
-                     (cat_start.response.delta - ros::Duration(0.1)).toSec());*/
             cat_start.response.delta.sleep();
 
             arm::constant_move_time cmd;
             cmd.header.stamp = cat.header.stamp;
             cmd.end = cat.end;
             int size = cat.cas.size();
-            int x = 0;
-            int y = 0;
+            double x = 0;
+            double y = 0;
 
             // Increment by 1 if the coordinate - midpoint is positive, else
             // decrement by 1
             for (int i = 0; i < size; i++)
             {
-                x += cat.cas[i].x - MIDPOINT > 0 ? 1 : -1;
-                y += cat.cas[i].y - MIDPOINT > 0 ? 1 : -1;
+                x += cat.cas[i].x;
+                y += cat.cas[i].y;
             }
+
+            // Get the average coordinates of the CAT
+            x /= size;
+            y /= size;
+            ROS_INFO("X: %.3f Y: %.3f", x, y);
+
+
 
             // Set the applicable movement states.
             // If axis - midpoint is positive, movement is up/right
             // If axis - midpoint is negative, movement is down/left
             // NOTE: The logic is currently backwards from what is stated to
             // match the upside-down view of the dish_viz node
-            printf("X: %d Y: %d\n", x, y);
-            cmd.move.states[ARM_X] = x < 0 ? ARM_RIGHT : ARM_LEFT;
-            cmd.move.states[ARM_Y] = y < 0 ? ARM_UP : ARM_DOWN;
+            x -= MIDPOINT;
+            y -= MIDPOINT;
+            if (x < 0)
+            {
+                ROS_INFO("X is to the LEFT of the midpoint, moving LEFT");
+                cmd.move.states[ARM_X] = ARM_LEFT;
+            }
+            else
+            {
+                ROS_INFO("X is to the RIGHT of the midpoint, moving RIGHT");
+                cmd.move.states[ARM_X] = ARM_RIGHT;
+            }
+
+            if (y < 0)
+            {
+                ROS_INFO("Y is ABOVE the midpoint, moving UP");
+                cmd.move.states[ARM_Y] = ARM_UP;
+            }
+            else
+            {
+                ROS_INFO("Y is BELOW the midpoint, moving DOWN");
+                cmd.move.states[ARM_Y] = ARM_DOWN;
+            }
+
             cmd.move.states[SPEED] = speed_;
 
             // Everything else is 0 (doesn't move)
@@ -212,12 +236,12 @@ void TeleopArmDish::publishConstantMove()
                      (cat.end - cat.header.stamp).toSec());
             (cat.end - cat.header.stamp).sleep();
 
-            time_server::time_srv cat_end;
+            /*time_server::time_srv cat_end;
             cat_end.request.target = cat.end;
             time_client_.call(cat_end);
             printf("CAT end time : %f\n", cat.end.toSec());
             printf("Server time  : %f\n", cat_end.response.actual.toSec());
-            printf("Delta        : %f\n", cat_end.response.delta.toSec());
+            printf("Delta        : %f\n", cat_end.response.delta.toSec());*/
         }
         else
             ROS_ERROR("CAT start time is behind server time, no command will be issued");

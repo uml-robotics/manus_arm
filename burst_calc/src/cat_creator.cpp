@@ -9,8 +9,6 @@
 // =============================================================================
 
 #include "burst_calc/cat_creator.h"
-#include "burst_calc/ca_calculator.h"
-#include "burst_calc/cat.h"
 #include <cstring>
 #include <cstdio>
 
@@ -70,6 +68,8 @@ void CatCreator::init()
     ROS_INFO("Subscriber found. Continuing...");
 
     burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
+    ranges_sub_ = n_.subscribe("fwd_ranges", 1, &CatCreator::rangesCallback,
+                               this);
 
     // Wait for a publisher of "bursts"
     ROS_INFO("Waiting for publisher...");
@@ -84,18 +84,65 @@ void CatCreator::init()
 
 void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 {
-    // All the work is done in the callback. Each dish state has a CA calculated
-    // and added to the vector in the CAT message. The CAT is then logged and
-    // published.
-    burst_calc::cat cat;
-    cat.header.stamp = b->header.stamp;
-    cat.end = b->end;
-    cat.channels = b->channels;
-    for (unsigned int i = 0; i < b->dishes.size(); i++)
-        cat.cas.push_back(CaCalculator::getCa(b->dishes[i]));
-    if (save_to_file_)
-        toFile(*b, cat);
-    cat_pub_.publish(cat);
+    if (is_init_)
+    {
+        // All the work is done in the callback. Each dish state has a CA calculated
+        // and added to the vector in the CAT message. The CAT is then logged and
+        // published.
+        burst_calc::cat cat;
+        cat.header.stamp = b->header.stamp;
+        cat.end = b->end;
+        cat.channels = b->channels;
+        for (unsigned int i = 0; i < b->dishes.size(); i++)
+            cat.cas.push_back(getCa(b->dishes[i]));
+        if (save_to_file_)
+            toFile(*b, cat);
+        cat_pub_.publish(cat);
+    }
+    else
+        ROS_ERROR("Minimum voltages not initialized, skipping CAT creation");
+}
+
+void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
+{
+    printf("rangesCallback called");
+    for (int i = 0; i < 60; i++)
+        offsets_[i] = r->min_volts[i];
+    is_init_ = true;
+}
+
+const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
+{
+    // Center of activity = summation(position*activity) / total activity
+    double x_sum = 0.0;
+    double y_sum = 0.0;
+    double activity = 0.0;
+
+    for (int i = 0; i < 60; i++)
+    {
+        double this_activity = d.samples[i] - offsets_[i];
+        if (this_activity < 0.0)
+        {
+            ROS_ERROR("Activity is lower than recorded minimum, CA will not be accurate");
+            ROS_ERROR("%d: %f = %f - %f\n", i, this_activity, d.samples[i],
+                      offsets_[i]);
+            this_activity = -this_activity;
+        }
+
+
+        x_sum += this_activity * X_COORD_[i];
+        y_sum += this_activity * Y_COORD_[i];
+        activity += this_activity;
+    }
+
+    burst_calc::ca ca;
+    ca.header.stamp = d.header.stamp;
+    ca.x = x_sum / activity;
+    ca.y = y_sum / activity;
+    printf("ca.x = %f / %f = %f\n", x_sum, activity, ca.x);
+    printf("ca.y = %f / %f = %f\n\n", y_sum, activity, ca.y);
+
+    return ca;
 }
 
 void CatCreator::initFile(const char* burst_file, const char* cat_file)

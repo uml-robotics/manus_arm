@@ -49,6 +49,7 @@ void BurstCreator::init()
     dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("fwd_dish_states",
                                                            1000);
     ranges_pub_ = n_.advertise<burst_calc::ranges>("ranges", 1);
+    ranges_fwd_ = n_.advertise<burst_calc::ranges>("fwd_ranges", 1);
 
     // Wait for subscribers before continuing
     ROS_INFO("Waiting for subscribers...");
@@ -145,14 +146,12 @@ void BurstCreator::addDish()
         if (buf_.isBuffered())
         {
             for (int i = 0; i < 60; i++)
-            {
                 bursts_[i].init(i, buf_.getBaseline(i), buf_.getThreshold(i),
                                 burst_window_);
-                printf("%d: Baseline[%f] Threshold[%f]\n", i,
-                       buf_.getBaseline(i), buf_.getThreshold(i));
-            }
 
-            ranges_pub_.publish(buf_.getRanges());
+            burst_calc::ranges ranges = buf_.getRanges();
+            ranges_pub_.publish(ranges);
+            ranges_fwd_.publish(ranges);
         }
     }
 }

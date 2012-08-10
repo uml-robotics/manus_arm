@@ -79,6 +79,13 @@ void BufferSpikeDetector::calculate()
         stdev[i] = sqrt(sum_squares[i] / (size - 1));
         thresholds_[i] = stdev[i] * stdev_mult_ + baselines_[i];
     }
+
+    for (int i = 0; i < 60; i++)
+    {
+        printf("Min: %+.5f Max: %+.5f Base: %+.5f StDev: %+.5f Thresh: %+.5f\n",
+               min_volts_[i], max_volts_[i], baselines_[i], stdev[i],
+               thresholds_[i]);
+    }
 }
 
 burst_calc::ranges BufferSpikeDetector::getRanges()
