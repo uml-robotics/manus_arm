@@ -44,14 +44,13 @@ private:
     void callback(const burst_calc::burst::ConstPtr& b);
     void rangesCallback(const burst_calc::ranges::ConstPtr& r);
     const burst_calc::ca getCa(const neuro_recv::dish_state& d);
-    void initFile(const char* burst_file, const char* cat_file);
+    void initFile(const char* cat_file);
     void toFile(const burst_calc::burst& b, const burst_calc::cat& c);
 
     ros::NodeHandle n_;
     ros::Subscriber burst_sub_;
     ros::Subscriber ranges_sub_;
     ros::Publisher cat_pub_;
-    std::ofstream burst_file_;
     std::ofstream cat_file_;
     double offsets_[60];
     bool save_to_file_;

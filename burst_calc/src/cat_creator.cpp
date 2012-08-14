@@ -14,8 +14,6 @@
 
 CatCreator::~CatCreator()
 {
-    if (burst_file_.is_open())
-        burst_file_.close();
     if (cat_file_.is_open())
         cat_file_.close();
 }
@@ -23,22 +21,6 @@ CatCreator::~CatCreator()
 void CatCreator::init()
 {
     save_to_file_ = true;
-
-    // Get burst log path parameter
-    std::string burst_file;
-    if (n_.getParam("burst_log_path", burst_file))
-    {
-        if (burst_file.compare("none") == 0)
-        {
-            ROS_WARN("CSV logging is disabled");
-            save_to_file_ = false;
-        }
-    }
-    else
-    {
-        ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
-        save_to_file_ = false;
-    }
 
     // Get cat log path parameter
     std::string cat_file;
@@ -77,7 +59,7 @@ void CatCreator::init()
     ROS_INFO("Publisher found. Continuing...");
 
     if (save_to_file_)
-        initFile(burst_file.c_str(), cat_file.c_str());
+        initFile(cat_file.c_str());
 
     ros::spin();
 }
@@ -145,16 +127,8 @@ const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
     return ca;
 }
 
-void CatCreator::initFile(const char* burst_file, const char* cat_file)
+void CatCreator::initFile(const char* cat_file)
 {
-    burst_file_.open(burst_file, std::ios_base::trunc | std::ios_base::out);
-    if (!burst_file_.is_open())
-    {
-        ROS_ERROR("Cannot open %s. CSV logging will be disabled.", burst_file);
-        save_to_file_ = false;
-        return;
-    }
-
     cat_file_.open(cat_file, std::ios_base::trunc | std::ios_base::out);
     if (!cat_file_.is_open())
     {
@@ -163,50 +137,30 @@ void CatCreator::initFile(const char* burst_file, const char* cat_file)
         return;
     }
 
-    burst_file_ << "index,sec,nsec,";
+    cat_file_ << "index,seconds,ca_x,ca_y,";
     for (int i = 0; i < 60; i++)
     {
-        burst_file_ << "channel_" << i << ',';
+        cat_file_ << "channel_" << i << ',';
     }
-    burst_file_ << '\n';
-
-    cat_file_ << "index,sec,nsec,x_coord,y_coord,\n";
+    cat_file_ << '\n';
 }
 
 void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
 {
-
-    burst_file_ << "burst_begin," << b.header.stamp.sec << ','
-                << b.header.stamp.nsec << ",\n";
-    burst_file_ << "burst_end," << b.end.sec << ',' << b.end.nsec << ",\n";
-    burst_file_ << "burst_duration," << (b.end - b.header.stamp).sec << ','
-                << (b.end - b.header.stamp).nsec << ",\n";
-    burst_file_ << "bursting_channels,";
-    for (unsigned int i = 0; i < b.channels.size(); i++)
-        burst_file_ << static_cast<int>(b.channels[i]) << ',';
-    burst_file_ << '\n';
-
-    cat_file_ << "cat_begin," << c.header.stamp.sec << ','
-                << c.header.stamp.nsec << ",\n";
-    cat_file_ << "cat_end," << c.end.sec << ',' << c.end.nsec << ",\n";
-    cat_file_ << "cat_duration," << (c.end - c.header.stamp).sec << ','
-                << (c.end - c.header.stamp).nsec << ",\n";
-    cat_file_ << "bursting_channels,";
+    cat_file_ << "begin_time," << c.header.stamp.toSec() << ",\n";
+    cat_file_ << "end_time," << c.end.toSec() << ",\n";
+    cat_file_ << "duration," << (c.end - c.header.stamp).toSec() << ",\n";
+    cat_file_ << "bursting_channels,\n";
     for (unsigned int i = 0; i < c.channels.size(); i++)
-        cat_file_ << static_cast<int>(c.channels[i]) << ',';
-    cat_file_ << '\n';
+        cat_file_ << static_cast<int>(c.channels[i]) << ",\n";
 
-    for (int i = 0; i < static_cast<int>(b.dishes.size()); i++)
+    for (int i = 0; i < static_cast<int>(c.cas.size()); i++)
     {
-        burst_file_ << i << ',' << b.dishes[i].header.stamp.sec << ','
-                    << b.dishes[i].header.stamp.nsec << ',';
+        cat_file_ << i << ',' << c.cas[i].header.stamp.toSec() << ','
+                  << c.cas[i].x << ',' << c.cas[i].y << ',';
         for (int j = 0; j < 60; j++)
-            burst_file_ << b.dishes[i].samples[j] << ',';
-        burst_file_ << '\n';
-
-        cat_file_ << i << ',' << c.cas[i].header.stamp.sec << ','
-                  << c.cas[i].header.stamp.nsec << ',' << c.cas[i].x << ','
-                  << c.cas[i].y << ",\n";
+            cat_file_ << b.dishes[i].samples[j] << ',';
+        cat_file_ << '\n';
     }
 }
 

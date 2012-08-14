@@ -9,6 +9,5 @@ brian_running_time: 21.0
 brian_connections_file_path: '/home/jon/ros_workspace/other_stuff/pickle/connections_2012-8-8-10:51:10.pickle'
 brian_pad_neuron_map_file_path: '/home/jon/ros_workspace/other_stuff/pickle/pad_2012-8-8-10:51:10.pickle'
 volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_volt_distr_log.csv'
-burst_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_burst_log.csv'
 cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_cat_log.csv'
 do_truncate_volts: 1
