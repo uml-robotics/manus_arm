@@ -7,12 +7,13 @@ import struct
 import std_msgs.msg
 
 class ranges(genpy.Message):
-  _md5sum = "ada6008902a7cca0b84e11e77b2bc593"
+  _md5sum = "4760225b9a5eb17caa1ce5a89eca2bc9"
   _type = "burst_calc/ranges"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Ranges message
 Header header
 float64[60] baselines
+float64[60] thresholds
 float64[60] min_volts
 float64[60] max_volts
 ================================================================================
@@ -34,8 +35,8 @@ time stamp
 string frame_id
 
 """
-  __slots__ = ['header','baselines','min_volts','max_volts']
-  _slot_types = ['std_msgs/Header','float64[60]','float64[60]','float64[60]']
+  __slots__ = ['header','baselines','thresholds','min_volts','max_volts']
+  _slot_types = ['std_msgs/Header','float64[60]','float64[60]','float64[60]','float64[60]']
 
   def __init__(self, *args, **kwds):
     """
@@ -45,7 +46,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,baselines,min_volts,max_volts
+       header,baselines,thresholds,min_volts,max_volts
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -58,6 +59,8 @@ string frame_id
         self.header = std_msgs.msg.Header()
       if self.baselines is None:
         self.baselines = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
+      if self.thresholds is None:
+        self.thresholds = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
       if self.min_volts is None:
         self.min_volts = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
       if self.max_volts is None:
@@ -65,6 +68,7 @@ string frame_id
     else:
       self.header = std_msgs.msg.Header()
       self.baselines = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
+      self.thresholds = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
       self.min_volts = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
       self.max_volts = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
 
@@ -89,6 +93,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       buff.write(_struct_60d.pack(*self.baselines))
+      buff.write(_struct_60d.pack(*self.thresholds))
       buff.write(_struct_60d.pack(*self.min_volts))
       buff.write(_struct_60d.pack(*self.max_volts))
     except struct.error as se: self._check_types(se)
@@ -121,6 +126,9 @@ string frame_id
       self.baselines = _struct_60d.unpack(str[start:end])
       start = end
       end += 480
+      self.thresholds = _struct_60d.unpack(str[start:end])
+      start = end
+      end += 480
       self.min_volts = _struct_60d.unpack(str[start:end])
       start = end
       end += 480
@@ -146,6 +154,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       buff.write(self.baselines.tostring())
+      buff.write(self.thresholds.tostring())
       buff.write(self.min_volts.tostring())
       buff.write(self.max_volts.tostring())
     except struct.error as se: self._check_types(se)
@@ -177,6 +186,9 @@ string frame_id
       start = end
       end += 480
       self.baselines = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=60)
+      start = end
+      end += 480
+      self.thresholds = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=60)
       start = end
       end += 480
       self.min_volts = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=60)

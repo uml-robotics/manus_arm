@@ -79,26 +79,50 @@ void DataHandler::update()
     }
 }
 
+void DataHandler::updateMinMax(const neuro_recv::dish_state& d)
+{
+    for (int i = 0; i < 60; i++)
+    {
+        if (d.samples[i] > dViz.getMaxVolt(i))
+        {
+            dViz.setMaxVolt(i, d.samples[i]);
+            ROS_INFO("Range correction: max of channel %d set to %f", i,
+                     d.samples[i]);
+        }
+        else if (d.samples[i] < dViz.getMinVolt(i))
+        {
+            dViz.setMinVolt(i, d.samples[i]);
+            ROS_INFO("Range correction: min of channel %d set to %f", i,
+                     d.samples[i]);
+        }
+    }
+}
+
 void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
 {
     // Don't start storing dishes in the queue until the buffer is done
     if (dishes_received_ < buffer_size_)
         dishes_received_++;
     else
+    {
+        updateMinMax(*d);
         queue_.push(*d);
+    }
 }
 
 void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)
 {
     start_ = true;
+    ROS_INFO("Visualizer starting");
 }
 
 void DataHandler::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
-    dViz.setVoltRanges(r->baselines, r->min_volts, r->max_volts);
+    dViz.setVoltRanges(r->baselines, r->thresholds, r->min_volts, r->max_volts);
     for (int i = 0; i < 60; i++)
-        printf("%d: Min[%f] Base[%f] Max[%f]\n", i, r->min_volts[i],
-               r->baselines[i], r->max_volts[i]);
+        printf("%d: Min[%f] Base[%f] Tresh[%f] Max[%f]\n", i, r->min_volts[i],
+               r->baselines[i], r->thresholds[i], r->max_volts[i]);
+    ROS_INFO("Min/max/baseline ranges set");
 }
 
 int main(int argc, char **argv)

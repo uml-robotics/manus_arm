@@ -93,7 +93,8 @@ burst_calc::ranges BufferSpikeDetector::getRanges()
     burst_calc::ranges ranges;
     for (int i = 0; i < 60; i++)
     {
-        ranges.baselines[i] = thresholds_[i];
+        ranges.baselines[i] = baselines_[i];
+        ranges.thresholds[i] = thresholds_[i];
         ranges.min_volts[i] = min_volts_[i];
         ranges.max_volts[i] = max_volts_[i];
     }

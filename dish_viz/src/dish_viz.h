@@ -24,6 +24,7 @@ public:
 
 private:
     void update();
+    void updateMinMax(const neuro_recv::dish_state& d);
     void dishCallback(const neuro_recv::dish_state::ConstPtr& d);
     void burstCallback(const burst_calc::burst::ConstPtr& b);
     void rangesCallback(const burst_calc::ranges::ConstPtr& r);

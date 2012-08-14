@@ -103,13 +103,22 @@ int DishVisualizer::intMap(double input, double min_in, double max_in,
 void DishVisualizer::redraw() {
 	while (isInit) {
 			for (uint showChan = 0; showChan < data.size(); showChan++) {
+			    // Below baseline is red
 				uint16_t red = intMap(data[showChan], min_volts[showChan],
-				                      baselines[showChan], 65535, 0);
-				//High positive numbers are bright blue
-				uint16_t blue = intMap(data[showChan], baselines[showChan],
-				                       max_volts[showChan], 0, 65535);
-				//No one likes green
+				                      thresholds[showChan], 65535, 0);
+
+				// Between baseline and threshold is green
 				uint16_t green = 0;
+
+				// Above threshold is blue
+				uint16_t blue = intMap(data[showChan], thresholds[showChan],
+                                       max_volts[showChan], 0, 65535);
+
+			    /*uint16_t red = data[showChan] < baselines[showChan] ? 65535 : 0;
+			    uint16_t green = (data[showChan] >= baselines[showChan]) &&
+			                     (data[showChan] < thresholds[showChan])? 65535 : 0;
+			    uint16_t blue = data[showChan] >= thresholds[showChan] ? 65535 : 0;*/
+
 				plotter->color(red, green, blue);
 
 				//Get the center coordinates and draw the circle
@@ -136,12 +145,14 @@ void DishVisualizer::update(int channel, double newValue) {
 }
 
 void DishVisualizer::setVoltRanges(const boost::array<double, 60>& b,
+                                   const boost::array<double, 60>& t,
                                    const boost::array<double, 60>& min,
                                    const boost::array<double, 60>& max)
 {
     for (int i = 0; i < 60; i++)
     {
         baselines[i] = b[i];
+        thresholds[i] = t[i];
         min_volts[i] = min[i];
         max_volts[i] = max[i];
     }
