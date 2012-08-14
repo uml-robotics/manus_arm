@@ -1,7 +1,7 @@
 <launch>
 
     <!-- Launch file for Brian simulation -->
-    <arg name="receiver_node" value="brian_recv.py"/>
+    <arg name="receiver_node" value="csv_recv"/>
     <rosparam command="load" file="$(find arm)/launch/brian.yaml"/>
     
     <!-- Node Manager -->

@@ -90,6 +90,15 @@ void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
     printf("rangesCallback called");
     for (int i = 0; i < 60; i++)
         offsets_[i] = r->min_volts[i];
+
+    if (save_to_file_)
+    {
+        cat_file_ << "threshold_volts,,,,";
+        for (int i = 0; i < 60; i++)
+            cat_file_ << r->thresholds[i] << ',';
+        cat_file_ << "\n\n";
+    }
+
     is_init_ = true;
 }
 
