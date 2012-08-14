@@ -10,8 +10,9 @@
 #ifndef VOLT_DISTR_CREATOR_H_
 #define VOLT_DISTR_CREATOR_H_
 
-#include "volt_distr.h"
 #include "neuro_recv/dish_state.h"
+#include <map>
+#include <vector>
 #include <fstream>
 
 // Truncates a double to a max of 4 digits after the decimal
@@ -37,7 +38,7 @@ public:
     void setDoTruncateVolts(int i) { do_truncate_volts_ = i; }
 
 private:
-    VoltDistr volt_distr_[60];
+    std::map<double, std::vector<int> > volts_;
     std::ofstream log_file_;
     bool do_truncate_volts_;
 };

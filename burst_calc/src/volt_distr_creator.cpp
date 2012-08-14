@@ -9,13 +9,9 @@
 
 #include "burst_calc/volt_distr_creator.h"
 #include "ros/ros.h"
-#include <map>
 
 VoltDistrCreator::VoltDistrCreator()
 {
-    for (int i = 0; i < 60; i++)
-        volt_distr_[i].setId(i);
-
     do_truncate_volts_ = false;
 }
 
@@ -29,10 +25,28 @@ void VoltDistrCreator::add(const neuro_recv::dish_state& d)
 {
     for (int i = 0; i < 60; i++)
     {
+        double volt = d.samples[i];
+
+        // Truncate the voltage if appropriate
         if (do_truncate_volts_)
-            volt_distr_[i].add(truncate(d.samples[i]));
+            volt = truncate(volt);
+
+        if (volts_.count(volt) > 0)
+        {
+            // If the voltage has already been logged, increment the count for
+            // this channel
+            volts_[volt][i] += 1;
+        }
         else
-            volt_distr_[i].add(d.samples[i]);
+        {
+            // Otherwise create a new pair for the voltage with a count of 1
+            // for this channel
+            std::vector<int> channels(60, 0);
+            channels[i] = 1;
+
+            std::pair<double, std::vector<int> > new_volt(volt, channels);
+            volts_.insert(new_volt);
+        }
     }
 }
 
@@ -46,17 +60,19 @@ void VoltDistrCreator::toFile(const std::string& file_path)
         return;
     }
 
-    std::map<double, int>::iterator it;
+    // Write the header
+    log_file_ << "voltage,";
     for (int i = 0; i < 60; i++)
+        log_file_ << "channel_" << i << ',';
+    log_file_ << '\n';
+
+    // Write the data
+    std::map<double, std::vector<int> >::iterator it;
+    for (it = volts_.begin(); it != volts_.end(); it++)
     {
-        log_file_ << "channel_" << i << ",voltage,";
-        for (it = volt_distr_[i].begin(); it != volt_distr_[i].end(); it++)
-            log_file_ << (*it).first << ',';
-
-        log_file_ << "\n,frequency,";
-        for (it = volt_distr_[i].begin(); it != volt_distr_[i].end(); it++)
-            log_file_ << (*it).second << ',';
-
-        log_file_ << "\n\n";
+        log_file_ << (*it).first << ',';
+        for (int i = 0; i < 60; i++)
+            log_file_ << (*it).second[i] << ',';
+        log_file_ << '\n';
     }
 }
