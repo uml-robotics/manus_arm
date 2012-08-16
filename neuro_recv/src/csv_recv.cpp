@@ -28,9 +28,17 @@ void CsvReceiver::init()
 
     if (file.is_open())
     {
-        // Skip the first 23 lines (header data) and the next 10,000 lines
-        // (to account for initialization)
-        for (int i = 0; i < 10023; i++)
+        // Get skip_lines parameter
+        int skip_lines;
+        if (!n_.getParam("csv_skip_lines", skip_lines))
+        {
+            ROS_ERROR("Could not load buffer_size parameter, default will be used");
+            skip_lines = 0;
+        }
+
+        // Skip lines in the CSV file to account for headers and junk data
+        // recorded during initialization
+        for (int i = 0; i < skip_lines; i++)
             file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         ros::Publisher dish_state_pub = n_.advertise<neuro_recv::dish_state>

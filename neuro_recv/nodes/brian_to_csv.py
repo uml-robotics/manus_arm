@@ -117,14 +117,14 @@ def brianRecv(connections, channels):
         
     # Open CSV file for recording
     log = open('/home/jon/ros_workspace/other_stuff/csv/brian.csv', 'w')
-    
-    # Emulate a real CSV file with a 23-line header and 10,000 lines of skipped
-    # data
-    log.write('\n' * 10023)
-    
+    log.write('index,')
+    for index in range(60):
+        log.write('channel_' + str(index) + ',')
+    log.write('\n')
+       
     # Write the dishes
     for current_dish in range(len(M[recorded_neurons[0]])):    
-        log.write(',')
+        log.write(str(current_dish) + ',')
         for index in range(60):
             volt = 0.0
             

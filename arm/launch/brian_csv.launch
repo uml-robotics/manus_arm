@@ -1,8 +1,7 @@
 <launch>
 
-    <!-- Launch file for Brian simulation -->
-    <arg name="receiver_node" value="csv_recv"/>
-    <rosparam command="load" file="$(find arm)/launch/brian.yaml"/>
+    <!-- Launch file for Brian CSV playback -->
+    <rosparam command="load" file="$(find arm)/launch/brian_csv.yaml"/>
     
     <!-- Node Manager -->
     <!-- <node pkg="node_manager_fkie" name="nm" type="nm"/> -->
@@ -26,6 +25,6 @@
     <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
 
     <!-- Receiver Node -->
-    <node pkg="neuro_recv" name="recv" type="$(arg receiver_node)"/>
+    <node pkg="neuro_recv" name="recv" type="csv_recv"/>
         
 </launch>
