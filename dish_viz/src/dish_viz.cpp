@@ -13,11 +13,11 @@ void DataHandler::init()
     dViz.init();
     time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
 
-    dish_sub_ = n_.subscribe("fwd_dish_states", 1000,
+    dish_sub_ = n_.subscribe("dish_states_to_dish_viz", 1000,
                              &DataHandler::dishCallback, this);
-    burst_sub_ = n_.subscribe("fwd_bursts", 1, &DataHandler::burstCallback,
+    burst_sub_ = n_.subscribe("bursts_to_dish_viz", 1, &DataHandler::burstCallback,
                               this);
-    ranges_sub_ = n_.subscribe("ranges", 1, &DataHandler::rangesCallback,
+    ranges_sub_ = n_.subscribe("ranges_to_dish_viz", 1, &DataHandler::rangesCallback,
                                this);
 
     // Get loop rate parameter

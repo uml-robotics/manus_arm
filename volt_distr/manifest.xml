@@ -1,0 +1,16 @@
+<package>
+  <description brief="volt_distr">
+
+     volt_distr
+
+  </description>
+  <author>Jon</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/volt_distr</url>
+  <depend package="roscpp"/>
+  <depend package="neuro_recv"/>
+
+</package>
+
+

@@ -2,6 +2,12 @@
 # Parameters for ARM movement from a Brian simulation                          #
 ################################################################################
 
+    # Whether or not to record voltage distributions
+do_volt_distr: Yes
+
+    # Whether or not to run the burst calculation chain
+do_burst_calc: Yes
+
     # ARM speed. Range from 0 (slowest) to 4 (fastest)
 arm_speed: 2
 
@@ -26,15 +32,14 @@ stdev_mult: 2.0
     # Maximum number of dishes to evaluate for a single burst
 burst_window: 200
 
-    # Path of CAT CSV log
-cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_cat_log.csv'
-
     # Path of voltage distribution CSV log
 volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_volt_distr_log.csv'
 
-    # Whether or not to truncate volts when recording to a distribution. 1 for 
-    # yes (Brian simulation) or 0 for no (real data)
-do_truncate_volts: 1
+    # Whether or not to truncate volts when recording to a distribution
+do_truncate_volts: Yes
+
+    # Path of CAT CSV log
+cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_cat_log.csv'
 
     # Path of voltage recordings CSV file
 #csv_file_path:

@@ -3,7 +3,7 @@
 // Author : Jonathan Hasenzahl
 // Date   : 2012
 //
-// Voltage distribution creator class for the ROS node "spike_detector". Creates
+// Voltage distribution creator class for the ROS node "volt_distr". Creates
 // a distribution of recorded voltages on each channel.
 // =============================================================================
 

@@ -40,33 +40,16 @@ void BurstCreator::init()
         burst_window_ = 1000;
     }
 
-    // Get volt_distr_log_path parameter
-    do_log_volt_distr_ = true;
-    if (!n_.getParam("volt_distr_log_path", volt_distr_log_path_))
-    {
-        ROS_ERROR("Could not load volt_distr_log_path parameter, logging will be disabled");
-        do_log_volt_distr_ = false;
-    }
-
-    // Get do_truncate_volts parameter
-    int do_truncate_volts;
-    if (!n_.getParam("do_truncate_volts", do_truncate_volts))
-    {
-        ROS_ERROR("Could not load do_truncate_volts parameter, default is false");
-        do_truncate_volts = 0;
-    }
-    volt_distr_creator_.setDoTruncateVolts(do_truncate_volts);
-
     // Init the BufferSpikeDetector
     buf_.init(buffer_size, stdev_mult);
 
     // Init the subscribers and publishers
-    burst_pub_ = n_.advertise<burst_calc::burst>("bursts", 1000);
-    burst_fwd_ = n_.advertise<burst_calc::burst>("fwd_bursts", 1);
-    dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("fwd_dish_states",
+    burst_pub_ = n_.advertise<burst_calc::burst>("bursts_to_cat_creator", 1000);
+    burst_fwd_ = n_.advertise<burst_calc::burst>("bursts_to_dish_viz", 1);
+    dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("dish_states_to_dish_viz",
                                                            1000);
-    ranges_pub_ = n_.advertise<burst_calc::ranges>("ranges", 1);
-    ranges_fwd_ = n_.advertise<burst_calc::ranges>("fwd_ranges", 1);
+    ranges_pub_ = n_.advertise<burst_calc::ranges>("ranges_to_dish_viz", 1);
+    ranges_fwd_ = n_.advertise<burst_calc::ranges>("ranges_to_cat_creator", 1);
 
     // Wait for subscribers before continuing
     ROS_INFO("Waiting for subscribers...");
@@ -74,7 +57,7 @@ void BurstCreator::init()
            burst_fwd_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscribers found. Continuing...");
 
-    dish_state_sub_ = n_.subscribe("dish_states", 1000, &BurstCreator::callback,
+    dish_state_sub_ = n_.subscribe("dishes_to_burst_creator", 1000, &BurstCreator::callback,
                                    this);
 
     // Wait for a publisher of "dish_states" before continuing
@@ -97,9 +80,6 @@ void BurstCreator::addDish()
 
     if (buf_.isBuffered())
     {
-        // Add the dish to the volt distribution creator
-        volt_distr_creator_.add(d);
-
         // For each channel:
         // 1. Update the burst checker
         // 2. Update the time in merger
@@ -218,10 +198,6 @@ void BurstCreator::finish()
             merger_.deletePublished();
         }
     }
-
-    // Log the voltage distributions
-    if (do_log_volt_distr_)
-        volt_distr_creator_.toFile(volt_distr_log_path_);
 }
 
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)

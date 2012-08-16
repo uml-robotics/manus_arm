@@ -49,8 +49,8 @@ void CatCreator::init()
     while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
     ROS_INFO("Subscriber found. Continuing...");
 
-    burst_sub_ = n_.subscribe("bursts", 1000, &CatCreator::callback, this);
-    ranges_sub_ = n_.subscribe("fwd_ranges", 1, &CatCreator::rangesCallback,
+    burst_sub_ = n_.subscribe("bursts_to_cat_creator", 1000, &CatCreator::callback, this);
+    ranges_sub_ = n_.subscribe("ranges_to_cat_creator", 1, &CatCreator::rangesCallback,
                                this);
 
     // Wait for a publisher of "bursts"
