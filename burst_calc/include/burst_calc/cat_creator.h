@@ -36,11 +36,11 @@ const int Y_COORD_[60] = {    1, 1, 1, 1, 1, 1,
 class CatCreator
 {
 public:
-    CatCreator() { is_init_ = false; }
+    CatCreator() { init(); }
     ~CatCreator();
-    void init();
 
 private:
+    void init();
     void callback(const burst_calc::burst::ConstPtr& b);
     void rangesCallback(const burst_calc::ranges::ConstPtr& r);
     const burst_calc::ca getCa(const neuro_recv::dish_state& d);

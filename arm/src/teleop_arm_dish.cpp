@@ -19,52 +19,59 @@
 
 void TeleopArmDish::init()
 {
+    // Initialize client and publisher
+    //     Cartesian commands or constant move commands: for now you can use one
+    //     or the other. Keep one commented out.
+    //cmd_pub_ = n_.advertise<arm::cartesian_moves>("cartesian_moves", 1000);
+    cmd_pub_ = n_.advertise<arm::constant_move_time>("constant_move_times", 1);
     time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
 
+    // Wait for subscriber
+    ROS_INFO("Waiting for subscriber...");
+    while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
+
+    // Initialize subscriber
+    cat_sub_ = n_.subscribe("cats", 1000, &TeleopArmDish::callback, this);
+
+    // Run the node
+    run();
+}
+
+void TeleopArmDish::getParams()
+{
     // Get ARM speed parameter
     if (!n_.getParam("arm_speed", speed_))
     {
-        ROS_ERROR("Could not load arm_speed parameter, default will be used");
+        ROS_ERROR("Could not load arm_speed parameter, default is 2");
         speed_ = 2;
     }
 
     // Get ARM safe range parameter
     if (!n_.getParam("arm_safe_range", arm_safe_range_))
     {
-        ROS_ERROR("Could not load arm_safe_range parameter, default will be used");
+        ROS_ERROR("Could not load arm_safe_range parameter, default is 20000.0");
         arm_safe_range_ = 20000.0;
     }
 
     // Get max range from midpoint parameter
     if (!n_.getParam("max_range_from_midpoint", max_range_from_midpoint_))
     {
-        ROS_ERROR("Could not load max_range_from_midpoint parameter, default will be used");
+        ROS_ERROR("Could not load max_range_from_midpoint parameter, default is 1.0");
         max_range_from_midpoint_ = 1.0;
     }
+}
 
-    // Cartesian commands or constant move commands, for now you can use one
-    // or the other. Keep one commented out.
-    //cmd_pub_ = n_.advertise<arm::cartesian_moves>("cartesian_moves", 1000);
-    cmd_pub_ = n_.advertise<arm::constant_move_time>("constant_move_times", 1);
-
-    // Wait for subscriber to "cartesian_moves"
-    ROS_INFO("Waiting for subscriber...");
-    while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
-    ROS_INFO("Subscriber found. Continuing...");
-
-    cat_sub_ = n_.subscribe("cats", 1000, &TeleopArmDish::callback, this);
-
-    // Wait for a publisher of "cats"
-    ROS_INFO("Waiting for publisher...");
-    while (cat_sub_.getNumPublishers() < 1 && ros::ok());
-    ROS_INFO("Publisher found. Continuing...");
-
-    // Main loop
+void TeleopArmDish::run()
+{
     while(ros::ok())
     {
         ros::spinOnce();
         if (!queue_.empty())
+        {
+            // Use one or the other, keep only one uncommented
+            //publishCartesianMove();
             publishConstantMove();
+        }
     }
 }
 

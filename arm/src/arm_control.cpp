@@ -27,7 +27,7 @@ void ArmControl::init()
     // Get ARM speed parameter
     if (!n_.getParam("arm_speed", speed_))
     {
-        ROS_ERROR("Could not load arm_speed parameter, default will be used");
+        ROS_ERROR("Could not load arm_speed parameter, default is 2");
         speed_ = 2;
     }
 

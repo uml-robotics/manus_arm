@@ -20,43 +20,28 @@ CatCreator::~CatCreator()
 
 void CatCreator::init()
 {
+    is_init_ = false;
     save_to_file_ = true;
 
-    // Get cat log path parameter
-    std::string cat_file;
-    if (save_to_file_)
-    {
-        if (n_.getParam("cat_log_path", cat_file))
-        {
-            if (cat_file.compare("none") == 0)
-            {
-                ROS_WARN("CSV logging is disabled");
-                save_to_file_ = false;
-            }
-        }
-        else
-        {
-            ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
-            save_to_file_ = false;
-        }
-    }
-
-
+    // Initialize publisher
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
 
-    // Wait for a subscriber to "cats"
+    // Wait for subscriber
     ROS_INFO("Waiting for subscriber...");
     while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
-    ROS_INFO("Subscriber found. Continuing...");
 
+    // Initialize subscribers
     burst_sub_ = n_.subscribe("bursts_to_cat_creator", 1000, &CatCreator::callback, this);
     ranges_sub_ = n_.subscribe("ranges_to_cat_creator", 1, &CatCreator::rangesCallback,
                                this);
 
-    // Wait for a publisher of "bursts"
-    ROS_INFO("Waiting for publisher...");
-    while (burst_sub_.getNumPublishers() < 1 && ros::ok());
-    ROS_INFO("Publisher found. Continuing...");
+    // Get cat log path parameter
+    std::string cat_file;
+    if (!n_.getParam("cat_log_path", cat_file))
+    {
+        ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
+        save_to_file_ = false;
+    }
 
     if (save_to_file_)
         initFile(cat_file.c_str());
@@ -177,6 +162,5 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "cat_creator");
     CatCreator cat_creator;
-    cat_creator.init();
     return 0;
 }
