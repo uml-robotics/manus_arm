@@ -15,56 +15,60 @@
 
 void BurstCreator::init()
 {
-    time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
+    // Get parameters
+    getParams();
 
+    // Initialize the client and publishers
+    time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
+    burst_pub_cat_ = n_.advertise<burst_calc::burst>("bursts_to_cat_creator", 1000);
+    burst_pub_viz_ = n_.advertise<burst_calc::burst>("bursts_to_dish_viz", 1);
+    ranges_pub_cat_ = n_.advertise<burst_calc::ranges>("ranges_to_cat_creator", 1);
+    ranges_pub_viz_ = n_.advertise<burst_calc::ranges>("ranges_to_dish_viz", 1);
+
+    // Wait for subscribers before continuing
+    ROS_INFO("Waiting for subscribers...");
+    while (burst_pub_cat_.getNumSubscribers() < 1 &&
+           burst_pub_viz_.getNumSubscribers() < 1 &&
+           ranges_pub_cat_.getNumSubscribers() < 1 &&
+           ranges_pub_viz_.getNumSubscribers() < 1 && ros::ok());
+
+    // Initialize the subscriber
+    dish_state_sub_ = n_.subscribe("dishes_to_burst_creator", 1000, &BurstCreator::callback,
+                                   this);
+
+    // Initialize the BufferSpikeDetector
+    buf_.init(buffer_size_, stdev_mult_);
+
+    // Run the node
+    run();
+}
+
+void BurstCreator::getParams()
+{
     // Get buffer_size parameter
-    int buffer_size;
-    if (!n_.getParam("buffer_size", buffer_size))
+    if (!n_.getParam("buffer_size", buffer_size_))
     {
-        ROS_ERROR("Could not load buffer_size parameter, default will be used");
-        buffer_size = 1000;
+        ROS_ERROR("Could not load buffer_size parameter, default is 1000");
+        buffer_size_ = 1000;
     }
 
     // Get stdev_mult parameter
-    double stdev_mult;
-    if (!n_.getParam("stdev_mult", stdev_mult))
+    if (!n_.getParam("stdev_mult", stdev_mult_))
     {
-        ROS_ERROR("Could not load stdev_mult parameter, default will be used");
-        stdev_mult = 3.0;
+        ROS_ERROR("Could not load stdev_mult parameter, default is 3.0");
+        stdev_mult_ = 3.0;
     }
 
     // Get burst_window parameter
     if (!n_.getParam("burst_window", burst_window_))
     {
-        ROS_ERROR("Could not load burst_window parameter, default will be used");
+        ROS_ERROR("Could not load burst_window parameter, default is 1000");
         burst_window_ = 1000;
     }
+}
 
-    // Init the BufferSpikeDetector
-    buf_.init(buffer_size, stdev_mult);
-
-    // Init the subscribers and publishers
-    burst_pub_ = n_.advertise<burst_calc::burst>("bursts_to_cat_creator", 1000);
-    burst_fwd_ = n_.advertise<burst_calc::burst>("bursts_to_dish_viz", 1);
-    dish_state_fwd_ = n_.advertise<neuro_recv::dish_state>("dish_states_to_dish_viz",
-                                                           1000);
-    ranges_pub_ = n_.advertise<burst_calc::ranges>("ranges_to_dish_viz", 1);
-    ranges_fwd_ = n_.advertise<burst_calc::ranges>("ranges_to_cat_creator", 1);
-
-    // Wait for subscribers before continuing
-    ROS_INFO("Waiting for subscribers...");
-    while (burst_pub_.getNumSubscribers() < 1 &&
-           burst_fwd_.getNumSubscribers() < 1 && ros::ok());
-    ROS_INFO("Subscribers found. Continuing...");
-
-    dish_state_sub_ = n_.subscribe("dishes_to_burst_creator", 1000, &BurstCreator::callback,
-                                   this);
-
-    // Wait for a publisher of "dish_states" before continuing
-    ROS_INFO("Waiting for publisher...");
-    while (dish_state_sub_.getNumPublishers() < 1 && ros::ok());
-    ROS_INFO("Publisher found. Continuing...");
-
+void BurstCreator::run()
+{
     while (ros::ok())
     {
         ros::spinOnce();
@@ -118,11 +122,11 @@ void BurstCreator::addDish()
                     ROS_INFO("Time server seeded successfully");
                 else
                     ROS_ERROR("Time server is not responding");
-                burst_fwd_.publish(merger_.getBurst());
+                burst_pub_viz_.publish(merger_.getBurst());
                 run_once = false;
             }
 
-            burst_pub_.publish(merger_.getBurst());
+            burst_pub_cat_.publish(merger_.getBurst());
 
             printf("*** Publish : [Sz %4d] [%6.3f - %6.3f] [Ch",
                    static_cast<int>(merger_.getBurst().dishes.size()),
@@ -149,8 +153,8 @@ void BurstCreator::addDish()
                                 burst_window_);
 
             burst_calc::ranges ranges = buf_.getRanges();
-            ranges_pub_.publish(ranges);
-            ranges_fwd_.publish(ranges);
+            ranges_pub_cat_.publish(ranges);
+            ranges_pub_viz_.publish(ranges);
         }
     }
 }
@@ -183,7 +187,7 @@ void BurstCreator::finish()
         // Publish any remaining bursts
         while (merger_.canPublish())
         {
-            burst_pub_.publish(merger_.getBurst());
+            burst_pub_cat_.publish(merger_.getBurst());
 
             printf("*** Publish : [Sz %4d] [%6.3f - %6.3f] [Ch",
                    static_cast<int>(merger_.getBurst().dishes.size()),
@@ -206,10 +210,7 @@ void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
     if (d->last_dish)
         finish();
     else
-    {
-        dish_state_fwd_.publish(*d); // Forward the dish state to dish_viz
         queue_.push(*d);
-    }
 }
 
 int main(int argc, char** argv)

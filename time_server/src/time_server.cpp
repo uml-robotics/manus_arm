@@ -39,6 +39,5 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "time_server");
     TimeServer time_server;
-    time_server.init();
     return 0;
 }

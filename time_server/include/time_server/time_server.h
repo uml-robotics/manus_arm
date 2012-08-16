@@ -15,10 +15,10 @@
 class TimeServer
 {
 public:
-    TimeServer() {};
-    void init();
+    TimeServer() { init(); }
 
 private:
+    void init();
     bool service(time_server::time_srv::Request& req,
                  time_server::time_srv::Response& res);
 

@@ -25,22 +25,28 @@ public:
 
 private:
     void init();
+    void getParams();
+    void run();
     void addDish();
     void finish();
     void callback(const neuro_recv::dish_state::ConstPtr& d);
 
     ros::NodeHandle n_;
     ros::Subscriber dish_state_sub_;
-    ros::Publisher dish_state_fwd_;
-    ros::Publisher burst_pub_;
-    ros::Publisher burst_fwd_;
-    ros::Publisher ranges_pub_;
-    ros::Publisher ranges_fwd_;
+    ros::Publisher burst_pub_cat_;
+    ros::Publisher burst_pub_viz_;
+    ros::Publisher ranges_pub_cat_;
+    ros::Publisher ranges_pub_viz_;
     ros::ServiceClient time_client_;
+
     std::queue<neuro_recv::dish_state> queue_;
+
     BufferSpikeDetector buf_;
     BurstChecker bursts_[60];
     BurstMerger merger_;
+
+    int buffer_size_;
+    int stdev_mult_;
     int burst_window_;
 };
 
