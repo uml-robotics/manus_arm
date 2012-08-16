@@ -25,8 +25,7 @@ private:
     void callback(const neuro_recv::dish_state::ConstPtr& d);
 
     ros::NodeHandle n_;
-    ros::Subscriber dish_state_sub_;
-    ros::Publisher dish_state_pub_;
+    ros::Subscriber dish_sub_;
     VoltDistrCreator data_;
     int dishes_received_;
     std::string volt_distr_log_path_;

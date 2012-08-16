@@ -47,9 +47,7 @@ void CsvReceiver::init()
 bool CsvReceiver::getParams()
 {
     // Get file_name parameter
-    std::string file_name;
-    std::ifstream file;
-    if (!n_.getParam("csv_file_path", file_name))
+    if (!n_.getParam("csv_file_path", file_name_))
     {
         ROS_FATAL("Could not load csv_file_path parameter");
         return false;

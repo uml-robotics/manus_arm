@@ -15,6 +15,8 @@ void VoltDistr::init()
 {
     dishes_received_ = 0;
 
+    dish_sub_ = n_.subscribe("dish_states_to_volt_distr", 1000, &VoltDistr::callback, this);
+
     // Get do_forward_dish_states parameter
     if (!n_.getParam("do_forward_dish_states", do_fwd_dish_states_))
     {
@@ -59,4 +61,11 @@ void VoltDistr::init()
 void VoltDistr::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
 
+}
+
+int main(int argc, char** argv)
+{
+    ros::init(argc, argv, "volt_distr");
+    VoltDistr volt_distr;
+    return 0;
 }
