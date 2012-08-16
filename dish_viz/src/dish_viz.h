@@ -19,10 +19,13 @@
 class DataHandler
 {
 public:
-    DataHandler() { dishes_received_ = 0; }
-    void init();
+    DataHandler() { init(); }
+    ~DataHandler() { if (loop_rate_) delete loop_rate_; }
 
 private:
+    void init();
+    void getParams();
+    void run();
     void update();
     void updateMinMax(const neuro_recv::dish_state& d);
     void dishCallback(const neuro_recv::dish_state::ConstPtr& d);
@@ -34,11 +37,11 @@ private:
     ros::Subscriber burst_sub_;
     ros::Subscriber ranges_sub_;
     ros::ServiceClient time_client_;
-    DishVisualizer dViz;
+    ros::Rate* loop_rate_;
+
+    DishVisualizer dviz_;
     std::queue<neuro_recv::dish_state> queue_;
     bool start_;
-    int buffer_size_;
-    int dishes_received_;
 };
 
 #endif
