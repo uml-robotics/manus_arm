@@ -22,16 +22,15 @@ public:
 
 private:
     void init();
+    void getParams();
     void callback(const neuro_recv::dish_state::ConstPtr& d);
 
     ros::NodeHandle n_;
     ros::Subscriber dish_sub_;
     VoltDistrCreator data_;
-    int dishes_received_;
     std::string volt_distr_log_path_;
     bool do_log_volt_distr_;
     bool do_truncate_volts_;
-    int buffer_size_;
 };
 
 #endif

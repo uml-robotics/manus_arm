@@ -1,24 +1,25 @@
 ################################################################################
-# Parameters for ARM movement from a CSV recording of live data                #
+# Parameters for only recording voltage distributions from a CSV recording of  #
+# live data                                                                    #
 ################################################################################
 
     # Whether or not to record voltage distributions
 do_volt_distr: Yes
 
     # Whether or not to run the burst calculation chain
-do_burst_calc: Yes
+do_burst_calc: No
 
     # ARM speed. Range from 0 (slowest) to 4 (fastest)
-arm_speed: 2
+#arm_speed: 2
 
     # Maximum range that the ARM can safely move on the X/Y plane from the start 
     # position in any direction. Should be 20000 unless the start position is
     # altered. Units are 0.022mm
-arm_safe_range: 20000.0
+#arm_safe_range: 20000.0
 
     # Maximum range that the CA will move from the midpoint (4.5, 4.5) of an X/Y 
     # grid. TODO: Make this a self-correcting value rather than a parameter
-max_range_from_midpoint: 0.28
+#max_range_from_midpoint: 0.28
 
     # Playback speed in Hz. A value over 200 may cause errors
 loop_rate: 200
@@ -27,10 +28,10 @@ loop_rate: 200
 buffer_size: 1000
 
     # Multiplier of the standard deviation when determining spike threshold
-stdev_mult: 2.5
+#stdev_mult: 2.5
 
     # Maximum number of dishes to evaluate for a single burst
-burst_window: 200
+#burst_window: 200
 
     # Path of voltage distribution CSV log
 volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr_log.csv'
@@ -39,7 +40,7 @@ volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr_lo
 do_truncate_volts: No
 
     # Path of CAT CSV log
-cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_cat_log.csv'
+#cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_cat_log.csv'
 
     # Path of voltage recordings CSV file
 csv_file_path: '/home/jon/ros_workspace/other_stuff/csv/no56_labviewdatafile.csv'
