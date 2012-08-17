@@ -15,6 +15,9 @@
     <!-- Dish Visualizer -->
     <node pkg="dish_viz" name="dish_viz" type="dish_viz"/>
     
+    <!-- Voltage Distribution Creator -->
+    <node pkg="volt_distr" name="volt_distr" type="volt_distr"/>
+    
     <!-- Dish/ARM Teleop -->
     <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/>
     

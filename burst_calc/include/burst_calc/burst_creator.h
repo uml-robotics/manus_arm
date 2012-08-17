@@ -46,7 +46,7 @@ private:
     BurstMerger merger_;
 
     int buffer_size_;
-    int stdev_mult_;
+    double stdev_mult_;
     int burst_window_;
 };
 

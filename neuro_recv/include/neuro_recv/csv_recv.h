@@ -18,7 +18,6 @@ class CsvReceiver
 {
 public:
     CsvReceiver() { init(); }
-    ~CsvReceiver() { if (loop_rate_) delete loop_rate_; }
 
 private:
     void init();
@@ -32,7 +31,6 @@ private:
     ros::Publisher dish_pub_volt_;
     ros::Publisher dish_pub_viz_;
     ros::Publisher dish_pub_burst_;
-    ros::Rate* loop_rate_;
     ros::Duration offset_;
 
     std::string file_name_;
@@ -42,6 +40,7 @@ private:
     bool do_burst_calc_;
     int skip_lines_;
     int buffer_size_;
+    int loop_rate_;
 };
 
 #endif

@@ -82,13 +82,11 @@ bool CsvReceiver::getParams()
     }
 
     // Get loop rate parameter
-    int loop_rate;
-    if (!n_.getParam("loop_rate", loop_rate))
+    if (!n_.getParam("loop_rate", loop_rate_))
     {
         ROS_ERROR("Could not load loop_rate parameter, default is 200");
-        loop_rate = 200;
+        loop_rate_ = 200;
     }
-    loop_rate_ = new ros::Rate(loop_rate);
 
     return true;
 }
@@ -121,14 +119,16 @@ void CsvReceiver::publishBuffer()
 {
     ROS_INFO("Publishing buffer dishes...");
 
+    ros::Rate loop_rate(loop_rate_);
     std::string line;
+
     if (do_burst_calc_)
     {
         for (int i = 0; i < buffer_size_ && ros::ok(); i++)
         {
             getline(file_, line);
             dish_pub_burst_.publish(parse(line, false));
-            loop_rate_->sleep();
+            loop_rate.sleep();
         }
     }
     else
@@ -142,18 +142,38 @@ void CsvReceiver::publish()
 {
     ROS_INFO("Publishing dishes...");
 
+    ros::Rate loop_rate(loop_rate_);
     std::string line;
-    while (getline(file_, line) && ros::ok())
+
+    if (do_volt_distr_ && do_burst_calc_)
     {
-        neuro_recv::dish_state dish = parse(line, true);
-        if (do_volt_distr_)
-            dish_pub_volt_.publish(dish);
-        if (do_burst_calc_)
+        while (getline(file_, line) && ros::ok())
         {
+            neuro_recv::dish_state dish = parse(line, true);
+            dish_pub_volt_.publish(dish);
             dish_pub_viz_.publish(dish);
             dish_pub_burst_.publish(dish);
+            loop_rate.sleep();
         }
-        loop_rate_->sleep();
+    }
+    else if (do_volt_distr_)
+    {
+        while (getline(file_, line) && ros::ok())
+        {
+            neuro_recv::dish_state dish = parse(line, true);
+            dish_pub_volt_.publish(dish);
+            loop_rate.sleep();
+        }
+    }
+    else if (do_burst_calc_)
+    {
+        while (getline(file_, line) && ros::ok())
+        {
+            neuro_recv::dish_state dish = parse(line, true);
+            dish_pub_viz_.publish(dish);
+            dish_pub_burst_.publish(dish);
+            loop_rate.sleep();
+        }
     }
 
     // Last dish lets the nodes know to finish up

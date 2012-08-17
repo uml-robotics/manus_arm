@@ -17,28 +17,12 @@ void VoltDistr::init()
 
     dish_sub_ = n_.subscribe("dish_states_to_volt_distr", 1000, &VoltDistr::callback, this);
 
-    // Get do_forward_dish_states parameter
-    if (!n_.getParam("do_forward_dish_states", do_fwd_dish_states_))
-    {
-        ROS_ERROR("Could not load do_forward_dish_states parameter, default will be used");
-        do_fwd_dish_states_ = true;
-    }
-
     // Get buffer_size parameter
     if (!n_.getParam("buffer_size", buffer_size_))
     {
         ROS_ERROR("Could not load buffer_size parameter, default will be used");
         buffer_size_ = 1000;
     }
-
-    // Get loop rate parameter
-    int rate;
-    if (!n_.getParam("loop_rate", rate))
-    {
-        ROS_ERROR("Could not load loop_rate parameter, default will be used");
-        rate = 200;
-    }
-    ros::Rate loop_rate(rate);
 
     // Get volt_distr_log_path parameter
     do_log_volt_distr_ = true;
@@ -49,18 +33,19 @@ void VoltDistr::init()
     }
 
     // Get do_truncate_volts parameter
-    int do_truncate_volts;
-    if (!n_.getParam("do_truncate_volts", do_truncate_volts))
+    if (!n_.getParam("do_truncate_volts", do_truncate_volts_))
     {
         ROS_ERROR("Could not load do_truncate_volts parameter, default is false");
-        do_truncate_volts = 0;
+        do_truncate_volts_ = false;
     }
-    data_.setDoTruncateVolts(do_truncate_volts);
+    data_.setDoTruncateVolts(do_truncate_volts_);
+
+    ros::spin();
 }
 
 void VoltDistr::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
-
+    printf("Callback called\n");
 }
 
 int main(int argc, char** argv)

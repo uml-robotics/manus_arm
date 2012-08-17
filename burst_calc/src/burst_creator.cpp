@@ -33,7 +33,7 @@ void BurstCreator::init()
            ranges_pub_viz_.getNumSubscribers() < 1 && ros::ok());
 
     // Initialize the subscriber
-    dish_state_sub_ = n_.subscribe("dishes_to_burst_creator", 1000, &BurstCreator::callback,
+    dish_state_sub_ = n_.subscribe("dish_states_to_burst_creator", 1000, &BurstCreator::callback,
                                    this);
 
     // Initialize the BufferSpikeDetector
