@@ -9,7 +9,6 @@
 // =============================================================================
 
 #include "burst_calc/cat_creator.h"
-#include <cstring>
 #include <cstdio>
 
 CatCreator::~CatCreator()
@@ -23,6 +22,8 @@ void CatCreator::init()
     is_init_ = false;
     save_to_file_ = true;
 
+    getParams();
+
     // Initialize publisher
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
 
@@ -35,18 +36,32 @@ void CatCreator::init()
     ranges_sub_ = n_.subscribe("ranges_to_cat_creator", 1, &CatCreator::rangesCallback,
                                this);
 
+    if (save_to_file_)
+        initFile(file_name_.c_str());
+
+    ros::spin();
+}
+
+void CatCreator::getParams()
+{
     // Get cat log path parameter
-    std::string cat_file;
-    if (!n_.getParam("cat_log_path", cat_file))
+    if (!n_.getParam("cat_log_path", file_name_))
     {
         ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
         save_to_file_ = false;
     }
+}
 
-    if (save_to_file_)
-        initFile(cat_file.c_str());
-
-    ros::spin();
+void CatCreator::updateOffsets(const neuro_recv::dish_state& d)
+{
+    for (int i = 0; i < 60; i++)
+    {
+        if (d.samples[i] < offsets_[i])
+        {
+            offsets_[i] = d.samples[i];
+            printf("Offset correction: channel %d set to %f\n", i, offsets_[i]);
+        }
+    }
 }
 
 void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
@@ -61,7 +76,10 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
         cat.end = b->end;
         cat.channels = b->channels;
         for (unsigned int i = 0; i < b->dishes.size(); i++)
+        {
+            updateOffsets(b->dishes[i]);
             cat.cas.push_back(getCa(b->dishes[i]));
+        }
         if (save_to_file_)
             toFile(*b, cat);
         cat_pub_.publish(cat);

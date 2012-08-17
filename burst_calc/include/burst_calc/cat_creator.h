@@ -14,7 +14,9 @@
 #include "burst_calc/ranges.h"
 #include "burst_calc/cat.h"
 #include "burst_calc/ca.h"
+#include "neuro_recv/dish_state.h"
 #include <fstream>
+#include <string>
 
 const int X_COORD_[60] = {    2, 3, 4, 5, 6, 7,
                            1, 2, 3, 4, 5, 6, 7, 8,
@@ -41,6 +43,8 @@ public:
 
 private:
     void init();
+    void getParams();
+    void updateOffsets(const neuro_recv::dish_state& d);
     void callback(const burst_calc::burst::ConstPtr& b);
     void rangesCallback(const burst_calc::ranges::ConstPtr& r);
     const burst_calc::ca getCa(const neuro_recv::dish_state& d);
@@ -52,6 +56,7 @@ private:
     ros::Subscriber ranges_sub_;
     ros::Publisher cat_pub_;
     std::ofstream cat_file_;
+    std::string file_name_;
     double offsets_[60];
     bool save_to_file_;
     bool is_init_;
