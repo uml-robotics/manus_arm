@@ -13,7 +13,8 @@
 
 void VoltDistr::init()
 {
-    do_log_volt_distr_ = true;
+    do_log_ = true;
+    do_img_ = true;
 
     // Get parameters
     getParams();
@@ -21,7 +22,9 @@ void VoltDistr::init()
     // Initialize subscriber
     dish_sub_ = n_.subscribe("dish_states_to_volt_distr", 1000, &VoltDistr::callback, this);
 
-    data_.setDoTruncateVolts(do_truncate_volts_);
+    // Initialize log and image objects
+    data_.setDoTruncateVolts(do_truncate_);
+    viz_ = new VoltDistrViz(img_path_);
 
     ros::spin();
 }
@@ -29,26 +32,33 @@ void VoltDistr::init()
 void VoltDistr::getParams()
 {
     // Get volt_distr_log_path parameter
-    if (!n_.getParam("volt_distr_log_path", volt_distr_log_path_))
+    if (!n_.getParam("volt_distr_log_path", log_path_))
     {
         ROS_ERROR("Could not load volt_distr_log_path parameter, logging will be disabled");
-        do_log_volt_distr_ = false;
+        do_log_ = false;
+    }
+
+    // Get volt_distr_img_path parameter
+    if (!n_.getParam("volt_distr_img_path", img_path_))
+    {
+        ROS_ERROR("Could not load volt_distr_img_path parameter, imaging will be disabled");
+        do_img_ = false;
     }
 
     // Get do_truncate_volts parameter
-    if (!n_.getParam("do_truncate_volts", do_truncate_volts_))
+    if (!n_.getParam("do_truncate_volts", do_truncate_))
     {
         ROS_ERROR("Could not load do_truncate_volts parameter, default is false");
-        do_truncate_volts_ = false;
+        do_truncate_ = false;
     }
 }
 
 void VoltDistr::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
-    if (d->last_dish && do_log_volt_distr_)
+    if (d->last_dish && do_log_)
     {
         ROS_INFO("Writing voltage distributions to CSV");
-        data_.toFile(volt_distr_log_path_);
+        data_.toFile(log_path_);
     }
     else
         data_.add(*d);

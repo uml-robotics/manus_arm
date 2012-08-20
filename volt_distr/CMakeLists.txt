@@ -32,4 +32,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 # Voltage Distribution Creator
 rosbuild_add_executable(volt_distr src/volt_distr.cpp)
 rosbuild_add_library(volt_distr_creator src/volt_distr_creator.cpp)
-target_link_libraries(volt_distr volt_distr_creator)
+rosbuild_add_library(volt_distr_viz src/volt_distr_viz.cpp)
+target_link_libraries(volt_distr_viz plotter Xaw Xmu Xt SM ICE Xext X11 png z m)
+target_link_libraries(volt_distr volt_distr_creator volt_distr_viz)

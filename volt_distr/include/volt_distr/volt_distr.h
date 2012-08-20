@@ -11,14 +11,16 @@
 
 #include "ros/ros.h"
 #include "volt_distr/volt_distr_creator.h"
+#include "volt_distr/volt_distr_viz.h"
 #include "neuro_recv/dish_state.h"
 #include <string>
+#include <fstream>
 
 class VoltDistr
 {
 public:
     VoltDistr() { init(); }
-
+    ~VoltDistr() { delete viz_; }
 
 private:
     void init();
@@ -27,10 +29,16 @@ private:
 
     ros::NodeHandle n_;
     ros::Subscriber dish_sub_;
+
     VoltDistrCreator data_;
-    std::string volt_distr_log_path_;
-    bool do_log_volt_distr_;
-    bool do_truncate_volts_;
+    VoltDistrViz* viz_;
+
+    std::string log_path_;
+    std::string img_path_;
+
+    bool do_log_;
+    bool do_img_;
+    bool do_truncate_;
 };
 
 #endif

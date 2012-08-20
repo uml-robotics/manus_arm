@@ -52,7 +52,7 @@ int DishVisualizer::init() {
 	plotter->bgcolor(0, 0, 0); //Black, colors are RGB, 16 bits/channel
 	plotter->erase();
 
-	for (int row = 0; row < ROWS; row++) {
+	for (int row = ROWS - 1; row >= 0; row--) {
 		for (int col = 0; col < COLS; col++) {
 			//Calculate the locations of the circles
 			if (!((row == 0 && col == 0) || (row == ROWS - 1 && col == COLS - 1)
@@ -113,11 +113,6 @@ void DishVisualizer::redraw() {
 				// Above threshold is blue
 				uint16_t blue = intMap(data[showChan], thresholds[showChan],
                                        max_volts[showChan], 0, 65535);
-
-			    /*uint16_t red = data[showChan] < baselines[showChan] ? 65535 : 0;
-			    uint16_t green = (data[showChan] >= baselines[showChan]) &&
-			                     (data[showChan] < thresholds[showChan])? 65535 : 0;
-			    uint16_t blue = data[showChan] >= thresholds[showChan] ? 65535 : 0;*/
 
 				plotter->color(red, green, blue);
 
