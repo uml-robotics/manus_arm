@@ -37,7 +37,7 @@ buffer_size: 1000
 volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr_log.csv'
 
     # Path of voltage distribution image
-volt_distr_img_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr.ppm'
+volt_distr_img_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr.svg'
 
     # Whether or not to truncate volts when recording to a distribution
 do_truncate_volts: No

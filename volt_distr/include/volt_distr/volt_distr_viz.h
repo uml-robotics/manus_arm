@@ -4,7 +4,7 @@
 // Date   : 2012
 //
 // Voltage distribution visualizer class for the ROS node "volt_distr". Creates
-// a PNG image showing voltage tendencies of each channel.
+// an SVG image showing voltage tendencies of each channel.
 // =============================================================================
 
 #ifndef VOLT_DISTR_VIZ_H_
@@ -28,7 +28,7 @@ public:
 private:
     void init(const std::string& file_name);
 
-    PNMPlotter* plotter_;
+    SVGPlotter* plotter_;
     std::ofstream file_;
     std::vector< boost::array<int, 4> > coords_;
 

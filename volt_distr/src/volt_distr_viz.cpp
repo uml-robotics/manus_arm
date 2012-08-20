@@ -4,7 +4,7 @@
 // Date   : 2012
 //
 // Voltage distribution visualizer class for the ROS node "volt_distr". Creates
-// a PNG image showing voltage tendencies of each channel.
+// an SVG image showing voltage tendencies of each channel.
 // =============================================================================
 
 #include "volt_distr/volt_distr_viz.h"
@@ -40,12 +40,12 @@ void VoltDistrViz::init(const std::string& file_name)
 
     // Set plotter parameters
     PlotterParams params;
-    ostringstream bitmapsize;
-    bitmapsize << P_WIDTH << 'x' << P_HEIGHT;
-    params.setplparam("BITMAPSIZE", (void*) bitmapsize.str().c_str());
-    params.setplparam("BG_COLOR", (char*) "black");
+    //ostringstream bitmapsize;
+    //bitmapsize << P_WIDTH << 'x' << P_HEIGHT;
+    //params.setplparam("BITMAPSIZE", (void*) bitmapsize.str().c_str());
+    params.setplparam("BG_COLOR", (char*) "none");
 
-    plotter_ = new PNMPlotter(cin, file_, cerr, params);
+    plotter_ = new SVGPlotter(cin, file_, cerr, params);
 
     if (plotter_->openpl() < 0)
     {
@@ -106,8 +106,9 @@ void VoltDistrViz::draw(const boost::array<double, 60>& percents)
         // Draw the label over the center/center of the box
         plotter_->move((coords_[i][0] + coords_[i][2]) / 2,
                        (coords_[i][1] + coords_[i][3]) / 2);
-
-        plotter_->alabel('c', 'c', "Test");
+        ostringstream volt;
+        volt << fixed << setprecision(2) << (percents[i] * 100) << '%';
+        plotter_->alabel('c', 'c', volt.str().c_str());
         plotter_->endpath();
     }
 
