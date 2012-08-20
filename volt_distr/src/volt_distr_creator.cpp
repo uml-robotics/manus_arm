@@ -13,19 +13,21 @@
 VoltDistrCreator::VoltDistrCreator()
 {
     do_truncate_volts_ = false;
-}
-
-VoltDistrCreator::~VoltDistrCreator()
-{
-    if (log_file_.is_open())
-        log_file_.close();
+    negatives_.fill(0);
+    total_dishes_ = 0;
 }
 
 void VoltDistrCreator::add(const neuro_recv::dish_state& d)
 {
+    total_dishes_++;
+
     for (int i = 0; i < 60; i++)
     {
         double volt = d.samples[i];
+
+        // Check to see if the voltage is negative
+        if (volt < 0.0)
+            negatives_[i]++;
 
         // Truncate the voltage if appropriate
         if (do_truncate_volts_)
@@ -75,4 +77,17 @@ void VoltDistrCreator::toFile(const std::string& file_path)
             log_file_ << (*it).second[i] << ',';
         log_file_ << '\n';
     }
+
+    log_file_.close();
+}
+
+boost::array<double, 60> VoltDistrCreator::getPercents()
+{
+    boost::array<double, 60> percents;
+    for (int i = 0; i < 60; i++)
+    {
+        percents[i] = static_cast<double>(negatives_[i]) / total_dishes_;
+        printf("%d: %f = %d / %d\n", i, percents[i], negatives_[i], total_dishes_);
+    }
+    return percents;
 }

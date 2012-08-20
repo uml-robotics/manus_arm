@@ -55,10 +55,18 @@ void VoltDistr::getParams()
 
 void VoltDistr::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
-    if (d->last_dish && do_log_)
+    if (d->last_dish)
     {
-        ROS_INFO("Writing voltage distributions to CSV");
-        data_.toFile(log_path_);
+        if (do_log_)
+        {
+            ROS_INFO("Writing voltage distributions to CSV");
+            data_.toFile(log_path_);
+        }
+        if (do_img_)
+        {
+            ROS_INFO("Creating voltage distribution image");
+            viz_->draw(data_.getPercents());
+        }
     }
     else
         data_.add(*d);

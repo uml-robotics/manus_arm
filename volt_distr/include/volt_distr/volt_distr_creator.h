@@ -30,10 +30,10 @@ class VoltDistrCreator
 {
 public:
     VoltDistrCreator();
-    ~VoltDistrCreator();
 
     void add(const neuro_recv::dish_state& d);
     void toFile(const std::string& file_path);
+    boost::array<double, 60> getPercents();
 
     void setDoTruncateVolts(int i) { do_truncate_volts_ = i; }
 
@@ -41,6 +41,8 @@ private:
     std::map<double, std::vector<int> > volts_;
     std::ofstream log_file_;
     bool do_truncate_volts_;
+    boost::array<int, 60> negatives_;
+    int total_dishes_;
 };
 
 #endif

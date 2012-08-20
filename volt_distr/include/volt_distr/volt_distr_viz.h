@@ -15,6 +15,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 class VoltDistrViz
 {
@@ -22,13 +23,14 @@ public:
     VoltDistrViz(const std::string& file_name) { init(file_name); }
     ~VoltDistrViz();
 
-    bool ok() { return is_ok_; }
+    void draw(const boost::array<double, 60>& percents);
 
 private:
     void init(const std::string& file_name);
 
     PNMPlotter* plotter_;
     std::ofstream file_;
+    std::vector< boost::array<int, 4> > coords_;
 
     bool is_ok_;
 };
