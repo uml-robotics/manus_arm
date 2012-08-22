@@ -21,7 +21,7 @@ do_burst_calc: No
     # grid. TODO: Make this a self-correcting value rather than a parameter
 #max_range_from_midpoint: 0.28
 
-    # Playback speed in Hz. A value over 200 may cause errors
+    # Playback speed in Hz. A value over 200 may cause segfaults in arm_control
 loop_rate: 1000
 
     # Number of dishes to use to get spike threshold and baseline values

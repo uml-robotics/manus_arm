@@ -19,6 +19,7 @@
 #define Y_START     X_START
 #define X_STEP      C_WIDTH
 #define Y_STEP      X_STEP
+#define MAX_COLOR   65535
 
 VoltDistrViz::~VoltDistrViz()
 {
@@ -91,13 +92,13 @@ void VoltDistrViz::draw(const boost::array<double, 60>& percents)
         if (percents[i] > 0.5)
         {
             // Channel has more than 50% negative voltages
-            int red = 65535 * 2 * (percents[i] - .5);
+            int red = MAX_COLOR * 2 * (percents[i] - .5);
             plotter_->fillcolor(red, 0, 0);
         }
         else
         {
             // Channel has not more than 50% negative voltages
-            int blue = 65535 * 2 * (.5 - percents[i]);
+            int blue = MAX_COLOR * 2 * (.5 - percents[i]);
             plotter_->fillcolor(0, 0, blue);
         }
         plotter_->box(coords_[i][0], coords_[i][1], coords_[i][2], coords_[i][3]);

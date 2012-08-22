@@ -20,7 +20,7 @@ arm_safe_range: 20000.0
     # grid. TODO: Make this a self-correcting value rather than a parameter
 max_range_from_midpoint: 1.5
 
-    # Playback speed in Hz. A value over 200 may cause errors
+    # Playback speed in Hz. A value over 200 may cause segfaults in arm_control
 loop_rate: 200
 
     # Number of dishes to use to get spike threshold and baseline values
@@ -34,6 +34,9 @@ burst_window: 200
 
     # Path of voltage distribution CSV log
 volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_volt_distr_log.csv'
+
+    # Path of voltage distribution image
+volt_distr_img_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_volt_distr.svg'
 
     # Whether or not to truncate volts when recording to a distribution
 do_truncate_volts: Yes

@@ -3,9 +3,6 @@
     <!-- Launch file for CSV playback -->
     <rosparam command="load" file="$(find arm)/launch/csv.yaml"/>
     
-    <!-- Node Manager -->
-    <!-- <node pkg="node_manager_fkie" name="nm" type="nm"/> -->
-    
     <!-- Time Server -->
     <node pkg="time_server" name="time_server" type="time_server"/>    
 
