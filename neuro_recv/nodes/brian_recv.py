@@ -6,6 +6,11 @@ from brian import *
 from pickle import Unpickler
 import random
 
+class BrianSimulation():
+    def __init__(self, connections, channels):
+        
+
+
 '''
 Data structure for a MEA channel pad
     neurons: list of neurons within range of the pad
@@ -56,7 +61,7 @@ def brianRecv(connections, channels):
         pass
     rospy.loginfo('Subscriber found. Continuing...')
 
-        # LIF model, different time constants for excitory and inhibitory
+    # LIF model, different time constants for excitory and inhibitory
     eqs = Equations('''
           dv/dt = (ge+gi-(v+49*mV))/(20*ms) : volt
           dge/dt = -ge/(5*ms)               : volt
@@ -107,7 +112,7 @@ def brianRecv(connections, channels):
     # If timestep = 1, then 10 actions are recorded every ms.
     # If timestep = 10, then 1 action is recorded every ms.
     # Setting timestep to 1 is in effect 30 s of simulation in just 3 s.
-    M = StateMonitor(P, "v", record=recorded_neurons, timestep=1)
+    M = StateMonitor(P, "v", record=recorded_neurons, timestep=10)
 
     # Get running time parameter
     try:
@@ -117,8 +122,9 @@ def brianRecv(connections, channels):
         running_time = 30.0
         
     # Run the simulation
+    # Divide seconds by 10 if timestep=1 above
     rospy.loginfo("Running simulation...")
-    run(running_time / 10 * second)
+    run(running_time * second)
     rospy.loginfo("Simulation finished")    
 
     # Get loop rate parameter

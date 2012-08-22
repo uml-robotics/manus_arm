@@ -1,0 +1,30 @@
+<launch>
+
+    <!-- Launch file for recording voltages only from CSV playback -->
+    <rosparam command="load" file="$(find arm)/launch/volt_only_brian_csv.yaml"/>
+    
+    <!-- Time Server -->
+    <!-- <node pkg="time_server" name="time_server" type="time_server"/> -->   
+
+    <!-- ARM Control -->   
+    <!-- <node pkg="arm" name="arm_control" type="arm_control"/> -->
+  
+    <!-- Dish Visualizer -->
+    <!-- <node pkg="dish_viz" name="dish_viz" type="dish_viz"/> -->
+    
+    <!-- Voltage Distribution Creator -->
+    <node pkg="volt_distr" name="volt_distr" type="volt_distr"/>
+    
+    <!-- Dish/ARM Teleop -->
+    <!-- <node pkg="arm" name="teleop_arm_dish" type="teleop_arm_dish"/> -->
+    
+    <!-- CAT Creator -->
+    <!-- <node pkg="burst_calc" name="cat_creator" type="cat_creator"/> -->
+
+    <!-- Burst Creator -->
+    <!-- <node pkg="burst_calc" name="burst_creator" type="burst_creator"/> -->
+
+    <!-- Receiver Node -->
+    <node pkg="neuro_recv" name="recv" type="csv_recv"/>
+        
+</launch>
