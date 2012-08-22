@@ -1,0 +1,61 @@
+################################################################################
+# Parameters for ARM movement from a Brian simulation                          #
+################################################################################
+
+    # Whether or not to record voltage distributions
+do_volt_distr: Yes
+
+    # Whether or not to run the burst calculation chain
+do_burst_calc: No
+
+    # ARM speed. Range from 0 (slowest) to 4 (fastest)
+#arm_speed: 2
+
+    # Maximum range that the ARM can safely move on the X/Y plane from the start 
+    # position in any direction. Should be 20,000 unless the start position is
+    # altered. Units are 0.022mm
+#arm_safe_range: 20000.0
+
+    # Maximum range that the CA will move from the midpoint (4.5, 4.5) of an X/Y 
+    # grid. TODO: Make this a self-correcting value rather than a parameter
+#max_range_from_midpoint: 1.5
+
+    # Playback speed in Hz. A value over 200 may cause segfaults in arm_control
+loop_rate: 1000
+
+    # Number of dishes to use to get spike threshold and baseline values
+buffer_size: 1000
+
+    # Multiplier of the standard deviation when determining spike threshold
+#stdev_mult: 1.75
+
+    # Maximum number of dishes to evaluate for a single burst
+#burst_window: 200
+
+    # Path of voltage distribution CSV log
+volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_volt_distr_log.csv'
+
+    # Path of voltage distribution image
+volt_distr_img_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_volt_distr.svg'
+
+    # Whether or not to truncate volts when recording to a distribution
+do_truncate_volts: Yes
+
+    # Path of CAT CSV log
+#cat_log_path: '/home/jon/ros_workspace/other_stuff/logs/brian_sim_cat_log.csv'
+
+    # Path of voltage recordings CSV file
+#csv_file_path:
+
+    # Number of lines to skip in the CSV file to account for headers and junk
+    # data
+#csv_skip_lines:
+
+    # Path of Brian connections file
+brian_connections_file_path: '/home/jon/ros_workspace/other_stuff/pickle/connections_2012-8-8-10:51:10.pickle'
+
+    # Path of Brian pad neuron map file
+brian_pad_neuron_map_file_path: '/home/jon/ros_workspace/other_stuff/pickle/pad_2012-8-8-10:51:10.pickle'
+
+    # Running time of Brian simulation in seconds
+brian_running_time: 21.0
