@@ -25,6 +25,6 @@
     <node pkg="burst_calc" name="burst_creator" type="burst_creator"/>
 
     <!-- Receiver Node -->
-    <node pkg="neuro_recv" name="recv" type="brian_recv"/>
+    <node pkg="neuro_recv" name="recv" type="brian_recv.py"/>
         
 </launch>
