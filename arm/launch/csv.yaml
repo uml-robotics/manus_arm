@@ -9,7 +9,7 @@ do_volt_distr: Yes
 do_burst_calc: Yes
 
     # ARM speed. Range from 0 (slowest) to 4 (fastest)
-arm_speed: 2
+arm_speed: 0
 
     # Maximum range that the ARM can safely move on the X/Y plane from the start 
     # position in any direction. Should be 20000 unless the start position is

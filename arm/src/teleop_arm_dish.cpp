@@ -206,12 +206,12 @@ void TeleopArmDish::publishConstantMove()
             if (x < 0)
             {
                 ROS_INFO("X is to the LEFT of the midpoint, moving LEFT");
-                cmd.move.states[ARM_Y] = ARM_LEFT;
+                cmd.move.states[ARM_Y] = 0;//ARM_LEFT;
             }
             else
             {
                 ROS_INFO("X is to the RIGHT of the midpoint, moving RIGHT");
-                cmd.move.states[ARM_Y] = ARM_RIGHT;
+                cmd.move.states[ARM_Y] = 0;//ARM_RIGHT;
             }
 
             if (y < 0)
