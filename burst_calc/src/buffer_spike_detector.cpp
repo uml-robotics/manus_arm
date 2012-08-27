@@ -13,9 +13,12 @@
 
 BufferSpikeDetector::BufferSpikeDetector()
 {
-    // Initialize min and max volts to fake values so they will update properly
+    dishes_received_ = 0;
+
     for (int i = 0; i < 60; i++)
     {
+        sums_[i] = 0.0;
+        sum_squares_[i] = 0.0;
         min_volts_[i] = 1.0;
         max_volts_[i] = -1.0;
     }
@@ -29,7 +32,28 @@ void BufferSpikeDetector::init(int buffer_size, double stdev_mult)
 
 void BufferSpikeDetector::add(const neuro_recv::dish_state& d)
 {
-    data_.push_back(d);
+    dishes_received_++;
+
+    // Update min/max and add to sum
+    for (int i = 0; i < 60; i++)
+    {
+        if (d.samples[i] > max_volts_[i])
+        {
+            if (i == 0)
+                printf("%.5f > Max (%.5f)\n", d.samples[i], max_volts_[i]);
+            max_volts_[i] = d.samples[i];
+        }
+
+        if (d.samples[i] < min_volts_[i])
+        {
+            if (i == 0)
+                printf("%.5f < Min (%.5f)\n", d.samples[i], min_volts_[i]);
+            min_volts_[i] = d.samples[i];
+        }
+
+        sums_[i] += d.samples[i];
+        sum_squares_[i] += d.samples[i] * d.samples[i];
+    }
 
     // Calculate the baselines and thresholds if there are enough dish states
     if (isBuffered())
@@ -38,52 +62,14 @@ void BufferSpikeDetector::add(const neuro_recv::dish_state& d)
 
 void BufferSpikeDetector::calculate()
 {
-    int size = data_.size();
-
-    // Initialize and calculate each sum
-    double sum[60];
-    for (int i = 0; i < 60; i++)
-        sum[i] = 0.0;
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < 60; j++)
-        {
-            sum[j] += data_[i].samples[j];
-
-            if (data_[i].samples[j] > max_volts_[j])
-                max_volts_[j] = data_[i].samples[j];
-            else if (data_[i].samples[j] < min_volts_[j])
-                min_volts_[j] = data_[i].samples[j];
-        }
-    }
-
-    // Calculate each baseline and initialize each sum of squares
-    double sum_squares[60];
     for (int i = 0; i < 60; i++)
     {
-        baselines_[i] = sum[i] / size;
-        sum_squares[i] = 0.0;
-    }
-
-    // Calculate each sum of squares
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < 60; j++)
-            sum_squares[j] += pow(data_[i].samples[j] - baselines_[j], 2);
-    }
-
-    // Calculate each standard deviation and threshold
-    double stdev[60];
-    for (int i = 0; i < 60; i++)
-    {
-        stdev[i] = sqrt(sum_squares[i] / (size - 1));
-        thresholds_[i] = stdev[i] * stdev_mult_ + baselines_[i];
-    }
-
-    for (int i = 0; i < 60; i++)
-    {
+        baselines_[i] = sums_[i] / dishes_received_;
+        variances_[i] = (sum_squares_[i] - ((sums_[i] * sums_[i]) / dishes_received_)) / (dishes_received_ - 1);
+        stdevs_[i] = sqrt(variances_[i]);
+        thresholds_[i] = stdevs_[i] * stdev_mult_ + baselines_[i];
         printf("Min: %+.5f Max: %+.5f Base: %+.5f StDev: %+.5f Thresh: %+.5f\n",
-               min_volts_[i], max_volts_[i], baselines_[i], stdev[i],
+               min_volts_[i], max_volts_[i], baselines_[i], stdevs_[i],
                thresholds_[i]);
     }
 }

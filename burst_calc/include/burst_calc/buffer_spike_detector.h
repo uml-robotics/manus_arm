@@ -21,18 +21,22 @@ public:
     void add(const neuro_recv::dish_state& d);
     double getBaseline(int index) { return baselines_[index]; }
     double getThreshold(int index) { return thresholds_[index]; }
-    bool isBuffered() { return static_cast<int>(data_.size()) >= buffer_size_; }
+    bool isBuffered() { return dishes_received_ >= buffer_size_; }
     burst_calc::ranges getRanges();
 
 private:
     void calculate();
 
-    std::vector<neuro_recv::dish_state> data_;
-    boost::array<double, 60> baselines_;
-    boost::array<double, 60> thresholds_;
-    boost::array<double, 60> min_volts_;
-    boost::array<double, 60> max_volts_;
+    double sums_[60];
+    double sum_squares_[60];
+    double baselines_[60];
+    double variances_[60];
+    double stdevs_[60];
+    double thresholds_[60];
+    double min_volts_[60];
+    double max_volts_[60];
     int buffer_size_;
+    int dishes_received_;
     double stdev_mult_;
 };
 
