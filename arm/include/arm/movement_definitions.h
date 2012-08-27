@@ -22,9 +22,9 @@
 
 // Movement state array indexes (0-8)
 // Position array indexes (0-6 only)
-#define ARM_Z 0
-#define ARM_X 1
-#define ARM_Y 2
+#define ARM_X 0 // Forward/backward
+#define ARM_Y 1 // Left/right
+#define ARM_Z 2 // Up/down
 #define CLAW_YAW 3
 #define CLAW_PITCH 4
 #define CLAW_ROLL 5
@@ -41,8 +41,11 @@ namespace manus_arm
 float stop[] = { 0, 0, 0, 0, 0, 0, 0 };
 
 // Arrays of positions
-float origin_position[] = { 14000, 0, 0, 0, 0, 0, -10000 };
+//float origin_position[] = { 14000, 0, 0, 0, 0, 0, -10000 };
+float origin_position[] = { 15000, -4500, 19000, 0, 0, 0, -10000 };
 float final_position[] = { 8000, -4500, 6000, 0, 0, 0, -10000 };
+//float origin_position[] = { 19000, 15000, -4500, 0, 0, 0, -10000 };
+//float final_position[] = { 6000, 8000, -4500, 0, 0, 0, -10000 };
 }
 
 #endif

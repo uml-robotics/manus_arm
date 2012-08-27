@@ -201,30 +201,28 @@ void TeleopArmDish::publishConstantMove()
             // Set the applicable movement states.
             // If axis - midpoint is positive, movement is up/right
             // If axis - midpoint is negative, movement is down/left
-            // NOTE: The logic is currently backwards from what is stated to
-            // match the upside-down view of the dish_viz node
             x -= MIDPOINT;
             y -= MIDPOINT;
             if (x < 0)
             {
                 ROS_INFO("X is to the LEFT of the midpoint, moving LEFT");
-                cmd.move.states[ARM_X] = ARM_LEFT;
+                cmd.move.states[ARM_Y] = ARM_LEFT;
             }
             else
             {
                 ROS_INFO("X is to the RIGHT of the midpoint, moving RIGHT");
-                cmd.move.states[ARM_X] = ARM_RIGHT;
+                cmd.move.states[ARM_Y] = ARM_RIGHT;
             }
 
             if (y < 0)
             {
-                ROS_INFO("Y is ABOVE the midpoint, moving UP");
-                cmd.move.states[ARM_Y] = ARM_UP;
+                ROS_INFO("Y is ABOVE the midpoint, moving FORWARD");
+                cmd.move.states[ARM_X] = ARM_FORWARD;
             }
             else
             {
-                ROS_INFO("Y is BELOW the midpoint, moving DOWN");
-                cmd.move.states[ARM_Y] = ARM_DOWN;
+                ROS_INFO("Y is BELOW the midpoint, moving BACKWARD");
+                cmd.move.states[ARM_X] = ARM_BACKWARD;
             }
 
             cmd.move.states[SPEED] = speed_;

@@ -1,3 +1,12 @@
+/**
+ * \brief ROS node "arm_control"
+ * \copyright 2012 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl, Abe Shultz
+ *
+ * Implements the ROS node "arm_control". This node moves the arm based on
+ * commands from teleop nodes.
+ */
+
 // =============================================================================
 // Name   : arm_control.cpp
 // Author : Jonathan Hasenzahl
@@ -99,8 +108,6 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
-    printf("constantMoveCallback called\n");
-
     if (cmd->query)
     {
         arm_->getPosition(actual_position_);

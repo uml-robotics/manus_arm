@@ -64,9 +64,9 @@
 // Use the indexes defined in movement_states.h for movement state arrays and
 // position state arrays
 #define LIFT 0
-#define Z 1
-#define X 2
-#define Y 3
+#define X 1 // Forward/backward
+#define Y 2 // Left/right
+#define Z 3 // Up/down
 #define YAW 4
 #define PITCH 5
 #define ROLL 6

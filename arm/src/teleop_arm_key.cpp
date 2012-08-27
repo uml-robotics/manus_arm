@@ -97,24 +97,24 @@ bool TeleopArmKey::getCommand(const char c)
 
     // Arm control
     case KEYCODE_W:
-        cmd_.states[ARM_Z] = cmd_.states[ARM_Z] == ARM_FORWARD ? STOP :
+        cmd_.states[ARM_X] = cmd_.states[ARM_X] == ARM_FORWARD ? STOP :
                              ARM_FORWARD;
         break;
     case KEYCODE_A:
-        cmd_.states[ARM_X] = cmd_.states[ARM_X] == ARM_LEFT ? STOP : ARM_LEFT;
+        cmd_.states[ARM_Y] = cmd_.states[ARM_Y] == ARM_LEFT ? STOP : ARM_LEFT;
         break;
     case KEYCODE_S:
-        cmd_.states[ARM_Z] = cmd_.states[ARM_Z] == ARM_BACKWARD ? STOP :
+        cmd_.states[ARM_X] = cmd_.states[ARM_X] == ARM_BACKWARD ? STOP :
                              ARM_BACKWARD;
         break;
     case KEYCODE_D:
-        cmd_.states[ARM_X] = cmd_.states[ARM_X] == ARM_RIGHT ? STOP : ARM_RIGHT;
+        cmd_.states[ARM_Y] = cmd_.states[ARM_Y] == ARM_RIGHT ? STOP : ARM_RIGHT;
         break;
     case KEYCODE_Z:
-        cmd_.states[ARM_Y] = cmd_.states[ARM_Y] == ARM_UP ? STOP : ARM_UP;
+        cmd_.states[ARM_Z] = cmd_.states[ARM_Z] == ARM_UP ? STOP : ARM_UP;
         break;
     case KEYCODE_X:
-        cmd_.states[ARM_Y] = cmd_.states[ARM_Y] == ARM_DOWN ? STOP : ARM_DOWN;
+        cmd_.states[ARM_Z] = cmd_.states[ARM_Z] == ARM_DOWN ? STOP : ARM_DOWN;
         break;
     case KEYCODE_F:
         // Fold: not implemented
