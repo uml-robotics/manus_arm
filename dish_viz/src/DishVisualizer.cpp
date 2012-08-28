@@ -20,14 +20,34 @@
 DishVisualizer::DishVisualizer() {
 	isInit = FALSE;
 	data.assign(60, 0);
+	for (int i = 0; i < 60; i++)
+	{
+	    baselines[i] = 0.0;
+	    thresholds[i] = 0.0;
+	    min_volts[i] = 0.0;
+	    max_volts[i] = 0.0;
+	}
 }
 
 DishVisualizer::~DishVisualizer() {
 	isInit = FALSE;
 }
 
-int DishVisualizer::init() {
+int DishVisualizer::init(int mode) {
 	isInit = FALSE;
+
+	// Set color mode
+    if (mode >= 0 && mode <= 3)
+    {
+        color_mode = mode;
+        ROS_INFO("Visualizer color mode set to %d", color_mode);
+    }
+    else
+    {
+        color_mode = RED_BLUE_SEPARATED;
+        ROS_WARN("Color mode (%d) is out of range [0...3]", mode);
+    }
+
 	/* set Plotter parameters */
 	PlotterParams plotter_params;
 	//convert width and height to config string
@@ -51,6 +71,12 @@ int DishVisualizer::init() {
 	plotter->filltype(1); //Fill objects
 	plotter->bgcolor(0, 0, 0); //Black, colors are RGB, 16 bits/channel
 	plotter->erase();
+
+	// Draw lines to separate grid into quadrants
+	plotter->pencolorname("white");
+	plotter->line(P_WIDTH / 2, 0, P_WIDTH / 2, P_HEIGHT);
+	plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
+	plotter->endpath();
 
 	for (int row = ROWS - 1; row >= 0; row--) {
 		for (int col = 0; col < COLS; col++) {
@@ -102,34 +128,82 @@ int DishVisualizer::intMap(double input, double min_in, double max_in,
 
 void DishVisualizer::redraw() {
 	while (isInit) {
-			for (uint showChan = 0; showChan < data.size(); showChan++) {
-				uint16_t red; // Below threshold is red
-				uint16_t green = 0; // No one likes green
-				uint16_t blue; // Above threshold is blue
+	    // Draw lines to separate grid into quadrants
+        plotter->pencolorname("white");
+        plotter->line(P_WIDTH / 2, 0, P_WIDTH / 2, P_HEIGHT);
+        plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
+        plotter->endpath();
 
-				if (data[showChan] > thresholds[showChan])
-				{
-				    // Above threshold
-				    red = 0;
-				    blue = 65535;
-				}
-				else
-				{
-				    // Not above threshold
-				    red = intMap(data[showChan], min_volts[showChan],
-				                 thresholds[showChan], 65535, 0);
-				    blue = 0;
-				}
+        for (uint showChan = 0; showChan < data.size(); showChan++) {
+            uint16_t red = 0;
+            uint16_t green = 0;
+            uint16_t blue = 0;
 
-				plotter->color(red, green, blue);
+            switch (color_mode)
+            {
+                // Red/blue separated:
+                //     Channels at/under threshold are a red gradient
+                //     Channels above threshold are solid blue
+                case RED_BLUE_SEPARATED:
+                    if (data[showChan] <= thresholds[showChan])
+                        red = intMap(data[showChan], min_volts[showChan],
+                                     thresholds[showChan], MAX_COLOR / 2, 0);
+                    else
+                        blue = MAX_COLOR;
+                    break;
 
-				//Get the center coordinates and draw the circle
-				int xPos = centers[showChan][0];
-				int yPos = centers[showChan][1];
+                // Red/blue mix:
+                //     Channels have a mix of red and blue. Mostly red
+                //     indicates a low value and mostly blue indicates a
+                //     high value.
+                case RED_BLUE_MIX:
+                    red = intMap(data[showChan], min_volts[showChan],
+                                 max_volts[showChan], MAX_COLOR, 0);
+                    blue = intMap(data[showChan], min_volts[showChan],
+                                 max_volts[showChan], 0, MAX_COLOR);
+                    break;
 
-				//ROS_INFO("%d = %f: %d, %d, %d at (%d, %d)", showChan, data[showChan], red, green, blue, xPos, yPos);
-				plotter->circle(xPos, yPos, RADIUS);
-			}
+                // Red/green/blue:
+                //     Channels at/under baseline are a red gradient
+                //     Channels above baseline and at/under threshold are
+                //       a green gradient
+                //     Channels above threshold are solid blue
+                case RED_GREEN_BLUE:
+                    if (data[showChan] <= baselines[showChan])
+                        red = intMap(data[showChan], min_volts[showChan],
+                                     thresholds[showChan], MAX_COLOR, 0);
+                    else if (data[showChan] <= thresholds[showChan])
+                        green = intMap(data[showChan], min_volts[showChan],
+                                       thresholds[showChan], MAX_COLOR, 0);
+                    else
+                        blue = MAX_COLOR;
+                    break;
+
+                // Blue only:
+                //     Channels at/under threshold are black
+                //     Channels above threshold are solid blue
+                case BLUE_ONLY:
+                    if (data[showChan] > thresholds[showChan])
+                        blue = MAX_COLOR;
+                    break;
+
+                default:
+                    ROS_ERROR("Color mode (%d) is out of range [0...3]",
+                              color_mode);
+                    color_mode = RED_BLUE_SEPARATED;
+                    break;
+            }
+
+            plotter->color(red, green, blue);
+
+            //Get the center coordinates and draw the circle
+            int xPos = centers[showChan][0];
+            int yPos = centers[showChan][1];
+
+            //ROS_INFO("%d = %f: %d, %d, %d at (%d, %d)", showChan, data[showChan], red, green, blue, xPos, yPos);
+            plotter->circle(xPos, yPos, RADIUS);
+		}
+
 		plotter->erase();
 		//sleep for a 60th of a second
 		boost::this_thread::sleep(boost::posix_time::millisec(16));

@@ -39,6 +39,7 @@ private:
     DishVisualizer dviz_;
     std::queue<neuro_recv::dish_state> queue_;
     int loop_rate_;
+    int color_mode_;
     bool start_;
 };
 

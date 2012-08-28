@@ -10,11 +10,11 @@
 
 void DataHandler::init()
 {
-    // Initialize the visualizer
-    dviz_.init();
-
     // Get parameters
     getParams();
+
+    // Initialize the visualizer
+    dviz_.init(color_mode_);
 
     // Initialize the client and subscribers
     time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
@@ -44,6 +44,13 @@ void DataHandler::getParams()
     {
         ROS_ERROR("Could not load loop_rate parameter, default is 200");
         loop_rate_ = 200;
+    }
+
+    // Get color mode parameter
+    if (!n_.getParam("visualizer_color_mode", color_mode_))
+    {
+        ROS_ERROR("Could not load visualizer_color_mode parameter, default is 0");
+        color_mode_ = 0;
     }
 }
 

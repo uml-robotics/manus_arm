@@ -21,16 +21,16 @@ arm_safe_range: 20000.0
 max_range_from_midpoint: 0.28
 
     # Playback speed in Hz. A value over 200 may cause segfaults in arm_control
-loop_rate: 200
+loop_rate: 100
 
     # Number of dishes to use to get spike threshold and baseline values
-buffer_size: 1000
+buffer_size: 3000
 
     # Multiplier of the standard deviation when determining spike threshold
 stdev_mult: 2.5
 
     # Maximum number of dishes to evaluate for a single burst
-burst_window: 200
+burst_window: 100
 
     # Path of voltage distribution CSV log
 volt_distr_log_path: '/home/jon/ros_workspace/other_stuff/logs/csv_volt_distr_log.csv'
@@ -49,7 +49,7 @@ csv_file_path: '/home/jon/ros_workspace/other_stuff/csv/no56_labviewdatafile.csv
 
     # Number of lines to skip in the CSV file to account for headers and junk
     # data
-csv_skip_lines: 10023
+csv_skip_lines: 21023
 
     # Path of Brian connections file
 #brian_connections_file_path:

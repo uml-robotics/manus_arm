@@ -166,7 +166,7 @@ void ManusArm::moveConstant(int movement_states[])
 void ManusArm::doConstantMove(int movement_states[])
 {
     // Speed limits
-	const int x_linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
+	const int x_linear_speed_limit[5] = { 3, 10, 17, 23, 30 }; // 1/3 normal speed
 	const int y_linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
 	const int z_linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
 	const int angular_speed_limit[5] = { 1, 3, 5, 7, 9 };

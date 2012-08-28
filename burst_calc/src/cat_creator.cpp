@@ -78,11 +78,15 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
         for (unsigned int i = 0; i < b->dishes.size(); i++)
         {
             updateOffsets(b->dishes[i]);
-            cat.cas.push_back(getCa(b->dishes[i]));
+            if (caExists(b->dishes[i]))
+                cat.cas.push_back(getCa(b->dishes[i]));
         }
         if (save_to_file_)
             toFile(*b, cat);
         cat_pub_.publish(cat);
+
+        ROS_INFO("CAT of size %d created from burst of size %d",
+                 static_cast<int>(cat.cas.size()), static_cast<int>(b->dishes.size()));
     }
     else
         ROS_ERROR("Minimum voltages not initialized, skipping CAT creation");
@@ -94,7 +98,7 @@ void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
     for (int i = 0; i < 60; i++)
     {
         offsets_[i] = r->min_volts[i];
-        baselines_[i] = r->baselines[i];
+        thresholds_[i] = r->thresholds[i];
     }
 
     if (save_to_file_)
@@ -108,6 +112,19 @@ void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
     is_init_ = true;
 }
 
+bool CatCreator::caExists(const neuro_recv::dish_state& d)
+{
+    // Only dish states with at least 1 spike will have a CA calculated
+    for (int i = 0; i < 60; i ++)
+    {
+        if (d.samples[i] > thresholds_[i])
+            return true;
+    }
+
+    // No spikes in this dish state
+    return false;
+}
+
 const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
 {
     // Center of activity = summation(position*activity) / total activity
@@ -117,8 +134,8 @@ const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
 
     for (int i = 0; i < 60; i++)
     {
-        // Only include spiking channels in CA calculation
-        if (d.samples[i] >= baselines_[i])
+        // Only spikes are used for CA calculation
+        if (d.samples[i] > thresholds_[i])
         {
             double this_activity = d.samples[i] - offsets_[i];
             if (this_activity < 0.0)
@@ -145,8 +162,8 @@ const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
     else
         ROS_ERROR("No activity recorded for this CA");
 
-    printf("ca.x = %f / %f = %f\n", x_sum, activity, ca.x);
-    printf("ca.y = %f / %f = %f\n\n", y_sum, activity, ca.y);
+    //printf("ca.x = %f / %f = %f\n", x_sum, activity, ca.x);
+    //printf("ca.y = %f / %f = %f\n\n", y_sum, activity, ca.y);
 
     return ca;
 }

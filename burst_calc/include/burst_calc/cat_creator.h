@@ -47,6 +47,7 @@ private:
     void updateOffsets(const neuro_recv::dish_state& d);
     void callback(const burst_calc::burst::ConstPtr& b);
     void rangesCallback(const burst_calc::ranges::ConstPtr& r);
+    bool caExists(const neuro_recv::dish_state& d);
     const burst_calc::ca getCa(const neuro_recv::dish_state& d);
     void initFile(const char* cat_file);
     void toFile(const burst_calc::burst& b, const burst_calc::cat& c);
@@ -58,7 +59,7 @@ private:
     std::ofstream cat_file_;
     std::string file_name_;
     double offsets_[60];
-    double baselines_[60];
+    double thresholds_[60];
     bool save_to_file_;
     bool is_init_;
 };

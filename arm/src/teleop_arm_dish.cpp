@@ -183,11 +183,10 @@ void TeleopArmDish::publishConstantMove()
             cmd.header.stamp = cat.header.stamp;
             cmd.end = cat.end;
             int size = cat.cas.size();
-            double x = 0;
-            double y = 0;
+            double x = 0.0;
+            double y = 0.0;
 
-            // Increment by 1 if the coordinate - midpoint is positive, else
-            // decrement by 1
+            // Add all of the CA coordinates
             for (int i = 0; i < size; i++)
             {
                 x += cat.cas[i].x;
@@ -199,14 +198,21 @@ void TeleopArmDish::publishConstantMove()
             y /= size;
             ROS_INFO("X: %.3f Y: %.3f", x, y);
 
-
-
             // Set the applicable movement states.
-            // If axis - midpoint is positive, movement is up/right
-            // If axis - midpoint is negative, movement is down/left
-            x -= MIDPOINT;
-            y -= MIDPOINT;
-            if (x < 0)
+            // If coordinate < midpoint, movement is forward/left
+            // If coordinate > midpoint is negative, movement is backward/right
+            if (y - MIDPOINT < 0)
+            {
+                ROS_INFO("Y is ABOVE the midpoint, moving FORWARD");
+                cmd.move.states[ARM_X] = ARM_FORWARD;
+            }
+            else
+            {
+                ROS_INFO("Y is BELOW the midpoint, moving BACKWARD");
+                cmd.move.states[ARM_X] = ARM_BACKWARD;
+            }
+
+            if (x - MIDPOINT < 0)
             {
                 ROS_INFO("X is to the LEFT of the midpoint, moving LEFT");
                 cmd.move.states[ARM_Y] = ARM_LEFT;
@@ -217,16 +223,7 @@ void TeleopArmDish::publishConstantMove()
                 cmd.move.states[ARM_Y] = ARM_RIGHT;
             }
 
-            if (y < 0)
-            {
-                ROS_INFO("Y is ABOVE the midpoint, moving FORWARD");
-                cmd.move.states[ARM_X] = ARM_FORWARD;
-            }
-            else
-            {
-                ROS_INFO("Y is BELOW the midpoint, moving BACKWARD");
-                cmd.move.states[ARM_X] = ARM_BACKWARD;
-            }
+
 
             cmd.move.states[SPEED] = static_cast<int8_t>(speed_);
 

@@ -17,6 +17,13 @@
 #include "boost/thread.hpp"
 #include "boost/range.hpp"
 
+#define RED_BLUE_SEPARATED 0
+#define RED_BLUE_MIX 1
+#define RED_GREEN_BLUE 2
+#define BLUE_ONLY 3
+
+#define MAX_COLOR 65535
+
 class DishVisualizer {
 private:
 	XPlotter *plotter;
@@ -28,11 +35,12 @@ private:
 	double thresholds[60];
 	double min_volts[60];
 	double max_volts[60];
+	int color_mode;
 
 public:
 	DishVisualizer();
 	virtual ~DishVisualizer();
-	int init();
+	int init(int mode);
 	bool isInit;
 	void update(int channel, double newValue);
 	void redraw();
