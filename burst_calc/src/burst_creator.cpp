@@ -48,21 +48,21 @@ void BurstCreator::getParams()
     // Get buffer_size parameter
     if (!n_.getParam("buffer_size", buffer_size_))
     {
-        ROS_ERROR("Could not load buffer_size parameter, default is 1000");
+        ROS_WARN("Could not load buffer_size parameter, default is 1000");
         buffer_size_ = 1000;
     }
 
     // Get stdev_mult parameter
     if (!n_.getParam("stdev_mult", stdev_mult_))
     {
-        ROS_ERROR("Could not load stdev_mult parameter, default is 3.0");
+        ROS_WARN("Could not load stdev_mult parameter, default is 3.0");
         stdev_mult_ = 3.0;
     }
 
     // Get burst_window parameter
     if (!n_.getParam("burst_window", burst_window_))
     {
-        ROS_ERROR("Could not load burst_window parameter, default is 1000");
+        ROS_WARN("Could not load burst_window parameter, default is 1000");
         burst_window_ = 1000;
     }
 }

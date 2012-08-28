@@ -9,7 +9,7 @@
 #define DISH_VIZ_H
 
 #include "ros/ros.h"
-#include "DishVisualizer.h"
+#include "dish_viz/DishVisualizer.h"
 #include "neuro_recv/dish_state.h"
 #include "burst_calc/burst.h"
 #include "burst_calc/ranges.h"

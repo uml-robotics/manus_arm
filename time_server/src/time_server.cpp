@@ -11,7 +11,6 @@
 void TimeServer::init()
 {
     service_ = n_.advertiseService("time_service", &TimeServer::service, this);
-    ROS_INFO("Time server running...");
     ros::spin();
 }
 
@@ -32,6 +31,10 @@ bool TimeServer::service(time_server::time_srv::Request& req,
     // Calculate the responses
     res.actual = ros::Time::now() - offset_;
     res.delta = req.target - res.actual;
+
+    printf("Query: %.6fs Actual %.6fs Delta %.6fs\n", req.target.toSec(),
+           res.actual.toSec(), res.delta.toSec());
+
     return true;
 }
 

@@ -26,6 +26,7 @@ TeleopArmKey::TeleopArmKey()
         cmd_.states[i] = 0;
     cmd_.query = false;
     cmd_.quit = false;
+    init();
 }
 
 void TeleopArmKey::init()
@@ -33,7 +34,6 @@ void TeleopArmKey::init()
     // Wait for a subscriber to "constant_moves" before continuing
     ROS_INFO("Waiting for subscriber...");
     while (cmd_pub_.getNumSubscribers() < 1 && ros::ok());
-    ROS_INFO("Subscriber found. Continuing...");
     keyLoop();
 }
 
@@ -226,7 +226,6 @@ int main(int argc, char** argv)
     
     ros::init(argc, argv, "teleop_arm_key");
     TeleopArmKey teleop_arm_key;
-    teleop_arm_key.init();
     ros::shutdown(); // To allow arm_control node to shutdown
     return 0;
 }

@@ -36,7 +36,7 @@ void ArmControl::init()
     // Get ARM speed parameter
     if (!n_.getParam("arm_speed", speed_))
     {
-        ROS_ERROR("Could not load arm_speed parameter, default is 2");
+        ROS_WARN("Could not load arm_speed parameter, default is 2");
         speed_ = 2;
     }
 
@@ -48,8 +48,8 @@ void ArmControl::init()
     catch (ArmException& e)
     {
         printf("%s\n", e.what());
-        printf("Init failed, bailing\n");
-        ros::shutdown();
+        ROS_FATAL("Arm initialization failed");
+        return;
     }
 
     // Move into origin position to start
@@ -140,6 +140,8 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
     {
         if (end_check.response.delta > ros::Duration(0))
         {
+            ROS_INFO("Moving...");
+
             printf("Move start time  : %f\n", cmd->header.stamp.toSec());
             printf("Server time      : %f\n", end_check.response.actual.toSec());
             printf("Delta            : %f\n", (cmd->header.stamp -
@@ -149,20 +151,13 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
             for (int i = 0; i < STATE_ARR_SZ; i++)
                 states_[i] = cmd->move.states[i];
             arm_->moveConstant(states_);
-            ROS_INFO("Moving...");
 
-            /*if (end_check.response.delta < ros::Duration(0.25))
-                ros::Duration(0.25).sleep();
-            else if (end_check.response.delta > ros::Duration(0.75))
-                ros::Duration(0.75).sleep();
-            else*/
-                end_check.response.delta.sleep();
+            end_check.response.delta.sleep();
 
             // Stop
             for (int i = 0; i < STATE_ARR_SZ; i++)
                 states_[i] = 0;
             arm_->moveConstant(states_);
-            ROS_INFO("Movement finished");
         }
         else
             ROS_ERROR("This movement would have started after its ending time");

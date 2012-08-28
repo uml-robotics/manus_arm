@@ -5,7 +5,7 @@
  *      Author: ams & Jonathan Hasenzahl
  */
 
-#include "dish_viz.h"
+#include "dish_viz/dish_viz.h"
 #include "time_server/time_srv.h"
 
 void DataHandler::init()
@@ -33,7 +33,6 @@ void DataHandler::init()
         ros::spinOnce();
 
     // Run the visualizer
-    ROS_INFO("Running visualizer");
     run();
 }
 
@@ -42,20 +41,22 @@ void DataHandler::getParams()
     // Get loop rate parameter
     if (!n_.getParam("loop_rate", loop_rate_))
     {
-        ROS_ERROR("Could not load loop_rate parameter, default is 200");
+        ROS_WARN("Could not load loop_rate parameter: default is 200");
         loop_rate_ = 200;
     }
 
     // Get color mode parameter
     if (!n_.getParam("visualizer_color_mode", color_mode_))
     {
-        ROS_ERROR("Could not load visualizer_color_mode parameter, default is 0");
+        ROS_WARN("Could not load visualizer_color_mode parameter: default is 0");
         color_mode_ = 0;
     }
 }
 
 void DataHandler::run()
 {
+    ROS_INFO("Running visualizer");
+
     ros::Rate loop_rate(loop_rate_);
 
     while (!queue_.empty() && ros::ok())
@@ -70,6 +71,8 @@ void DataHandler::run()
 
         loop_rate.sleep();
     }
+
+    ROS_INFO("Visualizer queue empty: shutting down");
 }
 
 void DataHandler::updateMinMax(const neuro_recv::dish_state& d)
@@ -106,9 +109,12 @@ void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)
 void DataHandler::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
     dviz_.setVoltRanges(r->baselines, r->thresholds, r->min_volts, r->max_volts);
+
+    /*
     for (int i = 0; i < 60; i++)
         printf("%d: Min[%.5f] Base[%.5f] Thresh[%.5f] Max[%.5f]\n", i, r->min_volts[i],
                r->baselines[i], r->thresholds[i], r->max_volts[i]);
+    */
 }
 
 int main(int argc, char **argv)

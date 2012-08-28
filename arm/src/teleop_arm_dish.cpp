@@ -45,21 +45,21 @@ void TeleopArmDish::getParams()
     // Get ARM speed parameter
     if (!n_.getParam("arm_speed", speed_))
     {
-        ROS_ERROR("Could not load arm_speed parameter, default is 2");
+        ROS_WARN("Could not load arm_speed parameter, default is 2");
         speed_ = 2;
     }
 
     // Get ARM safe range parameter
     if (!n_.getParam("arm_safe_range", arm_safe_range_))
     {
-        ROS_ERROR("Could not load arm_safe_range parameter, default is 20000.0");
+        ROS_WARN("Could not load arm_safe_range parameter, default is 20000.0");
         arm_safe_range_ = 20000.0;
     }
 
     // Get max range from midpoint parameter
     if (!n_.getParam("max_range_from_midpoint", max_range_from_midpoint_))
     {
-        ROS_ERROR("Could not load max_range_from_midpoint parameter, default is 1.0");
+        ROS_WARN("Could not load max_range_from_midpoint parameter, default is 1.0");
         max_range_from_midpoint_ = 1.0;
     }
 }
@@ -176,7 +176,8 @@ void TeleopArmDish::publishConstantMove()
         // The delta shouldn't be negative (server time is <= CAT time)
         if (cat_start.response.delta >= ros::Duration(0))
         {
-            ROS_INFO("Sleeping for %.3fs", cat_start.response.delta.toSec());
+            ROS_INFO("SLeeping for %.3fs before publishing command",
+                     cat_start.response.delta.toSec());
             cat_start.response.delta.sleep();
 
             arm::constant_move_time cmd;
@@ -196,7 +197,7 @@ void TeleopArmDish::publishConstantMove()
             // Get the average coordinates of the CAT
             x /= size;
             y /= size;
-            ROS_INFO("X: %.3f Y: %.3f", x, y);
+            printf("X: %.3f Y: %.3f\n", x, y);
 
             // Set the applicable movement states.
             // If coordinate < midpoint, movement is forward/left
@@ -244,7 +245,7 @@ void TeleopArmDish::publishConstantMove()
 
             // Publish the move and wait for the duration of the burst
             cmd_pub_.publish(cmd);
-            ROS_INFO("Command published, sleeping for %.3fs",
+            ROS_INFO("Sleeping for duration of command (%.3fs)",
                      (cat.end - cat.header.stamp).toSec());
             (cat.end - cat.header.stamp).sleep();
 

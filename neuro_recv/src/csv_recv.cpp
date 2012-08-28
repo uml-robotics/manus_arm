@@ -56,35 +56,35 @@ bool CsvReceiver::getParams()
     // Get do_volt_distr parameter
     if (!n_.getParam("do_volt_distr", do_volt_distr_))
     {
-        ROS_ERROR("Could not load do_volt_distr parameter, default is true");
+        ROS_WARN("Could not load do_volt_distr parameter, default is true");
         do_volt_distr_ = true;
     }
 
     // Get do_burst_calc parameter
     if (!n_.getParam("do_burst_calc", do_burst_calc_))
     {
-        ROS_ERROR("Could not load do_burst_calc parameter, default is true");
+        ROS_WARN("Could not load do_burst_calc parameter, default is true");
         do_burst_calc_ = true;
     }
 
     // Get skip_lines parameter
     if (!n_.getParam("csv_skip_lines", skip_lines_))
     {
-        ROS_ERROR("Could not load skip_lines parameter, default is 1");
+        ROS_WARN("Could not load skip_lines parameter, default is 1");
         skip_lines_ = 1;
     }
 
     // Get buffer_size parameter
     if (!n_.getParam("buffer_size", buffer_size_))
     {
-        ROS_ERROR("Could not load buffer_size parameter, default is 1000");
+        ROS_WARN("Could not load buffer_size parameter, default is 1000");
         buffer_size_ = 1000;
     }
 
     // Get loop rate parameter
     if (!n_.getParam("loop_rate", loop_rate_))
     {
-        ROS_ERROR("Could not load loop_rate parameter, default is 200");
+        ROS_WARN("Could not load loop_rate parameter, default is 200");
         loop_rate_ = 200;
     }
 

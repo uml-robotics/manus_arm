@@ -87,7 +87,7 @@ boost::array<double, 60> VoltDistrCreator::getPercents()
     for (int i = 0; i < 60; i++)
     {
         percents[i] = static_cast<double>(negatives_[i]) / total_dishes_;
-        printf("%d: %f = %d / %d\n", i, percents[i], negatives_[i], total_dishes_);
+        //printf("%d: %f = %d / %d\n", i, percents[i], negatives_[i], total_dishes_);
     }
     return percents;
 }

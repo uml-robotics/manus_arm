@@ -16,9 +16,9 @@ class TeleopArmKey
 {
 public:
     TeleopArmKey();
-    void init();
 
 private:
+    void init();
     void keyLoop();
     bool getCommand(const char c);
     void print();

@@ -23,9 +23,9 @@ class ArmControl
 {
 public:
     ArmControl() { init(); }
-    void init();
     
 private:
+    void init();
     void cartesianMovesCallback(const arm::cartesian_moves::ConstPtr& cmd);
     void constantMoveCallback(const arm::constant_move::ConstPtr& cmd);
     void constantMoveTimeCallback(const arm::constant_move_time::ConstPtr& cmd);

@@ -47,7 +47,7 @@ void CatCreator::getParams()
     // Get cat log path parameter
     if (!n_.getParam("cat_log_path", file_name_))
     {
-        ROS_ERROR("Could not load burst_log_path parameter, logging will be disabled");
+        ROS_WARN("Could not load burst_log_path parameter, logging will be disabled");
         save_to_file_ = false;
     }
 }
@@ -59,7 +59,7 @@ void CatCreator::updateOffsets(const neuro_recv::dish_state& d)
         if (d.samples[i] < offsets_[i])
         {
             offsets_[i] = d.samples[i];
-            printf("Offset correction: channel %d set to %f\n", i, d.samples[i]);
+            //printf("Offset correction: channel %d set to %f\n", i, d.samples[i]);
         }
     }
 }
@@ -110,7 +110,8 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 
 void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
-    printf("rangesCallback called");
+    ROS_INFO("CAT Creator initialized");
+
     for (int i = 0; i < 60; i++)
     {
         offsets_[i] = r->min_volts[i];

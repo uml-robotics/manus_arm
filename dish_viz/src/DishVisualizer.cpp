@@ -5,7 +5,7 @@
  *      Author: ams
  */
 
-#include "DishVisualizer.h"
+#include "dish_viz/DishVisualizer.h"
 
 #define RADIUS 20
 #define P_WIDTH ((7 * RADIUS) + (8 * (2 * RADIUS)) + (2 * RADIUS))
@@ -62,7 +62,7 @@ int DishVisualizer::init(int mode) {
 
 	if (plotter->openpl() < 0) /* open Plotter */
 	{
-		ROS_ERROR("Couldn't open Plotter");
+		ROS_FATAL("Couldn't open Plotter");
 		return 1;
 	}
 
