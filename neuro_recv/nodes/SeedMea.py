@@ -412,22 +412,4 @@ if __name__ == '__main__':
         Pickler(outfile, 0).dump(pad_neuron_map)
         outfile.close()
     
-    '''
-    #Set up and run the simulation
-    M = SpikeMonitor(P)
-    #Monitor the voltages of the neurons that land on pads
-    vMonitor = StateMonitor(P, "v", record=[neuron for neuron in pad_neuron_map.values() if neuron != None])
-    print "Running simulation...",
-    run(10*second)
-    subplot(211)
-    raster_plot(M, newfigure=False)
-    subplot(212)
-    vMonitor.plot()
-    xlabel('Time (seconds)')
-    ylabel('Membrane potential (volts)')
-    #legend(('Neuron #100', 'Neuron #500', 'Neuron #1000', 'Neuron #1500' ), 'upper right')
-    show()
-    show()
-    '''
-    
     print "done."

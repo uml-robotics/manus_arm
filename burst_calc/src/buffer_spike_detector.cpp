@@ -38,18 +38,9 @@ void BufferSpikeDetector::add(const neuro_recv::dish_state& d)
     for (int i = 0; i < 60; i++)
     {
         if (d.samples[i] > max_volts_[i])
-        {
-            if (i == 0)
-                printf("%.5f > Max (%.5f)\n", d.samples[i], max_volts_[i]);
             max_volts_[i] = d.samples[i];
-        }
-
-        if (d.samples[i] < min_volts_[i])
-        {
-            if (i == 0)
-                printf("%.5f < Min (%.5f)\n", d.samples[i], min_volts_[i]);
+        else if (d.samples[i] < min_volts_[i])
             min_volts_[i] = d.samples[i];
-        }
 
         sums_[i] += d.samples[i];
         sum_squares_[i] += d.samples[i] * d.samples[i];

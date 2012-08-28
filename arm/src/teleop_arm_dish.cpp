@@ -19,6 +19,9 @@
 
 void TeleopArmDish::init()
 {
+    // Get parameters
+    getParams();
+
     // Initialize client and publisher
     //     Cartesian commands or constant move commands: for now you can use one
     //     or the other. Keep one commented out.
@@ -206,12 +209,12 @@ void TeleopArmDish::publishConstantMove()
             if (x < 0)
             {
                 ROS_INFO("X is to the LEFT of the midpoint, moving LEFT");
-                cmd.move.states[ARM_Y] = 0;//ARM_LEFT;
+                cmd.move.states[ARM_Y] = ARM_LEFT;
             }
             else
             {
                 ROS_INFO("X is to the RIGHT of the midpoint, moving RIGHT");
-                cmd.move.states[ARM_Y] = 0;//ARM_RIGHT;
+                cmd.move.states[ARM_Y] = ARM_RIGHT;
             }
 
             if (y < 0)
@@ -225,7 +228,7 @@ void TeleopArmDish::publishConstantMove()
                 cmd.move.states[ARM_X] = ARM_BACKWARD;
             }
 
-            cmd.move.states[SPEED] = speed_;
+            cmd.move.states[SPEED] = static_cast<int8_t>(speed_);
 
             // Everything else is 0 (doesn't move)
             cmd.move.states[ARM_Z] = 0;
@@ -234,6 +237,13 @@ void TeleopArmDish::publishConstantMove()
             cmd.move.states[CLAW_ROLL] = 0;
             cmd.move.states[CLAW_GRIP] = 0;
             cmd.move.states[LIFT_UNIT] = 0;
+
+            printf("[%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d]\n",
+                   cmd.move.states[ARM_X], cmd.move.states[ARM_Y],
+                   cmd.move.states[ARM_Z], cmd.move.states[CLAW_YAW],
+                   cmd.move.states[CLAW_PITCH], cmd.move.states[CLAW_ROLL],
+                   cmd.move.states[CLAW_GRIP], cmd.move.states[LIFT_UNIT],
+                   cmd.move.states[SPEED]);
 
             // Publish the move and wait for the duration of the burst
             cmd_pub_.publish(cmd);
@@ -249,10 +259,13 @@ void TeleopArmDish::publishConstantMove()
             printf("Delta        : %f\n", cat_end.response.delta.toSec());*/
         }
         else
-            ROS_ERROR("CAT start time is behind server time, no command will be issued");
+        {
+            ROS_ERROR("CAT start time (%.3f) is behind server time (%.3f): no command will be issued",
+                      cat_start.request.target.toSec(), cat_start.response.actual.toSec());
+        }
     }
     else
-        ROS_ERROR("Time server is not responding, no command will be issued");
+        ROS_ERROR("Time server is not responding: no command will be issued");
 }
 
 double TeleopArmDish::getArmCoord(double coord)

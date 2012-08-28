@@ -125,7 +125,7 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
         else
         {
             for (int i = 0; i < STATE_ARR_SZ; i++)
-                states_[i] = cmd->states[i];
+                states_[i] = static_cast<int>(cmd->states[i]);
             arm_->moveConstant(states_);
         }
     }

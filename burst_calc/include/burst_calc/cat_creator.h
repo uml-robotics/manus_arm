@@ -58,6 +58,7 @@ private:
     std::ofstream cat_file_;
     std::string file_name_;
     double offsets_[60];
+    double baselines_[60];
     bool save_to_file_;
     bool is_init_;
 };

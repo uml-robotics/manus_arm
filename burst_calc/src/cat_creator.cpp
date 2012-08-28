@@ -59,7 +59,7 @@ void CatCreator::updateOffsets(const neuro_recv::dish_state& d)
         if (d.samples[i] < offsets_[i])
         {
             offsets_[i] = d.samples[i];
-            printf("Offset correction: channel %d set to %f\n", i, offsets_[i]);
+            printf("Offset correction: channel %d set to %f\n", i, d.samples[i]);
         }
     }
 }
@@ -92,7 +92,10 @@ void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
     printf("rangesCallback called");
     for (int i = 0; i < 60; i++)
+    {
         offsets_[i] = r->min_volts[i];
+        baselines_[i] = r->baselines[i];
+    }
 
     if (save_to_file_)
     {
@@ -114,25 +117,34 @@ const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
 
     for (int i = 0; i < 60; i++)
     {
-        double this_activity = d.samples[i] - offsets_[i];
-        if (this_activity < 0.0)
+        // Only include spiking channels in CA calculation
+        if (d.samples[i] >= baselines_[i])
         {
-            ROS_ERROR("Activity is lower than recorded minimum, CA will not be accurate");
-            ROS_ERROR("%d: %f = %f - %f\n", i, this_activity, d.samples[i],
-                      offsets_[i]);
-            this_activity = -this_activity;
+            double this_activity = d.samples[i] - offsets_[i];
+            if (this_activity < 0.0)
+            {
+                ROS_ERROR("Activity is lower than recorded minimum, CA will not be accurate");
+                ROS_ERROR("%d: %f = %f - %f\n", i, this_activity, d.samples[i],
+                          offsets_[i]);
+                this_activity = -this_activity;
+            }
+
+            x_sum += this_activity * X_COORD_[i];
+            y_sum += this_activity * Y_COORD_[i];
+            activity += this_activity;
         }
-
-
-        x_sum += this_activity * X_COORD_[i];
-        y_sum += this_activity * Y_COORD_[i];
-        activity += this_activity;
     }
 
     burst_calc::ca ca;
     ca.header.stamp = d.header.stamp;
-    ca.x = x_sum / activity;
-    ca.y = y_sum / activity;
+    if (activity > 0.0)
+    {
+        ca.x = x_sum / activity;
+        ca.y = y_sum / activity;
+    }
+    else
+        ROS_ERROR("No activity recorded for this CA");
+
     printf("ca.x = %f / %f = %f\n", x_sum, activity, ca.x);
     printf("ca.y = %f / %f = %f\n\n", y_sum, activity, ca.y);
 

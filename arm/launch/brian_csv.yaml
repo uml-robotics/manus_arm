@@ -49,7 +49,7 @@ csv_file_path: '/home/jon/ros_workspace/other_stuff/csv/brian.csv'
 
     # Number of lines to skip in the CSV file to account for headers and junk
     # data
-csv_skip_lines: 1
+csv_skip_lines: 1001
 
     # Path of Brian connections file
 #brian_connections_file_path:
