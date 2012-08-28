@@ -68,23 +68,39 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 {
     if (is_init_)
     {
-        // All the work is done in the callback. Each dish state has a CA calculated
-        // and added to the vector in the CAT message. The CAT is then logged and
-        // published.
+        // Write burst header to file
+        if (save_to_file_)
+            headerToFile(*b);
+
+        // Create a new CAT
         burst_calc::cat cat;
         cat.header.stamp = b->header.stamp;
         cat.end = b->end;
         cat.channels = b->channels;
+
         for (unsigned int i = 0; i < b->dishes.size(); i++)
         {
+            // Update offsets incase a new min voltage is encountered
             updateOffsets(b->dishes[i]);
-            if (caExists(b->dishes[i]))
-                cat.cas.push_back(getCa(b->dishes[i]));
-        }
-        if (save_to_file_)
-            toFile(*b, cat);
-        cat_pub_.publish(cat);
 
+            if (caExists(b->dishes[i]))
+            {
+                // Add CA to CAT and write CAT & burst to file
+                burst_calc::ca ca = getCa(b->dishes[i]);
+                cat.cas.push_back(ca);
+                if (save_to_file_)
+                    toFile(i, b->dishes[i], ca);
+            }
+            else
+            {
+                // Just write burst to file
+                if (save_to_file_)
+                    toFile(i, b->dishes[i]);
+            }
+        }
+
+        // Publish CAT
+        cat_pub_.publish(cat);
         ROS_INFO("CAT of size %d created from burst of size %d",
                  static_cast<int>(cat.cas.size()), static_cast<int>(b->dishes.size()));
     }
@@ -186,23 +202,32 @@ void CatCreator::initFile(const char* cat_file)
     cat_file_ << '\n';
 }
 
-void CatCreator::toFile(const burst_calc::burst& b, const burst_calc::cat& c)
+void CatCreator::headerToFile(const burst_calc::burst& b)
 {
-    cat_file_ << "begin_time," << c.header.stamp.toSec() << ",\n";
-    cat_file_ << "end_time," << c.end.toSec() << ",\n";
-    cat_file_ << "duration," << (c.end - c.header.stamp).toSec() << ",\n";
+    cat_file_ << "begin_time," << b.header.stamp.toSec() << ",\n";
+    cat_file_ << "end_time," << b.end.toSec() << ",\n";
+    cat_file_ << "duration," << (b.end - b.header.stamp).toSec() << ",\n";
     cat_file_ << "bursting_channels,\n";
-    for (unsigned int i = 0; i < c.channels.size(); i++)
-        cat_file_ << static_cast<int>(c.channels[i]) << ",\n";
+    for (unsigned int i = 0; i < b.channels.size(); i++)
+        cat_file_ << static_cast<int>(b.channels[i]) << ",\n";
+}
 
-    for (int i = 0; i < static_cast<int>(c.cas.size()); i++)
-    {
-        cat_file_ << i << ',' << c.cas[i].header.stamp.toSec() << ','
-                  << c.cas[i].x << ',' << c.cas[i].y << ',';
-        for (int j = 0; j < 60; j++)
-            cat_file_ << b.dishes[i].samples[j] << ',';
-        cat_file_ << '\n';
-    }
+void CatCreator::toFile(int i, const neuro_recv::dish_state& d,
+                        const burst_calc::ca& c)
+{
+    cat_file_ << i << ',' << d.header.stamp.toSec() << ',' << c.x << ','
+              << c.y << ',';
+    for (int j = 0; j < 60; j++)
+        cat_file_ << d.samples[j] << ',';
+    cat_file_ << '\n';
+}
+
+void CatCreator::toFile(int i, const neuro_recv::dish_state& d)
+{
+    cat_file_ << i << ',' << d.header.stamp.toSec() << ",,,";
+    for (int j = 0; j < 60; j++)
+        cat_file_ << d.samples[j] << ',';
+    cat_file_ << '\n';
 }
 
 int main(int argc, char** argv)
