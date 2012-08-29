@@ -26,6 +26,7 @@ private:
     void init();
     void getParams();
     void run();
+    void plotCa();
     void updateMinMax(const neuro_recv::dish_state& d);
     void dishCallback(const neuro_recv::dish_state::ConstPtr& d);
     void caCallback(const burst_calc::ca::ConstPtr& c);
@@ -41,6 +42,7 @@ private:
 
     DishVisualizer dviz_;
     std::queue<neuro_recv::dish_state> queue_;
+    std::queue<burst_calc::ca> cas_;
     int loop_rate_;
     int color_mode_;
     bool start_;

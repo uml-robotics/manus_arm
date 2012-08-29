@@ -19,6 +19,7 @@
 
 DishVisualizer::DishVisualizer() {
 	isInit = FALSE;
+	plot_ca = false;
 	data.assign(60, 0);
 	for (int i = 0; i < 60; i++)
 	{
@@ -134,6 +135,13 @@ void DishVisualizer::redraw() {
         plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
         plotter->endpath();
 
+        // Plot CA if it has been updated
+        if (plot_ca)
+        {
+            // Code to draw the CA
+            plot_ca = false;
+        }
+
         for (uint showChan = 0; showChan < data.size(); showChan++) {
             uint16_t red = 0;
             uint16_t green = 0;
@@ -220,13 +228,13 @@ void DishVisualizer::update(int channel, double newValue) {
 	}
 }
 
-void DishVisualizer::addCa(const burst_calc::ca& c)
+void DishVisualizer::updateCa(const burst_calc::ca& c)
 {
     if (isInit)
     {
         boost::mutex::scoped_lock lock(dataUpdate);
-        cas.push(c);
-        printf("CA added to queue. Size: %d\n", static_cast<int>(cas.size()));
+        ca = c;
+        plot_ca = true;
     }
     else
         ROS_ERROR("Visualizer attempted to be updated while not initialized");

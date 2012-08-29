@@ -64,16 +64,50 @@ void DataHandler::run()
     {
         ros::spinOnce();
 
+        // Update the visualizer channels
         neuro_recv::dish_state d = queue_.front();
         //printf("Queue size: %d\n", static_cast<int>(queue_.size()));
         for (int i = 0; i < 60; i++)
             dviz_.update(i, static_cast<double>(d.samples[i]));
         queue_.pop();
 
+        // Plot CA if conditions are met
+        plotCa();
+
         loop_rate.sleep();
     }
 
     ROS_INFO("Visualizer queue empty: shutting down");
+}
+
+void DataHandler::plotCa()
+{
+    if (!cas_.empty())
+    {
+        time_server::time_srv ca_check;
+        ca_check.request.target = cas_.front().header.stamp;
+
+        if (time_client_.call(ca_check))
+        {
+            printf("CA time     : %f\n", ca_check.request.target.toSec());
+            printf("Server time : %f\n", ca_check.response.actual.toSec());
+            printf("Delta       : %f\n", ca_check.response.delta.toSec());
+
+            if (ca_check.response.delta <= ros::Duration(0.1) &&
+                ca_check.response.delta >= ros::Duration(-0.1))
+            {
+                dviz_.updateCa(cas_.front());
+                cas_.pop();
+            }
+            else if (ca_check.response.delta < ros::Duration(-0.1))
+            {
+                ROS_ERROR("CA is behind visualizer and will not display");
+                cas_.pop();
+            }
+        }
+        else
+            ROS_ERROR("Time server is not responding");
+    }
 }
 
 void DataHandler::updateMinMax(const neuro_recv::dish_state& d)
@@ -104,7 +138,7 @@ void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
 
 void DataHandler::caCallback(const burst_calc::ca::ConstPtr& c)
 {
-    dviz_.addCa(*c);
+    cas_.push(*c);
 }
 
 void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)
