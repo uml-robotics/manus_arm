@@ -216,8 +216,20 @@ void DishVisualizer::update(int channel, double newValue) {
 		data[channel]= newValue;
 		//ROS_INFO("Channel %d (of %d) = %f", channel, data.size(), newValue);
 	} else {
-		ROS_WARN("Visualizer updated while not initialized");
+	    ROS_ERROR("Visualizer attempted to be updated while not initialized");
 	}
+}
+
+void DishVisualizer::addCa(const burst_calc::ca& c)
+{
+    if (isInit)
+    {
+        boost::mutex::scoped_lock lock(dataUpdate);
+        cas.push(c);
+        printf("CA added to queue. Size: %d\n", static_cast<int>(cas.size()));
+    }
+    else
+        ROS_ERROR("Visualizer attempted to be updated while not initialized");
 }
 
 void DishVisualizer::setVoltRanges(const boost::array<double, 60>& b,

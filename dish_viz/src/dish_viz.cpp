@@ -21,6 +21,7 @@ void DataHandler::init()
 
     dish_sub_ = n_.subscribe("dish_states_to_dish_viz", 1000,
                              &DataHandler::dishCallback, this);
+    ca_sub_ = n_.subscribe("cas", 1000, &DataHandler::caCallback, this);
     burst_sub_ = n_.subscribe("bursts_to_dish_viz", 1, &DataHandler::burstCallback,
                               this);
     ranges_sub_ = n_.subscribe("ranges_to_dish_viz", 1, &DataHandler::rangesCallback,
@@ -99,6 +100,11 @@ void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
     updateMinMax(*d);
     queue_.push(*d);
     //printf("Queue size: %d\n", static_cast<int>(queue_.size()));
+}
+
+void DataHandler::caCallback(const burst_calc::ca::ConstPtr& c)
+{
+    dviz_.addCa(*c);
 }
 
 void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)

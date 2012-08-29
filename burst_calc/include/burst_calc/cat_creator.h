@@ -59,6 +59,7 @@ private:
     ros::Subscriber burst_sub_;
     ros::Subscriber ranges_sub_;
     ros::Publisher cat_pub_;
+    ros::Publisher ca_pub_;
     std::ofstream cat_file_;
     std::string file_name_;
     double offsets_[60];

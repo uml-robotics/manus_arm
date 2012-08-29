@@ -1,7 +1,7 @@
 /*
  * Visualizer.h
  *
- *  Created on: Mar 29, 2012a_sets/labview/no56_labviewdatafile.csv'
+ *  Created on: Mar 29, 2012
 
  *      Author: ams
  */
@@ -12,8 +12,10 @@
 #include <plotter.h>
 #include <sstream>
 #include <vector>
+#include <queue>
 #include <stdint.h>
 #include "ros/ros.h"
+#include "burst_calc/ca.h"
 #include "boost/thread.hpp"
 #include "boost/range.hpp"
 
@@ -29,6 +31,7 @@ private:
 	XPlotter *plotter;
 	vector< vector<int> > centers;
 	vector<double> data;
+	queue<burst_calc::ca> cas;
 	int intMap(double input, double min_in, double max_in, int min_out, int max_out);
 	boost::mutex dataUpdate;
 	double baselines[60];
@@ -43,6 +46,7 @@ public:
 	int init(int mode);
 	bool isInit;
 	void update(int channel, double newValue);
+	void addCa(const burst_calc::ca& c);
 	void redraw();
 	void setVoltRanges(const boost::array<double, 60>& b,
 	                   const boost::array<double, 60>& t,

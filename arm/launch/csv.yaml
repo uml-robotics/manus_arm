@@ -27,7 +27,7 @@ loop_rate: 100
 buffer_size: 3000
 
     # Multiplier of the standard deviation when determining spike threshold
-stdev_mult: 2.5
+stdev_mult: 2.0
 
     # Maximum number of dishes to evaluate for a single burst
 burst_window: 100

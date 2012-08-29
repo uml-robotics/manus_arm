@@ -26,10 +26,12 @@ void CatCreator::init()
 
     // Initialize publisher
     cat_pub_ = n_.advertise<burst_calc::cat>("cats", 1000);
+    ca_pub_ = n_.advertise<burst_calc::ca>("cas", 1000);
 
-    // Wait for subscriber
-    ROS_INFO("Waiting for subscriber...");
-    while (cat_pub_.getNumSubscribers() < 1 && ros::ok());
+    // Wait for subscribers
+    ROS_INFO("Waiting for subscribers...");
+    while (cat_pub_.getNumSubscribers() < 1 && ca_pub_.getNumSubscribers() &&
+           ros::ok());
 
     // Initialize subscribers
     burst_sub_ = n_.subscribe("bursts_to_cat_creator", 1000, &CatCreator::callback, this);
@@ -80,19 +82,22 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 
         for (unsigned int i = 0; i < b->dishes.size(); i++)
         {
-            // Update offsets incase a new min voltage is encountered
+            // Update offsets in case a new min voltage is encountered
             updateOffsets(b->dishes[i]);
 
             if (caExists(b->dishes[i]))
             {
-                // Add CA to CAT and write CAT & burst to file
+                // A center of activity exists for this dish state:
+                // Add CA to CAT, publish CA, and write CAT & burst to file
                 burst_calc::ca ca = getCa(b->dishes[i]);
                 cat.cas.push_back(ca);
+                ca_pub_.publish(ca);
                 if (save_to_file_)
                     toFile(i, b->dishes[i], ca);
             }
             else
             {
+                // No center of activity for this dish state:
                 // Just write burst to file
                 if (save_to_file_)
                     toFile(i, b->dishes[i]);
