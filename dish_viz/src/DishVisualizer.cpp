@@ -73,12 +73,6 @@ int DishVisualizer::init(int mode) {
 	plotter->bgcolor(0, 0, 0); //Black, colors are RGB, 16 bits/channel
 	plotter->erase();
 
-	// Draw lines to separate grid into quadrants
-	plotter->pencolorname("white");
-	plotter->line(P_WIDTH / 2, 0, P_WIDTH / 2, P_HEIGHT);
-	plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
-	plotter->endpath();
-
 	for (int row = ROWS - 1; row >= 0; row--) {
 		for (int col = 0; col < COLS; col++) {
 			//Calculate the locations of the circles
@@ -100,7 +94,13 @@ int DishVisualizer::init(int mode) {
 			}
 		}
 	}
-	plotter->endpath();
+
+    // Draw lines to separate grid into quadrants
+    plotter->pencolorname("white");
+    plotter->line(P_WIDTH / 2, 0, P_WIDTH / 2, P_HEIGHT);
+    plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
+    plotter->endpath();
+
 	plotter->erase();
 
 	//Start up updating thread
@@ -129,19 +129,6 @@ int DishVisualizer::intMap(double input, double min_in, double max_in,
 
 void DishVisualizer::redraw() {
 	while (isInit) {
-	    // Draw lines to separate grid into quadrants
-        plotter->pencolorname("white");
-        plotter->line(P_WIDTH / 2, 0, P_WIDTH / 2, P_HEIGHT);
-        plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
-        plotter->endpath();
-
-        // Plot CA if it has been updated
-        if (plot_ca)
-        {
-            // Code to draw the CA
-            plot_ca = false;
-        }
-
         for (uint showChan = 0; showChan < data.size(); showChan++) {
             uint16_t red = 0;
             uint16_t green = 0;
@@ -211,6 +198,24 @@ void DishVisualizer::redraw() {
             //ROS_INFO("%d = %f: %d, %d, %d at (%d, %d)", showChan, data[showChan], red, green, blue, xPos, yPos);
             plotter->circle(xPos, yPos, RADIUS);
 		}
+
+        // Plot CA if it has been updated
+        if (plot_ca)
+        {
+            int x_coord = static_cast<int>((ca.x - 4.5) * X_STEP) + P_WIDTH / 2;
+            int y_coord = P_HEIGHT / 2 - static_cast<int>((ca.y - 4.5) * Y_STEP);
+
+            plotter->colorname("orange");
+            plotter->circle(x_coord, y_coord, RADIUS);
+
+            plot_ca = false;
+        }
+
+        // Draw lines to separate grid into quadrants
+        plotter->pencolorname("white");
+        plotter->line(P_WIDTH / 2, 0, P_WIDTH / 2, P_HEIGHT);
+        plotter->line(0, P_HEIGHT / 2, P_WIDTH, P_HEIGHT / 2);
+        plotter->endpath();
 
 		plotter->erase();
 		//sleep for a 60th of a second

@@ -89,11 +89,12 @@ void DataHandler::plotCa()
 
         if (time_client_.call(ca_check))
         {
-            printf("CA time     : %f\n", ca_check.request.target.toSec());
-            printf("Server time : %f\n", ca_check.response.actual.toSec());
-            printf("Delta       : %f\n", ca_check.response.delta.toSec());
+            printf("CA Time - Server Time = %f\n", ca_check.response.delta.toSec());
 
-            if (ca_check.response.delta <= ros::Duration(0.1) &&
+            // Send the CA to the visualizer if its equal to server time, with
+            // a small room for error. If the CA is more than 0.1s behind server
+            // time, then something has gone wrong.
+            if (ca_check.response.delta <= ros::Duration(0.05) &&
                 ca_check.response.delta >= ros::Duration(-0.1))
             {
                 dviz_.updateCa(cas_.front());
@@ -101,7 +102,7 @@ void DataHandler::plotCa()
             }
             else if (ca_check.response.delta < ros::Duration(-0.1))
             {
-                ROS_ERROR("CA is behind visualizer and will not display");
+                ROS_ERROR("CA time is behind visualizer time and will not display");
                 cas_.pop();
             }
         }
