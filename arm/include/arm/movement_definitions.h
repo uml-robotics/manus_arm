@@ -41,11 +41,9 @@ namespace manus_arm
 float stop[] = { 0, 0, 0, 0, 0, 0, 0 };
 
 // Arrays of positions
-//float origin_position[] = { 14000, 0, 0, 0, 0, 0, -10000 };
 float origin_position[] = { 15000, -4500, 19000, 0, 0, 0, -10000 };
-float final_position[] = { 8000, -4500, 6000, 0, 0, 0, -10000 };
-//float origin_position[] = { 19000, 15000, -4500, 0, 0, 0, -10000 };
-//float final_position[] = { 6000, 8000, -4500, 0, 0, 0, -10000 };
+float final_position[] = { 15000, -4500, 19000, 0, 0, 0, -10000 };
+//float final_position[] = { 8000, -4500, 6000, 0, 0, 0, -10000 };
 }
 
 #endif
