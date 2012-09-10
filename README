@@ -1,0 +1,397 @@
+================================================================================
+
+arm_project
+
+A ROS implementation of Manus ARM control via spiking neural networks.
+
+Authors      : Jonathan Hasenzahl, Abe Shultz
+               University of Massachusetts Lowell
+Last updated : 8/22/12
+
+================================================================================
+
+Table of Contents
+    I.    Introduction
+    II.   System requirements
+    III   Running the stack
+    IV.   Parameters
+    V.    Stack structure
+    VI.   Package: arm
+    VII.  Package: burst_calc
+    VIII. Package: dish_viz
+    IX.   Package: neuro_recv
+    X.    Package: time_server
+    XI.   Package: volt_distr
+
+================================================================================
+
+I. Introduction
+
+The ROS stack arm_project allows a Manus ARM to be controlled by activity from a
+spiking neural network. Dish simulation and pre-recorded playback is currently
+supported, with a live link connection planned.
+
+================================================================================
+
+II. System requirements
+
+To run anything, the system must have ROS installed and configured. For anything
+more than recording voltage distributions, the system must have a Manus ARM
+connected and configured properly. To use the Brian simulator nodes, the system
+must have Python and Brian installed.
+
+================================================================================
+
+III. Running the stack
+
+There are several launch files located in the arm node:
+
+    1. csv.launch:
+    
+        Uses CSV playback to control the ARM. All parameters are loaded from
+        csv.yaml in the launch folder.
+        
+    2. brian_csv.launch
+    
+        Uses CSV playback recorded from a Brian simulation to control the ARM.
+        All parameters are loaded from brian_csv.yaml in the launch folder.
+
+    3. brian_sim.launch
+    
+        Uses the Brian simulator to control the ARM. All parameters are loaded
+        from brian_sim.yaml in the launch folder.
+        
+    4. volt_only_csv.launch
+    
+        Creates and records voltage distributions from a CSV file, skipping ARM
+        movement. All parameters are loaded from volt_only_csv.launch in the
+        launch folder.
+        
+    5. volt_only_brian_csv.launch
+    
+        Creates and records voltage distributions from a CSV file from a Brian
+        simulation, skipping ARM movement. All parameters are loaded from 
+        volt_only_brian_csv.launch in the launch folder.
+        
+    6. volt_only_brian_sim.launch
+    
+        Creates and records voltage distributions from the Brian simulator,
+        skipping ARM movement. All parameters are loaded from 
+        volt_only_brian_sim.launch in the launch folder.
+        
+================================================================================
+
+IV. Parameters
+
+The following parameters are used by the arm_project stack. Not all parameters
+are used by every launch configuration. If a parameter is missing, some will 
+have default values, but others will cause the node to fail.
+
+    do_volt_distr (bool)
+        Whether or not to record voltage distributions. Default is Yes.
+        
+    do_burst_calc (bool)
+        Whether or not to run burst calculation, which results in ARM movement.
+        Default is Yes.
+
+    arm_speed (int)
+        Relative speed of all of the ARM's joints. Can be 0 to 4. Default is 2. 
+        
+    arm_safe_range (float)
+        Safe maxiumum range of the ARM's X/Y motion in any direction from the
+        start position, in 0.022mm units. Default is 20000.0.
+        
+    max_range_from_midpoint (float)
+        Maximum range of how far a CAs value will move on an X/Y grid from the
+        midpoint (4.5/4.5). See arm/src/teleop_arm_dish.cpp for more info. 
+        Default is 1.0.
+    
+    loop_rate (int)
+        How many times per second a dish_state is published. A value too large/
+        too fast may cause segfaults and other horrible things. Default is 200.
+    
+    buffer_size (int)
+        How many dish states will be used to calculate baseline and threshold.
+        Default is 1000.
+    
+    stdev_mult (float)
+        Multiplier of standard deviation to calculate spike threshold. A value
+        too large may result in no spikes being detected. Default is 3.0.
+    
+    burst_window (int)
+        The window size of dish states when checking for bursts. Default is 
+        1000.
+        
+    volt_distr_log_path (string)
+        File path of the voltage distribution CSV log. Leaving this blank will
+        result in the log not being saved. No default.
+        
+    volt_distr_img_path (string)
+        File path of the voltage distribution image. Leaving this blank will
+        result in the image not being saved. No default.
+        
+    do_truncate_volts (bool)
+        Whether or not to truncate volts to 4 digits after the decimal. Useful 
+        for Brian simulations where unmodified voltages will result in thousands 
+        of unique values with a frequency of 1. Default is No.
+        
+    cat_log_path (string)
+        The path of the CSV file which will log all of this session's CATs and 
+        bursts. Leaving this blank will result in the log not being saved. No
+        default.
+        
+    csv_file_path (string)
+        The path of the CSV file containing recorded dish state activity. Only
+        required if you are using the CSV receiver node. Leaving this blank will 
+        result in the node failing. No default.
+        
+    csv_skip_lines (int)
+        Number of lines to skip in the CSV file to account for headers and junk
+        data. Default is 1.
+    
+    brian_connections_file_path (string)
+        The path of the Brian connections pickle file. This file is generated
+        by running SeedMea.py. Only required if you are using the Brian receiver
+        node. Leaving this blank will result in the node failing. No default.
+        
+    brian_pad_neuron_map_file_path (string)
+        The path of the Brian pad neuron map pickle file. This file is
+        generated by running SeedMea.py. Only required if you are using the
+        Brian receiver node. Leaving this blank will result in the node failing. 
+        No default.
+        
+    brian_running_time (float)
+        How long to run the Brian simulation, in seconds. Only required if you 
+        are using the Brian receiver node. Note that high values will have you
+        waiting forever as it takes longer than what is specified to actually
+        run the simulation. Default is 30.0.
+        
+================================================================================
+
+V. Stack structure
+
+    Stack: arm_project
+    
+        Package: arm
+            Node: arm_control
+            Node: teleop_arm_dish
+            Node: teleop_arm_key
+            Message: cartesian_move
+            Message: cartesian_moves
+            Message: constant_move
+            Message: constant_move_time
+            
+        Package: burst_calc
+            Node: burst_creator
+            Node: cat_creator
+            Message: burst
+            Message: ca
+            Message: cat
+            Message: ranges
+            
+        Package: dish_viz
+            Node: dish_viz
+            
+        Package: neuro_recv
+            Node: csv_recv
+            Node: brian_recv.py
+            Node: brian_to_csv.py
+            Node: SeedMea.py
+            Message: dish_state
+            
+        Package: time_server
+            Node: time_server
+            Service: time_srv
+            
+        Package: volt_distr
+            Node: volt_distr
+            
+================================================================================
+
+VI. Package: arm
+
+This package controls the ARM and creates movement commands.
+
+    A. Node: arm_control
+
+    The interface to the ARM. Movement commands are sent to this node from the
+    teleop nodes. Movement is interruptible; a new command will override 
+    any current movement in progress.
+    
+    B. Node: teleop_arm_dish
+    
+    This node receives cat messages and uses that information to generate
+    cartesian_move messages. Those messages are then sent to arm_control.
+    
+    C. Node: teleop_arm_key
+    
+    This node generates constant_move messages from keyboard input. This node
+    cannot be launched from a launch file; it must be run manually in its own
+    terminal window. Most keys have a toggle functionality: press to start
+    movement and press again to stop movement. A list of all of the keyboard
+    commands can be found in include/arm/key_codes.h.
+    
+    D. Message: cartesian_move
+    
+    A cartesian move command will move the ARM to a certain position and then 
+    stop. The cartesian_move message contains an array of 7 floats representing
+    positions of each ARM joint, and an integer representing movement speed. The
+    file include/arm/movement_definitions.h defines each index in the array.
+    Units are in increments of 0.022mm. More information about position units
+    can be found in include/arm/ManusArm.cpp. Movement speed can be 5 values
+    ranging from 0 to 4.
+    
+    E: Message: cartesian_moves
+    
+    This message contains a vector of cartesian_move messages, allowing an
+    entire sequence of cartesian_moves to be published at once. It also has
+    a starting timestamp in its header, and an ending timestamp allowing for
+    timed movement sequences.
+        
+    F. Message: constant_move
+    
+    A constant move command will move all of the ARM joints in specified
+    directions constantly until a new command is issued. The constant_move
+    message contains an array of 9 integers representing movement states of each
+    ARM joint, the lift unit, and movement speed. The file 
+    include/arm/movement_definitions.h defines each index in the array. All
+    values except for movement speed can either be 1 (positive movement), 0 (no
+    movement), or -1 (negative movement). Movement speed can be 5 values ranging
+    from 0 to 4.
+    
+    G. Message: contant_move_time
+    
+    This message contains a constant move, a starting timestamp in its header,
+    and an ending timestamp. This allows for timed constant moves.
+
+================================================================================
+
+VII. Package: burst_calc
+
+This package is where the magic happens. All the dish states generated from a 
+received node are sent here for spike and burst detection. 
+
+    A. Node: burst_creator
+    
+    This node creates burst sequence messages and publishes them to the
+    cat_creator node. It also seeds the dish_viz node and tells it when to
+    start running.
+    
+    B. Node: cat_creator
+    
+    This node generates CAT (center of activity trajectory) messages from burst
+    sequences that it receives, and sends those messages to the teleop_arm_dish
+    node.
+    
+    C. Message: burst
+    
+    This message contains a vector of ints containing the indexes of each
+    channel bursting in the sequence, and a vector of all the dish_states in the 
+    sequence. The header has a timestamp marking the beginning of the sequence,
+    and there is a time object marking the end of the sequence.
+    
+    D. Message: ca
+    
+    This message has two floats containing the X and Y values of a CA (center of
+    activity). The timestamp in the header is the same time as the dish state
+    that the CA was derived from.
+    
+    E. Message: cat
+    
+    This message is very similar to the burst message. It contains a vector of 
+    all the CA messages in the CAT. The timestamp in the header, the end time 
+    object, and the vector of ints are all the same as the burst message that 
+    the CAT was derived from. 
+    
+    F. Message: ranges
+    
+    This message is used to seed the dish_viz node. It has three arrays of 60
+    floats each: one for the baseline voltages of each channel, one for the
+    minimum voltages of each channel, and one for the maximum voltages of each
+    channel.
+
+================================================================================
+
+VIII. Package: dish_viz
+
+This package provides a visual representation of dish states.
+
+    A. Node: dish_viz
+    
+    This node provides a visual representation of dish states. It starts
+    automatically after the first burst is created in the burst_creator node. It
+    runs in sync with the movement of the ARM to visualize the dish activity 
+    that is causing movement. Red circles indicate below-threshold activity,
+    while blue circles show spikes.
+
+================================================================================
+
+IX. Package: neuro_recv
+
+This package is responsible for generating dish states from various sources.
+
+    A. Node: csv_recv
+    
+    This node generates and publishes dish states from a CSV file.
+
+    B. Node: brian_recv.py
+    
+    This node generates and publishes dish states from a Brian simulation.
+    
+    C. Node: brian_to_csv.py
+    
+    This node generates dish states and writes them to a CSV file for use later.
+    It is meant to be run alone, and not with any other nodes or as part of a
+    launch file.
+    
+    D. Node: SeedMea.py
+    
+    This node generates the connections and
+    pad neuron map pickle files used by the brian_recv.py and brian_to_csv 
+    nodes. It is meant to be run alone, and not with any other nodes or as part
+    of a launch file.
+    
+    E. Message: dish_state
+    
+    The dish_state message contains an array of 60 floats representing the 
+    voltage of each channel in the dish at a certain point in time. The header
+    of the message contains a timestamp that represents when the dish state
+    occurred relative to the beginning of playback.
+
+================================================================================
+
+X. Package: time_server
+
+This package helps keep nodes in sync by providing a global clock and a time
+request service.
+
+    A. Node: time_server
+    
+    This node contains a clock which starts at zero and is initialized 
+    immediately after the burst_creator node has finished buffering. The time
+    request service time_srv allows other nodes to request the clock time so 
+    that they can stay in sync.
+    
+    B. Service: time_srv
+    
+    The request of this service is a time object that the requesting node wants
+    to compare to the time_server time. The response is a time object containing
+    time_server time and a duration object containing the difference between
+    time_server time and the requested time.
+    
+================================================================================
+
+XI. Package: volt_distr
+
+This package records voltage distributions for each channel.
+
+    A. Node: volt_distr
+    
+    This node receives a copy of every non-buffer dish state from the receiver
+    node and creates voltage distributions for each channel. After the last dish
+    has been published, a CSV log of the distributions is saved. In addition,
+    an SVG image showing a color-coded grid of all of the channels is created 
+    and saved. A blue channel indicates a majority of positive voltages, and
+    red indicates a majority of negative voltages.
+
+================================================================================
