@@ -7,15 +7,6 @@
  * commands from teleop nodes.
  */
 
-// =============================================================================
-// Name   : arm_control.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "arm_control". This node moves the arm based on
-// commands from teleop nodes. Code to init the arm is from Abe Shultz.
-// =============================================================================
-
 #include "arm/arm_control.h"
 #include <cstdio>
 #include <cmath>
@@ -47,15 +38,6 @@ void ArmControl::init()
         return;
     }
 
-    // Start movement thread
-    boost::thread movement(&ArmControl::run, this);
-
-    // Start spinning
-    ros::spin();
-}
-
-void ArmControl::run()
-{
 	// Move arm into origin position
     for (int i = 0; i < MOVE_ARR_SZ; i++)
     {
@@ -64,9 +46,9 @@ void ArmControl::run()
     }
     arm_->moveCartesian(cartesian_move_);
 
-	while (!shutdown_)
+	while (ros::ok && !shutdown_)
 	{
-
+		ros::spinOnce();
 	}
 
 	// Move arm into final position
@@ -118,29 +100,23 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
-	// TODO: Re-implement this method
-
-    /*if (cmd->query)
+	if (cmd->quit)
+	{
+		shutdown_ = true;
+	}
+	else if (cmd->query)
     {
-        arm_->getPosition(actual_position_);
         print();
     }
     else
     {
-        arm_->getPosition(actual_position_);
-        for (int i = 0; i < POS_ARR_SZ; i++)
-            target_position_[i] = actual_position_[i];
-        moveCartesian();
-
-        if (cmd->quit)
-            shutdown_ = true;
-        else
-        {
-            for (int i = 0; i < STATE_ARR_SZ; i++)
-                states_[i] = static_cast<int>(cmd->states[i]);
-            arm_->moveConstant(states_);
-        }
-    }*/
+    	for (int i = 0; i < MOVE_ARR_SZ; i++)
+    	{
+    		constant_move_.states[i] = static_cast<int>(cmd->states[i]);
+    		constant_move_.speeds[i] = static_cast<int>(cmd->states[8]);
+    	}
+    	arm_->moveConstant(constant_move_);
+    }
 }
 
 void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPtr &cmd)

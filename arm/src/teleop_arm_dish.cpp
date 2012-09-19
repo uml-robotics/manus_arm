@@ -16,6 +16,7 @@
 #include <cmath>
 
 #define MIDPOINT 4.5
+#define SPEED 8
 
 void TeleopArmDish::init()
 {
@@ -114,27 +115,27 @@ void TeleopArmDish::publishCartesianMove()
                 move.speed = speed_;
 
                 // Right now only X/Y movement is implemented
-                move.position[ARM_X] = getArmCoord(cat.cas[i].x);
-                move.position[ARM_Y] = getArmCoord(cat.cas[i].y);
-                move.position[ARM_Z] = manus_arm::origin_position[ARM_Z];
-                move.position[CLAW_YAW] = manus_arm::origin_position[CLAW_YAW];
-                move.position[CLAW_PITCH] = manus_arm::origin_position[CLAW_PITCH];
-                move.position[CLAW_ROLL] = manus_arm::origin_position[CLAW_ROLL];
-                move.position[CLAW_GRIP] = manus_arm::origin_position[CLAW_GRIP];
+                move.position[X] = getArmCoord(cat.cas[i].x);
+                move.position[Y] = getArmCoord(cat.cas[i].y);
+                move.position[Z] = ORIGIN_POSITION[Z];
+                move.position[YAW] = ORIGIN_POSITION[YAW];
+                move.position[PITCH] = ORIGIN_POSITION[PITCH];
+                move.position[ROLL] = ORIGIN_POSITION[ROLL];
+                move.position[GRIP] = ORIGIN_POSITION[GRIP];
 
                 //printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
                 //printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
 
                 // Some error checking so we don't exceed the bounds of the ARM
-                if (fabs(move.position[ARM_X] > 20000))
+                if (fabs(move.position[X] > 20000))
                 {
-                    ROS_ERROR("X-axis position (%f) out of bounds", move.position[ARM_X]);
-                    move.position[ARM_X] = 0;
+                    ROS_ERROR("X-axis position (%f) out of bounds", move.position[X]);
+                    move.position[X] = 0;
                 }
-                if (fabs(move.position[ARM_Y] > 20000))
+                if (fabs(move.position[Y] > 20000))
                 {
-                    ROS_ERROR("Y-axis position (%f) out of bounds", move.position[ARM_Y]);
-                    move.position[ARM_Y] = 0;
+                    ROS_ERROR("Y-axis position (%f) out of bounds", move.position[Y]);
+                    move.position[Y] = 0;
                 }
 
                 cmd.moves.push_back(move);
@@ -205,23 +206,23 @@ void TeleopArmDish::publishConstantMove()
             if (y - MIDPOINT < 0)
             {
                 ROS_INFO("Y is ABOVE the midpoint, moving FORWARD");
-                cmd.move.states[ARM_X] = ARM_FORWARD;
+                cmd.move.states[X] = ARM_FORWARD;
             }
             else
             {
                 ROS_INFO("Y is BELOW the midpoint, moving BACKWARD");
-                cmd.move.states[ARM_X] = ARM_BACKWARD;
+                cmd.move.states[X] = ARM_BACKWARD;
             }
 
             if (x - MIDPOINT < 0)
             {
                 ROS_INFO("X is to the LEFT of the midpoint, moving LEFT");
-                cmd.move.states[ARM_Y] = ARM_LEFT;
+                cmd.move.states[Y] = ARM_LEFT;
             }
             else
             {
                 ROS_INFO("X is to the RIGHT of the midpoint, moving RIGHT");
-                cmd.move.states[ARM_Y] = ARM_RIGHT;
+                cmd.move.states[Y] = ARM_RIGHT;
             }
 
 
@@ -229,18 +230,18 @@ void TeleopArmDish::publishConstantMove()
             cmd.move.states[SPEED] = static_cast<int8_t>(speed_);
 
             // Everything else is 0 (doesn't move)
-            cmd.move.states[ARM_Z] = 0;
-            cmd.move.states[CLAW_YAW] = 0;
-            cmd.move.states[CLAW_PITCH] = 0;
-            cmd.move.states[CLAW_ROLL] = 0;
-            cmd.move.states[CLAW_GRIP] = 0;
-            cmd.move.states[LIFT_UNIT] = 0;
+            cmd.move.states[Z] = 0;
+            cmd.move.states[YAW] = 0;
+            cmd.move.states[PITCH] = 0;
+            cmd.move.states[ROLL] = 0;
+            cmd.move.states[GRIP] = 0;
+            cmd.move.states[LIFT] = 0;
 
             printf("[%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d]\n",
-                   cmd.move.states[ARM_X], cmd.move.states[ARM_Y],
-                   cmd.move.states[ARM_Z], cmd.move.states[CLAW_YAW],
-                   cmd.move.states[CLAW_PITCH], cmd.move.states[CLAW_ROLL],
-                   cmd.move.states[CLAW_GRIP], cmd.move.states[LIFT_UNIT],
+                   cmd.move.states[X], cmd.move.states[Y],
+                   cmd.move.states[Z], cmd.move.states[YAW],
+                   cmd.move.states[PITCH], cmd.move.states[ROLL],
+                   cmd.move.states[GRIP], cmd.move.states[LIFT],
                    cmd.move.states[SPEED]);
 
             // Publish the move and wait for the duration of the burst

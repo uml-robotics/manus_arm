@@ -26,7 +26,6 @@ public:
     
 private:
     void init();
-    void run();
     void cartesianMovesCallback(const arm::cartesian_moves::ConstPtr& cmd);
     void constantMoveCallback(const arm::constant_move::ConstPtr& cmd);
     void constantMoveTimeCallback(const arm::constant_move_time::ConstPtr& cmd);
@@ -38,7 +37,6 @@ private:
     ros::Subscriber constant_time_sub_;
     ros::ServiceClient time_client_;
     ManusArm* arm_;
-    boost::mutex data_update_;
 
     CartesianMove cartesian_move_;
     ConstantMove constant_move_;
