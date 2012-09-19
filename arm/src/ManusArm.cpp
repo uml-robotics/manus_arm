@@ -134,7 +134,7 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 	// Steps 1 and 2 ensure that the arm slows as it approaches the desired position
 
 	// Speed constants for arm
-	const float Kp[6] = { 5, 5, 5, 0.8, 0.7, 0.6 };
+	const float Kp[7] = { 5, 5, 5, 0.8, 0.7, 0.6, 0.5 };
 
 	// Which speed limits to use. 4 is full, kate's work used 2 when approaching user
 
@@ -145,6 +145,13 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 	float prev_pos[7];
 	// New speeds
 	float new_speeds[7];
+
+	for (int i = 0; i < 8; i++)
+	{
+		pos_err[i] = 0.0f;
+		prev_pos[i] = 0.0f;
+		new_speeds[i] = 0.0f;
+	}
 
 	bool move_complete = false;
 	while (!move_complete)
@@ -163,7 +170,7 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 			if (i == ROLL) // roll -180 ~ 180 : linear scaling
 			{
 				{
-					tmp1 = (180.0f - cmd.positions[i]) - (180.0f - prev_pos[i]);
+					tmp1 = (180.0f - cmd.positions[i]) - (180.0f - prev_pos[i-1]);
 				}
 
 				if (tmp1 >= 0.0f)
@@ -176,18 +183,18 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 				else
 					tmp2 = 360.0f + tmp1;
 
-				pos_err[i] = tmp2;
+				pos_err[i-1] = tmp2;
 			}
 			else
-				pos_err[i] = cmd.positions[i] - (prev_pos[i]);
+				pos_err[i-1] = cmd.positions[i] - (prev_pos[i-1]);
 
-			float control_input = Kp[i] * pos_err[i];
+			float control_input = Kp[i-1] * pos_err[i-1];
 
 			new_speeds[i] = fabs(control_input) > SPEED_LIMITS[i][cmd.speeds[i]] ?
 					        sign(control_input) * SPEED_LIMITS[i][cmd.speeds[i]] :
 					        control_input;
 		}
-
+#define DEBUG
 #ifdef DEBUG
 		cout << "Target Position: ";
 		for (int ii = 0; ii < 6; ii++)
@@ -237,7 +244,7 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 		move_complete = true;
 		for (int ii = X; ii <= Z; ii++) // Currently only calculates for X, Y, Z
 		{
-			if (fabs(pos_err[ii]) > CARTESIAN_SLOP)
+			if (fabs(pos_err[ii-1]) > CARTESIAN_SLOP)
 			{
 				// Still have moving to do
 				move_complete = false;

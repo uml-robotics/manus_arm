@@ -42,11 +42,11 @@ void ArmControl::init()
     for (int i = 0; i < MOVE_ARR_SZ; i++)
     {
     	cartesian_move_.positions[i] = ORIGIN_POSITION[i];
-    	cartesian_move_.speeds = 2;
+    	cartesian_move_.speeds[i] = 2;
     }
     arm_->moveCartesian(cartesian_move_);
 
-	while (ros::ok && !shutdown_)
+	while (ros::ok() && !shutdown_)
 	{
 		ros::spinOnce();
 	}
@@ -54,8 +54,8 @@ void ArmControl::init()
 	// Move arm into final position
     for (int i = 0; i < MOVE_ARR_SZ; i++)
     {
-    	cartesian_move_.positions[i] = FINAL_POSITION[i];
-    	cartesian_move_.speeds = 2;
+    	cartesian_move_.positions[i] = FINAL_POSITION[0][i];
+    	cartesian_move_.speeds[i] = 2;
     }
     arm_->moveCartesian(cartesian_move_);
 }
@@ -158,11 +158,7 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
 
 void ArmControl::print()
 {
-	// TODO: Re-implement this method
-
-    /*printf("\n");
-    for (int i = 0; i < MOVE_ARR_SZ; i++)
-        printf("%d[%.3f]\n", i, actual_position_[i]);*/
+	printf("\n%s", arm_->getPrintState().c_str());
 }
 
 int main(int argc, char** argv)

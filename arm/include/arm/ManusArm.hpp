@@ -61,14 +61,14 @@
 #define CARTESIAN_FOOT 13854.54
 
 // Constant speed limits for each axis
-const int SPEED_LIMITS[][] = { { 0, 0, 0, 0, 0 },      // Lift (N/A)
-							   { 3, 10, 17, 23, 30 },  // X
-							   { 10, 30, 50, 70, 90 }, // Y
-							   { 10, 30, 50, 70, 90 }, // Z
-							   { 1, 3, 5, 7, 9 },      // Yaw
-							   { 1, 3, 5, 7, 9 },      // Pitch
-							   { 1, 3, 5, 7, 9 },      // Roll
-							   { 1, 4, 7, 10, 14 } };  // Grip
+const int SPEED_LIMITS[][5] = { { 0, 0, 0, 0, 0 },      // Lift (N/A)
+							    { 3, 10, 17, 23, 30 },  // X
+							    { 10, 30, 50, 70, 90 }, // Y
+							    { 10, 30, 50, 70, 90 }, // Z
+							    { 1, 3, 5, 7, 9 },      // Yaw
+							    { 1, 3, 5, 7, 9 },      // Pitch
+							    { 1, 3, 5, 7, 9 },      // Roll
+							    { 1, 4, 7, 10, 14 } };  // Grip
 
 int sign(int n)
 {

@@ -43,22 +43,22 @@ const float ORIGIN_POSITION[] = {     0.0f,
 		                               0.0f,
 		                          -10000.0f };
 // Arm final position
-const float FINAL_POSITION[][] = { {      0.0f,
-								      15000.0f,
-								      -4500.0f,
-								      19000.0f,
-								          0.0f,
-								          0.0f,
-								          0.0f,
-								     -10000.0f },
-								   {      0.0f,
-								       8000.0f,
-								      -4500.0f,
-								       6000.0f,
-								          0.0f,
-								          0.0f,
-								           0.0f,
-								      -10000.0f } };
+const float FINAL_POSITION[][MOVE_ARR_SZ] = { {      0.0f,
+								                 15000.0f,
+								                 -4500.0f,
+								                 19000.0f,
+								                     0.0f,
+								                     0.0f,
+								                     0.0f,
+								                -10000.0f },
+								              {      0.0f,
+								                  8000.0f,
+								                 -4500.0f,
+								                  6000.0f,
+								                     0.0f,
+								                     0.0f,
+								                     0.0f,
+								                -10000.0f } };
 
 // Struct for holding Cartesian movement data
 struct CartesianMove
