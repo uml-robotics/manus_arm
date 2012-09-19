@@ -43,9 +43,6 @@ private:
     CartesianMove cartesian_move_;
     ConstantMove constant_move_;
 
-    float actual_position_[POS_ARR_SZ];
-    float target_position_[POS_ARR_SZ];
-    int states_[STATE_ARR_SZ];
     bool move_complete_;
     bool shutdown_;
 };

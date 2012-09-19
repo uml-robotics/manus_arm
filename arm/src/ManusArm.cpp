@@ -118,24 +118,12 @@ void ManusArm::setCbox(int cbox, can_frame* frm)
  *  We don't have a lift unit. The valid values are -1 (up), 0 (off), and 1 (down)
  */
 
-// ORIGINAL PUBLIC MOVE METHOD
-// The original implementation of the method is below.
-/*
-void ManusArm::moveCartesian(float target_position[], int speed_mode, void (*callback)())
+void ManusArm::moveCartesian(const CartesianMove& cmd)
 {
-    //boost::thread doMove(boost::bind(&ManusArm::doMove, this, target_position, callback));
-    motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, target_position, speed_mode, callback));
-}
-*/
-
-void ManusArm::moveCartesian(float speeds[])
-{
-    //printf("moveCartesian [%.3f][%.3f][%.3f][%.3f][%.3f][%.3f][%.3f]\n", speeds[0],
-    //       speeds[1], speeds[2], speeds[3], speeds[4], speeds[5], speeds[6]);
-	motionThread = boost::thread(boost::bind(&ManusArm::doMove, this, speeds));
+	motionThread = boost::thread(boost::bind(&ManusArm::doCartesianMove, this, cmd));
 }
 
-void ManusArm::doMove(float speeds[])
+void ManusArm::doCartesianMove(const CartesianMove& cmd)
 {
     //printf("doMove        [%.3f][%.3f][%.3f][%.3f][%.3f][%.3f][%.3f]\n", speeds[0],
     //       speeds[1], speeds[2], speeds[3], speeds[4], speeds[5], speeds[6]);
@@ -156,38 +144,34 @@ void ManusArm::doMove(float speeds[])
     boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 }
 
-// Added by Jon
-void ManusArm::moveConstant(int movement_states[])
+void ManusArm::moveConstant(const ConstantMove& cmd)
 {
-    motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, movement_states));
+    motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, cmd));
 }
 
-// Added by Jon
-void ManusArm::doConstantMove(int movement_states[])
+void ManusArm::doConstantMove(const ConstantMove& cmd)
 {
-    // Speed limits
-	const int x_linear_speed_limit[5] = { 3, 10, 17, 23, 30 }; // 1/3 normal speed
-	const int y_linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
-	const int z_linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
-	const int angular_speed_limit[5] = { 1, 3, 5, 7, 9 };
-	const int grip_speed_limit[5] = { 1, 4, 7, 10, 14 };
-	int x_linear_speed = x_linear_speed_limit[movement_states[SPEED]];
-	int y_linear_speed = y_linear_speed_limit[movement_states[SPEED]];
-	int z_linear_speed = z_linear_speed_limit[movement_states[SPEED]];
-    int angular_speed = angular_speed_limit[movement_states[SPEED]];
-    int grip_speed = grip_speed_limit[movement_states[SPEED]];
+	// Determine speeds for each axis
+	int x_speed = SPEED_LIMITS[X][cmd.speeds[X]];
+	int y_speed = SPEED_LIMITS[Y][cmd.speeds[Y]];
+	int z_speed = SPEED_LIMITS[Z][cmd.speeds[Z]];
+    int yaw_speed = SPEED_LIMITS[YAW][cmd.speeds[YAW]];
+    int pitch_speed = SPEED_LIMITS[PITCH][cmd.speeds[PITCH]];
+    int roll_speed = SPEED_LIMITS[ROLL][cmd.speeds[ROLL]];
+    int grip_speed = SPEED_LIMITS[GRIP][cmd.speeds[GRIP]];
     
+    // Enqueue the movement frame
     struct can_frame move;
 	setCbox(CBOX_1_CARTESIAN, &move);
 	move.can_dlc = 8;
-	move.data[LIFT] = movement_states[LIFT_UNIT];
-	move.data[Z] = z_linear_speed * movement_states[ARM_Z];
-	move.data[X] = x_linear_speed * movement_states[ARM_X];
-	move.data[Y] = y_linear_speed * movement_states[ARM_Y];
-	move.data[YAW] = angular_speed * movement_states[CLAW_YAW];
-	move.data[PITCH] = angular_speed * movement_states[CLAW_PITCH];
-	move.data[ROLL] = angular_speed * movement_states[CLAW_ROLL];
-	move.data[GRIP] = grip_speed * movement_states[CLAW_GRIP];
+	move.data[LIFT] = cmd.states[LIFT];
+	move.data[X] = x_speed * cmd.states[X];
+	move.data[Y] = y_speed * cmd.states[Y];
+	move.data[Z] = z_speed * cmd.states[Z];
+	move.data[YAW] = yaw_speed * cmd.states[YAW];
+	move.data[PITCH] = pitch_speed * cmd.states[PITCH];
+	move.data[ROLL] = roll_speed * cmd.states[ROLL];
+	move.data[GRIP] = grip_speed * cmd.states[GRIP];
 	enqueueFrame(move);
 
 	// Wait 60 msec

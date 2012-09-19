@@ -60,6 +60,16 @@
  */
 #define CARTESIAN_FOOT 13854.54
 
+// Constant speed limits for each axis
+const int SPEED_LIMITS[][] = { { 0, 0, 0, 0, 0 },      // Lift (N/A)
+							   { 3, 10, 17, 23, 30 },  // X
+							   { 10, 30, 50, 70, 90 }, // Y
+							   { 10, 30, 50, 70, 90 }, // Z
+							   { 1, 3, 5, 7, 9 },      // Yaw
+							   { 1, 3, 5, 7, 9 },      // Pitch
+							   { 1, 3, 5, 7, 9 },      // Roll
+							   { 1, 4, 7, 10, 14 } };  // Grip
+
 int sign(int n)
 {
     return ((n >= 0) ? 1 : -1);
@@ -109,9 +119,8 @@ private:
 
 	//Motion
 	boost::thread motionThread;
-	//void doMove(float target_position[], int speed_mode, void (*callback)()); // Original
-	void doMove(float speeds[]); // New version - for interruptible movement
-	void doConstantMove(int movement_states[]); // New version - for keyboard movement
+	void doCartesianMove(const CartesianMove& cmd);
+	void doConstantMove(const ConstantMove& cmd);
 
 public:
 	static ManusArm* instance();
@@ -123,9 +132,8 @@ public:
 	//Motion commands
 	void fold();
 	void unfold();
-	void moveConstant(int movement_states[]); // New version - for keyboard movement
-	void moveCartesian(float speeds[]); // New version - for interruptible movement
-	//void moveCartesian(float position[], int speed_mode, void (*callback)()); // Original
+	void moveCartesian(const CartesianMove& cmd);
+	void moveConstant(const ConstantMove& cmd);
 };
 
 class ArmException: public std::exception

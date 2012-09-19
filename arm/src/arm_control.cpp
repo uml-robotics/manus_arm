@@ -47,14 +47,8 @@ void ArmControl::init()
         return;
     }
 
-    // Move into final position to finish
-    for (int i = 0; i < POS_ARR_SZ; i++)
-        target_position_[i] = manus_arm::final_position[i];
-    speed_ = 2;
-    moveCartesian();
-
-    // Start updating thread
-    boost::thread move_update(&ArmControl::run, this);
+    // Start movement thread
+    boost::thread movement(&ArmControl::run, this);
 
     // Start spinning
     ros::spin();
@@ -65,10 +59,10 @@ void ArmControl::run()
 	// Move arm into origin position
     for (int i = 0; i < MOVE_ARR_SZ; i++)
     {
-    	cartesian_move_.positions[i] = origin_position[i];
+    	cartesian_move_.positions[i] = ORIGIN_POSITION[i];
     	cartesian_move_.speeds = 2;
     }
-    arm_->moveCartesian(cartesian_move);
+    arm_->moveCartesian(cartesian_move_);
 
 	while (!shutdown_)
 	{
@@ -78,10 +72,10 @@ void ArmControl::run()
 	// Move arm into final position
     for (int i = 0; i < MOVE_ARR_SZ; i++)
     {
-    	cartesian_move_.positions[i] = final_position[i];
+    	cartesian_move_.positions[i] = FINAL_POSITION[i];
     	cartesian_move_.speeds = 2;
     }
-    arm_->moveCartesian(cartesian_move);
+    arm_->moveCartesian(cartesian_move_);
 }
 
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
@@ -124,7 +118,9 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
-    if (cmd->query)
+	// TODO: Re-implement this method
+
+    /*if (cmd->query)
     {
         arm_->getPosition(actual_position_);
         print();
@@ -144,12 +140,14 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
                 states_[i] = static_cast<int>(cmd->states[i]);
             arm_->moveConstant(states_);
         }
-    }
+    }*/
 }
 
 void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPtr &cmd)
 {
-    time_server::time_srv end_check;
+	// TODO: Re-implement this method
+
+    /*time_server::time_srv end_check;
     end_check.request.target = cmd->end;
 
     if (time_client_.call(end_check))
@@ -179,10 +177,11 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
             ROS_ERROR("This movement would have started after its ending time");
     }
     else
-        ROS_ERROR("Time server is not responding, movement command skipped");
+        ROS_ERROR("Time server is not responding, movement command skipped");*/
 }
 
-void ArmControl::moveCartesian()
+// TODO Remove this method
+/*void ArmControl::moveCartesian()
 {
     // Speed constants for arm
     float Kp[6] = { 5, 5, 5, 0.8, 0.7, 0.6 };
@@ -234,13 +233,15 @@ void ArmControl::moveCartesian()
     // Stop the arm
     arm_->moveCartesian(manus_arm::stop);
     ros::Duration(0.06).sleep();
-}
+}*/
 
 void ArmControl::print()
 {
-    printf("\n");
-    for (int i = 0; i < POS_ARR_SZ; i++)
-        printf("%d[%.3f]\n", i, actual_position_[i]);
+	// TODO: Re-implement this method
+
+    /*printf("\n");
+    for (int i = 0; i < MOVE_ARR_SZ; i++)
+        printf("%d[%.3f]\n", i, actual_position_[i]);*/
 }
 
 int main(int argc, char** argv)

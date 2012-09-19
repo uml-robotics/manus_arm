@@ -34,7 +34,7 @@
 #define MOVE_ARR_SZ 8
 
 // Arm origin position
-const float origin_position[] = {     0.0f,
+const float ORIGIN_POSITION[] = {     0.0f,
 								   15000.0f,
 		                           -4500.0f,
 		                           19000.0f,
@@ -43,7 +43,7 @@ const float origin_position[] = {     0.0f,
 		                               0.0f,
 		                          -10000.0f };
 // Arm final position
-const float final_position[][] = { {      0.0f,
+const float FINAL_POSITION[][] = { {      0.0f,
 								      15000.0f,
 								      -4500.0f,
 								      19000.0f,
