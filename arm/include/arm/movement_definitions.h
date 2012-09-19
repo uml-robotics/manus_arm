@@ -20,30 +20,58 @@
 #define LIFT_UP -1
 #define LIFT_DOWN 1
 
-// Movement state array indexes (0-8)
-// Position array indexes (0-6 only)
-#define ARM_X 0 // Forward/backward
-#define ARM_Y 1 // Left/right
-#define ARM_Z 2 // Up/down
-#define CLAW_YAW 3
-#define CLAW_PITCH 4
-#define CLAW_ROLL 5
-#define CLAW_GRIP 6
-#define LIFT_UNIT 7
-#define SPEED 8
+// Movement axis indexes
+#define LIFT 0 // Not used with cartesian moves. Does not have a speed.
+#define X 1 // Forward/backward
+#define Y 2 // Left/right
+#define Z 3 // Up/down
+#define YAW 4
+#define PITCH 5
+#define ROLL 6
+#define GRIP 7
 
-#define STATE_ARR_SZ 9
-#define POS_ARR_SZ 7
+// Size of a movement array
+#define MOVE_ARR_SZ 8
 
-namespace manus_arm
+// Arm origin position
+const float origin_position[] = {     0.0f,
+								   15000.0f,
+		                           -4500.0f,
+		                           19000.0f,
+		                               0.0f,
+		                               0.0f,
+		                               0.0f,
+		                          -10000.0f };
+// Arm final position
+const float final_position[][] = { {      0.0f,
+								      15000.0f,
+								      -4500.0f,
+								      19000.0f,
+								          0.0f,
+								          0.0f,
+								          0.0f,
+								     -10000.0f },
+								   {      0.0f,
+								       8000.0f,
+								      -4500.0f,
+								       6000.0f,
+								          0.0f,
+								          0.0f,
+								           0.0f,
+								      -10000.0f } };
+
+// Struct for holding Cartesian movement data
+struct CartesianMove
 {
-// Arrays of speeds
-float stop[] = { 0, 0, 0, 0, 0, 0, 0 };
+	float positions[MOVE_ARR_SZ];
+	int speeds[MOVE_ARR_SZ];
+};
 
-// Arrays of positions
-float origin_position[] = { 15000, -4500, 19000, 0, 0, 0, -10000 };
-float final_position[] = { 15000, -4500, 19000, 0, 0, 0, -10000 };
-//float final_position[] = { 8000, -4500, 6000, 0, 0, 0, -10000 };
-}
+// Struct for holding constant movement data
+struct ConstantMove
+{
+	int states[MOVE_ARR_SZ];
+	int speeds[MOVE_ARR_SZ]; // No speed for lift unit
+};
 
 #endif

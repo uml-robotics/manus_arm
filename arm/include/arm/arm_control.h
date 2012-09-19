@@ -26,10 +26,10 @@ public:
     
 private:
     void init();
+    void run();
     void cartesianMovesCallback(const arm::cartesian_moves::ConstPtr& cmd);
     void constantMoveCallback(const arm::constant_move::ConstPtr& cmd);
     void constantMoveTimeCallback(const arm::constant_move_time::ConstPtr& cmd);
-    void moveCartesian();
     void print();
     
     ros::NodeHandle n_;
@@ -38,8 +38,11 @@ private:
     ros::Subscriber constant_time_sub_;
     ros::ServiceClient time_client_;
     ManusArm* arm_;
+    boost::mutex data_update_;
 
-    int speed_;
+    CartesianMove cartesian_move_;
+    ConstantMove constant_move_;
+
     float actual_position_[POS_ARR_SZ];
     float target_position_[POS_ARR_SZ];
     int states_[STATE_ARR_SZ];

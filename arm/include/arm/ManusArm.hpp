@@ -60,18 +60,6 @@
  */
 #define CARTESIAN_FOOT 13854.54
 
-// Indexes for can_frame.data array only
-// Use the indexes defined in movement_states.h for movement state arrays and
-// position state arrays
-#define LIFT 0
-#define X 1 // Forward/backward
-#define Y 2 // Left/right
-#define Z 3 // Up/down
-#define YAW 4
-#define PITCH 5
-#define ROLL 6
-#define GRIP 7
-
 int sign(int n)
 {
     return ((n >= 0) ? 1 : -1);

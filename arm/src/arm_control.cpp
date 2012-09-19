@@ -22,6 +22,9 @@
 
 void ArmControl::init()
 {
+	shutdown_ = false;
+
+	// Initialize subscribers and clients
     cartesian_sub_ = n_.subscribe("cartesian_moves", 1000,
                                   &ArmControl::cartesianMovesCallback, this);
     constant_sub_ = n_.subscribe("constant_moves", 1,
@@ -30,17 +33,9 @@ void ArmControl::init()
                                       &ArmControl::constantMoveTimeCallback,
                                       this);
     time_client_ = n_.serviceClient<time_server::time_srv>("time_service");
-    arm_ = ManusArm::instance();
-    shutdown_ = false;
-    
-    // Get ARM speed parameter
-    if (!n_.getParam("arm_speed", speed_))
-    {
-        ROS_WARN("Could not load arm_speed parameter, default is 2");
-        speed_ = 2;
-    }
 
-    // Init the ARM
+    // Initialize the ARM
+    arm_ = ManusArm::instance();
     try
     {
         arm_->init("can0");
@@ -52,28 +47,49 @@ void ArmControl::init()
         return;
     }
 
-    // Move into origin position to start
-    for (int i = 0; i < POS_ARR_SZ; i++)
-        target_position_[i] = manus_arm::origin_position[i];
-    int temp_speed = speed_;
-    speed_ = 2;
-    moveCartesian();
-    speed_ = temp_speed;
-
-    while (ros::ok() && !shutdown_)
-        ros::spinOnce();
-
     // Move into final position to finish
     for (int i = 0; i < POS_ARR_SZ; i++)
         target_position_[i] = manus_arm::final_position[i];
     speed_ = 2;
     moveCartesian();
+
+    // Start updating thread
+    boost::thread move_update(&ArmControl::run, this);
+
+    // Start spinning
+    ros::spin();
+}
+
+void ArmControl::run()
+{
+	// Move arm into origin position
+    for (int i = 0; i < MOVE_ARR_SZ; i++)
+    {
+    	cartesian_move_.positions[i] = origin_position[i];
+    	cartesian_move_.speeds = 2;
+    }
+    arm_->moveCartesian(cartesian_move);
+
+	while (!shutdown_)
+	{
+
+	}
+
+	// Move arm into final position
+    for (int i = 0; i < MOVE_ARR_SZ; i++)
+    {
+    	cartesian_move_.positions[i] = final_position[i];
+    	cartesian_move_.speeds = 2;
+    }
+    arm_->moveCartesian(cartesian_move);
 }
 
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
                                         cmd)
 {
-    time_server::time_srv end_check;
+	// TODO: Re-implement this method
+
+    /*time_server::time_srv end_check;
     end_check.request.target = cmd->end;
 
     for (unsigned int i = 0; i < cmd->moves.size(); i++)
@@ -103,7 +119,7 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
             ROS_ERROR("Time server is not responding");
             return;
         }
-    }
+    }*/
 }
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
