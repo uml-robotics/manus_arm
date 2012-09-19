@@ -125,70 +125,7 @@ void ManusArm::moveCartesian(const CartesianMove& cmd)
 
 void ManusArm::doCartesianMove(const CartesianMove& cmd)
 {
-    //printf("doMove        [%.3f][%.3f][%.3f][%.3f][%.3f][%.3f][%.3f]\n", speeds[0],
-    //       speeds[1], speeds[2], speeds[3], speeds[4], speeds[5], speeds[6]);
-    struct can_frame move;
-    setCbox(CBOX_1_CARTESIAN, &move);
-    move.can_dlc = 8;
-    move.data[LIFT] = 0;
-    move.data[Z] = speeds[ARM_Z];
-    move.data[X] = speeds[ARM_X];
-    move.data[Y] = speeds[ARM_Y];
-    move.data[YAW] = speeds[CLAW_YAW];
-    move.data[PITCH] = speeds[CLAW_PITCH];
-    move.data[ROLL] = speeds[CLAW_ROLL];
-    move.data[GRIP] = speeds[CLAW_GRIP];
-    enqueueFrame(move);
-
-    // Wait 60 msec
-    boost::this_thread::sleep(boost::posix_time::milliseconds(60));
-}
-
-void ManusArm::moveConstant(const ConstantMove& cmd)
-{
-    motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, cmd));
-}
-
-void ManusArm::doConstantMove(const ConstantMove& cmd)
-{
-	// Determine speeds for each axis
-	int x_speed = SPEED_LIMITS[X][cmd.speeds[X]];
-	int y_speed = SPEED_LIMITS[Y][cmd.speeds[Y]];
-	int z_speed = SPEED_LIMITS[Z][cmd.speeds[Z]];
-    int yaw_speed = SPEED_LIMITS[YAW][cmd.speeds[YAW]];
-    int pitch_speed = SPEED_LIMITS[PITCH][cmd.speeds[PITCH]];
-    int roll_speed = SPEED_LIMITS[ROLL][cmd.speeds[ROLL]];
-    int grip_speed = SPEED_LIMITS[GRIP][cmd.speeds[GRIP]];
-    
-    // Enqueue the movement frame
-    struct can_frame move;
-	setCbox(CBOX_1_CARTESIAN, &move);
-	move.can_dlc = 8;
-	move.data[LIFT] = cmd.states[LIFT];
-	move.data[X] = x_speed * cmd.states[X];
-	move.data[Y] = y_speed * cmd.states[Y];
-	move.data[Z] = z_speed * cmd.states[Z];
-	move.data[YAW] = yaw_speed * cmd.states[YAW];
-	move.data[PITCH] = pitch_speed * cmd.states[PITCH];
-	move.data[ROLL] = roll_speed * cmd.states[ROLL];
-	move.data[GRIP] = grip_speed * cmd.states[GRIP];
-	enqueueFrame(move);
-
-	// Wait 60 msec
-	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
-}
-
-// ORIGINAL PRIVATE MOVE METHOD
-// The original implementation of the method is below.
-/*
-void ManusArm::doMove(float target_position[], int speed_mode,
-                      void (*callback)())
-{
-	boost::this_thread::at_thread_exit(callback);
-
-
-
-	// a lot of the logic here is from can_comm.cpp's function pd_control()
+	// A lot of the logic here is from can_comm.cpp's function pd_control()
 	// Generally speaking, it works by:
 	// 1. Calculating the difference between the current position and the desired position (the error)
 	// 2. Multiplying the error by a speed constant
@@ -196,43 +133,37 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 	// 4. Sending the speeds to the arm
 	// Steps 1 and 2 ensure that the arm slows as it approaches the desired position
 
-	//Speed constants for arm
-	float Kp[6] =
-	{ 5, 5, 5, 0.8, 0.7, 0.6 };
+	// Speed constants for arm
+	const float Kp[6] = { 5, 5, 5, 0.8, 0.7, 0.6 };
 
-	//Constant speed limits
-	int linear_speed_limit[5] =
-	{ 10, 30, 50, 70, 90 };
-	int angular_speed_limit[5] =
-	{ 1, 3, 5, 7, 9 };
 	// Which speed limits to use. 4 is full, kate's work used 2 when approaching user
 
 
-	//error in position
-	float pos_err[6];
-	//previous position
-	float prev_pos[6];
-	//new speeds
-	float newSpeeds[6];
+	// Error in position
+	float pos_err[7];
+	// Previous position
+	float prev_pos[7];
+	// New speeds
+	float new_speeds[7];
 
-	bool moveComplete = false;
-	while (!moveComplete)
+	bool move_complete = false;
+	while (!move_complete)
 	{
-		//get current position
+		// Get current position
 		{
 			boost::mutex::scoped_lock lock(stateMutex);
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 7; i++)
 				prev_pos[i] = currState.jointPositions[i];
 		}
 
-		//Calculate the error and speeds
+		// Calculate the error and speeds
 		register float tmp1, tmp2;
-		for (int i = 0; i < 3; i++) // Currently only calculates for X Y Z
+		for (int i = X; i <= Z; i++) // Currently only calculates for X, Y, Z
 		{
-			if (i == 5) // roll -180 ~ 180 : linear scaling
+			if (i == ROLL) // roll -180 ~ 180 : linear scaling
 			{
 				{
-					tmp1 = (180.0f - target_position[i]) - (180.0f - prev_pos[i]);
+					tmp1 = (180.0f - cmd.positions[i]) - (180.0f - prev_pos[i]);
 				}
 
 				if (tmp1 >= 0.0f)
@@ -248,21 +179,20 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 				pos_err[i] = tmp2;
 			}
 			else
-				pos_err[i] = target_position[i] - (prev_pos[i]);
+				pos_err[i] = cmd.positions[i] - (prev_pos[i]);
 
 			float control_input = Kp[i] * pos_err[i];
 
-			if (i < 3)
-				newSpeeds[i] = (fabs(control_input) > linear_speed_limit[speed_mode]) ? sign(control_input) * linear_speed_limit[speed_mode] : control_input;
-			else
-				newSpeeds[i] = (fabs(control_input) > angular_speed_limit[speed_mode]) ? sign(control_input) * angular_speed_limit[speed_mode] : control_input;
+			new_speeds[i] = fabs(control_input) > SPEED_LIMITS[i][cmd.speeds[i]] ?
+					        sign(control_input) * SPEED_LIMITS[i][cmd.speeds[i]] :
+					        control_input;
 		}
 
 #ifdef DEBUG
 		cout << "Target Position: ";
 		for (int ii = 0; ii < 6; ii++)
 		{
-			cout << target_position[ii] << ", ";
+			cout << cmd.positions[ii] << ", ";
 		}
 		cout << endl;
 
@@ -281,7 +211,7 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 		cout << "New speeds: ";
 		for (int ii = 0; ii < 6; ii++)
 		{
-			cout << newSpeeds[ii] << ", ";
+			cout << new_speeds[ii] << ", ";
 		}
 		cout << endl << endl;
 #endif
@@ -289,28 +219,28 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 		struct can_frame move;
 		setCbox(CBOX_1_CARTESIAN, &move);
 		move.can_dlc = 8;
-		move.data[LIFT] = 0; //Lift unit
-		move.data[Z] = newSpeeds[ARM_Z];
-		move.data[X] = newSpeeds[ARM_X];
-		move.data[Y] = newSpeeds[ARM_Y];
-		move.data[YAW] = 0; //newSpeeds[CLAW_YAW]; <-- only moves X Y Z
-		move.data[PITCH] = 0; //newSpeeds[CLAW_PITCH]; <-- only moves X Y Z
-		move.data[ROLL] = 0; //newSpeeds[CLAW_ROLL]; <-- only moves X Y Z
-		move.data[GRIP] = 0; //Gripper open/close
+		move.data[LIFT] = 0; // Lift unit is not used in Cartesian moves
+		move.data[X] = new_speeds[X];
+		move.data[Y] = new_speeds[Y];
+		move.data[Z] = new_speeds[Z];
+		move.data[YAW] = 0; // Yaw movement not yet implemented
+		move.data[PITCH] = 0; // Pitch movement not yet implemented
+		move.data[ROLL] = 0; // Roll movement not yet implemented
+		move.data[GRIP] = 0; // Grip movement not yet implemented
 
 		enqueueFrame(move);
 
-		//wait 60 msec
+		// Wait 60 msec
 		boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 
-		//Assume we are done
-		moveComplete = true;
-		for (int ii = 0; ii < 3; ii++) // Currently only calculates for X Y Z
+		// Assume we are done
+		move_complete = true;
+		for (int ii = X; ii <= Z; ii++) // Currently only calculates for X, Y, Z
 		{
 			if (fabs(pos_err[ii]) > CARTESIAN_SLOP)
 			{
-				//still have moving to do
-				moveComplete = false;
+				// Still have moving to do
+				move_complete = false;
 				break;
 			}
 		}
@@ -320,22 +250,47 @@ void ManusArm::doMove(float target_position[], int speed_mode,
 	struct can_frame move;
 	setCbox(CBOX_1_CARTESIAN, &move);
 	move.can_dlc = 8;
-	move.data[LIFT] = 0;
-	move.data[X] = 0;
-	move.data[Y] = 0;
-	move.data[Z] = 0;
-	move.data[YAW] = 0;
-	move.data[PITCH] = 0;
-	move.data[ROLL] = 0;
-	move.data[GRIP] = 0; //Gripper open/close
-
+	for (int i = 0; i < MOVE_ARR_SZ; i++)
+		move.data[i] = 0;
 	enqueueFrame(move);
 
-	//wait 60 msec
+	// Wait 60 msec
 	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 }
-*/
 
+void ManusArm::moveConstant(const ConstantMove& cmd)
+{
+    motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, cmd));
+}
+
+void ManusArm::doConstantMove(const ConstantMove& cmd)
+{
+	// Determine speeds for each axis
+	int x_speed = SPEED_LIMITS[X][cmd.speeds[X]];
+	int y_speed = SPEED_LIMITS[Y][cmd.speeds[Y]];
+	int z_speed = SPEED_LIMITS[Z][cmd.speeds[Z]];
+    int yaw_speed = SPEED_LIMITS[YAW][cmd.speeds[YAW]];
+    int pitch_speed = SPEED_LIMITS[PITCH][cmd.speeds[PITCH]];
+    int roll_speed = SPEED_LIMITS[ROLL][cmd.speeds[ROLL]];
+    int grip_speed = SPEED_LIMITS[GRIP][cmd.speeds[GRIP]];
+
+    // Enqueue the movement frame
+    struct can_frame move;
+	setCbox(CBOX_1_CARTESIAN, &move);
+	move.can_dlc = 8;
+	move.data[LIFT] = cmd.states[LIFT];
+	move.data[X] = x_speed * cmd.states[X];
+	move.data[Y] = y_speed * cmd.states[Y];
+	move.data[Z] = z_speed * cmd.states[Z];
+	move.data[YAW] = yaw_speed * cmd.states[YAW];
+	move.data[PITCH] = pitch_speed * cmd.states[PITCH];
+	move.data[ROLL] = roll_speed * cmd.states[ROLL];
+	move.data[GRIP] = grip_speed * cmd.states[GRIP];
+	enqueueFrame(move);
+
+	// Wait 60 msec
+	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
+}
 
 void ManusArm::setCartesian()
 {

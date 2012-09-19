@@ -180,61 +180,6 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
         ROS_ERROR("Time server is not responding, movement command skipped");*/
 }
 
-// TODO Remove this method
-/*void ArmControl::moveCartesian()
-{
-    // Speed constants for arm
-    float Kp[6] = { 5, 5, 5, 0.8, 0.7, 0.6 };
-
-    // Constant speed limits
-    int linear_speed_limit[5] = { 10, 30, 50, 70, 90 };
-
-    // Error in position
-    float pos_err[3];
-    // New speeds
-    float speeds[POS_ARR_SZ] = { 0, 0, 0, 0, 0, 0, 0 };
-
-    move_complete_ = false;
-    while (!move_complete_)
-    {
-        // Keep spinning so we can receive new commands
-        ros::spinOnce();
-
-        // Get current position
-        arm_->getPosition(actual_position_);
-
-        // Calculate the error and speeds
-        // Currently only calculates for X Y Z
-        for (int i = 0; i < 3; i++)
-        {
-            pos_err[i] = target_position_[i] - actual_position_[i];
-            float control_input = Kp[i] * pos_err[i];
-            speeds[i] = fabs(control_input) > linear_speed_limit[speed_] ?
-                        sign(control_input) * linear_speed_limit[speed_] :
-                        control_input;
-        }
-
-        arm_->moveCartesian(speeds);
-        ros::Duration(0.06).sleep();
-
-        // Assume we are done
-        move_complete_ = true;
-        for (int ii = 0; ii < 3; ii++)
-        {
-            if (fabs(pos_err[ii]) > CARTESIAN_SLOP)
-            {
-                // Still have moving to do
-                move_complete_ = false;
-                break;
-            }
-        }
-    }
-
-    // Stop the arm
-    arm_->moveCartesian(manus_arm::stop);
-    ros::Duration(0.06).sleep();
-}*/
-
 void ArmControl::print()
 {
 	// TODO: Re-implement this method
