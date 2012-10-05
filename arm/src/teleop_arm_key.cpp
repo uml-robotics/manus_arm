@@ -15,16 +15,14 @@
 #include <termios.h>
 #include <stdio.h>
 
-#define SPEED 8
-
 int kfd = 0;
 struct termios cooked, raw;
 
 TeleopArmKey::TeleopArmKey()
 {
     cmd_pub_ = n_.advertise<arm::constant_move>("constant_moves", 1);
-    for (int i = 0; i < MOVE_ARR_SZ; i++)
-        cmd_.states[i] = 0;
+    cmd_.states.fill(0);
+    cmd_.speeds.fill(0);
     cmd_.query = false;
     cmd_.quit = false;
     init();
@@ -92,8 +90,8 @@ bool TeleopArmKey::getCommand(const char c)
     switch (c)
     {
     case KEYCODE_BACKSPACE:
-        for (int i = 0; i < MOVE_ARR_SZ - 1; i++)
-            cmd_.states[i] = 0;
+        cmd_.states.fill(0);
+        cmd_.speeds.fill(0);
         break;
 
     // Arm control
@@ -172,30 +170,35 @@ bool TeleopArmKey::getCommand(const char c)
        
     // Other
     case KEYCODE_COMMA:
-        if (cmd_.states[SPEED] > 0)
+    	// Currently affects all speeds at once
+        if (cmd_.speeds[0] > 0)
         {
-            cmd_.states[SPEED]--;
-            printf("Speed[%d]\n", cmd_.states[SPEED]);
+            for (int i = 0; i < SPD_ARR_SZ; i++)
+            	cmd_.speeds[i]--;
         }
         else
             new_command = false;
+
+        printf("Speed[%d]\n", cmd_.speeds[0]);
         break;
     case KEYCODE_PERIOD:
-        if (cmd_.states[SPEED] < 4)
+    	// Currently affects all speeds at once
+        if (cmd_.speeds[0] < 4)
         {
-            cmd_.states[SPEED]++;
-            printf("Speed[%d]\n", cmd_.states[SPEED]);
+            for (int i = 0; i < SPD_ARR_SZ; i++)
+            	cmd_.speeds[i]++;
         }
         else
             new_command = false;
+
+        printf("Speed[%d]\n", cmd_.speeds[0]);
         break;
     case KEYCODE_TAB:
         print();
         cmd_.query = true;
         break;
     case KEYCODE_Q:
-        for (int i = 0; i < MOVE_ARR_SZ; i++)
-            cmd_.states[i] = 0;
+        cmd_.states.fill(0);
         cmd_.quit = true;
         break;
     default:
@@ -212,7 +215,7 @@ void TeleopArmKey::print()
            cmd_.states[0]);
     printf("Yaw[%d] Pitch[%d] Roll[%d] Grip[%d]\n", cmd_.states[3],
            cmd_.states[4], cmd_.states[5], cmd_.states[6]);
-    printf("Lift[%d] Speed[%d]\n", cmd_.states[7], cmd_.states[8]);
+    printf("Lift[%d] Speed[%d]\n", cmd_.states[7], cmd_.speeds[0]);
 }
 
 void quit(int sig)

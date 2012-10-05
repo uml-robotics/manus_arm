@@ -16,7 +16,6 @@
 #include <cmath>
 
 #define MIDPOINT 4.5
-#define SPEED 8
 
 void TeleopArmDish::init()
 {
@@ -112,30 +111,32 @@ void TeleopArmDish::publishCartesianMove()
             {
                 arm::cartesian_move move;
                 move.header.stamp = cat.header.stamp;
-                move.speed = speed_;
+
+                // Currently all axes have the same speed
+                move.speeds.fill(static_cast<int8_t>(speed_));
 
                 // Right now only X/Y movement is implemented
-                move.position[X] = getArmCoord(cat.cas[i].x);
-                move.position[Y] = getArmCoord(cat.cas[i].y);
-                move.position[Z] = ORIGIN_POSITION[Z];
-                move.position[YAW] = ORIGIN_POSITION[YAW];
-                move.position[PITCH] = ORIGIN_POSITION[PITCH];
-                move.position[ROLL] = ORIGIN_POSITION[ROLL];
-                move.position[GRIP] = ORIGIN_POSITION[GRIP];
+                move.positions[X] = getArmCoord(cat.cas[i].x);
+                move.positions[Y] = getArmCoord(cat.cas[i].y);
+                move.positions[Z] = ORIGIN_POSITION[Z];
+                move.positions[YAW] = ORIGIN_POSITION[YAW];
+                move.positions[PITCH] = ORIGIN_POSITION[PITCH];
+                move.positions[ROLL] = ORIGIN_POSITION[ROLL];
+                move.positions[GRIP] = ORIGIN_POSITION[GRIP];
 
                 //printf("CA  : x[%10.3f] y[%10.3f]\n", x, y);
                 //printf("ARM : x[%10.3f] y[%10.3f]\n", cmd.position[ARM_X], cmd.position[ARM_Y]);
 
                 // Some error checking so we don't exceed the bounds of the ARM
-                if (fabs(move.position[X] > 20000))
+                if (fabs(move.positions[X] > 20000))
                 {
-                    ROS_ERROR("X-axis position (%f) out of bounds", move.position[X]);
-                    move.position[X] = 0;
+                    ROS_ERROR("X-axis position (%f) out of bounds", move.positions[X]);
+                    move.positions[X] = 0;
                 }
-                if (fabs(move.position[Y] > 20000))
+                if (fabs(move.positions[Y] > 20000))
                 {
-                    ROS_ERROR("Y-axis position (%f) out of bounds", move.position[Y]);
-                    move.position[Y] = 0;
+                    ROS_ERROR("Y-axis position (%f) out of bounds", move.positions[Y]);
+                    move.positions[Y] = 0;
                 }
 
                 cmd.moves.push_back(move);
@@ -226,8 +227,8 @@ void TeleopArmDish::publishConstantMove()
             }
 
 
-
-            cmd.move.states[SPEED] = static_cast<int8_t>(speed_);
+            // Currently all axes have the same speed
+            cmd.move.speeds.fill(static_cast<int8_t>(speed_));
 
             // Everything else is 0 (doesn't move)
             cmd.move.states[Z] = 0;
@@ -237,12 +238,16 @@ void TeleopArmDish::publishConstantMove()
             cmd.move.states[GRIP] = 0;
             cmd.move.states[LIFT] = 0;
 
-            printf("[%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d]\n",
+            printf("[%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d]\n",
                    cmd.move.states[X], cmd.move.states[Y],
                    cmd.move.states[Z], cmd.move.states[YAW],
                    cmd.move.states[PITCH], cmd.move.states[ROLL],
-                   cmd.move.states[GRIP], cmd.move.states[LIFT],
-                   cmd.move.states[SPEED]);
+                   cmd.move.states[GRIP], cmd.move.states[LIFT]);
+            printf("[%d] [%d] [%d] [%d] [%d] [%d] [%d]\n",
+                   cmd.move.speeds[X], cmd.move.speeds[Y],
+                   cmd.move.speeds[Z], cmd.move.speeds[YAW],
+                   cmd.move.speeds[PITCH], cmd.move.speeds[ROLL],
+                   cmd.move.speeds[GRIP]);
 
             // Publish the move and wait for the duration of the burst
             cmd_pub_.publish(cmd);

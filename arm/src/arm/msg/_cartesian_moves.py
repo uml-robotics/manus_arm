@@ -9,7 +9,7 @@ import genpy
 import std_msgs.msg
 
 class cartesian_moves(genpy.Message):
-  _md5sum = "9ca853d2e419249f3a928a6a6283227b"
+  _md5sum = "56c11a250225b8cc4f58b0e6670caaa1"
   _type = "arm/cartesian_moves"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Cartesian movement sequence message
@@ -38,8 +38,8 @@ string frame_id
 MSG: arm/cartesian_move
 # Cartesian movement message
 Header header
-float32[7] position
-int8 speed
+float32[7] positions
+int8[7] speeds
 """
   __slots__ = ['header','end','moves']
   _slot_types = ['std_msgs/Header','time','arm/cartesian_move[]']
@@ -108,8 +108,8 @@ int8 speed
           _x = _x.encode('utf-8')
           length = len(_x)
         buff.write(struct.pack('<I%ss'%length, length, _x))
-        buff.write(_struct_7f.pack(*val1.position))
-        buff.write(_struct_b.pack(val1.speed))
+        buff.write(_struct_7f.pack(*val1.positions))
+        buff.write(_struct_7b.pack(*val1.speeds))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -169,10 +169,10 @@ int8 speed
           _v3.frame_id = str[start:end]
         start = end
         end += 28
-        val1.position = _struct_7f.unpack(str[start:end])
+        val1.positions = _struct_7f.unpack(str[start:end])
         start = end
-        end += 1
-        (val1.speed,) = _struct_b.unpack(str[start:end])
+        end += 7
+        val1.speeds = _struct_7b.unpack(str[start:end])
         self.moves.append(val1)
       self.end.canon()
       return self
@@ -211,8 +211,8 @@ int8 speed
           _x = _x.encode('utf-8')
           length = len(_x)
         buff.write(struct.pack('<I%ss'%length, length, _x))
-        buff.write(val1.position.tostring())
-        buff.write(_struct_b.pack(val1.speed))
+        buff.write(val1.positions.tostring())
+        buff.write(val1.speeds.tostring())
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -273,10 +273,10 @@ int8 speed
           _v7.frame_id = str[start:end]
         start = end
         end += 28
-        val1.position = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=7)
+        val1.positions = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=7)
         start = end
-        end += 1
-        (val1.speed,) = _struct_b.unpack(str[start:end])
+        end += 7
+        val1.speeds = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=7)
         self.moves.append(val1)
       self.end.canon()
       return self
@@ -286,5 +286,5 @@ int8 speed
 _struct_I = genpy.struct_I
 _struct_7f = struct.Struct("<7f")
 _struct_3I = struct.Struct("<3I")
-_struct_b = struct.Struct("<b")
 _struct_2I = struct.Struct("<2I")
+_struct_7b = struct.Struct("<7b")

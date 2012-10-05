@@ -61,8 +61,7 @@
 #define CARTESIAN_FOOT 13854.54
 
 // Constant speed limits for each axis
-const int SPEED_LIMITS[][5] = { { 0, 0, 0, 0, 0 },      // Lift (N/A)
-							    { 3, 10, 17, 23, 30 },  // X
+const int SPEED_LIMITS[][5] = { { 3, 10, 17, 23, 30 },  // X
 							    { 10, 30, 50, 70, 90 }, // Y
 							    { 10, 30, 50, 70, 90 }, // Z
 							    { 1, 3, 5, 7, 9 },      // Yaw
@@ -106,6 +105,8 @@ private:
 
 	/* State maintenance and thread safety */
 	armState currState;
+	bool moveComplete;
+	bool moving;
 	boost::mutex stateMutex;
 	void setCbox(int cbox, can_frame* frm);
 
@@ -128,6 +129,7 @@ public:
 	std::string getPrintState();
 	std::string getCsvState();
 	void getPosition(float position[]);
+	bool isMoveComplete() { return moveComplete ? true : false; }
 
 	//Motion commands
 	void fold();

@@ -9,7 +9,7 @@ import genpy
 import std_msgs.msg
 
 class constant_move_time(genpy.Message):
-  _md5sum = "8407ff2f6f9c1cb4b6cf141a1d5f821c"
+  _md5sum = "ce3f840cc123698b1457e9ca4641494a"
   _type = "arm/constant_move_time"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Constant movement by time message
@@ -38,7 +38,8 @@ string frame_id
 MSG: arm/constant_move
 # Constant movement message
 Header header
-int8[9] states
+int8[8] states
+int8[7] speeds
 bool query
 bool quit
 """
@@ -101,7 +102,8 @@ bool quit
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_struct_9b.pack(*self.move.states))
+      buff.write(_struct_8b.pack(*self.move.states))
+      buff.write(_struct_7b.pack(*self.move.speeds))
       _x = self
       buff.write(_struct_2B.pack(_x.move.query, _x.move.quit))
     except struct.error as se: self._check_types(se)
@@ -147,8 +149,11 @@ bool quit
       else:
         self.move.header.frame_id = str[start:end]
       start = end
-      end += 9
-      self.move.states = _struct_9b.unpack(str[start:end])
+      end += 8
+      self.move.states = _struct_8b.unpack(str[start:end])
+      start = end
+      end += 7
+      self.move.speeds = _struct_7b.unpack(str[start:end])
       _x = self
       start = end
       end += 2
@@ -185,6 +190,7 @@ bool quit
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       buff.write(self.move.states.tostring())
+      buff.write(self.move.speeds.tostring())
       _x = self
       buff.write(_struct_2B.pack(_x.move.query, _x.move.quit))
     except struct.error as se: self._check_types(se)
@@ -231,8 +237,11 @@ bool quit
       else:
         self.move.header.frame_id = str[start:end]
       start = end
-      end += 9
-      self.move.states = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=9)
+      end += 8
+      self.move.states = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=8)
+      start = end
+      end += 7
+      self.move.speeds = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=7)
       _x = self
       start = end
       end += 2
@@ -245,7 +254,8 @@ bool quit
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
+_struct_8b = struct.Struct("<8b")
 _struct_3I = struct.Struct("<3I")
-_struct_9b = struct.Struct("<9b")
 _struct_5I = struct.Struct("<5I")
+_struct_7b = struct.Struct("<7b")
 _struct_2B = struct.Struct("<2B")

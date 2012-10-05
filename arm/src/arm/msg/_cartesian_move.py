@@ -7,13 +7,13 @@ import struct
 import std_msgs.msg
 
 class cartesian_move(genpy.Message):
-  _md5sum = "5554538b4ced31aaaff5755be933d0ee"
+  _md5sum = "77c36474a679935981d0084acfe955fd"
   _type = "arm/cartesian_move"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Cartesian movement message
 Header header
-float32[7] position
-int8 speed
+float32[7] positions
+int8[7] speeds
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -33,8 +33,8 @@ time stamp
 string frame_id
 
 """
-  __slots__ = ['header','position','speed']
-  _slot_types = ['std_msgs/Header','float32[7]','int8']
+  __slots__ = ['header','positions','speeds']
+  _slot_types = ['std_msgs/Header','float32[7]','int8[7]']
 
   def __init__(self, *args, **kwds):
     """
@@ -44,7 +44,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,position,speed
+       header,positions,speeds
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -55,14 +55,14 @@ string frame_id
       #message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.position is None:
-        self.position = [0.,0.,0.,0.,0.,0.,0.]
-      if self.speed is None:
-        self.speed = 0
+      if self.positions is None:
+        self.positions = [0.,0.,0.,0.,0.,0.,0.]
+      if self.speeds is None:
+        self.speeds = [0,0,0,0,0,0,0]
     else:
       self.header = std_msgs.msg.Header()
-      self.position = [0.,0.,0.,0.,0.,0.,0.]
-      self.speed = 0
+      self.positions = [0.,0.,0.,0.,0.,0.,0.]
+      self.speeds = [0,0,0,0,0,0,0]
 
   def _get_types(self):
     """
@@ -84,8 +84,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_struct_7f.pack(*self.position))
-      buff.write(_struct_b.pack(self.speed))
+      buff.write(_struct_7f.pack(*self.positions))
+      buff.write(_struct_7b.pack(*self.speeds))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -113,10 +113,10 @@ string frame_id
         self.header.frame_id = str[start:end]
       start = end
       end += 28
-      self.position = _struct_7f.unpack(str[start:end])
+      self.positions = _struct_7f.unpack(str[start:end])
       start = end
-      end += 1
-      (self.speed,) = _struct_b.unpack(str[start:end])
+      end += 7
+      self.speeds = _struct_7b.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -137,8 +137,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(self.position.tostring())
-      buff.write(_struct_b.pack(self.speed))
+      buff.write(self.positions.tostring())
+      buff.write(self.speeds.tostring())
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -167,10 +167,10 @@ string frame_id
         self.header.frame_id = str[start:end]
       start = end
       end += 28
-      self.position = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=7)
+      self.positions = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=7)
       start = end
-      end += 1
-      (self.speed,) = _struct_b.unpack(str[start:end])
+      end += 7
+      self.speeds = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=7)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -178,4 +178,4 @@ string frame_id
 _struct_I = genpy.struct_I
 _struct_7f = struct.Struct("<7f")
 _struct_3I = struct.Struct("<3I")
-_struct_b = struct.Struct("<b")
+_struct_7b = struct.Struct("<7b")

@@ -1,4 +1,4 @@
 # Cartesian movement message
 Header header
-float32[7] position
-int8 speed
+float32[7] positions
+int8[7] speeds

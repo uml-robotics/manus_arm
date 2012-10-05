@@ -7,12 +7,13 @@ import struct
 import std_msgs.msg
 
 class constant_move(genpy.Message):
-  _md5sum = "fa1479603b148cb3631a58805d751376"
+  _md5sum = "87f1d9135e20ae2be6861b3a526c5653"
   _type = "arm/constant_move"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """# Constant movement message
 Header header
-int8[9] states
+int8[8] states
+int8[7] speeds
 bool query
 bool quit
 ================================================================================
@@ -34,8 +35,8 @@ time stamp
 string frame_id
 
 """
-  __slots__ = ['header','states','query','quit']
-  _slot_types = ['std_msgs/Header','int8[9]','bool','bool']
+  __slots__ = ['header','states','speeds','query','quit']
+  _slot_types = ['std_msgs/Header','int8[8]','int8[7]','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -45,7 +46,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,states,query,quit
+       header,states,speeds,query,quit
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -57,14 +58,17 @@ string frame_id
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.states is None:
-        self.states = [0,0,0,0,0,0,0,0,0]
+        self.states = [0,0,0,0,0,0,0,0]
+      if self.speeds is None:
+        self.speeds = [0,0,0,0,0,0,0]
       if self.query is None:
         self.query = False
       if self.quit is None:
         self.quit = False
     else:
       self.header = std_msgs.msg.Header()
-      self.states = [0,0,0,0,0,0,0,0,0]
+      self.states = [0,0,0,0,0,0,0,0]
+      self.speeds = [0,0,0,0,0,0,0]
       self.query = False
       self.quit = False
 
@@ -88,7 +92,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_struct_9b.pack(*self.states))
+      buff.write(_struct_8b.pack(*self.states))
+      buff.write(_struct_7b.pack(*self.speeds))
       _x = self
       buff.write(_struct_2B.pack(_x.query, _x.quit))
     except struct.error as se: self._check_types(se)
@@ -117,8 +122,11 @@ string frame_id
       else:
         self.header.frame_id = str[start:end]
       start = end
-      end += 9
-      self.states = _struct_9b.unpack(str[start:end])
+      end += 8
+      self.states = _struct_8b.unpack(str[start:end])
+      start = end
+      end += 7
+      self.speeds = _struct_7b.unpack(str[start:end])
       _x = self
       start = end
       end += 2
@@ -146,6 +154,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       buff.write(self.states.tostring())
+      buff.write(self.speeds.tostring())
       _x = self
       buff.write(_struct_2B.pack(_x.query, _x.quit))
     except struct.error as se: self._check_types(se)
@@ -175,8 +184,11 @@ string frame_id
       else:
         self.header.frame_id = str[start:end]
       start = end
-      end += 9
-      self.states = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=9)
+      end += 8
+      self.states = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=8)
+      start = end
+      end += 7
+      self.speeds = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=7)
       _x = self
       start = end
       end += 2
@@ -188,6 +200,7 @@ string frame_id
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
+_struct_8b = struct.Struct("<8b")
 _struct_3I = struct.Struct("<3I")
-_struct_9b = struct.Struct("<9b")
+_struct_7b = struct.Struct("<7b")
 _struct_2B = struct.Struct("<2B")

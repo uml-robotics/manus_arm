@@ -134,32 +134,37 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 	// Steps 1 and 2 ensure that the arm slows as it approaches the desired position
 
 	// Speed constants for arm
-	const float Kp[7] = { 5, 5, 5, 0.8, 0.7, 0.6, 0.5 };
+	const float Kp[CART_MV_ARR_SZ] = { 5, 5, 5, 0.8, 0.7, 0.6, 0.5 };
 
 	// Which speed limits to use. 4 is full, kate's work used 2 when approaching user
 
 
 	// Error in position
-	float pos_err[7];
+	float pos_err[CART_MV_ARR_SZ];
 	// Previous position
-	float prev_pos[7];
+	float prev_pos[CART_MV_ARR_SZ];
 	// New speeds
-	float new_speeds[7];
+	float new_speeds[CART_MV_ARR_SZ];
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < CART_MV_ARR_SZ; i++)
 	{
 		pos_err[i] = 0.0f;
 		prev_pos[i] = 0.0f;
 		new_speeds[i] = 0.0f;
 	}
 
-	bool move_complete = false;
-	while (!move_complete)
+	{
+		boost::mutex::scoped_lock lock(stateMutex);
+		moveComplete = false;
+		moving = true;
+	}
+
+	while (moving)
 	{
 		// Get current position
 		{
 			boost::mutex::scoped_lock lock(stateMutex);
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < CART_MV_ARR_SZ; i++)
 				prev_pos[i] = currState.jointPositions[i];
 		}
 
@@ -170,7 +175,7 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 			if (i == ROLL) // roll -180 ~ 180 : linear scaling
 			{
 				{
-					tmp1 = (180.0f - cmd.positions[i]) - (180.0f - prev_pos[i-1]);
+					tmp1 = (180.0f - cmd.positions[i]) - (180.0f - prev_pos[i]);
 				}
 
 				if (tmp1 >= 0.0f)
@@ -183,12 +188,12 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 				else
 					tmp2 = 360.0f + tmp1;
 
-				pos_err[i-1] = tmp2;
+				pos_err[i] = tmp2;
 			}
 			else
-				pos_err[i-1] = cmd.positions[i] - (prev_pos[i-1]);
+				pos_err[i] = cmd.positions[i] - (prev_pos[i]);
 
-			float control_input = Kp[i-1] * pos_err[i-1];
+			float control_input = Kp[i] * pos_err[i];
 
 			new_speeds[i] = fabs(control_input) > SPEED_LIMITS[i][cmd.speeds[i]] ?
 					        sign(control_input) * SPEED_LIMITS[i][cmd.speeds[i]] :
@@ -197,43 +202,53 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 #define DEBUG
 #ifdef DEBUG
 		cout << "Target Position: ";
-		for (int ii = 0; ii < 6; ii++)
+		for (int ii = 0; ii < CART_MV_ARR_SZ; ii++)
 		{
 			cout << cmd.positions[ii] << ", ";
 		}
 		cout << endl;
 
 		cout << "Position: ";
-		for (int ii = 0; ii < 6; ii++)
+		for (int ii = 0; ii < CART_MV_ARR_SZ; ii++)
 		{
 			cout << prev_pos[ii] << ", ";
 		}
 		cout << endl;
 		cout << "Error: ";
-		for (int ii = 0; ii < 6; ii++)
+		for (int ii = 0; ii < CART_MV_ARR_SZ; ii++)
 		{
 			cout << pos_err[ii] << ", ";
 		}
 		cout << endl;
 		cout << "New speeds: ";
-		for (int ii = 0; ii < 6; ii++)
+		for (int ii = 0; ii < CART_MV_ARR_SZ; ii++)
 		{
 			cout << new_speeds[ii] << ", ";
 		}
 		cout << endl << endl;
 #endif
 
+		// The struct can_frame uses a different order for axes of movement:
+		//		lift: 	0 (LIFT-7)
+		//		x:    	1 (X+1)
+		//		y:	  	2 (Y+1)
+		//		z:		3 (Z+1)
+		//		yaw:	4 (YAW+1)
+		//		pitch:	5 (PITCH+1)
+		//		roll:	6 (ROLL+1)
+		//		grip:	7 (GRIP+1)
+
 		struct can_frame move;
 		setCbox(CBOX_1_CARTESIAN, &move);
-		move.can_dlc = 8;
-		move.data[LIFT] = 0; // Lift unit is not used in Cartesian moves
-		move.data[X] = new_speeds[X];
-		move.data[Y] = new_speeds[Y];
-		move.data[Z] = new_speeds[Z];
-		move.data[YAW] = 0; // Yaw movement not yet implemented
-		move.data[PITCH] = 0; // Pitch movement not yet implemented
-		move.data[ROLL] = 0; // Roll movement not yet implemented
-		move.data[GRIP] = 0; // Grip movement not yet implemented
+		move.can_dlc = FRM_ARR_SZ;
+		move.data[LIFT-7] = 0; // Lift unit is not used in Cartesian moves
+		move.data[X+1] = new_speeds[X];
+		move.data[Y+1] = new_speeds[Y];
+		move.data[Z+1] = new_speeds[Z];
+		move.data[YAW+1] = 0; // Yaw movement not yet implemented
+		move.data[PITCH+1] = 0; // Pitch movement not yet implemented
+		move.data[ROLL+1] = 0; // Roll movement not yet implemented
+		move.data[GRIP+1] = 0; // Grip movement not yet implemented
 
 		enqueueFrame(move);
 
@@ -241,13 +256,20 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 		boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 
 		// Assume we are done
-		move_complete = true;
+		{
+			boost::mutex::scoped_lock lock(stateMutex);
+			moving = false;
+		}
+
 		for (int ii = X; ii <= Z; ii++) // Currently only calculates for X, Y, Z
 		{
-			if (fabs(pos_err[ii-1]) > CARTESIAN_SLOP)
+			if (fabs(pos_err[ii]) > CARTESIAN_SLOP)
 			{
 				// Still have moving to do
-				move_complete = false;
+				{
+					boost::mutex::scoped_lock lock(stateMutex);
+					moving = true;
+				}
 				break;
 			}
 		}
@@ -256,13 +278,18 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 	//Stop the arm, otherwise it continues with whatever speeds it had when the move was done
 	struct can_frame move;
 	setCbox(CBOX_1_CARTESIAN, &move);
-	move.can_dlc = 8;
-	for (int i = 0; i < MOVE_ARR_SZ; i++)
+	move.can_dlc = FRM_ARR_SZ;
+	for (int i = 0; i < FRM_ARR_SZ; i++)
 		move.data[i] = 0;
 	enqueueFrame(move);
 
 	// Wait 60 msec
 	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
+
+	{
+		boost::mutex::scoped_lock lock(stateMutex);
+		moveComplete = true;
+	}
 }
 
 void ManusArm::moveConstant(const ConstantMove& cmd)
@@ -272,27 +299,23 @@ void ManusArm::moveConstant(const ConstantMove& cmd)
 
 void ManusArm::doConstantMove(const ConstantMove& cmd)
 {
-	// Determine speeds for each axis
-	int x_speed = SPEED_LIMITS[X][cmd.speeds[X]];
-	int y_speed = SPEED_LIMITS[Y][cmd.speeds[Y]];
-	int z_speed = SPEED_LIMITS[Z][cmd.speeds[Z]];
-    int yaw_speed = SPEED_LIMITS[YAW][cmd.speeds[YAW]];
-    int pitch_speed = SPEED_LIMITS[PITCH][cmd.speeds[PITCH]];
-    int roll_speed = SPEED_LIMITS[ROLL][cmd.speeds[ROLL]];
-    int grip_speed = SPEED_LIMITS[GRIP][cmd.speeds[GRIP]];
+	// The struct can_frame uses a different order for axes of movement:
+	//		lift: 	0 (LIFT-7)
+	//		x:    	1 (X+1)
+	//		y:	  	2 (Y+1)
+	//		z:		3 (Z+1)
+	//		yaw:	4 (YAW+1)
+	//		pitch:	5 (PITCH+1)
+	//		roll:	6 (ROLL+1)
+	//		grip:	7 (GRIP+1)
 
     // Enqueue the movement frame
     struct can_frame move;
 	setCbox(CBOX_1_CARTESIAN, &move);
-	move.can_dlc = 8;
-	move.data[LIFT] = cmd.states[LIFT];
-	move.data[X] = x_speed * cmd.states[X];
-	move.data[Y] = y_speed * cmd.states[Y];
-	move.data[Z] = z_speed * cmd.states[Z];
-	move.data[YAW] = yaw_speed * cmd.states[YAW];
-	move.data[PITCH] = pitch_speed * cmd.states[PITCH];
-	move.data[ROLL] = roll_speed * cmd.states[ROLL];
-	move.data[GRIP] = grip_speed * cmd.states[GRIP];
+	move.can_dlc = FRM_ARR_SZ;
+	move.data[LIFT-7] = cmd.states[LIFT];
+	for (int i = X; i <= GRIP; i++)
+		move.data[i] = SPEED_LIMITS[i][cmd.speeds[i]] * cmd.states[i];
 	enqueueFrame(move);
 
 	// Wait 60 msec
@@ -527,6 +550,9 @@ ManusArm* ManusArm::instance()
 
 int ManusArm::init(string interface)
 {
+	moveComplete = false;
+	moving = false;
+
 	/* Create the socket */
 	canSock = socket(PF_CAN, SOCK_RAW, CAN_RAW);
 	if (canSock < 0)

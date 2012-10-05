@@ -39,7 +39,7 @@ void ArmControl::init()
     }
 
 	// Move arm into origin position
-    for (int i = 0; i < MOVE_ARR_SZ; i++)
+    for (int i = 0; i < CART_MV_ARR_SZ; i++)
     {
     	cartesian_move_.positions[i] = ORIGIN_POSITION[i];
     	cartesian_move_.speeds[i] = 2;
@@ -52,12 +52,15 @@ void ArmControl::init()
 	}
 
 	// Move arm into final position
-    for (int i = 0; i < MOVE_ARR_SZ; i++)
+    for (int i = 0; i < CART_MV_ARR_SZ; i++)
     {
     	cartesian_move_.positions[i] = FINAL_POSITION[0][i];
     	cartesian_move_.speeds[i] = 2;
     }
     arm_->moveCartesian(cartesian_move_);
+
+    while (1)
+    	printf ("%s\n", arm_->isMoveComplete() ? "True": "False");
 }
 
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
@@ -110,11 +113,10 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
     }
     else
     {
-    	for (int i = 0; i < MOVE_ARR_SZ; i++)
-    	{
+    	for (int i = 0; i < CONST_MV_ARR_SZ; i++)
     		constant_move_.states[i] = static_cast<int>(cmd->states[i]);
-    		constant_move_.speeds[i] = static_cast<int>(cmd->states[8]);
-    	}
+    	for (int i = 0; i < SPD_ARR_SZ; i++)
+    		constant_move_.speeds[i] = static_cast<int>(cmd->speeds[i]);
     	arm_->moveConstant(constant_move_);
     }
 }
