@@ -134,9 +134,7 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 
 void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPtr &cmd)
 {
-	// TODO: Re-implement this method
-
-    /*time_server::time_srv end_check;
+    time_server::time_srv end_check;
     end_check.request.target = cmd->end;
 
     if (time_client_.call(end_check))
@@ -151,22 +149,25 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
                     end_check.response.actual).toSec());
             printf("Duration of move : %f\n", end_check.response.delta.toSec());
 
-            for (int i = 0; i < STATE_ARR_SZ; i++)
-                states_[i] = cmd->move.states[i];
-            arm_->moveConstant(states_);
+            for (int i = 0; i < CONST_MV_ARR_SZ; i++)
+            {
+                constant_move_.states[i] = cmd->move.states[i];
+                if (i < SPD_ARR_SZ)
+                	constant_move_.speeds[i] = cmd->move.speeds[i];
+            }
+            arm_->moveConstant(constant_move_);
 
             end_check.response.delta.sleep();
 
             // Stop
-            for (int i = 0; i < STATE_ARR_SZ; i++)
-                states_[i] = 0;
-            arm_->moveConstant(states_);
+            for (int i = 0; i < CONST_MV_ARR_SZ; i++)
+				constant_move_.states[i] = 0;
         }
         else
             ROS_ERROR("This movement would have started after its ending time");
     }
     else
-        ROS_ERROR("Time server is not responding, movement command skipped");*/
+        ROS_ERROR("Time server is not responding, movement command skipped");
 }
 
 void ArmControl::print()
