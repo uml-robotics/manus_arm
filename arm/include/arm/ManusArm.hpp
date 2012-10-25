@@ -106,7 +106,6 @@ private:
 	/* State maintenance and thread safety */
 	armState currState;
 	bool moveComplete;
-	bool moving;
 	boost::mutex stateMutex;
 	void setCbox(int cbox, can_frame* frm);
 
@@ -129,7 +128,12 @@ public:
 	std::string getPrintState();
 	std::string getCsvState();
 	void getPosition(float position[]);
-	bool isMoveComplete() { return moveComplete ? true : false; }
+	bool isMoveComplete() {	return moveComplete; }
+	void setMoveComplete(bool move_complete)
+	{
+		boost::mutex::scoped_lock lock(stateMutex);
+		moveComplete = move_complete;
+	}
 
 	//Motion commands
 	void fold();
