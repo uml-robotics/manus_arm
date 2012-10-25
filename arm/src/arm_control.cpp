@@ -44,23 +44,34 @@ void ArmControl::init()
     	cartesian_move_.positions[i] = ORIGIN_POSITION[i];
     	cartesian_move_.speeds[i] = 2;
     }
+    arm_->setMoveComplete(false);
     arm_->moveCartesian(cartesian_move_);
 
+    // Main loop
 	while (ros::ok() && !shutdown_)
 	{
 		ros::spinOnce();
 	}
 
-	// Move arm into final position
-    for (int i = 0; i < CART_MV_ARR_SZ; i++)
-    {
-    	cartesian_move_.positions[i] = FINAL_POSITION[0][i];
-    	cartesian_move_.speeds[i] = 2;
-    }
-    arm_->moveCartesian(cartesian_move_);
+	// Move arm into final position only if ROS is still ok
+	if (ros::ok())
+	{
+		for (int i = 0; i < CART_MV_ARR_SZ; i++)
+		{
+			cartesian_move_.positions[i] = FINAL_POSITION[0][i];
+			cartesian_move_.speeds[i] = 2;
+		}
+		arm_->setMoveComplete(false);
+		arm_->moveCartesian(cartesian_move_);
 
-    while (1)
-    	printf ("%s\n", arm_->isMoveComplete() ? "True": "False");
+		while (!arm_->isMoveComplete())
+		{
+			//printf("Not Complete\n");
+			ros::Duration(0.06).sleep();
+		}
+	}
+
+	printf("Arm control shutdown\n");
 }
 
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&

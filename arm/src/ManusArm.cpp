@@ -153,11 +153,7 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 		new_speeds[i] = 0.0f;
 	}
 
-	{
-		boost::mutex::scoped_lock lock(stateMutex);
-		moveComplete = false;
-		moving = true;
-	}
+	bool moving = true;
 
 	while (moving)
 	{
@@ -199,7 +195,6 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 					        sign(control_input) * SPEED_LIMITS[i][cmd.speeds[i]] :
 					        control_input;
 		}
-#define DEBUG
 #ifdef DEBUG
 		cout << "Target Position: ";
 		for (int ii = 0; ii < CART_MV_ARR_SZ; ii++)
@@ -256,20 +251,13 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 		boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 
 		// Assume we are done
-		{
-			boost::mutex::scoped_lock lock(stateMutex);
-			moving = false;
-		}
+		moving = false;
 
 		for (int ii = X; ii <= Z; ii++) // Currently only calculates for X, Y, Z
 		{
 			if (fabs(pos_err[ii]) > CARTESIAN_SLOP)
 			{
-				// Still have moving to do
-				{
-					boost::mutex::scoped_lock lock(stateMutex);
-					moving = true;
-				}
+				moving = true;
 				break;
 			}
 		}
@@ -315,7 +303,7 @@ void ManusArm::doConstantMove(const ConstantMove& cmd)
 	move.can_dlc = FRM_ARR_SZ;
 	move.data[LIFT-7] = cmd.states[LIFT];
 	for (int i = X; i <= GRIP; i++)
-		move.data[i] = SPEED_LIMITS[i][cmd.speeds[i]] * cmd.states[i];
+		move.data[i+1] = SPEED_LIMITS[i][cmd.speeds[i]] * cmd.states[i];
 	enqueueFrame(move);
 
 	// Wait 60 msec
@@ -551,7 +539,6 @@ ManusArm* ManusArm::instance()
 int ManusArm::init(string interface)
 {
 	moveComplete = false;
-	moving = false;
 
 	/* Create the socket */
 	canSock = socket(PF_CAN, SOCK_RAW, CAN_RAW);
