@@ -77,9 +77,7 @@ void ArmControl::init()
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
                                         cmd)
 {
-	// TODO: Re-implement this method
-
-    /*time_server::time_srv end_check;
+	time_server::time_srv end_check;
     end_check.request.target = cmd->end;
 
     for (unsigned int i = 0; i < cmd->moves.size(); i++)
@@ -91,12 +89,18 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
             printf("Server time  : %f\n", end_check.response.actual.toSec());
             printf("Delta        : %f\n", end_check.response.delta.toSec());
 
+            // Check for a current move and stop if necessary
+            if (!arm_->isMoveComplete()) arm_->setMoveComplete(true);
+
             if (end_check.response.delta > ros::Duration(-0.2))
             {
-                for (unsigned int j = 0; j < POS_ARR_SZ; j++)
-                    target_position_[j] = cmd->moves[i].position[j];
-                speed_ = cmd->moves[i].speed;
-                moveCartesian();
+                for (unsigned int j = 0; j < CART_MV_ARR_SZ; j++)
+                {
+                    cartesian_move_.positions[j] = cmd->moves[i].positions[j];
+                    cartesian_move_.speeds[j] = cmd->moves[i].speeds[j];
+                }
+                arm_->setMoveComplete(false);
+                arm_->moveCartesian(cartesian_move_);
             }
             else
             {
@@ -109,7 +113,7 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
             ROS_ERROR("Time server is not responding");
             return;
         }
-    }*/
+    }
 }
 
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)

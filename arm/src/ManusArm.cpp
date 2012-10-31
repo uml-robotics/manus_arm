@@ -155,7 +155,7 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 
 	bool moving = true;
 
-	while (moving)
+	while (moving && !moveComplete)
 	{
 		// Get current position
 		{
