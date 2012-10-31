@@ -58,7 +58,7 @@ void ArmControl::init()
 	{
 		for (int i = 0; i < CART_MV_ARR_SZ; i++)
 		{
-			cartesian_move_.positions[i] = FINAL_POSITION[0][i];
+			cartesian_move_.positions[i] = FINAL_POSITION[1][i];
 			cartesian_move_.speeds[i] = 2;
 		}
 		arm_->setMoveComplete(false);
@@ -166,6 +166,7 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
             // Stop
             for (int i = 0; i < CONST_MV_ARR_SZ; i++)
 				constant_move_.states[i] = 0;
+            arm_->moveConstant(constant_move_);
         }
         else
             ROS_ERROR("This movement would have started after its ending time");
