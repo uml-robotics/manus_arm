@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['cart_5fmv_5farr_5fsz',['CART_MV_ARR_SZ',['../movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806',1,'movement_definitions.h']]],
+  ['cartesian_5ffoot',['CARTESIAN_FOOT',['../ManusArm_8hpp.html#a148b505ab6c99cbd4895d8ba33055e9e',1,'ManusArm.hpp']]],
+  ['cartesian_5fslop',['CARTESIAN_SLOP',['../ManusArm_8hpp.html#ad06229aafee4a08b31b8bcfdc78aa918',1,'ManusArm.hpp']]],
+  ['cbox_5f0_5finit',['CBOX_0_INIT',['../ManusArm_8hpp.html#aa22ac644af759e869c9345e50a3b5efa',1,'ManusArm.hpp']]],
+  ['cbox_5f1_5fcartesian',['CBOX_1_CARTESIAN',['../ManusArm_8hpp.html#a8ffbe101a2d861a2206e4aff246d77c8',1,'ManusArm.hpp']]],
+  ['cbox_5f4_5fjoint',['CBOX_4_JOINT',['../ManusArm_8hpp.html#af3e2fc42e079907bbac9e01929697f33',1,'ManusArm.hpp']]],
+  ['cbox_5f5_5funfold',['CBOX_5_UNFOLD',['../ManusArm_8hpp.html#acf59e7e1492873f408da30efd68363ac',1,'ManusArm.hpp']]],
+  ['cbox_5f6_5ffold',['CBOX_6_FOLD',['../ManusArm_8hpp.html#a8459796187164d177424971a7d98a97c',1,'ManusArm.hpp']]],
+  ['claw_5fgrip_5fclose',['CLAW_GRIP_CLOSE',['../movement__definitions_8h.html#a6bc11e2464a676134fda2cdc139ec57a',1,'movement_definitions.h']]],
+  ['claw_5fgrip_5fopen',['CLAW_GRIP_OPEN',['../movement__definitions_8h.html#a07f24b158c2cf8465cf2d891d4d18dde',1,'movement_definitions.h']]],
+  ['claw_5fpitch_5fdown',['CLAW_PITCH_DOWN',['../movement__definitions_8h.html#a0c2cee304fcbbfa52263626a439b1b7d',1,'movement_definitions.h']]],
+  ['claw_5fpitch_5fup',['CLAW_PITCH_UP',['../movement__definitions_8h.html#ac88299abc7bc4441403201ec70e81c44',1,'movement_definitions.h']]],
+  ['claw_5froll_5fleft',['CLAW_ROLL_LEFT',['../movement__definitions_8h.html#a3cf24194f67ec5ee20f08bf3bb8cc155',1,'movement_definitions.h']]],
+  ['claw_5froll_5fright',['CLAW_ROLL_RIGHT',['../movement__definitions_8h.html#a335307a94adad5e2ef2ceebe03e472b8',1,'movement_definitions.h']]],
+  ['claw_5fyaw_5fleft',['CLAW_YAW_LEFT',['../movement__definitions_8h.html#a83c521c50ba1120ca7afaa84e9ebb961',1,'movement_definitions.h']]],
+  ['claw_5fyaw_5fright',['CLAW_YAW_RIGHT',['../movement__definitions_8h.html#a6e06981dd9ae863e707aceb7361be4f6',1,'movement_definitions.h']]],
+  ['const_5fmv_5farr_5fsz',['CONST_MV_ARR_SZ',['../movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea',1,'movement_definitions.h']]]
+];

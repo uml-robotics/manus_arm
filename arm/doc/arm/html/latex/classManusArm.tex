@@ -1,0 +1,381 @@
+\section{\-Manus\-Arm \-Class \-Reference}
+\label{classManusArm}\index{\-Manus\-Arm@{\-Manus\-Arm}}
+
+
+{\ttfamily \#include $<$\-Manus\-Arm.\-hpp$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf fold} ()
+\item 
+std\-::string {\bf get\-Csv\-State} ()
+\item 
+void {\bf get\-Position} (float position[$\,$])
+\item 
+std\-::string {\bf get\-Print\-State} ()
+\item 
+int {\bf init} (std\-::string interface)
+\item 
+bool {\bf is\-Move\-Complete} ()
+\item 
+void {\bf move\-Cartesian} (const {\bf \-Cartesian\-Move} \&cmd)
+\item 
+void {\bf move\-Constant} (const {\bf \-Constant\-Move} \&cmd)
+\item 
+void {\bf set\-Move\-Complete} (bool move\-\_\-complete)
+\item 
+void {\bf unfold} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+static {\bf \-Manus\-Arm} $\ast$ {\bf instance} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf do\-Cartesian\-Move} (const {\bf \-Cartesian\-Move} \&cmd)
+\item 
+void {\bf do\-Constant\-Move} (const {\bf \-Constant\-Move} \&cmd)
+\item 
+void {\bf enqueue\-Frame} (can\-\_\-frame to\-Send)
+\item 
+{\bf \-Manus\-Arm} ()
+\item 
+{\bf \-Manus\-Arm} ({\bf \-Manus\-Arm} const \&)
+\item 
+{\bf \-Manus\-Arm} \& {\bf operator=} ({\bf \-Manus\-Arm} const \&)
+\item 
+void {\bf poll\-Can\-Socket} ()
+\item 
+void {\bf send\-Frames} (can\-\_\-frame frame)
+\item 
+void {\bf set\-Cartesian} ()
+\item 
+void {\bf set\-Cbox} (int cbox, can\-\_\-frame $\ast$frm)
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf can\-Sock}
+\item 
+{\bf arm\-State} {\bf curr\-State}
+\item 
+boost\-::thread {\bf motion\-Thread}
+\item 
+bool {\bf move\-Complete}
+\item 
+bool {\bf running}
+\item 
+std\-::vector$<$ can\-\_\-frame $>$ {\bf send\-Queue}
+\item 
+boost\-::mutex {\bf state\-Mutex}
+\end{DoxyCompactItemize}
+\subsection*{\-Static \-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 91 of file \-Manus\-Arm.\-hpp.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!\-Manus\-Arm@{\-Manus\-Arm}}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{\-Manus\-Arm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm\-::\-Manus\-Arm} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a0011ca8159b691c82367eb97008dbdbc}
+
+
+\-Definition at line 636 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!\-Manus\-Arm@{\-Manus\-Arm}}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{\-Manus\-Arm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm\-::\-Manus\-Arm} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Manus\-Arm} const \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline, private]}}\label{classManusArm_a82ac8aa98cf655bffedc2489a17c858c}
+
+
+\-Definition at line 96 of file \-Manus\-Arm.\-hpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!do\-Cartesian\-Move@{do\-Cartesian\-Move}}
+\index{do\-Cartesian\-Move@{do\-Cartesian\-Move}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{do\-Cartesian\-Move}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::do\-Cartesian\-Move} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Cartesian\-Move} \&}]{cmd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a69c7427307b8a4c2a9c748065e953923}
+
+
+\-Definition at line 126 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!do\-Constant\-Move@{do\-Constant\-Move}}
+\index{do\-Constant\-Move@{do\-Constant\-Move}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{do\-Constant\-Move}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::do\-Constant\-Move} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Constant\-Move} \&}]{cmd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_aa42e3da7e512f331e7728e3e9d1eccc2}
+
+
+\-Definition at line 288 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!enqueue\-Frame@{enqueue\-Frame}}
+\index{enqueue\-Frame@{enqueue\-Frame}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{enqueue\-Frame}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::enqueue\-Frame} (
+\begin{DoxyParamCaption}
+\item[{can\-\_\-frame}]{to\-Send}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_aed49dbca7f8fbcdf7499b449cbab4396}
+
+
+\-Definition at line 348 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!fold@{fold}}
+\index{fold@{fold}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{fold}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::fold} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classManusArm_a379092d8f07c767962911d2a410d9d63}
+
+
+\-Definition at line 327 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!get\-Csv\-State@{get\-Csv\-State}}
+\index{get\-Csv\-State@{get\-Csv\-State}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{get\-Csv\-State}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Manus\-Arm\-::get\-Csv\-State} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classManusArm_a7584b3f88ddc538a8308d7bb7ff1fb89}
+
+
+\-Definition at line 22 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!get\-Position@{get\-Position}}
+\index{get\-Position@{get\-Position}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{get\-Position}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::get\-Position} (
+\begin{DoxyParamCaption}
+\item[{float}]{position[$\,$]}
+\end{DoxyParamCaption}
+)}\label{classManusArm_a8217be714212e6d547bcd81650295816}
+
+
+\-Definition at line 9 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!get\-Print\-State@{get\-Print\-State}}
+\index{get\-Print\-State@{get\-Print\-State}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{get\-Print\-State}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Manus\-Arm\-::get\-Print\-State} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classManusArm_ac6fa919efbacf860202362c1b3611f48}
+
+
+\-Definition at line 60 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!init@{init}}
+\index{init@{init}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Manus\-Arm\-::init} (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{interface}
+\end{DoxyParamCaption}
+)}\label{classManusArm_aeb2e212f64c683e45a6f5bb90afb1a70}
+
+
+\-Definition at line 539 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!instance@{instance}}
+\index{instance@{instance}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm} $\ast$ {\bf \-Manus\-Arm\-::instance} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [static]}}\label{classManusArm_a70516aaf8fa75276f7bb7bcd1912671c}
+
+
+\-Definition at line 530 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!is\-Move\-Complete@{is\-Move\-Complete}}
+\index{is\-Move\-Complete@{is\-Move\-Complete}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{is\-Move\-Complete}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Manus\-Arm\-::is\-Move\-Complete} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classManusArm_a1cff3017b09dfaace5f2c9ca4844d21e}
+
+
+\-Definition at line 131 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!move\-Cartesian@{move\-Cartesian}}
+\index{move\-Cartesian@{move\-Cartesian}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{move\-Cartesian}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::move\-Cartesian} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Cartesian\-Move} \&}]{cmd}
+\end{DoxyParamCaption}
+)}\label{classManusArm_a66cd2a077fbcdc00d19c76677c900380}
+
+
+\-Definition at line 121 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!move\-Constant@{move\-Constant}}
+\index{move\-Constant@{move\-Constant}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{move\-Constant}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::move\-Constant} (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-Constant\-Move} \&}]{cmd}
+\end{DoxyParamCaption}
+)}\label{classManusArm_ab76c4573bfc84e4ce5fe2ad36a8b2522}
+
+
+\-Definition at line 283 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!operator=@{operator=}}
+\index{operator=@{operator=}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm}\& \-Manus\-Arm\-::operator= (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Manus\-Arm} const \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a4a64884b2691e2734b66d7cc3df13cc3}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!poll\-Can\-Socket@{poll\-Can\-Socket}}
+\index{poll\-Can\-Socket@{poll\-Can\-Socket}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{poll\-Can\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::poll\-Can\-Socket} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a2b53abbc51a096d44b83d6c8922aaacf}
+
+
+\-Definition at line 382 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!send\-Frames@{send\-Frames}}
+\index{send\-Frames@{send\-Frames}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{send\-Frames}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::send\-Frames} (
+\begin{DoxyParamCaption}
+\item[{can\-\_\-frame}]{frame}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a79c19cabf9926904a4eef54ce9c5c2e9}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!set\-Cartesian@{set\-Cartesian}}
+\index{set\-Cartesian@{set\-Cartesian}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{set\-Cartesian}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::set\-Cartesian} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a68f67d7fbe6b235e718c7d89f1350da8}
+
+
+\-Definition at line 313 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!set\-Cbox@{set\-Cbox}}
+\index{set\-Cbox@{set\-Cbox}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{set\-Cbox}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::set\-Cbox} (
+\begin{DoxyParamCaption}
+\item[{int}]{cbox, }
+\item[{can\-\_\-frame $\ast$}]{frm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a524ebb2131f986b34ff56865b50d3dca}
+
+
+\-Definition at line 100 of file \-Manus\-Arm.\-cpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!set\-Move\-Complete@{set\-Move\-Complete}}
+\index{set\-Move\-Complete@{set\-Move\-Complete}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{set\-Move\-Complete}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::set\-Move\-Complete} (
+\begin{DoxyParamCaption}
+\item[{bool}]{move\-\_\-complete}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classManusArm_a4369585e90bd37e57dab71c0e7771d8a}
+
+
+\-Definition at line 132 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!unfold@{unfold}}
+\index{unfold@{unfold}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{unfold}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::unfold} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classManusArm_a29b633fe436ba500058634b8e0a029e5}
+
+
+\-Definition at line 337 of file \-Manus\-Arm.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Manus\-Arm@{\-Manus\-Arm}!arm\-Instance@{arm\-Instance}}
+\index{arm\-Instance@{arm\-Instance}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{arm\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm} $\ast$ {\bf \-Manus\-Arm\-::arm\-Instance} = \-N\-U\-L\-L\hspace{0.3cm}{\ttfamily  [static, private]}}\label{classManusArm_a42d2c51a5c40c4cdfcaff295d3e8ebec}
+
+
+\-Definition at line 99 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!can\-Sock@{can\-Sock}}
+\index{can\-Sock@{can\-Sock}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{can\-Sock}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Manus\-Arm\-::can\-Sock}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a2aca70c56fae01836147fb6fbe05d292}
+
+
+\-Definition at line 102 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!curr\-State@{curr\-State}}
+\index{curr\-State@{curr\-State}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{curr\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-State} {\bf \-Manus\-Arm\-::curr\-State}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a9af73ad8208aaed94c4319081efeadb0}
+
+
+\-Definition at line 107 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!motion\-Thread@{motion\-Thread}}
+\index{motion\-Thread@{motion\-Thread}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{motion\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::thread {\bf \-Manus\-Arm\-::motion\-Thread}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a5de1755d7b642cba75ac858610f62915}
+
+
+\-Definition at line 121 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!move\-Complete@{move\-Complete}}
+\index{move\-Complete@{move\-Complete}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{move\-Complete}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Manus\-Arm\-::move\-Complete}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_ae7596bcc4efbf188e2999e9488a60043}
+
+
+\-Definition at line 108 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!running@{running}}
+\index{running@{running}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{running}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Manus\-Arm\-::running}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_ae75dc5af7c9c1e60bed18699f0e5bf4e}
+
+
+\-Definition at line 103 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!send\-Queue@{send\-Queue}}
+\index{send\-Queue@{send\-Queue}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{send\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$can\-\_\-frame$>$ {\bf \-Manus\-Arm\-::send\-Queue}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_ae2c56bb1f4f070175e891f53e89b5db2}
+
+
+\-Definition at line 114 of file \-Manus\-Arm.\-hpp.
+
+\index{\-Manus\-Arm@{\-Manus\-Arm}!state\-Mutex@{state\-Mutex}}
+\index{state\-Mutex@{state\-Mutex}!ManusArm@{\-Manus\-Arm}}
+\subsubsection[{state\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex {\bf \-Manus\-Arm\-::state\-Mutex}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a5391659e5a713fc592825b8758a27edf}
+
+
+\-Definition at line 109 of file \-Manus\-Arm.\-hpp.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf \-Manus\-Arm.\-hpp}\item 
+{\bf \-Manus\-Arm.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,244 @@
+\section{\-Arm\-Control \-Class \-Reference}
+\label{classArmControl}\index{\-Arm\-Control@{\-Arm\-Control}}
+
+
+\-Implements \-R\-O\-S node \char`\"{}arm\-\_\-control\char`\"{}.  
+
+
+
+
+{\ttfamily \#include $<$arm\-\_\-control.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Arm\-Control} ()
+\begin{DoxyCompactList}\small\item\em \-Default constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf cartesian\-Moves\-Callback} (const {\bf arm\-::cartesian\-\_\-moves\-::\-Const\-Ptr} \&cmd)
+\begin{DoxyCompactList}\small\item\em \-Callback for cartesian movement. \end{DoxyCompactList}\item 
+void {\bf constant\-Move\-Callback} (const {\bf arm\-::constant\-\_\-move\-::\-Const\-Ptr} \&cmd)
+\begin{DoxyCompactList}\small\item\em \-Callback for untimed constant movement. \end{DoxyCompactList}\item 
+void {\bf constant\-Move\-Time\-Callback} (const {\bf arm\-::constant\-\_\-move\-\_\-time\-::\-Const\-Ptr} \&cmd)
+\begin{DoxyCompactList}\small\item\em \-Callback for timed constant movement. \end{DoxyCompactList}\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\item 
+void {\bf print} ()
+\begin{DoxyCompactList}\small\item\em \-Prints the positions of the arm joints. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Manus\-Arm} $\ast$ {\bf arm\-\_\-}
+\item 
+{\bf \-Cartesian\-Move} {\bf cartesian\-\_\-move\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf cartesian\-\_\-sub\-\_\-}
+\item 
+{\bf \-Constant\-Move} {\bf constant\-\_\-move\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf constant\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf constant\-\_\-time\-\_\-sub\-\_\-}
+\item 
+bool {\bf move\-\_\-complete\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+bool {\bf shutdown\-\_\-}
+\item 
+ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Implements \-R\-O\-S node \char`\"{}arm\-\_\-control\char`\"{}. 
+
+\-This node moves the arm based on commands from teleop nodes.
+
+\begin{DoxyCopyright}{\-Copyright}
+2012 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 28 of file arm\-\_\-control.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Arm\-Control@{\-Arm\-Control}!\-Arm\-Control@{\-Arm\-Control}}
+\index{\-Arm\-Control@{\-Arm\-Control}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{\-Arm\-Control}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Arm\-Control\-::\-Arm\-Control} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classArmControl_aab877c5a01fae591a514fdcdc690d9ea}
+
+
+\-Default constructor. 
+
+\-Initializes the arm hardware and subscribes to movement topics. 
+
+\-Definition at line 36 of file arm\-\_\-control.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Arm\-Control@{\-Arm\-Control}!cartesian\-Moves\-Callback@{cartesian\-Moves\-Callback}}
+\index{cartesian\-Moves\-Callback@{cartesian\-Moves\-Callback}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{cartesian\-Moves\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Arm\-Control\-::cartesian\-Moves\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const {\bf arm\-::cartesian\-\_\-moves\-::\-Const\-Ptr} \&}]{cmd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ae5fcc5aaf85dbe14bf218ae7d85087c1}
+
+
+\-Callback for cartesian movement. 
+
+
+
+\-Definition at line 86 of file arm\-\_\-control.\-cpp.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!constant\-Move\-Callback@{constant\-Move\-Callback}}
+\index{constant\-Move\-Callback@{constant\-Move\-Callback}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{constant\-Move\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Arm\-Control\-::constant\-Move\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const {\bf arm\-::constant\-\_\-move\-::\-Const\-Ptr} \&}]{cmd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_a2ab204386791f95e261187e63ce9a91f}
+
+
+\-Callback for untimed constant movement. 
+
+
+
+\-Definition at line 131 of file arm\-\_\-control.\-cpp.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!constant\-Move\-Time\-Callback@{constant\-Move\-Time\-Callback}}
+\index{constant\-Move\-Time\-Callback@{constant\-Move\-Time\-Callback}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{constant\-Move\-Time\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Arm\-Control\-::constant\-Move\-Time\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const {\bf arm\-::constant\-\_\-move\-\_\-time\-::\-Const\-Ptr} \&}]{cmd}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_af4cee7d890cad44225e17fa63ebdd8fb}
+
+
+\-Callback for timed constant movement. 
+
+
+
+\-Definition at line 154 of file arm\-\_\-control.\-cpp.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!init@{init}}
+\index{init@{init}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Arm\-Control\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ae5b40302a815aa323eca4d1707d61894}
+
+
+\-Initializes the node. 
+
+\-First, the node's subscriptions are started. \-Then, the arm hardware is initialized. \-The arm is moved into its origin position, and then the node spins, waiting for movement callbacks. \-A shutdown flag will stop the spinning and cause the arm to move into its final position. \-The node will exit after the arm has finished moving. 
+
+\-Definition at line 20 of file arm\-\_\-control.\-cpp.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!print@{print}}
+\index{print@{print}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{print}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Arm\-Control\-::print} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ad39669727f2529df71506074f7088212}
+
+
+\-Prints the positions of the arm joints. 
+
+
+
+\-Definition at line 196 of file arm\-\_\-control.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Arm\-Control@{\-Arm\-Control}!arm\-\_\-@{arm\-\_\-}}
+\index{arm\-\_\-@{arm\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{arm\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm}$\ast$ {\bf \-Arm\-Control\-::arm\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_af06b9f6f206277e7100bba772c91c04f}
+
+
+\-Definition at line 50 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!cartesian\-\_\-move\-\_\-@{cartesian\-\_\-move\-\_\-}}
+\index{cartesian\-\_\-move\-\_\-@{cartesian\-\_\-move\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{cartesian\-\_\-move\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Cartesian\-Move} {\bf \-Arm\-Control\-::cartesian\-\_\-move\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_aac4f84304fb05a479ec652fd9063d83d}
+
+
+\-Definition at line 52 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!cartesian\-\_\-sub\-\_\-@{cartesian\-\_\-sub\-\_\-}}
+\index{cartesian\-\_\-sub\-\_\-@{cartesian\-\_\-sub\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{cartesian\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Arm\-Control\-::cartesian\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_aae25864b22982a34d0cbe530a11cd0c1}
+
+
+\-Definition at line 46 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!constant\-\_\-move\-\_\-@{constant\-\_\-move\-\_\-}}
+\index{constant\-\_\-move\-\_\-@{constant\-\_\-move\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{constant\-\_\-move\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Constant\-Move} {\bf \-Arm\-Control\-::constant\-\_\-move\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_a891d406c9be6c6e3801a2e392364fcd1}
+
+
+\-Definition at line 53 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!constant\-\_\-sub\-\_\-@{constant\-\_\-sub\-\_\-}}
+\index{constant\-\_\-sub\-\_\-@{constant\-\_\-sub\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{constant\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Arm\-Control\-::constant\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_a51f82f2c94949fc24393d496dc41f16b}
+
+
+\-Definition at line 47 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!constant\-\_\-time\-\_\-sub\-\_\-@{constant\-\_\-time\-\_\-sub\-\_\-}}
+\index{constant\-\_\-time\-\_\-sub\-\_\-@{constant\-\_\-time\-\_\-sub\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{constant\-\_\-time\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Arm\-Control\-::constant\-\_\-time\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_abb25af1f32fb8fec007972182d54d7d1}
+
+
+\-Definition at line 48 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!move\-\_\-complete\-\_\-@{move\-\_\-complete\-\_\-}}
+\index{move\-\_\-complete\-\_\-@{move\-\_\-complete\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{move\-\_\-complete\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Arm\-Control\-::move\-\_\-complete\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ab6f8407f3037b48107a4fc3f86c78e70}
+
+
+\-Definition at line 55 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Arm\-Control\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ac7aac224c9d677c0ae7fe94de9d8f5ce}
+
+
+\-Definition at line 45 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!shutdown\-\_\-@{shutdown\-\_\-}}
+\index{shutdown\-\_\-@{shutdown\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{shutdown\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Arm\-Control\-::shutdown\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ad5509d7953165026c865c1cb64785ab3}
+
+
+\-Definition at line 56 of file arm\-\_\-control.\-h.
+
+\index{\-Arm\-Control@{\-Arm\-Control}!time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}}
+\index{time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}!ArmControl@{\-Arm\-Control}}
+\subsubsection[{time\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client {\bf \-Arm\-Control\-::time\-\_\-client\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_aa2dabe49a9e661441d6a641e4aec94e9}
+
+
+\-Definition at line 49 of file arm\-\_\-control.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf arm\-\_\-control.\-h}\item 
+{\bf arm\-\_\-control.\-cpp}\end{DoxyCompactItemize}

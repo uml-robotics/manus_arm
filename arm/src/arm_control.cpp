@@ -1,16 +1,22 @@
-/**
- * \brief ROS node "arm_control"
- * \copyright 2012 University of Massachusetts Lowell
- * \author Jonathan Hasenzahl, Abe Shultz
- *
- * Implements the ROS node "arm_control". This node moves the arm based on
- * commands from teleop nodes.
- */
+// =============================================================================
+// Name     : arm_control.h
+// Copyright: 2012 University of Massachusetts Lowell
+// Author   : Jonathan Hasenzahl, Abe Shultz
+// =============================================================================
 
 #include "arm/arm_control.h"
 #include <cstdio>
 #include <cmath>
 
+/*!
+ * \brief Initializes the node
+ *
+ * First, the node's subscriptions are started. Then, the arm hardware is
+ * initialized. The arm is moved into its origin position, and then the node
+ * spins, waiting for movement callbacks. A shutdown flag will stop the spinning
+ * and cause the arm to move into its final position. The node will exit after
+ * the arm has finished moving.
+ */
 void ArmControl::init()
 {
 	shutdown_ = false;
@@ -74,6 +80,9 @@ void ArmControl::init()
 	printf("Arm control shutdown\n");
 }
 
+/*!
+ * \brief Callback for cartesian movement
+ */
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
                                         cmd)
 {
@@ -116,6 +125,9 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
     }
 }
 
+/*!
+ * \brief Callback for untimed constant movement
+ */
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
 	if (cmd->quit)
@@ -136,6 +148,9 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
     }
 }
 
+/*!
+ * \brief Callback for timed constant movement
+ */
 void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPtr &cmd)
 {
     time_server::time_srv end_check;
@@ -175,6 +190,9 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
         ROS_ERROR("Time server is not responding, movement command skipped");
 }
 
+/*!
+ * \brief Prints the positions of the arm joints
+ */
 void ArmControl::print()
 {
 	printf("\n%s", arm_->getPrintState().c_str());

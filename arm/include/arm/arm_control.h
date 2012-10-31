@@ -1,9 +1,7 @@
 // =============================================================================
-// Name   : arm_control.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "arm_control".
+// Name     : arm_control.h
+// Copyright: 2012 University of Massachusetts Lowell
+// Author   : Jonathan Hasenzahl
 // =============================================================================
 
 #ifndef ARM_CONTROL_H_
@@ -19,9 +17,22 @@
 #include "movement_definitions.h"
 #include <list>
 
+/*!
+ * \brief Implements ROS node "arm_control"
+ *
+ * This node moves the arm based on commands from teleop nodes.
+ *
+ * \copyright 2012 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class ArmControl 
 {
 public:
+	/*!
+	 * \brief Default constructor
+	 *
+	 * Initializes the arm hardware and subscribes to movement topics.
+	 */
     ArmControl() { init(); }
     
 private:

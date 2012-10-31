@@ -1,0 +1,213 @@
+\section{\-Teleop\-Arm\-Dish \-Class \-Reference}
+\label{classTeleopArmDish}\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}}
+
+
+{\ttfamily \#include $<$teleop\-\_\-arm\-\_\-dish.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Teleop\-Arm\-Dish} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf callback} (const burst\-\_\-calc\-::cat\-::\-Const\-Ptr \&c)
+\item 
+double {\bf get\-Arm\-Coord} (double coord)
+\item 
+void {\bf get\-Params} ()
+\item 
+void {\bf init} ()
+\item 
+void {\bf publish\-Cartesian\-Move} ()
+\item 
+void {\bf publish\-Constant\-Move} ()
+\item 
+void {\bf run} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf arm\-\_\-safe\-\_\-range\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf cat\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Publisher {\bf cmd\-\_\-pub\-\_\-}
+\item 
+double {\bf max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+std\-::queue$<$ burst\-\_\-calc\-::cat $>$ {\bf queue\-\_\-}
+\item 
+int {\bf speed\-\_\-}
+\item 
+ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\-Definition at line 16 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}}
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{\-Teleop\-Arm\-Dish}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Teleop\-Arm\-Dish\-::\-Teleop\-Arm\-Dish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classTeleopArmDish_af6ac3b39216a7c3cca530546ee66c434}
+
+
+\-Definition at line 19 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!callback@{callback}}
+\index{callback@{callback}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Teleop\-Arm\-Dish\-::callback} (
+\begin{DoxyParamCaption}
+\item[{const burst\-\_\-calc\-::cat\-::\-Const\-Ptr \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a41c0bff9f53c38a3776a7ac16e5346eb}
+
+
+\-Definition at line 81 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!get\-Arm\-Coord@{get\-Arm\-Coord}}
+\index{get\-Arm\-Coord@{get\-Arm\-Coord}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{get\-Arm\-Coord}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Teleop\-Arm\-Dish\-::get\-Arm\-Coord} (
+\begin{DoxyParamCaption}
+\item[{double}]{coord}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a69d432970b7dadab56d52312d4a1e47f}
+
+
+\-Definition at line 275 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Teleop\-Arm\-Dish\-::get\-Params} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a450906f978e76edc1ff155fb8d745992}
+
+
+\-Definition at line 43 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!init@{init}}
+\index{init@{init}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Teleop\-Arm\-Dish\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a5e5b25c1f65133942d1bcd758f74733b}
+
+
+\-Definition at line 20 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!publish\-Cartesian\-Move@{publish\-Cartesian\-Move}}
+\index{publish\-Cartesian\-Move@{publish\-Cartesian\-Move}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{publish\-Cartesian\-Move}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Teleop\-Arm\-Dish\-::publish\-Cartesian\-Move} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a362f666ca6ce6502381e7605ed57f806}
+
+
+\-Definition at line 86 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!publish\-Constant\-Move@{publish\-Constant\-Move}}
+\index{publish\-Constant\-Move@{publish\-Constant\-Move}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{publish\-Constant\-Move}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Teleop\-Arm\-Dish\-::publish\-Constant\-Move} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a1bf48bd8f323817d9034fe4525671a6f}
+
+
+\-Definition at line 165 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!run@{run}}
+\index{run@{run}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Teleop\-Arm\-Dish\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_aa7661b56ca687ac871bbb22598888b77}
+
+
+\-Definition at line 67 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!arm\-\_\-safe\-\_\-range\-\_\-@{arm\-\_\-safe\-\_\-range\-\_\-}}
+\index{arm\-\_\-safe\-\_\-range\-\_\-@{arm\-\_\-safe\-\_\-range\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{arm\-\_\-safe\-\_\-range\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Teleop\-Arm\-Dish\-::arm\-\_\-safe\-\_\-range\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a0c39d457f5123e8b3bf220738fd29f81}
+
+
+\-Definition at line 38 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!cat\-\_\-sub\-\_\-@{cat\-\_\-sub\-\_\-}}
+\index{cat\-\_\-sub\-\_\-@{cat\-\_\-sub\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{cat\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Teleop\-Arm\-Dish\-::cat\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a0a8a24a61ff226a3c6cbedcc54eed9d8}
+
+
+\-Definition at line 31 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!cmd\-\_\-pub\-\_\-@{cmd\-\_\-pub\-\_\-}}
+\index{cmd\-\_\-pub\-\_\-@{cmd\-\_\-pub\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{cmd\-\_\-pub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Teleop\-Arm\-Dish\-::cmd\-\_\-pub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_abe8f7637a1a628febfd0bef45563be83}
+
+
+\-Definition at line 32 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-@{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}}
+\index{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-@{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Teleop\-Arm\-Dish\-::max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a66e51dfe113d9dcbe90c93019cbc369c}
+
+
+\-Definition at line 39 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Teleop\-Arm\-Dish\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a7d352245ea446cec76a044ef2111980c}
+
+
+\-Definition at line 30 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!queue\-\_\-@{queue\-\_\-}}
+\index{queue\-\_\-@{queue\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{queue\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::queue$<$burst\-\_\-calc\-::cat$>$ {\bf \-Teleop\-Arm\-Dish\-::queue\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_ac8ded316a2ed2c47af85a525c97cd7fd}
+
+
+\-Definition at line 35 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!speed\-\_\-@{speed\-\_\-}}
+\index{speed\-\_\-@{speed\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{speed\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Teleop\-Arm\-Dish\-::speed\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a1a2e94ab297615b9c4ba4dc7808207ef}
+
+
+\-Definition at line 37 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}}
+\index{time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
+\subsubsection[{time\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client {\bf \-Teleop\-Arm\-Dish\-::time\-\_\-client\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_af52345768aead77d10975db6857e8f5c}
+
+
+\-Definition at line 33 of file teleop\-\_\-arm\-\_\-dish.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf teleop\-\_\-arm\-\_\-dish.\-h}\item 
+{\bf teleop\-\_\-arm\-\_\-dish.\-cpp}\end{DoxyCompactItemize}
