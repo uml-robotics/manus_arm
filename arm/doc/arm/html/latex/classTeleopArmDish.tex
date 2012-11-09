@@ -2,30 +2,35 @@
 \label{classTeleopArmDish}\index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}}
 
 
+\-Neuron dish teleop node.  
+
+
+
+
 {\ttfamily \#include $<$teleop\-\_\-arm\-\_\-dish.\-h$>$}
 
 \subsection*{\-Public \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
 {\bf \-Teleop\-Arm\-Dish} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \-Default constructor \-Calls the init and run methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{\-Private \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
 void {\bf callback} (const burst\-\_\-calc\-::cat\-::\-Const\-Ptr \&c)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Callback for center of trajectory messages. \end{DoxyCompactList}\item 
 double {\bf get\-Arm\-Coord} (double coord)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Converts. \end{DoxyCompactList}\item 
 void {\bf get\-Params} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Gets the \-R\-O\-S server parameters necessary for proper operation. \end{DoxyCompactList}\item 
 void {\bf init} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\item 
 void {\bf publish\-Cartesian\-Move} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Publishes a cartesian movement command. \end{DoxyCompactList}\item 
 void {\bf publish\-Constant\-Move} ()
 \item 
 void {\bf run} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \-Runs the node in a loop until \-Ctrl+\-C is pressed. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{\-Private \-Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -48,9 +53,19 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 
 
 \subsection{\-Detailed \-Description}
+\-Neuron dish teleop node. 
+
+\-This node receives \-C\-A\-T (center of activity trajectory) data from the \-C\-A\-T creator node and then creates and publishes movement commands. \-The operation of the node is autonomous; after the \doxyref{\-Arm\-Control}{p.}{classArmControl} object has been created, the node will run with no further operation.
+
+\begin{DoxyCopyright}{\-Copyright}
+2012 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
 
 
-\-Definition at line 16 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 25 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 
 
@@ -61,10 +76,14 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classTeleopArmDish_af6ac3b39216a7c3cca530546ee66c434}
+)}\label{classTeleopArmDish_af6ac3b39216a7c3cca530546ee66c434}
 
 
-\-Definition at line 19 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Default constructor \-Calls the init and run methods. 
+
+
+
+\-Definition at line 21 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 
 
@@ -78,7 +97,18 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a41c0bff9f53c38a3776a7ac16e5346eb}
 
 
-\-Definition at line 81 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Callback for center of trajectory messages. 
+
+\-This method is called automatically when the node receieves a center of activity trajectory message. \-It puts the message into the command queue.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em c} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 109 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!get\-Arm\-Coord@{get\-Arm\-Coord}}
 \index{get\-Arm\-Coord@{get\-Arm\-Coord}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
@@ -89,7 +119,11 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a69d432970b7dadab56d52312d4a1e47f}
 
 
-\-Definition at line 275 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Converts. 
+
+
+
+\-Definition at line 314 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!get\-Params@{get\-Params}}
 \index{get\-Params@{get\-Params}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
@@ -100,7 +134,11 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a450906f978e76edc1ff155fb8d745992}
 
 
-\-Definition at line 43 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Gets the \-R\-O\-S server parameters necessary for proper operation. 
+
+
+
+\-Definition at line 57 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!init@{init}}
 \index{init@{init}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
@@ -111,7 +149,11 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a5e5b25c1f65133942d1bcd758f74733b}
 
 
-\-Definition at line 20 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Initializes the node. 
+
+\-This method first calls get\-Param to get \-R\-O\-S server parameters. \-It then starts the publisher and service client, and waits for a subscriber to its publisher before starting its own subscriber. 
+
+\-Definition at line 34 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!publish\-Cartesian\-Move@{publish\-Cartesian\-Move}}
 \index{publish\-Cartesian\-Move@{publish\-Cartesian\-Move}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
@@ -122,7 +164,11 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a362f666ca6ce6502381e7605ed57f806}
 
 
-\-Definition at line 86 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Publishes a cartesian movement command. 
+
+\-This method retrieves a center of activity trajectory (\-C\-A\-T) message from the front of the command queue and creates and publishes a cartesian movement message derived from that \-C\-A\-T. \-First, the time server is polled to ensure that the command will be published at the correct time. ... need more here 
+
+\-Definition at line 122 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!publish\-Constant\-Move@{publish\-Constant\-Move}}
 \index{publish\-Constant\-Move@{publish\-Constant\-Move}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
@@ -133,7 +179,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a1bf48bd8f323817d9034fe4525671a6f}
 
 
-\-Definition at line 165 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Definition at line 201 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!run@{run}}
 \index{run@{run}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
@@ -144,7 +190,11 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_aa7661b56ca687ac871bbb22598888b77}
 
 
-\-Definition at line 67 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
+\-Runs the node in a loop until \-Ctrl+\-C is pressed. 
+
+\-In the loop, the node spins and publishes any commands that are waiting in the queue, using either publish\-Cartesian\-Move or publish\-Constant\-Move. 
+
+\-Definition at line 87 of file teleop\-\_\-arm\-\_\-dish.\-cpp.
 
 
 
@@ -154,56 +204,56 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \subsubsection[{arm\-\_\-safe\-\_\-range\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Teleop\-Arm\-Dish\-::arm\-\_\-safe\-\_\-range\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a0c39d457f5123e8b3bf220738fd29f81}
 
 
-\-Definition at line 38 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 47 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!cat\-\_\-sub\-\_\-@{cat\-\_\-sub\-\_\-}}
 \index{cat\-\_\-sub\-\_\-@{cat\-\_\-sub\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{cat\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Teleop\-Arm\-Dish\-::cat\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a0a8a24a61ff226a3c6cbedcc54eed9d8}
 
 
-\-Definition at line 31 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 40 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!cmd\-\_\-pub\-\_\-@{cmd\-\_\-pub\-\_\-}}
 \index{cmd\-\_\-pub\-\_\-@{cmd\-\_\-pub\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{cmd\-\_\-pub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Teleop\-Arm\-Dish\-::cmd\-\_\-pub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_abe8f7637a1a628febfd0bef45563be83}
 
 
-\-Definition at line 32 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 41 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-@{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}}
 \index{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-@{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Teleop\-Arm\-Dish\-::max\-\_\-range\-\_\-from\-\_\-midpoint\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a66e51dfe113d9dcbe90c93019cbc369c}
 
 
-\-Definition at line 39 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 48 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!n\-\_\-@{n\-\_\-}}
 \index{n\-\_\-@{n\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Teleop\-Arm\-Dish\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a7d352245ea446cec76a044ef2111980c}
 
 
-\-Definition at line 30 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 39 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!queue\-\_\-@{queue\-\_\-}}
 \index{queue\-\_\-@{queue\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{queue\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::queue$<$burst\-\_\-calc\-::cat$>$ {\bf \-Teleop\-Arm\-Dish\-::queue\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_ac8ded316a2ed2c47af85a525c97cd7fd}
 
 
-\-Definition at line 35 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 44 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!speed\-\_\-@{speed\-\_\-}}
 \index{speed\-\_\-@{speed\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{speed\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Teleop\-Arm\-Dish\-::speed\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_a1a2e94ab297615b9c4ba4dc7808207ef}
 
 
-\-Definition at line 37 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 46 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 \index{\-Teleop\-Arm\-Dish@{\-Teleop\-Arm\-Dish}!time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}}
 \index{time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}!TeleopArmDish@{\-Teleop\-Arm\-Dish}}
 \subsubsection[{time\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client {\bf \-Teleop\-Arm\-Dish\-::time\-\_\-client\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTeleopArmDish_af52345768aead77d10975db6857e8f5c}
 
 
-\-Definition at line 33 of file teleop\-\_\-arm\-\_\-dish.\-h.
+\-Definition at line 42 of file teleop\-\_\-arm\-\_\-dish.\-h.
 
 
 

@@ -1,10 +1,7 @@
 // =============================================================================
-// Name   : teleop_arm_dish.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "teleop_arm_dish". This node generates commands for
-// the "arm_control" node based on activity in the neuron dish.
+// Name     : teleop_arm_dish.cpp
+// Copyright: 2012 University of Massachusetts Lowell
+// Author   : Jonathan Hasenzahl
 // =============================================================================
 
 #include "arm/teleop_arm_dish.h"
@@ -17,6 +14,23 @@
 
 #define MIDPOINT 4.5
 
+/*!
+ * \brief Default constructor
+ * Calls the init and run methods.
+ */
+TeleopArmDish::TeleopArmDish()
+{
+	init();
+	run();
+}
+
+/*!
+ * \brief Initializes the node
+ *
+ * This method first calls getParam to get ROS server parameters. It then
+ * starts the publisher and service client, and waits for a subscriber to its
+ * publisher before starting its own subscriber.
+ */
 void TeleopArmDish::init()
 {
     // Get parameters
@@ -35,11 +49,11 @@ void TeleopArmDish::init()
 
     // Initialize subscriber
     cat_sub_ = n_.subscribe("cats", 1000, &TeleopArmDish::callback, this);
-
-    // Run the node
-    run();
 }
 
+/*!
+ * \brief Gets the ROS server parameters necessary for proper operation.
+ */
 void TeleopArmDish::getParams()
 {
     // Get ARM speed parameter
@@ -64,6 +78,12 @@ void TeleopArmDish::getParams()
     }
 }
 
+/*!
+ * \brief Runs the node in a loop until Ctrl+C is pressed
+ *
+ * In the loop, the node spins and publishes any commands that are waiting
+ * in the queue, using either publishCartesianMove or publishConstantMove.
+ */
 void TeleopArmDish::run()
 {
     while(ros::ok())
@@ -78,11 +98,27 @@ void TeleopArmDish::run()
     }
 }
 
+/*!
+ * \brief Callback for center of trajectory messages
+ *
+ * This method is called automatically when the node receieves a center of
+ * activity trajectory message. It puts the message into the command queue.
+ *
+ * \param c the received message
+ */
 void TeleopArmDish::callback(const burst_calc::cat::ConstPtr& c)
 {
     queue_.push(*c);
 }
 
+/*!
+ * \brief Publishes a cartesian movement command
+ *
+ * This method retrieves a center of activity trajectory (CAT) message from the
+ * front of the command queue and creates and publishes a cartesian movement
+ * message derived from that CAT. First, the time server is polled to ensure
+ * that the command will be published at the correct time. ... need more here
+ */
 void TeleopArmDish::publishCartesianMove()
 {
     burst_calc::cat cat = queue_.front();
@@ -272,6 +308,9 @@ void TeleopArmDish::publishConstantMove()
         ROS_ERROR("Time server is not responding: no command will be issued");
 }
 
+/*!
+ * \brief Converts
+ */
 double TeleopArmDish::getArmCoord(double coord)
 {
     // arm_safe_range_:

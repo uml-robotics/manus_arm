@@ -8,14 +8,104 @@
 
 \-List of nodes\-:
 \begin{DoxyItemize}
-\item {\bfseries node\-\_\-name1} 
-\item {\bfseries node\-\_\-name2} 
+\item {\bfseries arm\-\_\-control} 
+\item {\bfseries teleop\-\_\-arm\-\_\-dish} 
+\item {\bfseries teleop\-\_\-arm\-\_\-key} 
 \end{DoxyItemize}
 
 
 
-\subsection{node\-\_\-name}\label{index_node_name}
-node\-\_\-name does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
+\subsection{arm\-\_\-control}\label{index_arm_control}
+arm\-\_\-control does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun arm arm_control
+\end{DoxyVerb}
+
+
+\begin{DoxyParagraph}{\-Example}
+
+\end{DoxyParagraph}
+\begin{DoxyVerb}
+$ rosrun arm arm_control
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}cartesian\-\_\-moves\char`\"{}}\-: [arm/cartesian\-\_\-moves] message that contains cartesian movement commands
+\item {\bfseries \char`\"{}constant\-\_\-moves\char`\"{}}\-: [arm/constant\-\_\-move] message that contains a constant movement command
+\item {\bfseries \char`\"{}constant\-\_\-move\-\_\-times\char`\"{}}\-: [arm/constant\-\_\-move\-\_\-time] message that contains constant movement by time commands
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] service that polls system time to keep nodes in sync
+\end{DoxyItemize}
+
+
+
+\subsection{teleop\-\_\-arm\-\_\-dish}\label{index_teleop_arm_dish}
+teleop\-\_\-arm\-\_\-dish does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun arm teleop_arm_dish
+\end{DoxyVerb}
+
+
+\begin{DoxyParagraph}{\-Example}
+
+\end{DoxyParagraph}
+\begin{DoxyVerb}
+$ rosrun arm teleop_arm_dish
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}in\char`\"{}}\-: [std\-\_\-msgs/\-Foo\-Type] description of in
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}out\char`\"{}}\-: [std\-\_\-msgs/\-Foo\-Type] description of out
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}$\sim$param\-\_\-name\char`\"{}} \-: {\bfseries }[type] description of param\-\_\-name
+\item {\bfseries \char`\"{}$\sim$my\-\_\-param\char`\"{}} \-: {\bfseries }[string] description of my\-\_\-param
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}$\sim$param\-\_\-name\char`\"{}} \-: {\bfseries }[type] description of param\-\_\-name
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] service that polls system time to keep nodes in sync
+\end{DoxyItemize}
+
+
+
+\subsection{teleop\-\_\-arm\-\_\-key}\label{index_teleop_arm_key}
+teleop\-\_\-arm\-\_\-key does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
 \begin{DoxyVerb}
 $ node_type1 [standard ROS args]
 \end{DoxyVerb}

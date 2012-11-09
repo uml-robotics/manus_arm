@@ -1,9 +1,7 @@
 // =============================================================================
-// Name   : teleop_arm_dish.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "teleop_arm_dish".
+// Name     : teleop_arm_dish.h
+// Copyright: 2012 University of Massachusetts Lowell
+// Author   : Jonathan Hasenzahl
 // =============================================================================
 
 #ifndef TELEOP_ARM_DISH_H_
@@ -13,10 +11,21 @@
 #include "burst_calc/cat.h"
 #include <queue>
 
+/*!
+ * \brief Neuron dish teleop node
+ *
+ * This node receives CAT (center of activity trajectory) data from the CAT
+ * creator node and then creates and publishes movement commands. The operation
+ * of the node is autonomous; after the ArmControl object has been created, the
+ * node will run with no further operation.
+ *
+ * \copyright 2012 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class TeleopArmDish
 {
 public:
-    TeleopArmDish() { init(); }
+    TeleopArmDish();
 
 private:
     void init();

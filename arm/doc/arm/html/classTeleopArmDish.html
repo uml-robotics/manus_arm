@@ -55,6 +55,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <!-- doxytag: class="TeleopArmDish" -->
+<p>Neuron dish teleop node.  
+ <a href="classTeleopArmDish.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>&gt;</code></p>
 
 <p><a href="classTeleopArmDish-members.html">List of all members.</a></p>
@@ -62,15 +65,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#af6ac3b39216a7c3cca530546ee66c434">TeleopArmDish</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor Calls the init and run methods.  <a href="#af6ac3b39216a7c3cca530546ee66c434"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a41c0bff9f53c38a3776a7ac16e5346eb">callback</a> (const burst_calc::cat::ConstPtr &amp;c)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for center of trajectory messages.  <a href="#a41c0bff9f53c38a3776a7ac16e5346eb"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a69d432970b7dadab56d52312d4a1e47f">getArmCoord</a> (double coord)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts.  <a href="#a69d432970b7dadab56d52312d4a1e47f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a450906f978e76edc1ff155fb8d745992">getParams</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ROS server parameters necessary for proper operation.  <a href="#a450906f978e76edc1ff155fb8d745992"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a5e5b25c1f65133942d1bcd758f74733b">init</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the node.  <a href="#a5e5b25c1f65133942d1bcd758f74733b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a362f666ca6ce6502381e7605ed57f806">publishCartesianMove</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Publishes a cartesian movement command.  <a href="#a362f666ca6ce6502381e7605ed57f806"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a1bf48bd8f323817d9034fe4525671a6f">publishConstantMove</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#aa7661b56ca687ac871bbb22598888b77">run</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the node in a loop until Ctrl+C is pressed.  <a href="#aa7661b56ca687ac871bbb22598888b77"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#a0c39d457f5123e8b3bf220738fd29f81">arm_safe_range_</a></td></tr>
@@ -83,8 +93,12 @@ Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmDish.html#af52345768aead77d10975db6857e8f5c">time_client_</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00016">16</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<div class="textblock"><p>Neuron dish teleop node. </p>
+<p>This node receives CAT (center of activity trajectory) data from the CAT creator node and then creates and publishes movement commands. The operation of the node is autonomous; after the <a class="el" href="classArmControl.html" title="Arm control node.">ArmControl</a> object has been created, the node will run with no further operation.</p>
+<dl class="copyright"><dt><b>Copyright:</b></dt><dd>2012 University of Massachusetts Lowell </dd></dl>
+<dl class="author"><dt><b>Author:</b></dt><dd>Jonathan Hasenzahl </dd></dl>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00025">25</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af6ac3b39216a7c3cca530546ee66c434"></a><!-- doxytag: member="TeleopArmDish::TeleopArmDish" ref="af6ac3b39216a7c3cca530546ee66c434" args="()" -->
 <div class="memitem">
@@ -94,13 +108,15 @@ Private Attributes</h2></td></tr>
           <td class="memname"><a class="el" href="classTeleopArmDish.html#af6ac3b39216a7c3cca530546ee66c434">TeleopArmDish::TeleopArmDish</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td><code> [inline]</code></td>
+          <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00019">19</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Default constructor Calls the init and run methods. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00021">21</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -120,7 +136,16 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00081">81</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Callback for center of trajectory messages. </p>
+<p>This method is called automatically when the node receieves a center of activity trajectory message. It puts the message into the command queue.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>the received message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00109">109</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -139,7 +164,9 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00275">275</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Converts. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00314">314</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -157,7 +184,9 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00043">43</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Gets the ROS server parameters necessary for proper operation. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00057">57</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -175,7 +204,10 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00020">20</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Initializes the node. </p>
+<p>This method first calls getParam to get ROS server parameters. It then starts the publisher and service client, and waits for a subscriber to its publisher before starting its own subscriber. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00034">34</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -193,7 +225,10 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00086">86</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Publishes a cartesian movement command. </p>
+<p>This method retrieves a center of activity trajectory (CAT) message from the front of the command queue and creates and publishes a cartesian movement message derived from that CAT. First, the time server is polled to ensure that the command will be published at the correct time. ... need more here </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00122">122</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -211,7 +246,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00165">165</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00201">201</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -229,7 +264,10 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00067">67</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
+<p>Runs the node in a loop until Ctrl+C is pressed. </p>
+<p>In the loop, the node spins and publishes any commands that are waiting in the queue, using either publishCartesianMove or publishConstantMove. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__dish_8cpp_source.html#l00087">87</a> of file <a class="el" href="teleop__arm__dish_8cpp_source.html">teleop_arm_dish.cpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +283,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00038">38</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00047">47</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -260,7 +298,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00031">31</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00040">40</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -275,7 +313,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00032">32</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00041">41</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -290,7 +328,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00039">39</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00048">48</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -305,7 +343,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00030">30</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00039">39</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -320,7 +358,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00035">35</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00044">44</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -335,7 +373,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00037">37</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00046">46</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -350,7 +388,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00033">33</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__dish_8h_source.html#l00042">42</a> of file <a class="el" href="teleop__arm__dish_8h_source.html">teleop_arm_dish.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +416,7 @@ Private Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Fri Nov 9 2012 15:55:24</small>
+<small>autogenerated on Fri Nov 9 2012 17:51:21</small>
 </div>
 </body>
 </html>

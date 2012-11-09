@@ -22,8 +22,8 @@
  *
  * This node receives movement commands from teleop nodes and moves the arm
  * hardware appropriately. The operation of the node is autonomous; after
- * the ArmControl object has been created, the node will be up and running with
- * no further setup.
+ * the ArmControl object has been created, the node will run with no further
+ * operation.
  *
  * \copyright 2012 University of Massachusetts Lowell
  * \author Jonathan Hasenzahl
