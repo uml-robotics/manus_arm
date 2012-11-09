@@ -60,181 +60,185 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00008"></a>00008 <span class="preprocessor">#include &lt;cstdio&gt;</span>
 <a name="l00009"></a>00009 <span class="preprocessor">#include &lt;cmath&gt;</span>
 <a name="l00010"></a>00010 
-<a name="l00020"></a><a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894">00020</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894" title="Initializes the node.">ArmControl::init</a>()
-<a name="l00021"></a>00021 {
-<a name="l00022"></a>00022         <a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a> = <span class="keyword">false</span>;
-<a name="l00023"></a>00023 
-<a name="l00024"></a>00024         <span class="comment">// Initialize subscribers and clients</span>
-<a name="l00025"></a>00025     <a class="code" href="classArmControl.html#aae25864b22982a34d0cbe530a11cd0c1">cartesian_sub_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.subscribe(<span class="stringliteral">&quot;cartesian_moves&quot;</span>, 1000,
-<a name="l00026"></a>00026                                   &amp;<a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1" title="Callback for cartesian movement.">ArmControl::cartesianMovesCallback</a>, <span class="keyword">this</span>);
-<a name="l00027"></a>00027     <a class="code" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">constant_sub_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.subscribe(<span class="stringliteral">&quot;constant_moves&quot;</span>, 1,
-<a name="l00028"></a>00028                                  &amp;<a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f" title="Callback for untimed constant movement.">ArmControl::constantMoveCallback</a>, <span class="keyword">this</span>);
-<a name="l00029"></a>00029     <a class="code" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">constant_time_sub_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.subscribe(<span class="stringliteral">&quot;constant_move_times&quot;</span>, 1,
-<a name="l00030"></a>00030                                       &amp;<a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb" title="Callback for timed constant movement.">ArmControl::constantMoveTimeCallback</a>,
-<a name="l00031"></a>00031                                       <span class="keyword">this</span>);
-<a name="l00032"></a>00032     <a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.serviceClient&lt;time_server::time_srv&gt;(<span class="stringliteral">&quot;time_service&quot;</span>);
-<a name="l00033"></a>00033 
-<a name="l00034"></a>00034     <span class="comment">// Initialize the ARM</span>
-<a name="l00035"></a>00035     <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a> = <a class="code" href="classManusArm.html#a70516aaf8fa75276f7bb7bcd1912671c">ManusArm::instance</a>();
-<a name="l00036"></a>00036     <span class="keywordflow">try</span>
-<a name="l00037"></a>00037     {
-<a name="l00038"></a>00038         arm_-&gt;init(<span class="stringliteral">&quot;can0&quot;</span>);
-<a name="l00039"></a>00039     }
-<a name="l00040"></a>00040     <span class="keywordflow">catch</span> (<a class="code" href="classArmException.html">ArmException</a>&amp; e)
-<a name="l00041"></a>00041     {
-<a name="l00042"></a>00042         printf(<span class="stringliteral">&quot;%s\n&quot;</span>, e.<a class="code" href="classArmException.html#a65aaf93f2280d98aa051e77b737110d5">what</a>());
-<a name="l00043"></a>00043         ROS_FATAL(<span class="stringliteral">&quot;Arm initialization failed&quot;</span>);
-<a name="l00044"></a>00044         <span class="keywordflow">return</span>;
-<a name="l00045"></a>00045     }
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047         <span class="comment">// Move arm into origin position</span>
-<a name="l00048"></a>00048     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>; i++)
-<a name="l00049"></a>00049     {
-<a name="l00050"></a>00050         <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[i] = <a class="code" href="movement__definitions_8h.html#a2ad0485bb435e29de38c196390aa2c8a">ORIGIN_POSITION</a>[i];
-<a name="l00051"></a>00051         <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[i] = 2;
-<a name="l00052"></a>00052     }
-<a name="l00053"></a>00053     arm_-&gt;setMoveComplete(<span class="keyword">false</span>);
-<a name="l00054"></a>00054     arm_-&gt;moveCartesian(<a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>);
-<a name="l00055"></a>00055 
-<a name="l00056"></a>00056     <span class="comment">// Main loop</span>
-<a name="l00057"></a>00057         <span class="keywordflow">while</span> (ros::ok() &amp;&amp; !<a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a>)
-<a name="l00058"></a>00058         {
-<a name="l00059"></a>00059                 ros::spinOnce();
-<a name="l00060"></a>00060         }
-<a name="l00061"></a>00061 
-<a name="l00062"></a>00062         <span class="comment">// Move arm into final position only if ROS is still ok</span>
-<a name="l00063"></a>00063         <span class="keywordflow">if</span> (ros::ok())
-<a name="l00064"></a>00064         {
-<a name="l00065"></a>00065                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>; i++)
-<a name="l00066"></a>00066                 {
-<a name="l00067"></a>00067                         <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[i] = <a class="code" href="movement__definitions_8h.html#a5fe0052a1578f9613671455a0e91a77b">FINAL_POSITION</a>[1][i];
-<a name="l00068"></a>00068                         <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[i] = 2;
-<a name="l00069"></a>00069                 }
-<a name="l00070"></a>00070                 arm_-&gt;setMoveComplete(<span class="keyword">false</span>);
-<a name="l00071"></a>00071                 arm_-&gt;moveCartesian(<a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>);
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073                 <span class="keywordflow">while</span> (!arm_-&gt;isMoveComplete())
-<a name="l00074"></a>00074                 {
-<a name="l00075"></a>00075                         <span class="comment">//printf(&quot;Not Complete\n&quot;);</span>
-<a name="l00076"></a>00076                         ros::Duration(0.06).sleep();
-<a name="l00077"></a>00077                 }
-<a name="l00078"></a>00078         }
-<a name="l00079"></a>00079 
-<a name="l00080"></a>00080         printf(<span class="stringliteral">&quot;Arm control shutdown\n&quot;</span>);
-<a name="l00081"></a>00081 }
-<a name="l00082"></a>00082 
-<a name="l00086"></a><a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1">00086</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1" title="Callback for cartesian movement.">ArmControl::cartesianMovesCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1cartesian__moves__.html#a67d795ed2a3b937e0fd0af5685117006">arm::cartesian_moves::ConstPtr</a>&amp;
-<a name="l00087"></a>00087                                         cmd)
-<a name="l00088"></a>00088 {
-<a name="l00089"></a>00089         time_server::time_srv end_check;
-<a name="l00090"></a>00090     end_check.request.target = cmd-&gt;end;
-<a name="l00091"></a>00091 
-<a name="l00092"></a>00092     <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; cmd-&gt;moves.size(); i++)
-<a name="l00093"></a>00093     {
-<a name="l00094"></a>00094         <span class="keywordflow">if</span> (<a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a>.call(end_check))
-<a name="l00095"></a>00095         {
-<a name="l00096"></a>00096             printf(<span class="stringliteral">&quot;CAT end time : %f\n&quot;</span>, end_check.request.target.toSec());
-<a name="l00097"></a>00097             printf(<span class="stringliteral">&quot;CA run time  : %f\n&quot;</span>, cmd-&gt;moves[i].header.stamp.toSec());
-<a name="l00098"></a>00098             printf(<span class="stringliteral">&quot;Server time  : %f\n&quot;</span>, end_check.response.actual.toSec());
-<a name="l00099"></a>00099             printf(<span class="stringliteral">&quot;Delta        : %f\n&quot;</span>, end_check.response.delta.toSec());
-<a name="l00100"></a>00100 
-<a name="l00101"></a>00101             <span class="comment">// Check for a current move and stop if necessary</span>
-<a name="l00102"></a>00102             <span class="keywordflow">if</span> (!<a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a1cff3017b09dfaace5f2c9ca4844d21e">isMoveComplete</a>()) <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a>(<span class="keyword">true</span>);
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104             <span class="keywordflow">if</span> (end_check.response.delta &gt; ros::Duration(-0.2))
-<a name="l00105"></a>00105             {
-<a name="l00106"></a>00106                 <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j = 0; j &lt; <a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>; j++)
-<a name="l00107"></a>00107                 {
-<a name="l00108"></a>00108                     <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[j] = cmd-&gt;moves[i].positions[j];
-<a name="l00109"></a>00109                     <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[j] = cmd-&gt;moves[i].speeds[j];
-<a name="l00110"></a>00110                 }
-<a name="l00111"></a>00111                 <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a>(<span class="keyword">false</span>);
-<a name="l00112"></a>00112                 <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a66cd2a077fbcdc00d19c76677c900380">moveCartesian</a>(<a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>);
-<a name="l00113"></a>00113             }
-<a name="l00114"></a>00114             <span class="keywordflow">else</span>
-<a name="l00115"></a>00115             {
-<a name="l00116"></a>00116                 ROS_INFO(<span class="stringliteral">&quot;Out of time, movement sequence over!&quot;</span>);
-<a name="l00117"></a>00117                 <span class="keywordflow">return</span>;
-<a name="l00118"></a>00118             }
-<a name="l00119"></a>00119         }
-<a name="l00120"></a>00120         <span class="keywordflow">else</span>
-<a name="l00121"></a>00121         {
-<a name="l00122"></a>00122             ROS_ERROR(<span class="stringliteral">&quot;Time server is not responding&quot;</span>);
-<a name="l00123"></a>00123             <span class="keywordflow">return</span>;
-<a name="l00124"></a>00124         }
-<a name="l00125"></a>00125     }
-<a name="l00126"></a>00126 }
-<a name="l00127"></a>00127 
-<a name="l00131"></a><a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f">00131</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f" title="Callback for untimed constant movement.">ArmControl::constantMoveCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__.html#a1159b3cf465f7e977508fa5c7b48fe95">arm::constant_move::ConstPtr</a>&amp; cmd)
-<a name="l00132"></a>00132 {
-<a name="l00133"></a>00133         <span class="keywordflow">if</span> (cmd-&gt;quit)
-<a name="l00134"></a>00134         {
-<a name="l00135"></a>00135                 <a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a> = <span class="keyword">true</span>;
-<a name="l00136"></a>00136         }
-<a name="l00137"></a>00137         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd-&gt;query)
-<a name="l00138"></a>00138     {
-<a name="l00139"></a>00139         <a class="code" href="classArmControl.html#ad39669727f2529df71506074f7088212" title="Prints the positions of the arm joints.">print</a>();
-<a name="l00140"></a>00140     }
-<a name="l00141"></a>00141     <span class="keywordflow">else</span>
-<a name="l00142"></a>00142     {
-<a name="l00143"></a>00143         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>; i++)
-<a name="l00144"></a>00144                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[i] = static_cast&lt;int&gt;(cmd-&gt;states[i]);
-<a name="l00145"></a>00145         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>; i++)
-<a name="l00146"></a>00146                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">speeds</a>[i] = static_cast&lt;int&gt;(cmd-&gt;speeds[i]);
-<a name="l00147"></a>00147         <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a>(<a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>);
-<a name="l00148"></a>00148     }
-<a name="l00149"></a>00149 }
-<a name="l00150"></a>00150 
-<a name="l00154"></a><a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb">00154</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb" title="Callback for timed constant movement.">ArmControl::constantMoveTimeCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__time__.html#a190e8a8e76a293224c1982b864823965">arm::constant_move_time::ConstPtr</a> &amp;cmd)
-<a name="l00155"></a>00155 {
-<a name="l00156"></a>00156     time_server::time_srv end_check;
-<a name="l00157"></a>00157     end_check.request.target = cmd-&gt;end;
-<a name="l00158"></a>00158 
-<a name="l00159"></a>00159     <span class="keywordflow">if</span> (<a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a>.call(end_check))
-<a name="l00160"></a>00160     {
-<a name="l00161"></a>00161         <span class="keywordflow">if</span> (end_check.response.delta &gt; ros::Duration(0))
-<a name="l00162"></a>00162         {
-<a name="l00163"></a>00163             ROS_INFO(<span class="stringliteral">&quot;Moving...&quot;</span>);
-<a name="l00164"></a>00164 
-<a name="l00165"></a>00165             printf(<span class="stringliteral">&quot;Move start time  : %f\n&quot;</span>, cmd-&gt;header.stamp.toSec());
-<a name="l00166"></a>00166             printf(<span class="stringliteral">&quot;Server time      : %f\n&quot;</span>, end_check.response.actual.toSec());
-<a name="l00167"></a>00167             printf(<span class="stringliteral">&quot;Delta            : %f\n&quot;</span>, (cmd-&gt;header.stamp -
-<a name="l00168"></a>00168                     end_check.response.actual).toSec());
-<a name="l00169"></a>00169             printf(<span class="stringliteral">&quot;Duration of move : %f\n&quot;</span>, end_check.response.delta.toSec());
-<a name="l00170"></a>00170 
-<a name="l00171"></a>00171             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>; i++)
-<a name="l00172"></a>00172             {
-<a name="l00173"></a>00173                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[i] = cmd-&gt;move.states[i];
-<a name="l00174"></a>00174                 <span class="keywordflow">if</span> (i &lt; <a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>)
-<a name="l00175"></a>00175                         <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">speeds</a>[i] = cmd-&gt;move.speeds[i];
-<a name="l00176"></a>00176             }
-<a name="l00177"></a>00177             <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a>(<a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>);
-<a name="l00178"></a>00178 
-<a name="l00179"></a>00179             end_check.response.delta.sleep();
-<a name="l00180"></a>00180 
-<a name="l00181"></a>00181             <span class="comment">// Stop</span>
-<a name="l00182"></a>00182             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>; i++)
-<a name="l00183"></a>00183                                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[i] = 0;
-<a name="l00184"></a>00184             <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a>(<a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>);
-<a name="l00185"></a>00185         }
-<a name="l00186"></a>00186         <span class="keywordflow">else</span>
-<a name="l00187"></a>00187             ROS_ERROR(<span class="stringliteral">&quot;This movement would have started after its ending time&quot;</span>);
-<a name="l00188"></a>00188     }
-<a name="l00189"></a>00189     <span class="keywordflow">else</span>
-<a name="l00190"></a>00190         ROS_ERROR(<span class="stringliteral">&quot;Time server is not responding, movement command skipped&quot;</span>);
-<a name="l00191"></a>00191 }
-<a name="l00192"></a>00192 
-<a name="l00196"></a><a class="code" href="classArmControl.html#ad39669727f2529df71506074f7088212">00196</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ad39669727f2529df71506074f7088212" title="Prints the positions of the arm joints.">ArmControl::print</a>()
-<a name="l00197"></a>00197 {
-<a name="l00198"></a>00198         printf(<span class="stringliteral">&quot;\n%s&quot;</span>, <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ac6fa919efbacf860202362c1b3611f48">getPrintState</a>().c_str());
-<a name="l00199"></a>00199 }
-<a name="l00200"></a>00200 
-<a name="l00201"></a><a class="code" href="arm__control_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">00201</a> <span class="keywordtype">int</span> <a class="code" href="arm__control_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)
-<a name="l00202"></a>00202 {
-<a name="l00203"></a>00203     ros::init(argc, argv, <span class="stringliteral">&quot;arm_control&quot;</span>);
-<a name="l00204"></a>00204     <a class="code" href="classArmControl.html" title="Implements ROS node &quot;arm_control&quot;.">ArmControl</a> arm_control;
-<a name="l00205"></a>00205     <span class="keywordflow">return</span> 0;
-<a name="l00206"></a>00206 }
+<a name="l00016"></a><a class="code" href="classArmControl.html#aab877c5a01fae591a514fdcdc690d9ea">00016</a> <a class="code" href="classArmControl.html#aab877c5a01fae591a514fdcdc690d9ea" title="Default constructor.">ArmControl::ArmControl</a>()
+<a name="l00017"></a>00017 {
+<a name="l00018"></a>00018         <a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894" title="Initializes the node.">init</a>();
+<a name="l00019"></a>00019         <a class="code" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1" title="Runs the node in a loop until a shutdown message is received.">run</a>();
+<a name="l00020"></a>00020 }
+<a name="l00021"></a>00021 
+<a name="l00029"></a><a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894">00029</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894" title="Initializes the node.">ArmControl::init</a>()
+<a name="l00030"></a>00030 {
+<a name="l00031"></a>00031         <a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a> = <span class="keyword">false</span>;
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033         <span class="comment">// Initialize subscribers and clients</span>
+<a name="l00034"></a>00034     <a class="code" href="classArmControl.html#aae25864b22982a34d0cbe530a11cd0c1">cartesian_sub_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.subscribe(<span class="stringliteral">&quot;cartesian_moves&quot;</span>, 1000,
+<a name="l00035"></a>00035                                   &amp;<a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1" title="Callback for cartesian movement messages.">ArmControl::cartesianMovesCallback</a>, <span class="keyword">this</span>);
+<a name="l00036"></a>00036     <a class="code" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">constant_sub_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.subscribe(<span class="stringliteral">&quot;constant_moves&quot;</span>, 1,
+<a name="l00037"></a>00037                                  &amp;<a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f" title="Callback for constant movement messages.">ArmControl::constantMoveCallback</a>, <span class="keyword">this</span>);
+<a name="l00038"></a>00038     <a class="code" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">constant_time_sub_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.subscribe(<span class="stringliteral">&quot;constant_move_times&quot;</span>, 1,
+<a name="l00039"></a>00039                                       &amp;<a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb" title="Callback for constant movement by time messages.">ArmControl::constantMoveTimeCallback</a>,
+<a name="l00040"></a>00040                                       <span class="keyword">this</span>);
+<a name="l00041"></a>00041     <a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a> = <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>.serviceClient&lt;time_server::time_srv&gt;(<span class="stringliteral">&quot;time_service&quot;</span>);
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043     <span class="comment">// Initialize the ARM</span>
+<a name="l00044"></a>00044     <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a> = <a class="code" href="classManusArm.html#a70516aaf8fa75276f7bb7bcd1912671c">ManusArm::instance</a>();
+<a name="l00045"></a>00045     <span class="keywordflow">try</span>
+<a name="l00046"></a>00046     {
+<a name="l00047"></a>00047         arm_-&gt;init(<span class="stringliteral">&quot;can0&quot;</span>);
+<a name="l00048"></a>00048     }
+<a name="l00049"></a>00049     <span class="keywordflow">catch</span> (<a class="code" href="classArmException.html">ArmException</a>&amp; e)
+<a name="l00050"></a>00050     {
+<a name="l00051"></a>00051         printf(<span class="stringliteral">&quot;%s\n&quot;</span>, e.<a class="code" href="classArmException.html#a65aaf93f2280d98aa051e77b737110d5">what</a>());
+<a name="l00052"></a>00052         ROS_FATAL(<span class="stringliteral">&quot;Arm initialization failed&quot;</span>);
+<a name="l00053"></a>00053         <span class="keywordflow">return</span>;
+<a name="l00054"></a>00054     }
+<a name="l00055"></a>00055 }
+<a name="l00056"></a>00056 
+<a name="l00065"></a><a class="code" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1">00065</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1" title="Runs the node in a loop until a shutdown message is received.">ArmControl::run</a>()
+<a name="l00066"></a>00066 {
+<a name="l00067"></a>00067         <span class="comment">// Move arm into origin position</span>
+<a name="l00068"></a>00068         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>; i++)
+<a name="l00069"></a>00069         {
+<a name="l00070"></a>00070                 <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[i] = <a class="code" href="movement__definitions_8h.html#a2ad0485bb435e29de38c196390aa2c8a">ORIGIN_POSITION</a>[i];
+<a name="l00071"></a>00071                 <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[i] = 2;
+<a name="l00072"></a>00072         }
+<a name="l00073"></a>00073         <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a>(<span class="keyword">false</span>);
+<a name="l00074"></a>00074         <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a66cd2a077fbcdc00d19c76677c900380">moveCartesian</a>(<a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076         <span class="comment">// Main loop</span>
+<a name="l00077"></a>00077         <span class="keywordflow">while</span> (ros::ok() &amp;&amp; !<a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a>)
+<a name="l00078"></a>00078         {
+<a name="l00079"></a>00079                 ros::spinOnce();
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082         <span class="comment">// Move arm into final position only if ROS is still ok</span>
+<a name="l00083"></a>00083         <span class="keywordflow">if</span> (ros::ok())
+<a name="l00084"></a>00084         {
+<a name="l00085"></a>00085                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>; i++)
+<a name="l00086"></a>00086                 {
+<a name="l00087"></a>00087                         <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[i] = <a class="code" href="movement__definitions_8h.html#a5fe0052a1578f9613671455a0e91a77b">FINAL_POSITION</a>[1][i];
+<a name="l00088"></a>00088                         <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[i] = 2;
+<a name="l00089"></a>00089                 }
+<a name="l00090"></a>00090                 <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a>(<span class="keyword">false</span>);
+<a name="l00091"></a>00091                 <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a66cd2a077fbcdc00d19c76677c900380">moveCartesian</a>(<a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>);
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093                 <span class="keywordflow">while</span> (!<a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a1cff3017b09dfaace5f2c9ca4844d21e">isMoveComplete</a>())
+<a name="l00094"></a>00094                 {
+<a name="l00095"></a>00095                         <span class="comment">//printf(&quot;Not Complete\n&quot;);</span>
+<a name="l00096"></a>00096                         ros::Duration(0.06).sleep();
+<a name="l00097"></a>00097                 }
+<a name="l00098"></a>00098         }
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100         printf(<span class="stringliteral">&quot;Arm control shutdown\n&quot;</span>);
+<a name="l00101"></a>00101 }
+<a name="l00102"></a>00102 
+<a name="l00115"></a><a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1">00115</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1" title="Callback for cartesian movement messages.">ArmControl::cartesianMovesCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1cartesian__moves__.html#a67d795ed2a3b937e0fd0af5685117006">arm::cartesian_moves::ConstPtr</a>&amp;
+<a name="l00116"></a>00116                                         cmd)
+<a name="l00117"></a>00117 {
+<a name="l00118"></a>00118         time_server::time_srv end_check;
+<a name="l00119"></a>00119     end_check.request.target = cmd-&gt;end;
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; cmd-&gt;moves.size(); i++)
+<a name="l00122"></a>00122     {
+<a name="l00123"></a>00123         <span class="keywordflow">if</span> (<a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a>.call(end_check))
+<a name="l00124"></a>00124         {
+<a name="l00125"></a>00125             printf(<span class="stringliteral">&quot;CAT end time : %f\n&quot;</span>, end_check.request.target.toSec());
+<a name="l00126"></a>00126             printf(<span class="stringliteral">&quot;CA run time  : %f\n&quot;</span>, cmd-&gt;moves[i].header.stamp.toSec());
+<a name="l00127"></a>00127             printf(<span class="stringliteral">&quot;Server time  : %f\n&quot;</span>, end_check.response.actual.toSec());
+<a name="l00128"></a>00128             printf(<span class="stringliteral">&quot;Delta        : %f\n&quot;</span>, end_check.response.delta.toSec());
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130             <span class="comment">// Check for a current move and stop if necessary</span>
+<a name="l00131"></a>00131             <span class="keywordflow">if</span> (!<a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a1cff3017b09dfaace5f2c9ca4844d21e">isMoveComplete</a>()) <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a>(<span class="keyword">true</span>);
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133             <span class="keywordflow">if</span> (end_check.response.delta &gt; ros::Duration(-0.2))
+<a name="l00134"></a>00134             {
+<a name="l00135"></a>00135                 <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j = 0; j &lt; <a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>; j++)
+<a name="l00136"></a>00136                 {
+<a name="l00137"></a>00137                     <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[j] = cmd-&gt;moves[i].positions[j];
+<a name="l00138"></a>00138                     <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>.<a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[j] = cmd-&gt;moves[i].speeds[j];
+<a name="l00139"></a>00139                 }
+<a name="l00140"></a>00140                 <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a>(<span class="keyword">false</span>);
+<a name="l00141"></a>00141                 <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#a66cd2a077fbcdc00d19c76677c900380">moveCartesian</a>(<a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>);
+<a name="l00142"></a>00142             }
+<a name="l00143"></a>00143             <span class="keywordflow">else</span>
+<a name="l00144"></a>00144             {
+<a name="l00145"></a>00145                 ROS_INFO(<span class="stringliteral">&quot;Out of time, movement sequence over!&quot;</span>);
+<a name="l00146"></a>00146                 <span class="keywordflow">return</span>;
+<a name="l00147"></a>00147             }
+<a name="l00148"></a>00148         }
+<a name="l00149"></a>00149         <span class="keywordflow">else</span>
+<a name="l00150"></a>00150         {
+<a name="l00151"></a>00151             ROS_ERROR(<span class="stringliteral">&quot;Time server is not responding&quot;</span>);
+<a name="l00152"></a>00152             <span class="keywordflow">return</span>;
+<a name="l00153"></a>00153         }
+<a name="l00154"></a>00154     }
+<a name="l00155"></a>00155 }
+<a name="l00156"></a>00156 
+<a name="l00170"></a><a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f">00170</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f" title="Callback for constant movement messages.">ArmControl::constantMoveCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__.html#a1159b3cf465f7e977508fa5c7b48fe95">arm::constant_move::ConstPtr</a>&amp; cmd)
+<a name="l00171"></a>00171 {
+<a name="l00172"></a>00172         <span class="keywordflow">if</span> (cmd-&gt;quit)
+<a name="l00173"></a>00173         {
+<a name="l00174"></a>00174                 <a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a> = <span class="keyword">true</span>;
+<a name="l00175"></a>00175         }
+<a name="l00176"></a>00176         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd-&gt;query)
+<a name="l00177"></a>00177     {
+<a name="l00178"></a>00178                 printf(<span class="stringliteral">&quot;\n%s&quot;</span>, <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ac6fa919efbacf860202362c1b3611f48">getPrintState</a>().c_str());
+<a name="l00179"></a>00179     }
+<a name="l00180"></a>00180     <span class="keywordflow">else</span>
+<a name="l00181"></a>00181     {
+<a name="l00182"></a>00182         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>; i++)
+<a name="l00183"></a>00183                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[i] = static_cast&lt;int&gt;(cmd-&gt;states[i]);
+<a name="l00184"></a>00184         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>; i++)
+<a name="l00185"></a>00185                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">speeds</a>[i] = static_cast&lt;int&gt;(cmd-&gt;speeds[i]);
+<a name="l00186"></a>00186         <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a>(<a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>);
+<a name="l00187"></a>00187     }
+<a name="l00188"></a>00188 }
+<a name="l00189"></a>00189 
+<a name="l00199"></a><a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb">00199</a> <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb" title="Callback for constant movement by time messages.">ArmControl::constantMoveTimeCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__time__.html#a190e8a8e76a293224c1982b864823965">arm::constant_move_time::ConstPtr</a> &amp;cmd)
+<a name="l00200"></a>00200 {
+<a name="l00201"></a>00201     time_server::time_srv end_check;
+<a name="l00202"></a>00202     end_check.request.target = cmd-&gt;end;
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204     <span class="keywordflow">if</span> (<a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a>.call(end_check))
+<a name="l00205"></a>00205     {
+<a name="l00206"></a>00206         <span class="keywordflow">if</span> (end_check.response.delta &gt; ros::Duration(0))
+<a name="l00207"></a>00207         {
+<a name="l00208"></a>00208             ROS_INFO(<span class="stringliteral">&quot;Moving...&quot;</span>);
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210             printf(<span class="stringliteral">&quot;Move start time  : %f\n&quot;</span>, cmd-&gt;header.stamp.toSec());
+<a name="l00211"></a>00211             printf(<span class="stringliteral">&quot;Server time      : %f\n&quot;</span>, end_check.response.actual.toSec());
+<a name="l00212"></a>00212             printf(<span class="stringliteral">&quot;Delta            : %f\n&quot;</span>, (cmd-&gt;header.stamp -
+<a name="l00213"></a>00213                     end_check.response.actual).toSec());
+<a name="l00214"></a>00214             printf(<span class="stringliteral">&quot;Duration of move : %f\n&quot;</span>, end_check.response.delta.toSec());
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>; i++)
+<a name="l00217"></a>00217             {
+<a name="l00218"></a>00218                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[i] = cmd-&gt;move.states[i];
+<a name="l00219"></a>00219                 <span class="keywordflow">if</span> (i &lt; <a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>)
+<a name="l00220"></a>00220                         <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">speeds</a>[i] = cmd-&gt;move.speeds[i];
+<a name="l00221"></a>00221             }
+<a name="l00222"></a>00222             <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a>(<a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>);
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224             end_check.response.delta.sleep();
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226             <span class="comment">// Stop</span>
+<a name="l00227"></a>00227             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>; i++)
+<a name="l00228"></a>00228                                 <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>.<a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[i] = 0;
+<a name="l00229"></a>00229             <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>-&gt;<a class="code" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a>(<a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>);
+<a name="l00230"></a>00230         }
+<a name="l00231"></a>00231         <span class="keywordflow">else</span>
+<a name="l00232"></a>00232             ROS_ERROR(<span class="stringliteral">&quot;This movement would have started after its ending time&quot;</span>);
+<a name="l00233"></a>00233     }
+<a name="l00234"></a>00234     <span class="keywordflow">else</span>
+<a name="l00235"></a>00235         ROS_ERROR(<span class="stringliteral">&quot;Time server is not responding, movement command skipped&quot;</span>);
+<a name="l00236"></a>00236 }
+<a name="l00237"></a>00237 
+<a name="l00238"></a><a class="code" href="arm__control_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">00238</a> <span class="keywordtype">int</span> <a class="code" href="arm__control_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)
+<a name="l00239"></a>00239 {
+<a name="l00240"></a>00240     ros::init(argc, argv, <span class="stringliteral">&quot;arm_control&quot;</span>);
+<a name="l00241"></a>00241     <a class="code" href="classArmControl.html" title="Arm control node.">ArmControl</a> arm_control;
+<a name="l00242"></a>00242     <span class="keywordflow">return</span> 0;
+<a name="l00243"></a>00243 }
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -255,7 +259,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Wed Oct 31 2012 18:16:53</small>
+<small>autogenerated on Fri Nov 9 2012 15:55:23</small>
 </div>
 </body>
 </html>

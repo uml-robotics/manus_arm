@@ -18,9 +18,12 @@
 #include <list>
 
 /*!
- * \brief Implements ROS node "arm_control"
+ * \brief Arm control node
  *
- * This node moves the arm based on commands from teleop nodes.
+ * This node receives movement commands from teleop nodes and moves the arm
+ * hardware appropriately. The operation of the node is autonomous; after
+ * the ArmControl object has been created, the node will be up and running with
+ * no further setup.
  *
  * \copyright 2012 University of Massachusetts Lowell
  * \author Jonathan Hasenzahl
@@ -28,19 +31,14 @@
 class ArmControl 
 {
 public:
-	/*!
-	 * \brief Default constructor
-	 *
-	 * Initializes the arm hardware and subscribes to movement topics.
-	 */
-    ArmControl() { init(); }
+    ArmControl();
     
 private:
     void init();
+    void run();
     void cartesianMovesCallback(const arm::cartesian_moves::ConstPtr& cmd);
     void constantMoveCallback(const arm::constant_move::ConstPtr& cmd);
     void constantMoveTimeCallback(const arm::constant_move_time::ConstPtr& cmd);
-    void print();
     
     ros::NodeHandle n_;
     ros::Subscriber cartesian_sub_;
@@ -48,11 +46,8 @@ private:
     ros::Subscriber constant_time_sub_;
     ros::ServiceClient time_client_;
     ManusArm* arm_;
-
     CartesianMove cartesian_move_;
     ConstantMove constant_move_;
-
-    bool move_complete_;
     bool shutdown_;
 };
 

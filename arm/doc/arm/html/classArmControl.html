@@ -55,7 +55,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <!-- doxytag: class="ArmControl" -->
-<p>Implements ROS node "arm_control".  
+<p>Arm control node.  
  <a href="classArmControl.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="arm__control_8h_source.html">arm_control.h</a>&gt;</code></p>
@@ -69,15 +69,15 @@ Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1">cartesianMovesCallback</a> (const <a class="el" href="structarm_1_1cartesian__moves__.html#a67d795ed2a3b937e0fd0af5685117006">arm::cartesian_moves::ConstPtr</a> &amp;cmd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for cartesian movement.  <a href="#ae5fcc5aaf85dbe14bf218ae7d85087c1"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for cartesian movement messages.  <a href="#ae5fcc5aaf85dbe14bf218ae7d85087c1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f">constantMoveCallback</a> (const <a class="el" href="structarm_1_1constant__move__.html#a1159b3cf465f7e977508fa5c7b48fe95">arm::constant_move::ConstPtr</a> &amp;cmd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for untimed constant movement.  <a href="#a2ab204386791f95e261187e63ce9a91f"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for constant movement messages.  <a href="#a2ab204386791f95e261187e63ce9a91f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb">constantMoveTimeCallback</a> (const <a class="el" href="structarm_1_1constant__move__time__.html#a190e8a8e76a293224c1982b864823965">arm::constant_move_time::ConstPtr</a> &amp;cmd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for timed constant movement.  <a href="#af4cee7d890cad44225e17fa63ebdd8fb"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for constant movement by time messages.  <a href="#af4cee7d890cad44225e17fa63ebdd8fb"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894">init</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the node.  <a href="#ae5b40302a815aa323eca4d1707d61894"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ad39669727f2529df71506074f7088212">print</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the positions of the arm joints.  <a href="#ad39669727f2529df71506074f7088212"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1">run</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the node in a loop until a shutdown message is received.  <a href="#aed3b3556089c901822260d73a2c03fa1"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classManusArm.html">ManusArm</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a></td></tr>
@@ -86,18 +86,17 @@ Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structConstantMove.html">ConstantMove</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ros::Subscriber&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">constant_sub_</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ros::Subscriber&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">constant_time_sub_</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ab6f8407f3037b48107a4fc3f86c78e70">move_complete_</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ros::NodeHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Implements ROS node "arm_control". </p>
-<p>This node moves the arm based on commands from teleop nodes.</p>
+<div class="textblock"><p>Arm control node. </p>
+<p>This node receives movement commands from teleop nodes and moves the arm hardware appropriately. The operation of the node is autonomous; after the <a class="el" href="classArmControl.html" title="Arm control node.">ArmControl</a> object has been created, the node will be up and running with no further setup.</p>
 <dl class="copyright"><dt><b>Copyright:</b></dt><dd>2012 University of Massachusetts Lowell </dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jonathan Hasenzahl </dd></dl>
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00028">28</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00031">31</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aab877c5a01fae591a514fdcdc690d9ea"></a><!-- doxytag: member="ArmControl::ArmControl" ref="aab877c5a01fae591a514fdcdc690d9ea" args="()" -->
 <div class="memitem">
@@ -107,16 +106,16 @@ Private Attributes</h2></td></tr>
           <td class="memname"><a class="el" href="classArmControl.html#aab877c5a01fae591a514fdcdc690d9ea">ArmControl::ArmControl</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td><code> [inline]</code></td>
+          <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>Default constructor. </p>
-<p>Initializes the arm hardware and subscribes to movement topics. </p>
+<p>Calls the init and run methods. </p>
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00036">36</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00016">16</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -136,9 +135,16 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Callback for cartesian movement. </p>
+<p>Callback for cartesian movement messages. </p>
+<p>This method is called automatically when the node receives a cartesian movement message. The received message contains an array of cartesian moves and an ending time. The time server is polled to compare actual time to the ending time, and the arm will be moved, in sequence, according to the array of moves while time is remaining. If there is no time remaining, further moves are not executed and the callback exits.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the received message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00086">86</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00115">115</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -157,9 +163,16 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Callback for untimed constant movement. </p>
+<p>Callback for constant movement messages. </p>
+<p>This method is called automatically when the node receives a constant movement message. This message usually used for direct user control, such as operation with a keyboard. The received message contains position and speed data, and the callback will move the arm appropriately. The message also contains a query flag (the method will print movement data to the screen) and a quit flag (the method set the shutdown flag to true, causing the node to shutdown).</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the received message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00131">131</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00170">170</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -178,9 +191,16 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Callback for timed constant movement. </p>
+<p>Callback for constant movement by time messages. </p>
+<p>This method is called automatically when the node receives a cartesian movement by time message. This method is similar in operation to the cartesian movement callback, instead using constant movements.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the received message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00154">154</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00199">199</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -199,18 +219,18 @@ Private Attributes</h2></td></tr>
 <div class="memdoc">
 
 <p>Initializes the node. </p>
-<p>First, the node's subscriptions are started. Then, the arm hardware is initialized. The arm is moved into its origin position, and then the node spins, waiting for movement callbacks. A shutdown flag will stop the spinning and cause the arm to move into its final position. The node will exit after the arm has finished moving. </p>
+<p>There are two functions of the init method: it first subscribes to the necessary ROS topics to receive movement commands, and it then initializes the arm hardware. </p>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00020">20</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00029">29</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad39669727f2529df71506074f7088212"></a><!-- doxytag: member="ArmControl::print" ref="ad39669727f2529df71506074f7088212" args="()" -->
+<a class="anchor" id="aed3b3556089c901822260d73a2c03fa1"></a><!-- doxytag: member="ArmControl::run" ref="aed3b3556089c901822260d73a2c03fa1" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classArmControl.html#ad39669727f2529df71506074f7088212">ArmControl::print</a> </td>
+          <td class="memname">void <a class="el" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1">ArmControl::run</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [private]</code></td>
@@ -219,9 +239,10 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Prints the positions of the arm joints. </p>
+<p>Runs the node in a loop until a shutdown message is received. </p>
+<p>Before the main loop, the arm is moved into its origin position. The method then enters a spin loop until the shutdown flag is set to true (via a ROS message) or Ctrl+C is pressed. After the loop exits, the arm is moved into its final position. </p>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00196">196</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00065">65</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -237,7 +258,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00050">50</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00048">48</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -252,7 +273,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00052">52</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00049">49</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -267,7 +288,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00046">46</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00044">44</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -282,7 +303,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00053">53</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00050">50</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -297,7 +318,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00047">47</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00045">45</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -312,22 +333,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00048">48</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab6f8407f3037b48107a4fc3f86c78e70"></a><!-- doxytag: member="ArmControl::move_complete_" ref="ab6f8407f3037b48107a4fc3f86c78e70" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classArmControl.html#ab6f8407f3037b48107a4fc3f86c78e70">ArmControl::move_complete_</a><code> [private]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00055">55</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00046">46</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -342,7 +348,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00045">45</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00043">43</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -357,7 +363,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00056">56</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00051">51</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -372,7 +378,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00049">49</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00047">47</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -400,7 +406,7 @@ Private Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Wed Oct 31 2012 18:16:54</small>
+<small>autogenerated on Fri Nov 9 2012 15:55:24</small>
 </div>
 </body>
 </html>

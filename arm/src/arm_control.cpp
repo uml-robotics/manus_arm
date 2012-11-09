@@ -9,13 +9,22 @@
 #include <cmath>
 
 /*!
+ * \brief Default constructor
+ *
+ * Calls the init and run methods.
+ */
+ArmControl::ArmControl()
+{
+	init();
+	run();
+}
+
+/*!
  * \brief Initializes the node
  *
- * First, the node's subscriptions are started. Then, the arm hardware is
- * initialized. The arm is moved into its origin position, and then the node
- * spins, waiting for movement callbacks. A shutdown flag will stop the spinning
- * and cause the arm to move into its final position. The node will exit after
- * the arm has finished moving.
+ * There are two functions of the init method: it first subscribes to the
+ * necessary ROS topics to receive movement commands, and it then initializes
+ * the arm hardware.
  */
 void ArmControl::init()
 {
@@ -43,17 +52,28 @@ void ArmControl::init()
         ROS_FATAL("Arm initialization failed");
         return;
     }
+}
 
+/*!
+ * \brief Runs the node in a loop until a shutdown message is received
+ *
+ * Before the main loop, the arm is moved into its origin position. The method
+ * then enters a spin loop until the shutdown flag is set to true (via a ROS
+ * message) or Ctrl+C is pressed. After the loop exits, the arm is moved into
+ * its final position.
+ */
+void ArmControl::run()
+{
 	// Move arm into origin position
-    for (int i = 0; i < CART_MV_ARR_SZ; i++)
-    {
-    	cartesian_move_.positions[i] = ORIGIN_POSITION[i];
-    	cartesian_move_.speeds[i] = 2;
-    }
-    arm_->setMoveComplete(false);
-    arm_->moveCartesian(cartesian_move_);
+	for (int i = 0; i < CART_MV_ARR_SZ; i++)
+	{
+		cartesian_move_.positions[i] = ORIGIN_POSITION[i];
+		cartesian_move_.speeds[i] = 2;
+	}
+	arm_->setMoveComplete(false);
+	arm_->moveCartesian(cartesian_move_);
 
-    // Main loop
+	// Main loop
 	while (ros::ok() && !shutdown_)
 	{
 		ros::spinOnce();
@@ -81,7 +101,16 @@ void ArmControl::init()
 }
 
 /*!
- * \brief Callback for cartesian movement
+ * \brief Callback for cartesian movement messages
+ *
+ * This method is called automatically when the node receives a cartesian
+ * movement message. The received message contains an array of cartesian moves
+ * and an ending time. The time server is polled to compare actual time to the
+ * ending time, and the arm will be moved, in sequence, according to the array
+ * of moves while time is remaining. If there is no time remaining, further
+ * moves are not executed and the callback exits.
+ *
+ * \param cmd the received message
  */
 void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
                                         cmd)
@@ -126,7 +155,17 @@ void ArmControl::cartesianMovesCallback(const arm::cartesian_moves::ConstPtr&
 }
 
 /*!
- * \brief Callback for untimed constant movement
+ * \brief Callback for constant movement messages
+ *
+ * This method is called automatically when the node receives a constant
+ * movement message. This message usually used for direct user control, such as
+ * operation with a keyboard. The received message contains position and speed
+ * data, and the callback will move the arm appropriately. The message also
+ * contains a query flag (the method will print movement data to the screen) and
+ * a quit flag (the method set the shutdown flag to true, causing the node
+ * to shutdown).
+ *
+ * \param cmd the received message
  */
 void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 {
@@ -136,7 +175,7 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 	}
 	else if (cmd->query)
     {
-        print();
+		printf("\n%s", arm_->getPrintState().c_str());
     }
     else
     {
@@ -149,7 +188,13 @@ void ArmControl::constantMoveCallback(const arm::constant_move::ConstPtr& cmd)
 }
 
 /*!
- * \brief Callback for timed constant movement
+ * \brief Callback for constant movement by time messages
+ *
+ * This method is called automatically when the node receives a cartesian
+ * movement by time message. This method is similar in operation to the
+ * cartesian movement callback, instead using constant movements.
+ *
+ * \param cmd the received message
  */
 void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPtr &cmd)
 {
@@ -188,14 +233,6 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
     }
     else
         ROS_ERROR("Time server is not responding, movement command skipped");
-}
-
-/*!
- * \brief Prints the positions of the arm joints
- */
-void ArmControl::print()
-{
-	printf("\n%s", arm_->getPrintState().c_str());
 }
 
 int main(int argc, char** argv)
