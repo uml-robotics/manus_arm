@@ -2,45 +2,53 @@
 \label{classManusArm}\index{\-Manus\-Arm@{\-Manus\-Arm}}
 
 
+\-Singleton class representing the \-A\-R\-M. \begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell. 
+\end{DoxyCopyright}
+ 
+
+
+
+
 {\ttfamily \#include $<$\-Manus\-Arm.\-hpp$>$}
 
 \subsection*{\-Public \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
 void {\bf fold} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Folds the \-A\-R\-M. \end{DoxyCompactList}\item 
 std\-::string {\bf get\-Csv\-State} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Returns the \-A\-R\-M's current position as a \-C\-S\-V string. \end{DoxyCompactList}\item 
 void {\bf get\-Position} (float position[$\,$])
-\item 
+\begin{DoxyCompactList}\small\item\em \-Gets current \-A\-R\-M position. \end{DoxyCompactList}\item 
 std\-::string {\bf get\-Print\-State} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Returns the \-A\-R\-M's current position as a printable string. \end{DoxyCompactList}\item 
 int {\bf init} (std\-::string interface)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Inits the \-A\-R\-M. \end{DoxyCompactList}\item 
 bool {\bf is\-Move\-Complete} ()
 \item 
 void {\bf move\-Cartesian} (const {\bf \-Cartesian\-Move} \&cmd)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Binds the cartesian movement method and the movement command to a thread. \end{DoxyCompactList}\item 
 void {\bf move\-Constant} (const {\bf \-Constant\-Move} \&cmd)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Binds the constant movement method and the movement command to a thread. \end{DoxyCompactList}\item 
 void {\bf set\-Move\-Complete} (bool move\-\_\-complete)
 \item 
 void {\bf unfold} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \-Unfolds the \-A\-R\-M. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{\-Static \-Public \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
 static {\bf \-Manus\-Arm} $\ast$ {\bf instance} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \-Returns the \-A\-R\-M instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{\-Private \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
 void {\bf do\-Cartesian\-Move} (const {\bf \-Cartesian\-Move} \&cmd)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Moves the \-A\-R\-M to the position specified in the message. \end{DoxyCompactList}\item 
 void {\bf do\-Constant\-Move} (const {\bf \-Constant\-Move} \&cmd)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Moves the \-A\-R\-M in the direction specified in the message. \end{DoxyCompactList}\item 
 void {\bf enqueue\-Frame} (can\-\_\-frame to\-Send)
-\item 
+\begin{DoxyCompactList}\small\item\em \-Adds a frame to the \-A\-R\-M's message queue. \end{DoxyCompactList}\item 
 {\bf \-Manus\-Arm} ()
 \item 
 {\bf \-Manus\-Arm} ({\bf \-Manus\-Arm} const \&)
@@ -52,7 +60,7 @@ void {\bf poll\-Can\-Socket} ()
 void {\bf send\-Frames} (can\-\_\-frame frame)
 \item 
 void {\bf set\-Cartesian} ()
-\item 
+\begin{DoxyCompactList}\small\item\em \-Puts the \-A\-R\-M in cartesian mode. \end{DoxyCompactList}\item 
 void {\bf set\-Cbox} (int cbox, can\-\_\-frame $\ast$frm)
 \end{DoxyCompactItemize}
 \subsection*{\-Private \-Attributes}
@@ -80,9 +88,19 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 
 
 \subsection{\-Detailed \-Description}
+\-Singleton class representing the \-A\-R\-M. \begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell. 
+\end{DoxyCopyright}
 
 
-\-Definition at line 91 of file \-Manus\-Arm.\-hpp.
+\begin{DoxyAuthor}{\-Author}
+\-Abe \-Shultz 
+
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 100 of file \-Manus\-Arm.\-hpp.
 
 
 
@@ -96,7 +114,7 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a0011ca8159b691c82367eb97008dbdbc}
 
 
-\-Definition at line 636 of file \-Manus\-Arm.\-cpp.
+\-Definition at line 720 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!\-Manus\-Arm@{\-Manus\-Arm}}
 \index{\-Manus\-Arm@{\-Manus\-Arm}!ManusArm@{\-Manus\-Arm}}
@@ -107,7 +125,7 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [inline, private]}}\label{classManusArm_a82ac8aa98cf655bffedc2489a17c858c}
 
 
-\-Definition at line 96 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 105 of file \-Manus\-Arm.\-hpp.
 
 
 
@@ -121,7 +139,18 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a69c7427307b8a4c2a9c748065e953923}
 
 
-\-Definition at line 126 of file \-Manus\-Arm.\-cpp.
+\-Moves the \-A\-R\-M to the position specified in the message. 
+
+\-The \-A\-R\-M will stop when it reaches its destination.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cmd} & the cartesian movement message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 162 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!do\-Constant\-Move@{do\-Constant\-Move}}
 \index{do\-Constant\-Move@{do\-Constant\-Move}!ManusArm@{\-Manus\-Arm}}
@@ -132,7 +161,18 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_aa42e3da7e512f331e7728e3e9d1eccc2}
 
 
-\-Definition at line 288 of file \-Manus\-Arm.\-cpp.
+\-Moves the \-A\-R\-M in the direction specified in the message. 
+
+\-This is a constant motion; the \-A\-R\-M will not stop until it is told otherwise.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cmd} & the constant movement message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 338 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!enqueue\-Frame@{enqueue\-Frame}}
 \index{enqueue\-Frame@{enqueue\-Frame}!ManusArm@{\-Manus\-Arm}}
@@ -143,7 +183,16 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_aed49dbca7f8fbcdf7499b449cbab4396}
 
 
-\-Definition at line 348 of file \-Manus\-Arm.\-cpp.
+\-Adds a frame to the \-A\-R\-M's message queue. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em to\-Send} & the frame to add to the queue \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 414 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!fold@{fold}}
 \index{fold@{fold}!ManusArm@{\-Manus\-Arm}}
@@ -154,7 +203,11 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_a379092d8f07c767962911d2a410d9d63}
 
 
-\-Definition at line 327 of file \-Manus\-Arm.\-cpp.
+\-Folds the \-A\-R\-M. 
+
+\-Warning\-: \-Be sure that the \-A\-R\-M is free of obstructions (wires/cords, etc) when folding or else it will get stuck and will not unfold. 
+
+\-Definition at line 386 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!get\-Csv\-State@{get\-Csv\-State}}
 \index{get\-Csv\-State@{get\-Csv\-State}!ManusArm@{\-Manus\-Arm}}
@@ -165,18 +218,34 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_a7584b3f88ddc538a8308d7bb7ff1fb89}
 
 
-\-Definition at line 22 of file \-Manus\-Arm.\-cpp.
+\-Returns the \-A\-R\-M's current position as a \-C\-S\-V string. 
+
+\begin{DoxyReturn}{\-Returns}
+the \-A\-R\-M's current position as a \-C\-S\-V string 
+\end{DoxyReturn}
+
+
+\-Definition at line 35 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!get\-Position@{get\-Position}}
 \index{get\-Position@{get\-Position}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{get\-Position}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Manus\-Arm\-::get\-Position} (
 \begin{DoxyParamCaption}
-\item[{float}]{position[$\,$]}
+\item[{float}]{fill[$\,$]}
 \end{DoxyParamCaption}
 )}\label{classManusArm_a8217be714212e6d547bcd81650295816}
 
 
-\-Definition at line 9 of file \-Manus\-Arm.\-cpp.
+\-Gets current \-A\-R\-M position. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em fill} & array of floats to which the \-A\-R\-M positions will be stored \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 18 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!get\-Print\-State@{get\-Print\-State}}
 \index{get\-Print\-State@{get\-Print\-State}!ManusArm@{\-Manus\-Arm}}
@@ -187,7 +256,14 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_ac6fa919efbacf860202362c1b3611f48}
 
 
-\-Definition at line 60 of file \-Manus\-Arm.\-cpp.
+\-Returns the \-A\-R\-M's current position as a printable string. 
+
+\begin{DoxyReturn}{\-Returns}
+the \-A\-R\-M's current position as a printable string 
+\end{DoxyReturn}
+
+
+\-Definition at line 77 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!init@{init}}
 \index{init@{init}!ManusArm@{\-Manus\-Arm}}
@@ -198,7 +274,11 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_aeb2e212f64c683e45a6f5bb90afb1a70}
 
 
-\-Definition at line 539 of file \-Manus\-Arm.\-cpp.
+\-Inits the \-A\-R\-M. 
+
+\-Establishes a connection to the \-A\-R\-M hardware. 
+
+\-Definition at line 620 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!instance@{instance}}
 \index{instance@{instance}!ManusArm@{\-Manus\-Arm}}
@@ -209,7 +289,16 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [static]}}\label{classManusArm_a70516aaf8fa75276f7bb7bcd1912671c}
 
 
-\-Definition at line 530 of file \-Manus\-Arm.\-cpp.
+\-Returns the \-A\-R\-M instance. 
+
+\-The \-A\-R\-M is a singleton; this method allows only one instance
+
+\begin{DoxyReturn}{\-Returns}
+the \-A\-R\-M instance 
+\end{DoxyReturn}
+
+
+\-Definition at line 606 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!is\-Move\-Complete@{is\-Move\-Complete}}
 \index{is\-Move\-Complete@{is\-Move\-Complete}!ManusArm@{\-Manus\-Arm}}
@@ -220,7 +309,7 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [inline]}}\label{classManusArm_a1cff3017b09dfaace5f2c9ca4844d21e}
 
 
-\-Definition at line 131 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 140 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!move\-Cartesian@{move\-Cartesian}}
 \index{move\-Cartesian@{move\-Cartesian}!ManusArm@{\-Manus\-Arm}}
@@ -231,7 +320,18 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_a66cd2a077fbcdc00d19c76677c900380}
 
 
-\-Definition at line 121 of file \-Manus\-Arm.\-cpp.
+\-Binds the cartesian movement method and the movement command to a thread. 
+
+\-Call this method to move the arm with a cartesian movement message.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cmd} & the cartesian movement message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 150 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!move\-Constant@{move\-Constant}}
 \index{move\-Constant@{move\-Constant}!ManusArm@{\-Manus\-Arm}}
@@ -242,7 +342,18 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_ab76c4573bfc84e4ce5fe2ad36a8b2522}
 
 
-\-Definition at line 283 of file \-Manus\-Arm.\-cpp.
+\-Binds the constant movement method and the movement command to a thread. 
+
+\-Call this method to move the arm with a constant movement message.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cmd} & the constant movement message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 326 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!operator=@{operator=}}
 \index{operator=@{operator=}!ManusArm@{\-Manus\-Arm}}
@@ -260,7 +371,7 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a2b53abbc51a096d44b83d6c8922aaacf}
 
 
-\-Definition at line 382 of file \-Manus\-Arm.\-cpp.
+\-Definition at line 451 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!send\-Frames@{send\-Frames}}
 \index{send\-Frames@{send\-Frames}!ManusArm@{\-Manus\-Arm}}
@@ -278,7 +389,11 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a68f67d7fbe6b235e718c7d89f1350da8}
 
 
-\-Definition at line 313 of file \-Manus\-Arm.\-cpp.
+\-Puts the \-A\-R\-M in cartesian mode. 
+
+
+
+\-Definition at line 366 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!set\-Cbox@{set\-Cbox}}
 \index{set\-Cbox@{set\-Cbox}!ManusArm@{\-Manus\-Arm}}
@@ -289,8 +404,15 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a524ebb2131f986b34ff56865b50d3dca}
 
+\begin{DoxyParams}{\-Parameters}
+{\em cbox} & \\
+\hline
+{\em frm} & \\
+\hline
+\end{DoxyParams}
 
-\-Definition at line 100 of file \-Manus\-Arm.\-cpp.
+
+\-Definition at line 122 of file \-Manus\-Arm.\-cpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!set\-Move\-Complete@{set\-Move\-Complete}}
 \index{set\-Move\-Complete@{set\-Move\-Complete}!ManusArm@{\-Manus\-Arm}}
@@ -301,7 +423,7 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )\hspace{0.3cm}{\ttfamily  [inline]}}\label{classManusArm_a4369585e90bd37e57dab71c0e7771d8a}
 
 
-\-Definition at line 132 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 141 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!unfold@{unfold}}
 \index{unfold@{unfold}!ManusArm@{\-Manus\-Arm}}
@@ -312,7 +434,11 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 )}\label{classManusArm_a29b633fe436ba500058634b8e0a029e5}
 
 
-\-Definition at line 337 of file \-Manus\-Arm.\-cpp.
+\-Unfolds the \-A\-R\-M. 
+
+
+
+\-Definition at line 399 of file \-Manus\-Arm.\-cpp.
 
 
 
@@ -322,56 +448,56 @@ static {\bf \-Manus\-Arm} $\ast$ {\bf arm\-Instance} = \-N\-U\-L\-L
 \subsubsection[{arm\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm} $\ast$ {\bf \-Manus\-Arm\-::arm\-Instance} = \-N\-U\-L\-L\hspace{0.3cm}{\ttfamily  [static, private]}}\label{classManusArm_a42d2c51a5c40c4cdfcaff295d3e8ebec}
 
 
-\-Definition at line 99 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 108 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!can\-Sock@{can\-Sock}}
 \index{can\-Sock@{can\-Sock}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{can\-Sock}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Manus\-Arm\-::can\-Sock}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a2aca70c56fae01836147fb6fbe05d292}
 
 
-\-Definition at line 102 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 111 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!curr\-State@{curr\-State}}
 \index{curr\-State@{curr\-State}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{curr\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf arm\-State} {\bf \-Manus\-Arm\-::curr\-State}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a9af73ad8208aaed94c4319081efeadb0}
 
 
-\-Definition at line 107 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 116 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!motion\-Thread@{motion\-Thread}}
 \index{motion\-Thread@{motion\-Thread}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{motion\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::thread {\bf \-Manus\-Arm\-::motion\-Thread}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a5de1755d7b642cba75ac858610f62915}
 
 
-\-Definition at line 121 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 130 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!move\-Complete@{move\-Complete}}
 \index{move\-Complete@{move\-Complete}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{move\-Complete}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Manus\-Arm\-::move\-Complete}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_ae7596bcc4efbf188e2999e9488a60043}
 
 
-\-Definition at line 108 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 117 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!running@{running}}
 \index{running@{running}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{running}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Manus\-Arm\-::running}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_ae75dc5af7c9c1e60bed18699f0e5bf4e}
 
 
-\-Definition at line 103 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 112 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!send\-Queue@{send\-Queue}}
 \index{send\-Queue@{send\-Queue}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{send\-Queue}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$can\-\_\-frame$>$ {\bf \-Manus\-Arm\-::send\-Queue}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_ae2c56bb1f4f070175e891f53e89b5db2}
 
 
-\-Definition at line 114 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 123 of file \-Manus\-Arm.\-hpp.
 
 \index{\-Manus\-Arm@{\-Manus\-Arm}!state\-Mutex@{state\-Mutex}}
 \index{state\-Mutex@{state\-Mutex}!ManusArm@{\-Manus\-Arm}}
 \subsubsection[{state\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex {\bf \-Manus\-Arm\-::state\-Mutex}\hspace{0.3cm}{\ttfamily  [private]}}\label{classManusArm_a5391659e5a713fc592825b8758a27edf}
 
 
-\-Definition at line 109 of file \-Manus\-Arm.\-hpp.
+\-Definition at line 118 of file \-Manus\-Arm.\-hpp.
 
 
 

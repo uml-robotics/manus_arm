@@ -1,8 +1,7 @@
-// =============================================================================
-// Name     : arm_control.h
-// Copyright: 2012 University of Massachusetts Lowell
-// Author   : Jonathan Hasenzahl
-// =============================================================================
+/*
+ * arm_control.h
+ * Copyright 2013 University of Massachusetts Lowell
+ */
 
 #ifndef ARM_CONTROL_H_
 #define ARM_CONTROL_H_
@@ -25,7 +24,7 @@
  * the ArmControl object has been created, the node will run with no further
  * operation.
  *
- * \copyright 2012 University of Massachusetts Lowell
+ * \copyright Copyright 2013 University of Massachusetts Lowell
  * \author Jonathan Hasenzahl
  */
 class ArmControl 

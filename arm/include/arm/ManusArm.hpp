@@ -1,5 +1,6 @@
-/* Singleton class representing the arm.
- *
+/*
+ * ManusArm.hpp
+ * Copyright 2013 University of Massachusetts Lowell
  */
 
 #ifndef MANUS_ARM_HPP_
@@ -79,7 +80,9 @@ float sign(float n)
     return ((n >= 0) ? 1.0f : -1.0f);
 }
 
-/* for ARM state */
+/*!
+ * \brief Stores ARM state.
+ */
 struct armState
 {
 	bool isValid;
@@ -88,6 +91,12 @@ struct armState
 	std::string message;
 };
 
+/*!
+ * \brief Singleton class representing the ARM.
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Abe Shultz
+ * \author Jonathan Hasenzahl
+ */
 class ManusArm
 {
 private:

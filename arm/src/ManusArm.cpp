@@ -1,3 +1,8 @@
+/*
+ * ManusArm.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ */
+
 #include "arm/ManusArm.hpp"
 #include "arm/MoUT.hpp"
 
@@ -6,6 +11,10 @@ using namespace std;
 /* Pointer to the existing instance */
 ManusArm* ManusArm::armInstance = NULL;
 
+/*!
+ * \brief Gets current ARM position.
+ * \param fill array of floats to which the ARM positions will be stored
+ */
 void ManusArm::getPosition(float fill[])
 {
 	//get current position
@@ -19,6 +28,10 @@ void ManusArm::getPosition(float fill[])
 	}
 }
 
+/*!
+ * \brief Returns the ARM's current position as a CSV string.
+ * \return the ARM's current position as a CSV string
+ */
 string ManusArm::getCsvState()
 {
 	//Probably shouldn't lock here, as it only reads, and is used for debugging
@@ -57,6 +70,10 @@ string ManusArm::getCsvState()
 	return sb.str();
 }
 
+/*!
+ * \brief Returns the ARM's current position as a printable string.
+ * \return the ARM's current position as a printable string
+ */
 string ManusArm::getPrintState()
 {
 	//Should not lock here, only reads, useful for debugging as arm moves
@@ -97,6 +114,11 @@ string ManusArm::getPrintState()
 	return sb.str();
 }
 
+/*!
+ * \brief
+ * \param cbox
+ * \param frm
+ */
 void ManusArm::setCbox(int cbox, can_frame* frm)
 {
 	boost::mutex::scoped_lock lock(stateMutex);
@@ -118,11 +140,25 @@ void ManusArm::setCbox(int cbox, can_frame* frm)
  *  We don't have a lift unit. The valid values are -1 (up), 0 (off), and 1 (down)
  */
 
+/*!
+ * \brief Binds the cartesian movement method and the movement command to a thread.
+ *
+ * Call this method to move the arm with a cartesian movement message.
+ *
+ * \param cmd the cartesian movement message
+ */
 void ManusArm::moveCartesian(const CartesianMove& cmd)
 {
 	motionThread = boost::thread(boost::bind(&ManusArm::doCartesianMove, this, cmd));
 }
 
+/*!
+ * \brief Moves the ARM to the position specified in the message.
+ *
+ * The ARM will stop when it reaches its destination.
+ *
+ * \param cmd the cartesian movement message
+ */
 void ManusArm::doCartesianMove(const CartesianMove& cmd)
 {
 	// A lot of the logic here is from can_comm.cpp's function pd_control()
@@ -280,11 +316,25 @@ void ManusArm::doCartesianMove(const CartesianMove& cmd)
 	}
 }
 
+/*!
+ * \brief Binds the constant movement method and the movement command to a thread.
+ *
+ * Call this method to move the arm with a constant movement message.
+ *
+ * \param cmd the constant movement message
+ */
 void ManusArm::moveConstant(const ConstantMove& cmd)
 {
     motionThread = boost::thread(boost::bind(&ManusArm::doConstantMove, this, cmd));
 }
 
+/*!
+ * \brief Moves the ARM in the direction specified in the message.
+ *
+ * This is a constant motion; the ARM will not stop until it is told otherwise.
+ *
+ * \param cmd the constant movement message
+ */
 void ManusArm::doConstantMove(const ConstantMove& cmd)
 {
 	// The struct can_frame uses a different order for axes of movement:
@@ -310,6 +360,9 @@ void ManusArm::doConstantMove(const ConstantMove& cmd)
 	boost::this_thread::sleep(boost::posix_time::milliseconds(60));
 }
 
+/*!
+ * \brief Puts the ARM in cartesian mode.
+ */
 void ManusArm::setCartesian()
 {
 	struct can_frame frm;
@@ -324,6 +377,12 @@ void ManusArm::setCartesian()
 	enqueueFrame(frm);
 }
 
+/*!
+ * \brief Folds the ARM.
+ *
+ * Warning: Be sure that the ARM is free of obstructions (wires/cords, etc)
+ * when folding or else it will get stuck and will not unfold.
+ */
 void ManusArm::fold()
 {
 	struct can_frame frm;
@@ -334,6 +393,9 @@ void ManusArm::fold()
 	enqueueFrame(frm);
 }
 
+/*!
+ * \brief Unfolds the ARM.
+ */
 void ManusArm::unfold()
 {
 	struct can_frame frm;
@@ -345,6 +407,10 @@ void ManusArm::unfold()
 	enqueueFrame(frm);
 }
 
+/*!
+ * \brief Adds a frame to the ARM's message queue.
+ * \param toSend the frame to add to the queue
+ */
 void ManusArm::enqueueFrame(can_frame toSend)
 {
 	if (!sendQueue.empty())
@@ -379,6 +445,9 @@ void ManusArm::enqueueFrame(can_frame toSend)
 	sendQueue.insert(sendQueue.begin(), toSend);
 }
 
+/*!
+ * \brief
+ */
 void ManusArm::pollCanSocket()
 {
 	struct can_frame frame;
@@ -527,6 +596,13 @@ void ManusArm::pollCanSocket()
 	}
 }
 
+/*!
+ * \brief Returns the ARM instance
+ *
+ * The ARM is a singleton; this method allows only one instance
+ *
+ * \return the ARM instance
+ */
 ManusArm* ManusArm::instance()
 {
 	if (!armInstance)
@@ -536,6 +612,11 @@ ManusArm* ManusArm::instance()
 	return armInstance;
 }
 
+/*!
+ * \brief Inits the ARM.
+ *
+ * Establishes a connection to the ARM hardware.
+ */
 int ManusArm::init(string interface)
 {
 	moveComplete = false;
@@ -633,12 +714,18 @@ int ManusArm::init(string interface)
 	return 0;
 }
 
+/*!
+ * \brief
+ */
 ManusArm::ManusArm()
 {
 	//Not valid until the polling thread updates the state
 	currState.isValid = false;
 }
-/* Exceptions from the arm class */
+
+/*!
+ * \brief Exceptions from the ARM class
+ */
 ArmException::ArmException(char* message) throw ()
 {
 	msg = (char*) malloc(strlen(message));
@@ -648,6 +735,9 @@ ArmException::ArmException(char* message) throw ()
 	}
 }
 
+/*!
+ * \brief
+ */
 const char* ArmException::what() const throw ()
 {
 	return msg;

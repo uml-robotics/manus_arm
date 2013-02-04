@@ -1,8 +1,7 @@
-// =============================================================================
-// Name     : arm_control.h
-// Copyright: 2012 University of Massachusetts Lowell
-// Author   : Jonathan Hasenzahl, Abe Shultz
-// =============================================================================
+/*
+ * arm_control.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ */
 
 #include "arm/arm_control.h"
 #include <cstdio>
@@ -235,6 +234,9 @@ void ArmControl::constantMoveTimeCallback(const arm::constant_move_time::ConstPt
         ROS_ERROR("Time server is not responding, movement command skipped");
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "arm_control");

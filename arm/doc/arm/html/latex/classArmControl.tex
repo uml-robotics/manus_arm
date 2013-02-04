@@ -56,14 +56,14 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \-This node receives movement commands from teleop nodes and moves the arm hardware appropriately. \-The operation of the node is autonomous; after the \doxyref{\-Arm\-Control}{p.}{classArmControl} object has been created, the node will run with no further operation.
 
 \begin{DoxyCopyright}{\-Copyright}
-2012 \-University of \-Massachusetts \-Lowell 
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
 \end{DoxyCopyright}
 \begin{DoxyAuthor}{\-Author}
 \-Jonathan \-Hasenzahl 
 \end{DoxyAuthor}
 
 
-\-Definition at line 31 of file arm\-\_\-control.\-h.
+\-Definition at line 30 of file arm\-\_\-control.\-h.
 
 
 
@@ -81,7 +81,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 
 \-Calls the init and run methods. 
 
-\-Definition at line 16 of file arm\-\_\-control.\-cpp.
+\-Definition at line 15 of file arm\-\_\-control.\-cpp.
 
 
 
@@ -106,7 +106,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \end{DoxyParams}
 
 
-\-Definition at line 115 of file arm\-\_\-control.\-cpp.
+\-Definition at line 114 of file arm\-\_\-control.\-cpp.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!constant\-Move\-Callback@{constant\-Move\-Callback}}
 \index{constant\-Move\-Callback@{constant\-Move\-Callback}!ArmControl@{\-Arm\-Control}}
@@ -128,7 +128,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \end{DoxyParams}
 
 
-\-Definition at line 170 of file arm\-\_\-control.\-cpp.
+\-Definition at line 169 of file arm\-\_\-control.\-cpp.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!constant\-Move\-Time\-Callback@{constant\-Move\-Time\-Callback}}
 \index{constant\-Move\-Time\-Callback@{constant\-Move\-Time\-Callback}!ArmControl@{\-Arm\-Control}}
@@ -150,7 +150,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \end{DoxyParams}
 
 
-\-Definition at line 199 of file arm\-\_\-control.\-cpp.
+\-Definition at line 198 of file arm\-\_\-control.\-cpp.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!init@{init}}
 \index{init@{init}!ArmControl@{\-Arm\-Control}}
@@ -165,7 +165,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 
 \-There are two functions of the init method\-: it first subscribes to the necessary \-R\-O\-S topics to receive movement commands, and it then initializes the arm hardware. 
 
-\-Definition at line 29 of file arm\-\_\-control.\-cpp.
+\-Definition at line 28 of file arm\-\_\-control.\-cpp.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!run@{run}}
 \index{run@{run}!ArmControl@{\-Arm\-Control}}
@@ -180,7 +180,7 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 
 \-Before the main loop, the arm is moved into its origin position. \-The method then enters a spin loop until the shutdown flag is set to true (via a \-R\-O\-S message) or \-Ctrl+\-C is pressed. \-After the loop exits, the arm is moved into its final position. 
 
-\-Definition at line 65 of file arm\-\_\-control.\-cpp.
+\-Definition at line 64 of file arm\-\_\-control.\-cpp.
 
 
 
@@ -190,63 +190,63 @@ ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
 \subsubsection[{arm\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Manus\-Arm}$\ast$ {\bf \-Arm\-Control\-::arm\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_af06b9f6f206277e7100bba772c91c04f}
 
 
-\-Definition at line 48 of file arm\-\_\-control.\-h.
+\-Definition at line 47 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!cartesian\-\_\-move\-\_\-@{cartesian\-\_\-move\-\_\-}}
 \index{cartesian\-\_\-move\-\_\-@{cartesian\-\_\-move\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{cartesian\-\_\-move\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Cartesian\-Move} {\bf \-Arm\-Control\-::cartesian\-\_\-move\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_aac4f84304fb05a479ec652fd9063d83d}
 
 
-\-Definition at line 49 of file arm\-\_\-control.\-h.
+\-Definition at line 48 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!cartesian\-\_\-sub\-\_\-@{cartesian\-\_\-sub\-\_\-}}
 \index{cartesian\-\_\-sub\-\_\-@{cartesian\-\_\-sub\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{cartesian\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Arm\-Control\-::cartesian\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_aae25864b22982a34d0cbe530a11cd0c1}
 
 
-\-Definition at line 44 of file arm\-\_\-control.\-h.
+\-Definition at line 43 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!constant\-\_\-move\-\_\-@{constant\-\_\-move\-\_\-}}
 \index{constant\-\_\-move\-\_\-@{constant\-\_\-move\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{constant\-\_\-move\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Constant\-Move} {\bf \-Arm\-Control\-::constant\-\_\-move\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_a891d406c9be6c6e3801a2e392364fcd1}
 
 
-\-Definition at line 50 of file arm\-\_\-control.\-h.
+\-Definition at line 49 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!constant\-\_\-sub\-\_\-@{constant\-\_\-sub\-\_\-}}
 \index{constant\-\_\-sub\-\_\-@{constant\-\_\-sub\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{constant\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Arm\-Control\-::constant\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_a51f82f2c94949fc24393d496dc41f16b}
 
 
-\-Definition at line 45 of file arm\-\_\-control.\-h.
+\-Definition at line 44 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!constant\-\_\-time\-\_\-sub\-\_\-@{constant\-\_\-time\-\_\-sub\-\_\-}}
 \index{constant\-\_\-time\-\_\-sub\-\_\-@{constant\-\_\-time\-\_\-sub\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{constant\-\_\-time\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Arm\-Control\-::constant\-\_\-time\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_abb25af1f32fb8fec007972182d54d7d1}
 
 
-\-Definition at line 46 of file arm\-\_\-control.\-h.
+\-Definition at line 45 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!n\-\_\-@{n\-\_\-}}
 \index{n\-\_\-@{n\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Arm\-Control\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ac7aac224c9d677c0ae7fe94de9d8f5ce}
 
 
-\-Definition at line 43 of file arm\-\_\-control.\-h.
+\-Definition at line 42 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!shutdown\-\_\-@{shutdown\-\_\-}}
 \index{shutdown\-\_\-@{shutdown\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{shutdown\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Arm\-Control\-::shutdown\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_ad5509d7953165026c865c1cb64785ab3}
 
 
-\-Definition at line 51 of file arm\-\_\-control.\-h.
+\-Definition at line 50 of file arm\-\_\-control.\-h.
 
 \index{\-Arm\-Control@{\-Arm\-Control}!time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}}
 \index{time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}!ArmControl@{\-Arm\-Control}}
 \subsubsection[{time\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client {\bf \-Arm\-Control\-::time\-\_\-client\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classArmControl_aa2dabe49a9e661441d6a641e4aec94e9}
 
 
-\-Definition at line 47 of file arm\-\_\-control.\-h.
+\-Definition at line 46 of file arm\-\_\-control.\-h.
 
 
 

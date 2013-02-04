@@ -57,6 +57,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <!-- doxytag: class="ManusArm" -->
+<p>Singleton class representing the ARM. </p>
+<dl class="copyright"><dt><b>Copyright:</b></dt><dd>Copyright 2013 University of Massachusetts Lowell. </dd></dl>
+ 
+ <a href="classManusArm.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>&gt;</code></p>
 
 <p><a href="classManusArm-members.html">List of all members.</a></p>
@@ -64,29 +69,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a379092d8f07c767962911d2a410d9d63">fold</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Folds the ARM.  <a href="#a379092d8f07c767962911d2a410d9d63"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a7584b3f88ddc538a8308d7bb7ff1fb89">getCsvState</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ARM's current position as a CSV string.  <a href="#a7584b3f88ddc538a8308d7bb7ff1fb89"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a8217be714212e6d547bcd81650295816">getPosition</a> (float position[])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current ARM position.  <a href="#a8217be714212e6d547bcd81650295816"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#ac6fa919efbacf860202362c1b3611f48">getPrintState</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ARM's current position as a printable string.  <a href="#ac6fa919efbacf860202362c1b3611f48"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#aeb2e212f64c683e45a6f5bb90afb1a70">init</a> (std::string interface)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Inits the ARM.  <a href="#aeb2e212f64c683e45a6f5bb90afb1a70"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a1cff3017b09dfaace5f2c9ca4844d21e">isMoveComplete</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a66cd2a077fbcdc00d19c76677c900380">moveCartesian</a> (const <a class="el" href="structCartesianMove.html">CartesianMove</a> &amp;cmd)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds the cartesian movement method and the movement command to a thread.  <a href="#a66cd2a077fbcdc00d19c76677c900380"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">moveConstant</a> (const <a class="el" href="structConstantMove.html">ConstantMove</a> &amp;cmd)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds the constant movement method and the movement command to a thread.  <a href="#ab76c4573bfc84e4ce5fe2ad36a8b2522"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">setMoveComplete</a> (bool move_complete)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a29b633fe436ba500058634b8e0a029e5">unfold</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Unfolds the ARM.  <a href="#a29b633fe436ba500058634b8e0a029e5"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classManusArm.html">ManusArm</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a70516aaf8fa75276f7bb7bcd1912671c">instance</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ARM instance.  <a href="#a70516aaf8fa75276f7bb7bcd1912671c"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a69c7427307b8a4c2a9c748065e953923">doCartesianMove</a> (const <a class="el" href="structCartesianMove.html">CartesianMove</a> &amp;cmd)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the ARM to the position specified in the message.  <a href="#a69c7427307b8a4c2a9c748065e953923"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#aa42e3da7e512f331e7728e3e9d1eccc2">doConstantMove</a> (const <a class="el" href="structConstantMove.html">ConstantMove</a> &amp;cmd)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the ARM in the direction specified in the message.  <a href="#aa42e3da7e512f331e7728e3e9d1eccc2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#aed49dbca7f8fbcdf7499b449cbab4396">enqueueFrame</a> (can_frame toSend)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a frame to the ARM's message queue.  <a href="#aed49dbca7f8fbcdf7499b449cbab4396"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a0011ca8159b691c82367eb97008dbdbc">ManusArm</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a82ac8aa98cf655bffedc2489a17c858c">ManusArm</a> (<a class="el" href="classManusArm.html">ManusArm</a> const &amp;)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classManusArm.html">ManusArm</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a4a64884b2691e2734b66d7cc3df13cc3">operator=</a> (<a class="el" href="classManusArm.html">ManusArm</a> const &amp;)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a2b53abbc51a096d44b83d6c8922aaacf">pollCanSocket</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a79c19cabf9926904a4eef54ce9c5c2e9">sendFrames</a> (can_frame frame)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a68f67d7fbe6b235e718c7d89f1350da8">setCartesian</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Puts the ARM in cartesian mode.  <a href="#a68f67d7fbe6b235e718c7d89f1350da8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a524ebb2131f986b34ff56865b50d3dca">setCbox</a> (int cbox, can_frame *frm)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -102,8 +120,13 @@ Static Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classManusArm.html">ManusArm</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManusArm.html#a42d2c51a5c40c4cdfcaff295d3e8ebec">armInstance</a> = NULL</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00091">91</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<div class="textblock"><p>Singleton class representing the ARM. </p>
+<dl class="copyright"><dt><b>Copyright:</b></dt><dd>Copyright 2013 University of Massachusetts Lowell. </dd></dl>
+<dl class="author"><dt><b>Author:</b></dt><dd>Abe Shultz </dd>
+<dd>
+Jonathan Hasenzahl </dd></dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00100">100</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0011ca8159b691c82367eb97008dbdbc"></a><!-- doxytag: member="ManusArm::ManusArm" ref="a0011ca8159b691c82367eb97008dbdbc" args="()" -->
 <div class="memitem">
@@ -119,7 +142,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00636">636</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00720">720</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -138,7 +161,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00096">96</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00105">105</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -158,7 +181,16 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00126">126</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Moves the ARM to the position specified in the message. </p>
+<p>The ARM will stop when it reaches its destination.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the cartesian movement message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00162">162</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -177,7 +209,16 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00288">288</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Moves the ARM in the direction specified in the message. </p>
+<p>This is a constant motion; the ARM will not stop until it is told otherwise.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the constant movement message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00338">338</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -196,7 +237,15 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00348">348</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Adds a frame to the ARM's message queue. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">toSend</td><td>the frame to add to the queue </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00414">414</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -214,7 +263,10 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00327">327</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Folds the ARM. </p>
+<p>Warning: Be sure that the ARM is free of obstructions (wires/cords, etc) when folding or else it will get stuck and will not unfold. </p>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00386">386</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -232,7 +284,10 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00022">22</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Returns the ARM's current position as a CSV string. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the ARM's current position as a CSV string </dd></dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00035">35</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -244,14 +299,22 @@ Static Private Attributes</h2></td></tr>
           <td class="memname">void <a class="el" href="classManusArm.html#a8217be714212e6d547bcd81650295816">ManusArm::getPosition</a> </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>position</em>[]</td><td>)</td>
+          <td class="paramname"><em>fill</em>[]</td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00009">9</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Gets current ARM position. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fill</td><td>array of floats to which the ARM positions will be stored </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00018">18</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -269,7 +332,10 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00060">60</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Returns the ARM's current position as a printable string. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the ARM's current position as a printable string </dd></dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00077">77</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -288,7 +354,10 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00539">539</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Inits the ARM. </p>
+<p>Establishes a connection to the ARM hardware. </p>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00620">620</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -306,7 +375,11 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00530">530</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Returns the ARM instance. </p>
+<p>The ARM is a singleton; this method allows only one instance</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the ARM instance </dd></dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00606">606</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -324,7 +397,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00131">131</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00140">140</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -343,7 +416,16 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00121">121</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Binds the cartesian movement method and the movement command to a thread. </p>
+<p>Call this method to move the arm with a cartesian movement message.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the cartesian movement message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00150">150</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -362,7 +444,16 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00283">283</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Binds the constant movement method and the movement command to a thread. </p>
+<p>Call this method to move the arm with a constant movement message.</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>the constant movement message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00326">326</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -397,7 +488,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00382">382</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00451">451</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -432,7 +523,9 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00313">313</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Puts the ARM in cartesian mode. </p>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00366">366</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -460,8 +553,15 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cbox</td><td></td></tr>
+    <tr><td class="paramname">frm</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00100">100</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00122">122</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +580,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00132">132</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00141">141</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -498,7 +598,9 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00337">337</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
+<p>Unfolds the ARM. </p>
+
+<p>Definition at line <a class="el" href="ManusArm_8cpp_source.html#l00399">399</a> of file <a class="el" href="ManusArm_8cpp_source.html">ManusArm.cpp</a>.</p>
 
 </div>
 </div>
@@ -514,7 +616,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00099">99</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00108">108</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -529,7 +631,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00102">102</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00111">111</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -544,7 +646,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00107">107</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00116">116</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -559,7 +661,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00121">121</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00130">130</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -574,7 +676,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00108">108</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00117">117</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -589,7 +691,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00103">103</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00112">112</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -604,7 +706,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00114">114</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00123">123</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -619,7 +721,7 @@ Static Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00109">109</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
+<p>Definition at line <a class="el" href="ManusArm_8hpp_source.html#l00118">118</a> of file <a class="el" href="ManusArm_8hpp_source.html">ManusArm.hpp</a>.</p>
 
 </div>
 </div>
@@ -647,7 +749,7 @@ Static Private Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Fri Nov 9 2012 17:51:21</small>
+<small>autogenerated on Mon Feb 4 2013 14:51:44</small>
 </div>
 </body>
 </html>
