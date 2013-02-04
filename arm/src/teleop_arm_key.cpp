@@ -1,3 +1,8 @@
+/*
+ * teleop_arm_key.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ */
+
 // =============================================================================
 // Name   : teleop_arm_key.cpp
 // Author : Jonathan Hasenzahl
@@ -18,6 +23,11 @@
 int kfd = 0;
 struct termios cooked, raw;
 
+/*!
+ * \brief Default constructor.
+ *
+ * Starts the command publisher, and the runs the init method.
+ */
 TeleopArmKey::TeleopArmKey()
 {
     cmd_pub_ = n_.advertise<arm::constant_move>("constant_moves", 1);
@@ -28,6 +38,12 @@ TeleopArmKey::TeleopArmKey()
     init();
 }
 
+/*!
+ * \brief Initializes the node.
+ *
+ * Waits for a subscriber to the command publisher, and then runs the keyLoop
+ * method.
+ */
 void TeleopArmKey::init()
 {
     // Wait for a subscriber to "constant_moves" before continuing
@@ -36,6 +52,9 @@ void TeleopArmKey::init()
     keyLoop();
 }
 
+/*!
+ * \brief Interprets user keypresses into ARM control commands.
+ */
 void TeleopArmKey::keyLoop()
 {
     // Get the console in raw mode
@@ -84,6 +103,11 @@ void TeleopArmKey::keyLoop()
     }
 }
 
+/*!
+ * \brief Determines the command based on the input character.
+ * \param c the input character
+ * \return true if a new command was registered, false otherwise
+ */
 bool TeleopArmKey::getCommand(const char c)
 {
     bool new_command = true;
@@ -209,6 +233,9 @@ bool TeleopArmKey::getCommand(const char c)
     return new_command;
 }
 
+/*!
+ * \brief Prints movement states to the screen.
+ */
 void TeleopArmKey::print()
 {
     printf("\nX[%d] Y[%d] Z[%d]\n", cmd_.states[1], cmd_.states[2],
@@ -218,12 +245,18 @@ void TeleopArmKey::print()
     printf("Lift[%d] Speed[%d]\n", cmd_.states[7], cmd_.speeds[0]);
 }
 
+/*!
+ * \brief
+ */
 void quit(int sig)
 {
     tcsetattr(kfd, TCSANOW, &cooked);
     exit(0);
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     signal(SIGINT, quit);

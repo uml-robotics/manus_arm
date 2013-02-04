@@ -1,3 +1,8 @@
+/*
+ * movement_definitions.h
+ * Copyright 2013 University of Massachusetts Lowell
+ */
+
 #ifndef MOVEMENT_DEFINITIONS_H_
 #define MOVEMENT_DEFINITIONS_H_
 
@@ -60,14 +65,18 @@ const float FINAL_POSITION[][CART_MV_ARR_SZ] = { { 15000.0f,
 								                       0.0f,
 								                  -10000.0f } };
 
-// Struct for holding Cartesian movement data
+/*!
+ * \brief Struct for holding Cartesian movement data
+ */
 struct CartesianMove
 {
 	float positions[CART_MV_ARR_SZ];
 	int speeds[SPD_ARR_SZ];
 };
 
-// Struct for holding constant movement data
+/*!
+ * \brief Struct for holding constant movement data
+ */
 struct ConstantMove
 {
 	int states[CONST_MV_ARR_SZ];

@@ -50,46 +50,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">teleop_arm_dish.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="teleop__arm__dish_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">// =============================================================================</span>
-<a name="l00002"></a>00002 <span class="comment">// Name     : teleop_arm_dish.h</span>
-<a name="l00003"></a>00003 <span class="comment">// Copyright: 2012 University of Massachusetts Lowell</span>
-<a name="l00004"></a>00004 <span class="comment">// Author   : Jonathan Hasenzahl</span>
-<a name="l00005"></a>00005 <span class="comment">// =============================================================================</span>
-<a name="l00006"></a>00006 
-<a name="l00007"></a>00007 <span class="preprocessor">#ifndef TELEOP_ARM_DISH_H_</span>
-<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define TELEOP_ARM_DISH_H_</span>
-<a name="l00009"></a>00009 <span class="preprocessor"></span>
-<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;ros/ros.h&quot;</span>
-<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;burst_calc/cat.h&quot;</span>
-<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;queue&gt;</span>
-<a name="l00013"></a>00013 
-<a name="l00025"></a><a class="code" href="classTeleopArmDish.html">00025</a> <span class="keyword">class </span><a class="code" href="classTeleopArmDish.html" title="Neuron dish teleop node.">TeleopArmDish</a>
-<a name="l00026"></a>00026 {
-<a name="l00027"></a>00027 <span class="keyword">public</span>:
-<a name="l00028"></a>00028     <a class="code" href="classTeleopArmDish.html#af6ac3b39216a7c3cca530546ee66c434" title="Default constructor Calls the init and run methods.">TeleopArmDish</a>();
-<a name="l00029"></a>00029 
-<a name="l00030"></a>00030 <span class="keyword">private</span>:
-<a name="l00031"></a>00031     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a5e5b25c1f65133942d1bcd758f74733b" title="Initializes the node.">init</a>();
-<a name="l00032"></a>00032     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a450906f978e76edc1ff155fb8d745992" title="Gets the ROS server parameters necessary for proper operation.">getParams</a>();
-<a name="l00033"></a>00033     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#aa7661b56ca687ac871bbb22598888b77" title="Runs the node in a loop until Ctrl+C is pressed.">run</a>();
-<a name="l00034"></a>00034     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a41c0bff9f53c38a3776a7ac16e5346eb" title="Callback for center of trajectory messages.">callback</a>(<span class="keyword">const</span> burst_calc::cat::ConstPtr&amp; c);
-<a name="l00035"></a>00035     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a362f666ca6ce6502381e7605ed57f806" title="Publishes a cartesian movement command.">publishCartesianMove</a>();
-<a name="l00036"></a>00036     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a1bf48bd8f323817d9034fe4525671a6f">publishConstantMove</a>();
-<a name="l00037"></a>00037     <span class="keywordtype">double</span> <a class="code" href="classTeleopArmDish.html#a69d432970b7dadab56d52312d4a1e47f" title="Converts.">getArmCoord</a>(<span class="keywordtype">double</span> coord);
-<a name="l00038"></a>00038 
-<a name="l00039"></a><a class="code" href="classTeleopArmDish.html#a7d352245ea446cec76a044ef2111980c">00039</a>     ros::NodeHandle <a class="code" href="classTeleopArmDish.html#a7d352245ea446cec76a044ef2111980c">n_</a>;
-<a name="l00040"></a><a class="code" href="classTeleopArmDish.html#a0a8a24a61ff226a3c6cbedcc54eed9d8">00040</a>     ros::Subscriber <a class="code" href="classTeleopArmDish.html#a0a8a24a61ff226a3c6cbedcc54eed9d8">cat_sub_</a>;
-<a name="l00041"></a><a class="code" href="classTeleopArmDish.html#abe8f7637a1a628febfd0bef45563be83">00041</a>     ros::Publisher <a class="code" href="classTeleopArmDish.html#abe8f7637a1a628febfd0bef45563be83">cmd_pub_</a>;
-<a name="l00042"></a><a class="code" href="classTeleopArmDish.html#af52345768aead77d10975db6857e8f5c">00042</a>     ros::ServiceClient <a class="code" href="classTeleopArmDish.html#af52345768aead77d10975db6857e8f5c">time_client_</a>;
-<a name="l00043"></a>00043 
-<a name="l00044"></a><a class="code" href="classTeleopArmDish.html#ac8ded316a2ed2c47af85a525c97cd7fd">00044</a>     std::queue&lt;burst_calc::cat&gt; <a class="code" href="classTeleopArmDish.html#ac8ded316a2ed2c47af85a525c97cd7fd">queue_</a>;
-<a name="l00045"></a>00045 
-<a name="l00046"></a><a class="code" href="classTeleopArmDish.html#a1a2e94ab297615b9c4ba4dc7808207ef">00046</a>     <span class="keywordtype">int</span> <a class="code" href="classTeleopArmDish.html#a1a2e94ab297615b9c4ba4dc7808207ef">speed_</a>;
-<a name="l00047"></a><a class="code" href="classTeleopArmDish.html#a0c39d457f5123e8b3bf220738fd29f81">00047</a>     <span class="keywordtype">double</span> <a class="code" href="classTeleopArmDish.html#a0c39d457f5123e8b3bf220738fd29f81">arm_safe_range_</a>;
-<a name="l00048"></a><a class="code" href="classTeleopArmDish.html#a66e51dfe113d9dcbe90c93019cbc369c">00048</a>     <span class="keywordtype">double</span> <a class="code" href="classTeleopArmDish.html#a66e51dfe113d9dcbe90c93019cbc369c">max_range_from_midpoint_</a>;
-<a name="l00049"></a>00049 };
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051 <span class="preprocessor">#endif</span>
+<a href="teleop__arm__dish_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * teleop_arm_dish.h</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright 2013 University of Massachusetts Lowell</span>
+<a name="l00004"></a>00004 <span class="comment"> */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef TELEOP_ARM_DISH_H_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define TELEOP_ARM_DISH_H_</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;ros/ros.h&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;burst_calc/cat.h&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &lt;queue&gt;</span>
+<a name="l00012"></a>00012 
+<a name="l00024"></a><a class="code" href="classTeleopArmDish.html">00024</a> <span class="keyword">class </span><a class="code" href="classTeleopArmDish.html" title="Neuron dish teleop node.">TeleopArmDish</a>
+<a name="l00025"></a>00025 {
+<a name="l00026"></a>00026 <span class="keyword">public</span>:
+<a name="l00027"></a>00027     <a class="code" href="classTeleopArmDish.html#af6ac3b39216a7c3cca530546ee66c434" title="Default constructor Calls the init and run methods.">TeleopArmDish</a>();
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="keyword">private</span>:
+<a name="l00030"></a>00030     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a5e5b25c1f65133942d1bcd758f74733b" title="Initializes the node.">init</a>();
+<a name="l00031"></a>00031     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a450906f978e76edc1ff155fb8d745992" title="Gets the ROS server parameters necessary for proper operation.">getParams</a>();
+<a name="l00032"></a>00032     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#aa7661b56ca687ac871bbb22598888b77" title="Runs the node in a loop until Ctrl+C is pressed.">run</a>();
+<a name="l00033"></a>00033     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a41c0bff9f53c38a3776a7ac16e5346eb" title="Callback for center of trajectory messages.">callback</a>(<span class="keyword">const</span> burst_calc::cat::ConstPtr&amp; c);
+<a name="l00034"></a>00034     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a362f666ca6ce6502381e7605ed57f806" title="Publishes a cartesian movement command.">publishCartesianMove</a>();
+<a name="l00035"></a>00035     <span class="keywordtype">void</span> <a class="code" href="classTeleopArmDish.html#a1bf48bd8f323817d9034fe4525671a6f" title="Publishes a constant movement command.">publishConstantMove</a>();
+<a name="l00036"></a>00036     <span class="keywordtype">double</span> <a class="code" href="classTeleopArmDish.html#a69d432970b7dadab56d52312d4a1e47f" title="Converts CAT units to ARM units.">getArmCoord</a>(<span class="keywordtype">double</span> coord);
+<a name="l00037"></a>00037 
+<a name="l00038"></a><a class="code" href="classTeleopArmDish.html#a7d352245ea446cec76a044ef2111980c">00038</a>     ros::NodeHandle <a class="code" href="classTeleopArmDish.html#a7d352245ea446cec76a044ef2111980c">n_</a>;
+<a name="l00039"></a><a class="code" href="classTeleopArmDish.html#a0a8a24a61ff226a3c6cbedcc54eed9d8">00039</a>     ros::Subscriber <a class="code" href="classTeleopArmDish.html#a0a8a24a61ff226a3c6cbedcc54eed9d8">cat_sub_</a>;
+<a name="l00040"></a><a class="code" href="classTeleopArmDish.html#abe8f7637a1a628febfd0bef45563be83">00040</a>     ros::Publisher <a class="code" href="classTeleopArmDish.html#abe8f7637a1a628febfd0bef45563be83">cmd_pub_</a>;
+<a name="l00041"></a><a class="code" href="classTeleopArmDish.html#af52345768aead77d10975db6857e8f5c">00041</a>     ros::ServiceClient <a class="code" href="classTeleopArmDish.html#af52345768aead77d10975db6857e8f5c">time_client_</a>;
+<a name="l00042"></a>00042 
+<a name="l00043"></a><a class="code" href="classTeleopArmDish.html#ac8ded316a2ed2c47af85a525c97cd7fd">00043</a>     std::queue&lt;burst_calc::cat&gt; <a class="code" href="classTeleopArmDish.html#ac8ded316a2ed2c47af85a525c97cd7fd">queue_</a>;
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="classTeleopArmDish.html#a1a2e94ab297615b9c4ba4dc7808207ef">00045</a>     <span class="keywordtype">int</span> <a class="code" href="classTeleopArmDish.html#a1a2e94ab297615b9c4ba4dc7808207ef">speed_</a>;
+<a name="l00046"></a><a class="code" href="classTeleopArmDish.html#a0c39d457f5123e8b3bf220738fd29f81">00046</a>     <span class="keywordtype">double</span> <a class="code" href="classTeleopArmDish.html#a0c39d457f5123e8b3bf220738fd29f81">arm_safe_range_</a>;
+<a name="l00047"></a><a class="code" href="classTeleopArmDish.html#a66e51dfe113d9dcbe90c93019cbc369c">00047</a>     <span class="keywordtype">double</span> <a class="code" href="classTeleopArmDish.html#a66e51dfe113d9dcbe90c93019cbc369c">max_range_from_midpoint_</a>;
+<a name="l00048"></a>00048 };
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="preprocessor">#endif</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -110,7 +109,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Mon Feb 4 2013 14:51:44</small>
+<small>autogenerated on Mon Feb 4 2013 15:42:47</small>
 </div>
 </body>
 </html>

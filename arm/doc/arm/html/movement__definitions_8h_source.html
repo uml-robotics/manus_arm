@@ -50,83 +50,86 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">movement_definitions.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="movement__definitions_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef MOVEMENT_DEFINITIONS_H_</span>
-<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define MOVEMENT_DEFINITIONS_H_</span>
-<a name="l00003"></a>00003 <span class="preprocessor"></span>
-<a name="l00004"></a>00004 <span class="comment">// Movement states</span>
-<a name="l00005"></a><a class="code" href="movement__definitions_8h.html#ae19b6bb2940d2fbe0a79852b070eeafd">00005</a> <span class="preprocessor">#define STOP 0</span>
-<a name="l00006"></a><a class="code" href="movement__definitions_8h.html#afaf1ca86f4c12a57e30d35dfd9618a66">00006</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_FORWARD 1</span>
-<a name="l00007"></a><a class="code" href="movement__definitions_8h.html#af227584ee369710f294f0724a9b772f8">00007</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_BACKWARD -1</span>
-<a name="l00008"></a><a class="code" href="movement__definitions_8h.html#ae0944e572621495fec323e676968653c">00008</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_LEFT 1</span>
-<a name="l00009"></a><a class="code" href="movement__definitions_8h.html#ab5ea6f2e6b62247f6a3a185c51277693">00009</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_RIGHT -1</span>
-<a name="l00010"></a><a class="code" href="movement__definitions_8h.html#a5802759eadaedbee1fad0989f746e940">00010</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_UP 1</span>
-<a name="l00011"></a><a class="code" href="movement__definitions_8h.html#a191f209c61b974a7608dc6d5ae5f51f5">00011</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_DOWN -1</span>
-<a name="l00012"></a><a class="code" href="movement__definitions_8h.html#a83c521c50ba1120ca7afaa84e9ebb961">00012</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_YAW_LEFT 1</span>
-<a name="l00013"></a><a class="code" href="movement__definitions_8h.html#a6e06981dd9ae863e707aceb7361be4f6">00013</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_YAW_RIGHT -1</span>
-<a name="l00014"></a><a class="code" href="movement__definitions_8h.html#ac88299abc7bc4441403201ec70e81c44">00014</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_PITCH_UP 1</span>
-<a name="l00015"></a><a class="code" href="movement__definitions_8h.html#a0c2cee304fcbbfa52263626a439b1b7d">00015</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_PITCH_DOWN -1</span>
-<a name="l00016"></a><a class="code" href="movement__definitions_8h.html#a3cf24194f67ec5ee20f08bf3bb8cc155">00016</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_ROLL_LEFT -1</span>
-<a name="l00017"></a><a class="code" href="movement__definitions_8h.html#a335307a94adad5e2ef2ceebe03e472b8">00017</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_ROLL_RIGHT 1</span>
-<a name="l00018"></a><a class="code" href="movement__definitions_8h.html#a07f24b158c2cf8465cf2d891d4d18dde">00018</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_GRIP_OPEN 1</span>
-<a name="l00019"></a><a class="code" href="movement__definitions_8h.html#a6bc11e2464a676134fda2cdc139ec57a">00019</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_GRIP_CLOSE -1</span>
-<a name="l00020"></a><a class="code" href="movement__definitions_8h.html#ab1d03fc5bf15953f64274b0bd0648242">00020</a> <span class="preprocessor"></span><span class="preprocessor">#define LIFT_UP -1</span>
-<a name="l00021"></a><a class="code" href="movement__definitions_8h.html#a9aca61b9fb843d370108b53f4058be83">00021</a> <span class="preprocessor"></span><span class="preprocessor">#define LIFT_DOWN 1</span>
-<a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="comment">// Movement axis indexes</span>
-<a name="l00024"></a><a class="code" href="movement__definitions_8h.html#a207fd5507206d307cd63f95374fcd00d">00024</a> <span class="preprocessor">#define X 0 // Forward/backward</span>
-<a name="l00025"></a><a class="code" href="movement__definitions_8h.html#a798e4073d613ca5ba9618e1b3253df14">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define Y 1 // Left/right</span>
-<a name="l00026"></a><a class="code" href="movement__definitions_8h.html#a51591cf51bdd6c1f6015532422e7770e">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define Z 2 // Up/down</span>
-<a name="l00027"></a><a class="code" href="movement__definitions_8h.html#ac71b1e54b98dc1031873048bc61d0438">00027</a> <span class="preprocessor"></span><span class="preprocessor">#define YAW 3</span>
-<a name="l00028"></a><a class="code" href="movement__definitions_8h.html#acd633835a520a62245ec6cfeb6d00e97">00028</a> <span class="preprocessor"></span><span class="preprocessor">#define PITCH 4</span>
-<a name="l00029"></a><a class="code" href="movement__definitions_8h.html#af902416f65138704a180dbae2dc9d8f2">00029</a> <span class="preprocessor"></span><span class="preprocessor">#define ROLL 5</span>
-<a name="l00030"></a><a class="code" href="movement__definitions_8h.html#a54529b4ec313b990b5b4676fc431afc7">00030</a> <span class="preprocessor"></span><span class="preprocessor">#define GRIP 6</span>
-<a name="l00031"></a><a class="code" href="movement__definitions_8h.html#a87c4281ab0288154c50e55e63f1b5dce">00031</a> <span class="preprocessor"></span><span class="preprocessor">#define LIFT 7 // Not used with cartesian moves. Does not have a speed.</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span>
-<a name="l00033"></a>00033 <span class="comment">// Size of movement arrays</span>
-<a name="l00034"></a><a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">00034</a> <span class="preprocessor">#define CART_MV_ARR_SZ 7        // Cartesian movement array</span>
-<a name="l00035"></a><a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">00035</a> <span class="preprocessor"></span><span class="preprocessor">#define CONST_MV_ARR_SZ 8       // Constant movement array</span>
-<a name="l00036"></a><a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define SPD_ARR_SZ 7            // Speed array</span>
-<a name="l00037"></a><a class="code" href="movement__definitions_8h.html#afecba8bc4e960d8684a0c07d4c9d3a8e">00037</a> <span class="preprocessor"></span><span class="preprocessor">#define FRM_ARR_SZ 8            // Can frame array</span>
-<a name="l00038"></a>00038 <span class="preprocessor"></span>
-<a name="l00039"></a>00039 <span class="comment">// Arm origin position</span>
-<a name="l00040"></a><a class="code" href="movement__definitions_8h.html#a2ad0485bb435e29de38c196390aa2c8a">00040</a> <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code" href="movement__definitions_8h.html#a2ad0485bb435e29de38c196390aa2c8a">ORIGIN_POSITION</a>[] = {  15000.0f,
-<a name="l00041"></a>00041                                            -4500.0f,
-<a name="l00042"></a>00042                                            19000.0f,
-<a name="l00043"></a>00043                                                0.0f,
-<a name="l00044"></a>00044                                                0.0f,
-<a name="l00045"></a>00045                                                0.0f,
-<a name="l00046"></a>00046                                           -10000.0f };
-<a name="l00047"></a>00047 <span class="comment">// Arm final position</span>
-<a name="l00048"></a><a class="code" href="movement__definitions_8h.html#a5fe0052a1578f9613671455a0e91a77b">00048</a> <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code" href="movement__definitions_8h.html#a5fe0052a1578f9613671455a0e91a77b">FINAL_POSITION</a>[][<a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>] = { { 15000.0f,
-<a name="l00049"></a>00049                                                                                    -4500.0f,
-<a name="l00050"></a>00050                                                                                    19000.0f,
-<a name="l00051"></a>00051                                                                                        0.0f,
-<a name="l00052"></a>00052                                                                                        0.0f,
-<a name="l00053"></a>00053                                                                                        0.0f,
-<a name="l00054"></a>00054                                                                                   -10000.0f },
-<a name="l00055"></a>00055                                                                                  {  8000.0f,
-<a name="l00056"></a>00056                                                                                    -4500.0f,
-<a name="l00057"></a>00057                                                                                     6000.0f,
+<a href="movement__definitions_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * movement_definitions.h</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright 2013 University of Massachusetts Lowell</span>
+<a name="l00004"></a>00004 <span class="comment"> */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef MOVEMENT_DEFINITIONS_H_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define MOVEMENT_DEFINITIONS_H_</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="comment">// Movement states</span>
+<a name="l00010"></a><a class="code" href="movement__definitions_8h.html#ae19b6bb2940d2fbe0a79852b070eeafd">00010</a> <span class="preprocessor">#define STOP 0</span>
+<a name="l00011"></a><a class="code" href="movement__definitions_8h.html#afaf1ca86f4c12a57e30d35dfd9618a66">00011</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_FORWARD 1</span>
+<a name="l00012"></a><a class="code" href="movement__definitions_8h.html#af227584ee369710f294f0724a9b772f8">00012</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_BACKWARD -1</span>
+<a name="l00013"></a><a class="code" href="movement__definitions_8h.html#ae0944e572621495fec323e676968653c">00013</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_LEFT 1</span>
+<a name="l00014"></a><a class="code" href="movement__definitions_8h.html#ab5ea6f2e6b62247f6a3a185c51277693">00014</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_RIGHT -1</span>
+<a name="l00015"></a><a class="code" href="movement__definitions_8h.html#a5802759eadaedbee1fad0989f746e940">00015</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_UP 1</span>
+<a name="l00016"></a><a class="code" href="movement__definitions_8h.html#a191f209c61b974a7608dc6d5ae5f51f5">00016</a> <span class="preprocessor"></span><span class="preprocessor">#define ARM_DOWN -1</span>
+<a name="l00017"></a><a class="code" href="movement__definitions_8h.html#a83c521c50ba1120ca7afaa84e9ebb961">00017</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_YAW_LEFT 1</span>
+<a name="l00018"></a><a class="code" href="movement__definitions_8h.html#a6e06981dd9ae863e707aceb7361be4f6">00018</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_YAW_RIGHT -1</span>
+<a name="l00019"></a><a class="code" href="movement__definitions_8h.html#ac88299abc7bc4441403201ec70e81c44">00019</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_PITCH_UP 1</span>
+<a name="l00020"></a><a class="code" href="movement__definitions_8h.html#a0c2cee304fcbbfa52263626a439b1b7d">00020</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_PITCH_DOWN -1</span>
+<a name="l00021"></a><a class="code" href="movement__definitions_8h.html#a3cf24194f67ec5ee20f08bf3bb8cc155">00021</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_ROLL_LEFT -1</span>
+<a name="l00022"></a><a class="code" href="movement__definitions_8h.html#a335307a94adad5e2ef2ceebe03e472b8">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_ROLL_RIGHT 1</span>
+<a name="l00023"></a><a class="code" href="movement__definitions_8h.html#a07f24b158c2cf8465cf2d891d4d18dde">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_GRIP_OPEN 1</span>
+<a name="l00024"></a><a class="code" href="movement__definitions_8h.html#a6bc11e2464a676134fda2cdc139ec57a">00024</a> <span class="preprocessor"></span><span class="preprocessor">#define CLAW_GRIP_CLOSE -1</span>
+<a name="l00025"></a><a class="code" href="movement__definitions_8h.html#ab1d03fc5bf15953f64274b0bd0648242">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define LIFT_UP -1</span>
+<a name="l00026"></a><a class="code" href="movement__definitions_8h.html#a9aca61b9fb843d370108b53f4058be83">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define LIFT_DOWN 1</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00028"></a>00028 <span class="comment">// Movement axis indexes</span>
+<a name="l00029"></a><a class="code" href="movement__definitions_8h.html#a207fd5507206d307cd63f95374fcd00d">00029</a> <span class="preprocessor">#define X 0 // Forward/backward</span>
+<a name="l00030"></a><a class="code" href="movement__definitions_8h.html#a798e4073d613ca5ba9618e1b3253df14">00030</a> <span class="preprocessor"></span><span class="preprocessor">#define Y 1 // Left/right</span>
+<a name="l00031"></a><a class="code" href="movement__definitions_8h.html#a51591cf51bdd6c1f6015532422e7770e">00031</a> <span class="preprocessor"></span><span class="preprocessor">#define Z 2 // Up/down</span>
+<a name="l00032"></a><a class="code" href="movement__definitions_8h.html#ac71b1e54b98dc1031873048bc61d0438">00032</a> <span class="preprocessor"></span><span class="preprocessor">#define YAW 3</span>
+<a name="l00033"></a><a class="code" href="movement__definitions_8h.html#acd633835a520a62245ec6cfeb6d00e97">00033</a> <span class="preprocessor"></span><span class="preprocessor">#define PITCH 4</span>
+<a name="l00034"></a><a class="code" href="movement__definitions_8h.html#af902416f65138704a180dbae2dc9d8f2">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define ROLL 5</span>
+<a name="l00035"></a><a class="code" href="movement__definitions_8h.html#a54529b4ec313b990b5b4676fc431afc7">00035</a> <span class="preprocessor"></span><span class="preprocessor">#define GRIP 6</span>
+<a name="l00036"></a><a class="code" href="movement__definitions_8h.html#a87c4281ab0288154c50e55e63f1b5dce">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define LIFT 7 // Not used with cartesian moves. Does not have a speed.</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span>
+<a name="l00038"></a>00038 <span class="comment">// Size of movement arrays</span>
+<a name="l00039"></a><a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">00039</a> <span class="preprocessor">#define CART_MV_ARR_SZ 7        // Cartesian movement array</span>
+<a name="l00040"></a><a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">00040</a> <span class="preprocessor"></span><span class="preprocessor">#define CONST_MV_ARR_SZ 8       // Constant movement array</span>
+<a name="l00041"></a><a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">00041</a> <span class="preprocessor"></span><span class="preprocessor">#define SPD_ARR_SZ 7            // Speed array</span>
+<a name="l00042"></a><a class="code" href="movement__definitions_8h.html#afecba8bc4e960d8684a0c07d4c9d3a8e">00042</a> <span class="preprocessor"></span><span class="preprocessor">#define FRM_ARR_SZ 8            // Can frame array</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span>
+<a name="l00044"></a>00044 <span class="comment">// Arm origin position</span>
+<a name="l00045"></a><a class="code" href="movement__definitions_8h.html#a2ad0485bb435e29de38c196390aa2c8a">00045</a> <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code" href="movement__definitions_8h.html#a2ad0485bb435e29de38c196390aa2c8a">ORIGIN_POSITION</a>[] = {  15000.0f,
+<a name="l00046"></a>00046                                            -4500.0f,
+<a name="l00047"></a>00047                                            19000.0f,
+<a name="l00048"></a>00048                                                0.0f,
+<a name="l00049"></a>00049                                                0.0f,
+<a name="l00050"></a>00050                                                0.0f,
+<a name="l00051"></a>00051                                           -10000.0f };
+<a name="l00052"></a>00052 <span class="comment">// Arm final position</span>
+<a name="l00053"></a><a class="code" href="movement__definitions_8h.html#a5fe0052a1578f9613671455a0e91a77b">00053</a> <span class="keyword">const</span> <span class="keywordtype">float</span> <a class="code" href="movement__definitions_8h.html#a5fe0052a1578f9613671455a0e91a77b">FINAL_POSITION</a>[][<a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>] = { { 15000.0f,
+<a name="l00054"></a>00054                                                                                    -4500.0f,
+<a name="l00055"></a>00055                                                                                    19000.0f,
+<a name="l00056"></a>00056                                                                                        0.0f,
+<a name="l00057"></a>00057                                                                                        0.0f,
 <a name="l00058"></a>00058                                                                                        0.0f,
-<a name="l00059"></a>00059                                                                                        0.0f,
-<a name="l00060"></a>00060                                                                                        0.0f,
-<a name="l00061"></a>00061                                                                                   -10000.0f } };
-<a name="l00062"></a>00062 
-<a name="l00063"></a>00063 <span class="comment">// Struct for holding Cartesian movement data</span>
-<a name="l00064"></a><a class="code" href="structCartesianMove.html">00064</a> <span class="keyword">struct </span><a class="code" href="structCartesianMove.html">CartesianMove</a>
-<a name="l00065"></a>00065 {
-<a name="l00066"></a><a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">00066</a>         <span class="keywordtype">float</span> <a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[<a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>];
-<a name="l00067"></a><a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">00067</a>         <span class="keywordtype">int</span> <a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[<a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>];
-<a name="l00068"></a>00068 };
-<a name="l00069"></a>00069 
-<a name="l00070"></a>00070 <span class="comment">// Struct for holding constant movement data</span>
-<a name="l00071"></a><a class="code" href="structConstantMove.html">00071</a> <span class="keyword">struct </span><a class="code" href="structConstantMove.html">ConstantMove</a>
+<a name="l00059"></a>00059                                                                                   -10000.0f },
+<a name="l00060"></a>00060                                                                                  {  8000.0f,
+<a name="l00061"></a>00061                                                                                    -4500.0f,
+<a name="l00062"></a>00062                                                                                     6000.0f,
+<a name="l00063"></a>00063                                                                                        0.0f,
+<a name="l00064"></a>00064                                                                                        0.0f,
+<a name="l00065"></a>00065                                                                                        0.0f,
+<a name="l00066"></a>00066                                                                                   -10000.0f } };
+<a name="l00067"></a>00067 
+<a name="l00071"></a><a class="code" href="structCartesianMove.html">00071</a> <span class="keyword">struct </span><a class="code" href="structCartesianMove.html" title="Struct for holding Cartesian movement data.">CartesianMove</a>
 <a name="l00072"></a>00072 {
-<a name="l00073"></a><a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">00073</a>         <span class="keywordtype">int</span> <a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[<a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>];
-<a name="l00074"></a><a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">00074</a>         <span class="keywordtype">int</span> <a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">speeds</a>[<a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>]; <span class="comment">// No speed for lift unit</span>
+<a name="l00073"></a><a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">00073</a>         <span class="keywordtype">float</span> <a class="code" href="structCartesianMove.html#a5aca986f98b9c46901e768e3f6fa16d2">positions</a>[<a class="code" href="movement__definitions_8h.html#ac4f7e90d8d62871d3473fdac1e6b1806">CART_MV_ARR_SZ</a>];
+<a name="l00074"></a><a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">00074</a>         <span class="keywordtype">int</span> <a class="code" href="structCartesianMove.html#af5e1acb2dc5b03d418a49c52f3c152a4">speeds</a>[<a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>];
 <a name="l00075"></a>00075 };
 <a name="l00076"></a>00076 
-<a name="l00077"></a>00077 <span class="preprocessor">#endif</span>
+<a name="l00080"></a><a class="code" href="structConstantMove.html">00080</a> <span class="keyword">struct </span><a class="code" href="structConstantMove.html" title="Struct for holding constant movement data.">ConstantMove</a>
+<a name="l00081"></a>00081 {
+<a name="l00082"></a><a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">00082</a>         <span class="keywordtype">int</span> <a class="code" href="structConstantMove.html#a4e63d2d1fa0a42d2a462cd9ad3a7b9f2">states</a>[<a class="code" href="movement__definitions_8h.html#a1d07a34886a874f4026b13375d6f8eea">CONST_MV_ARR_SZ</a>];
+<a name="l00083"></a><a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">00083</a>         <span class="keywordtype">int</span> <a class="code" href="structConstantMove.html#a5c8f7515c66ed62480950f5937037f09">speeds</a>[<a class="code" href="movement__definitions_8h.html#aca2c74289eceba1c813a60b512d16473">SPD_ARR_SZ</a>]; <span class="comment">// No speed for lift unit</span>
+<a name="l00084"></a>00084 };
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 <span class="preprocessor">#endif</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -147,7 +150,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Mon Feb 4 2013 14:51:44</small>
+<small>autogenerated on Mon Feb 4 2013 15:42:47</small>
 </div>
 </body>
 </html>

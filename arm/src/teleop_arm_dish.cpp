@@ -1,8 +1,7 @@
-// =============================================================================
-// Name     : teleop_arm_dish.cpp
-// Copyright: 2012 University of Massachusetts Lowell
-// Author   : Jonathan Hasenzahl
-// =============================================================================
+/*
+ * teleop_arm_dish.h
+ * Copyright 2013 University of Massachusetts Lowell
+ */
 
 #include "arm/teleop_arm_dish.h"
 #include "arm/cartesian_move.h"
@@ -116,8 +115,7 @@ void TeleopArmDish::callback(const burst_calc::cat::ConstPtr& c)
  *
  * This method retrieves a center of activity trajectory (CAT) message from the
  * front of the command queue and creates and publishes a cartesian movement
- * message derived from that CAT. First, the time server is polled to ensure
- * that the command will be published at the correct time. ... need more here
+ * message derived from that CAT.
  */
 void TeleopArmDish::publishCartesianMove()
 {
@@ -198,6 +196,13 @@ void TeleopArmDish::publishCartesianMove()
         ROS_ERROR("Time server is not responding, no command will be issued");
 }
 
+/*!
+ * \brief Publishes a constant movement command
+ *
+ * This method retrieves a center of activity trajectory (CAT) message from the
+ * front of the command queue and creates and publishes a constant movement
+ * message derived from that CAT.
+ */
 void TeleopArmDish::publishConstantMove()
 {
     burst_calc::cat cat = queue_.front();
@@ -309,7 +314,13 @@ void TeleopArmDish::publishConstantMove()
 }
 
 /*!
- * \brief Converts
+ * \brief Converts CAT units to ARM units.
+ *
+ * CAT units range from 1 to 8 on each axis. ARM units are described in
+ * ManusArm.hpp and range from approximately -28,000 to 28,000 on each axis.
+ *
+ * \param coord the coordinate in CAT units
+ * \return the coordinate in ARM units
  */
 double TeleopArmDish::getArmCoord(double coord)
 {
@@ -330,6 +341,9 @@ double TeleopArmDish::getArmCoord(double coord)
     return (coord - MIDPOINT) * -(arm_safe_range_ / max_range_from_midpoint_);
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "teleop_arm_dish");

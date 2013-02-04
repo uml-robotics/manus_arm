@@ -55,6 +55,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <!-- doxytag: class="TeleopArmKey" -->
+<p>Keyboard teleop node.  
+ <a href="classTeleopArmKey.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>&gt;</code></p>
 
 <p><a href="classTeleopArmKey-members.html">List of all members.</a></p>
@@ -62,12 +65,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#a8c5bb748eb474b509008b070eddd338f">TeleopArmKey</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a8c5bb748eb474b509008b070eddd338f"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#ab057ffe0264575ff949a9e55fb613d91">getCommand</a> (const char c)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the command based on the input character.  <a href="#ab057ffe0264575ff949a9e55fb613d91"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#a56a07fcb6219b5e2601451f873a8394f">init</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the node.  <a href="#a56a07fcb6219b5e2601451f873a8394f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#a5f2c8281861f7a57d8ebcd9f15e51f8d">keyLoop</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Interprets user keypresses into ARM control commands.  <a href="#a5f2c8281861f7a57d8ebcd9f15e51f8d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#ad0127eebc74a1a12d72923bbcd60f953">print</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints movement states to the screen.  <a href="#ad0127eebc74a1a12d72923bbcd60f953"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacearm.html#a7d159e58cd92a88eee887bc558afadca">arm::constant_move</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#a35a69d0bf76f688c28661955df345a1e">cmd_</a></td></tr>
@@ -75,8 +83,12 @@ Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ros::NodeHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#a23af94e76d98494d2e2ee989179ee48d">n_</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00047">47</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<div class="textblock"><p>Keyboard teleop node. </p>
+<p>This node controls the ARM with the keyboard. The controls are mapped in this file. Movement keys are a toggle (push to start, push to stop).</p>
+<dl class="copyright"><dt><b>Copyright:</b></dt><dd>2013 University of Massachusetts Lowell </dd></dl>
+<dl class="author"><dt><b>Author:</b></dt><dd>Jonathan Hasenzahl </dd></dl>
+
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00052">52</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a8c5bb748eb474b509008b070eddd338f"></a><!-- doxytag: member="TeleopArmKey::TeleopArmKey" ref="a8c5bb748eb474b509008b070eddd338f" args="()" -->
 <div class="memitem">
@@ -92,7 +104,10 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00021">21</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Default constructor. </p>
+<p>Starts the command publisher, and the runs the init method. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00031">31</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -112,7 +127,16 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00087">87</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Determines the command based on the input character. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>the input character </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>true if a new command was registered, false otherwise </dd></dl>
+
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00111">111</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -130,7 +154,10 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00031">31</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Initializes the node. </p>
+<p>Waits for a subscriber to the command publisher, and then runs the keyLoop method. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00047">47</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -148,7 +175,9 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00039">39</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Interprets user keypresses into ARM control commands. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00058">58</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -166,7 +195,9 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00212">212</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Prints movement states to the screen. </p>
+
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00239">239</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -182,7 +213,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00060">60</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00065">65</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 
 </div>
 </div>
@@ -197,7 +228,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00059">59</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00064">64</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 
 </div>
 </div>
@@ -212,7 +243,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00058">58</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00063">63</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 
 </div>
 </div>
@@ -240,7 +271,7 @@ Private Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Mon Feb 4 2013 14:51:44</small>
+<small>autogenerated on Mon Feb 4 2013 15:42:47</small>
 </div>
 </body>
 </html>

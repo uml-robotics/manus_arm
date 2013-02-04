@@ -1,10 +1,7 @@
-// =============================================================================
-// Name   : teleop_arm_key.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "teleop_arm_key".
-// =============================================================================
+/*
+ * teleop_arm_key.h
+ * Copyright 2013 University of Massachusetts Lowell
+ */
 
 #ifndef TELEOP_ARM_KEY_H_
 #define TELEOP_ARM_KEY_H_
@@ -43,7 +40,15 @@
 #define KEYCODE_TAB       0x09 // QUERY
 #define KEYCODE_Q         0x71 // QUIT
 
-
+/*!
+ * \brief Keyboard teleop node
+ *
+ * This node controls the ARM with the keyboard. The controls are mapped in this
+ * file. Movement keys are a toggle (push to start, push to stop).
+ *
+ * \copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class TeleopArmKey
 {
 public:

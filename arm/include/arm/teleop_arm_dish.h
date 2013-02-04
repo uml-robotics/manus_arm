@@ -1,8 +1,7 @@
-// =============================================================================
-// Name     : teleop_arm_dish.h
-// Copyright: 2012 University of Massachusetts Lowell
-// Author   : Jonathan Hasenzahl
-// =============================================================================
+/*
+ * teleop_arm_dish.h
+ * Copyright 2013 University of Massachusetts Lowell
+ */
 
 #ifndef TELEOP_ARM_DISH_H_
 #define TELEOP_ARM_DISH_H_
@@ -19,7 +18,7 @@
  * of the node is autonomous; after the ArmControl object has been created, the
  * node will run with no further operation.
  *
- * \copyright 2012 University of Massachusetts Lowell
+ * \copyright 2013 University of Massachusetts Lowell
  * \author Jonathan Hasenzahl
  */
 class TeleopArmDish
