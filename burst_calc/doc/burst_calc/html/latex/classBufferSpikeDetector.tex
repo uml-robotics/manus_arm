@@ -1,0 +1,293 @@
+\section{\-Buffer\-Spike\-Detector \-Class \-Reference}
+\label{classBufferSpikeDetector}\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}}
+
+
+\-Helper class for the burst\-\_\-creator node.  
+
+
+
+
+{\ttfamily \#include $<$buffer\-\_\-spike\-\_\-detector.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf add} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Adds a dish state to the buffer. \end{DoxyCompactList}\item 
+{\bf \-Buffer\-Spike\-Detector} ()
+\begin{DoxyCompactList}\small\item\em \-Sets values to their initial states. \end{DoxyCompactList}\item 
+double {\bf get\-Baseline} (int index)
+\item 
+{\bf burst\-\_\-calc\-::ranges} {\bf get\-Ranges} ()
+\begin{DoxyCompactList}\small\item\em \-Returns a range object with values for each channel. \end{DoxyCompactList}\item 
+double {\bf get\-Threshold} (int index)
+\item 
+void {\bf init} (int buffer\-\_\-size, double stdev\-\_\-mult)
+\begin{DoxyCompactList}\small\item\em \-Gives the object values needed for later calculations. \end{DoxyCompactList}\item 
+bool {\bf is\-Buffered} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf calculate} ()
+\begin{DoxyCompactList}\small\item\em \-Calculates values for each channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf baselines\-\_\-} [60]
+\item 
+int {\bf buffer\-\_\-size\-\_\-}
+\item 
+int {\bf dishes\-\_\-received\-\_\-}
+\item 
+double {\bf max\-\_\-volts\-\_\-} [60]
+\item 
+double {\bf min\-\_\-volts\-\_\-} [60]
+\item 
+double {\bf stdev\-\_\-mult\-\_\-}
+\item 
+double {\bf stdevs\-\_\-} [60]
+\item 
+double {\bf sum\-\_\-squares\-\_\-} [60]
+\item 
+double {\bf sums\-\_\-} [60]
+\item 
+double {\bf thresholds\-\_\-} [60]
+\item 
+double {\bf variances\-\_\-} [60]
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Helper class for the burst\-\_\-creator node. 
+
+\-Calculates baselines and spike thresholds for each of the 60 channels in a multi-\/electrode array.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 22 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}}
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{\-Buffer\-Spike\-Detector}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Buffer\-Spike\-Detector\-::\-Buffer\-Spike\-Detector} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classBufferSpikeDetector_af36a938fb6ae44c02731d3671b31c790}
+
+
+\-Sets values to their initial states. 
+
+
+
+\-Definition at line 14 of file buffer\-\_\-spike\-\_\-detector.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!add@{add}}
+\index{add@{add}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Buffer\-Spike\-Detector\-::add} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)}\label{classBufferSpikeDetector_a3c397ec1481cb796716b0a19a3ad9a12}
+
+
+\-Adds a dish state to the buffer. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state to be added \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 44 of file buffer\-\_\-spike\-\_\-detector.\-cpp.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!calculate@{calculate}}
+\index{calculate@{calculate}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{calculate}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Buffer\-Spike\-Detector\-::calculate} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_ac164f42b224cfc5879b26d9806c4d36c}
+
+
+\-Calculates values for each channel. 
+
+\-The values calculated are\-: baseline, variance, standard deviation, threshold. \-This method is not called until the buffer is full. 
+
+\-Definition at line 71 of file buffer\-\_\-spike\-\_\-detector.\-cpp.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!get\-Baseline@{get\-Baseline}}
+\index{get\-Baseline@{get\-Baseline}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{get\-Baseline}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::get\-Baseline} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBufferSpikeDetector_a69eefdba9f1c9610725738f6d0d97151}
+
+
+\-Definition at line 28 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!get\-Ranges@{get\-Ranges}}
+\index{get\-Ranges@{get\-Ranges}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{get\-Ranges}]{\setlength{\rightskip}{0pt plus 5cm}{\bf burst\-\_\-calc\-::ranges} {\bf \-Buffer\-Spike\-Detector\-::get\-Ranges} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classBufferSpikeDetector_a355e7bc24f2f917ae3e8678c56136322}
+
+
+\-Returns a range object with values for each channel. 
+
+\-The values stored are\-: baseline, threshold, min voltage, max voltage.
+
+\begin{DoxyReturn}{\-Returns}
+a range object with values for each channel 
+\end{DoxyReturn}
+
+
+\-Definition at line 92 of file buffer\-\_\-spike\-\_\-detector.\-cpp.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!get\-Threshold@{get\-Threshold}}
+\index{get\-Threshold@{get\-Threshold}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{get\-Threshold}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::get\-Threshold} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBufferSpikeDetector_a425b395f22ab34522a3874dab8302195}
+
+
+\-Definition at line 29 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!init@{init}}
+\index{init@{init}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Buffer\-Spike\-Detector\-::init} (
+\begin{DoxyParamCaption}
+\item[{int}]{buffer\-\_\-size, }
+\item[{double}]{stdev\-\_\-mult}
+\end{DoxyParamCaption}
+)}\label{classBufferSpikeDetector_ad9b31086650118877dba3e8f605da81e}
+
+
+\-Gives the object values needed for later calculations. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em buffer\-\_\-size} & the number of dish states used to calculate baselines and thresholds \\
+\hline
+{\em stdev\-\_\-mult} & the standard deviation multiplier used when calculating thresholds \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 34 of file buffer\-\_\-spike\-\_\-detector.\-cpp.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!is\-Buffered@{is\-Buffered}}
+\index{is\-Buffered@{is\-Buffered}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{is\-Buffered}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Buffer\-Spike\-Detector\-::is\-Buffered} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBufferSpikeDetector_a0ea718aad1f8bfb9e31f7b306d9c6083}
+
+
+\-Definition at line 30 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!baselines\-\_\-@{baselines\-\_\-}}
+\index{baselines\-\_\-@{baselines\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{baselines\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::baselines\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_ab27c2bde1ace42292607d3adf47ffc62}
+
+
+\-Definition at line 38 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!buffer\-\_\-size\-\_\-@{buffer\-\_\-size\-\_\-}}
+\index{buffer\-\_\-size\-\_\-@{buffer\-\_\-size\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{buffer\-\_\-size\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Buffer\-Spike\-Detector\-::buffer\-\_\-size\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_a13305354c9756a2be019039f479c34e7}
+
+
+\-Definition at line 44 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!dishes\-\_\-received\-\_\-@{dishes\-\_\-received\-\_\-}}
+\index{dishes\-\_\-received\-\_\-@{dishes\-\_\-received\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{dishes\-\_\-received\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Buffer\-Spike\-Detector\-::dishes\-\_\-received\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_aeb383ea37dc52d0eb75c86429df54c9e}
+
+
+\-Definition at line 45 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!max\-\_\-volts\-\_\-@{max\-\_\-volts\-\_\-}}
+\index{max\-\_\-volts\-\_\-@{max\-\_\-volts\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{max\-\_\-volts\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::max\-\_\-volts\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_ab3a3bc8de8868fde32d37c615d648a91}
+
+
+\-Definition at line 43 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!min\-\_\-volts\-\_\-@{min\-\_\-volts\-\_\-}}
+\index{min\-\_\-volts\-\_\-@{min\-\_\-volts\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{min\-\_\-volts\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::min\-\_\-volts\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_a140700230e1d9613de80ea811ea83776}
+
+
+\-Definition at line 42 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!stdev\-\_\-mult\-\_\-@{stdev\-\_\-mult\-\_\-}}
+\index{stdev\-\_\-mult\-\_\-@{stdev\-\_\-mult\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{stdev\-\_\-mult\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::stdev\-\_\-mult\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_aba83bab6a8b4370d977d441bc97a5b15}
+
+
+\-Definition at line 46 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!stdevs\-\_\-@{stdevs\-\_\-}}
+\index{stdevs\-\_\-@{stdevs\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{stdevs\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::stdevs\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_a1ee80d6bbebf18f931797e7d7b8ad3b3}
+
+
+\-Definition at line 40 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!sum\-\_\-squares\-\_\-@{sum\-\_\-squares\-\_\-}}
+\index{sum\-\_\-squares\-\_\-@{sum\-\_\-squares\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{sum\-\_\-squares\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::sum\-\_\-squares\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_afe3961097cfceba76b4349227fe3a32d}
+
+
+\-Definition at line 37 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!sums\-\_\-@{sums\-\_\-}}
+\index{sums\-\_\-@{sums\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{sums\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::sums\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_aab07d3d98007d393241add7a5ee74c4c}
+
+
+\-Definition at line 36 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!thresholds\-\_\-@{thresholds\-\_\-}}
+\index{thresholds\-\_\-@{thresholds\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{thresholds\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::thresholds\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_a1749eba91eb8642a947b1ec212675a6d}
+
+
+\-Definition at line 41 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+\index{\-Buffer\-Spike\-Detector@{\-Buffer\-Spike\-Detector}!variances\-\_\-@{variances\-\_\-}}
+\index{variances\-\_\-@{variances\-\_\-}!BufferSpikeDetector@{\-Buffer\-Spike\-Detector}}
+\subsubsection[{variances\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Buffer\-Spike\-Detector\-::variances\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBufferSpikeDetector_a7244e1b359a691776cf33cd6da9f0b57}
+
+
+\-Definition at line 39 of file buffer\-\_\-spike\-\_\-detector.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf buffer\-\_\-spike\-\_\-detector.\-h}\item 
+{\bf buffer\-\_\-spike\-\_\-detector.\-cpp}\end{DoxyCompactItemize}

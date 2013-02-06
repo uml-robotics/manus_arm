@@ -1,0 +1,438 @@
+\section{\-Cat\-Creator \-Class \-Reference}
+\label{classCatCreator}\index{\-Cat\-Creator@{\-Cat\-Creator}}
+
+
+\-Node for creating \-C\-A\-Ts (center of activity trajectories)  
+
+
+
+
+{\ttfamily \#include $<$cat\-\_\-creator.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Cat\-Creator} ()
+\item 
+{\bf $\sim$\-Cat\-Creator} ()
+\begin{DoxyCompactList}\small\item\em \-Closes the log file before the object is destroyed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bf ca\-Exists} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Checks if a center of activity exists in a dish state. \end{DoxyCompactList}\item 
+void {\bf callback} (const {\bf burst\-\_\-calc\-::burst\-::\-Const\-Ptr} \&b)
+\begin{DoxyCompactList}\small\item\em \-Callback for burst messages. \end{DoxyCompactList}\item 
+const {\bf burst\-\_\-calc\-::ca} {\bf get\-Ca} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Generates a \-C\-A (center of activity) from a dish state. \end{DoxyCompactList}\item 
+void {\bf get\-Params} ()
+\begin{DoxyCompactList}\small\item\em \-Gets server parameters. \end{DoxyCompactList}\item 
+void {\bf header\-To\-File} (const {\bf burst\-\_\-calc\-::burst} \&b)
+\begin{DoxyCompactList}\small\item\em \-Writes a header for a burst to the log file. \end{DoxyCompactList}\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\item 
+void {\bf init\-File} (const char $\ast$cat\-\_\-file)
+\begin{DoxyCompactList}\small\item\em \-Initializes a new \-C\-S\-V log file for recording \-C\-A\-Ts. \end{DoxyCompactList}\item 
+void {\bf ranges\-Callback} (const {\bf burst\-\_\-calc\-::ranges\-::\-Const\-Ptr} \&r)
+\begin{DoxyCompactList}\small\item\em \-Callback for range messages. \end{DoxyCompactList}\item 
+void {\bf to\-File} (int i, const neuro\-\_\-recv\-::dish\-\_\-state \&d, const {\bf burst\-\_\-calc\-::ca} \&c)
+\begin{DoxyCompactList}\small\item\em \-Writes a dish state and its center of activity to the log file. \end{DoxyCompactList}\item 
+void {\bf to\-File} (int i, const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Writes a dish state with no center of activity to the log file. \end{DoxyCompactList}\item 
+void {\bf update\-Offsets} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Updates the offsets for each each channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Subscriber {\bf burst\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Publisher {\bf ca\-\_\-pub\-\_\-}
+\item 
+std\-::ofstream {\bf cat\-\_\-file\-\_\-}
+\item 
+ros\-::\-Publisher {\bf cat\-\_\-pub\-\_\-}
+\item 
+std\-::string {\bf file\-\_\-name\-\_\-}
+\item 
+bool {\bf is\-\_\-init\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+double {\bf offsets\-\_\-} [60]
+\item 
+ros\-::\-Subscriber {\bf ranges\-\_\-sub\-\_\-}
+\item 
+bool {\bf save\-\_\-to\-\_\-file\-\_\-}
+\item 
+double {\bf thresholds\-\_\-} [60]
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Node for creating \-C\-A\-Ts (center of activity trajectories) 
+
+\-This node receives bursts from the burst creator node and calculates a \-C\-A\-T for each burst. \-It then publishes the \-C\-A\-T to the dish teleop node for \-A\-R\-M movement.
+
+\-The \-C\-A\-T metric is described in this paper\-:
+
+\-Chao \-Z\-C, \-Bakkum \-D\-J, \-Potter \-S\-M (2007). "\-Region-\/specific network plasticity in simulated and living cortical networks\-: comparison of the \-Center of \-Activity \-Trajectory (\-C\-A\-T) with other metrics." \-J. \-Neural \-Eng. 4, 294-\/308.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 52 of file cat\-\_\-creator.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Cat\-Creator@{\-Cat\-Creator}!\-Cat\-Creator@{\-Cat\-Creator}}
+\index{\-Cat\-Creator@{\-Cat\-Creator}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{\-Cat\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Cat\-Creator\-::\-Cat\-Creator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classCatCreator_a821a3af64602c84c1e690721838ef0ec}
+
+
+\-Definition at line 55 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!$\sim$\-Cat\-Creator@{$\sim$\-Cat\-Creator}}
+\index{$\sim$\-Cat\-Creator@{$\sim$\-Cat\-Creator}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{$\sim$\-Cat\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Cat\-Creator\-::$\sim$\-Cat\-Creator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classCatCreator_a395310c08922643a88095c6fd61bd4a2}
+
+
+\-Closes the log file before the object is destroyed. 
+
+
+
+\-Definition at line 13 of file cat\-\_\-creator.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Cat\-Creator@{\-Cat\-Creator}!ca\-Exists@{ca\-Exists}}
+\index{ca\-Exists@{ca\-Exists}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{ca\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Cat\-Creator\-::ca\-Exists} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_ab98bffbe2c8b823be9f1c65e340b093e}
+
+
+\-Checks if a center of activity exists in a dish state. 
+
+\-C\-A can only be calculated from spiking activity.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state to be checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true if at least 1 spike exists in the dish state, false otherwise 
+\end{DoxyReturn}
+
+
+\-Definition at line 181 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!callback@{callback}}
+\index{callback@{callback}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::callback} (
+\begin{DoxyParamCaption}
+\item[{const {\bf burst\-\_\-calc\-::burst\-::\-Const\-Ptr} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a20b87ebd0188e32103d18cfa4c583a8b}
+
+
+\-Callback for burst messages. 
+
+\-This method is called automatically when the node receives a burst message. \-It creates and publishes a \-C\-A\-T from this burst.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em b} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 96 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!get\-Ca@{get\-Ca}}
+\index{get\-Ca@{get\-Ca}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{get\-Ca}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf burst\-\_\-calc\-::ca} {\bf \-Cat\-Creator\-::get\-Ca} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_abee5590c489cca9915f3201957de5205}
+
+
+\-Generates a \-C\-A (center of activity) from a dish state. 
+
+\-Center of activity = summation(position$\ast$activity) / total activity
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the source dish state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the new \-C\-A 
+\end{DoxyReturn}
+
+
+\-Definition at line 202 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::get\-Params} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a18b275e1c4d99f6ca5c97bf99063dae5}
+
+
+\-Gets server parameters. 
+
+
+
+\-Definition at line 56 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!header\-To\-File@{header\-To\-File}}
+\index{header\-To\-File@{header\-To\-File}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{header\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::header\-To\-File} (
+\begin{DoxyParamCaption}
+\item[{const {\bf burst\-\_\-calc\-::burst} \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a395963c9cafa4a4a26f35ac68e9d9b6b}
+
+
+\-Writes a header for a burst to the log file. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em b} & the burst being logged \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 271 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!init@{init}}
+\index{init@{init}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a8a958a917e0f1e8d44b3ae2f9b14031a}
+
+
+\-Initializes the node. 
+
+\-Gets server parameters, initializes publishers and subscribers, starts the log file, and runs the spin loop. 
+
+\-Definition at line 26 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!init\-File@{init\-File}}
+\index{init\-File@{init\-File}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{init\-File}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::init\-File} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{cat\-\_\-file}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_add7fc142a562e5b21c79ed13c4ca8463}
+
+
+\-Initializes a new \-C\-S\-V log file for recording \-C\-A\-Ts. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cat\-\_\-file} & the path of the file \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 249 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!ranges\-Callback@{ranges\-Callback}}
+\index{ranges\-Callback@{ranges\-Callback}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{ranges\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::ranges\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const {\bf burst\-\_\-calc\-::ranges\-::\-Const\-Ptr} \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a543a321af618ff3a06ca2c4f332ee742}
+
+
+\-Callback for range messages. 
+
+\-This method is called automatically when the node receives a range message. \-This should only happen once. \-The values in the message are used to calculate the initial offsets.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em r} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 152 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!to\-File@{to\-File}}
+\index{to\-File@{to\-File}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{to\-File}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::to\-File} (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d, }
+\item[{const {\bf burst\-\_\-calc\-::ca} \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a601ea9cba7df7c53df48172e6852d5e1}
+
+
+\-Writes a dish state and its center of activity to the log file. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state being logged \\
+\hline
+{\em c} & the \-C\-A being logged \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 286 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!to\-File@{to\-File}}
+\index{to\-File@{to\-File}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{to\-File}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::to\-File} (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a550121011a6efa2346616f963d799972}
+
+
+\-Writes a dish state with no center of activity to the log file. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state being logged \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 300 of file cat\-\_\-creator.\-cpp.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!update\-Offsets@{update\-Offsets}}
+\index{update\-Offsets@{update\-Offsets}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{update\-Offsets}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Cat\-Creator\-::update\-Offsets} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a428785a1949d5bd79c6c0433d744027c}
+
+
+\-Updates the offsets for each each channel. 
+
+\-To account for negative voltages, each channel has an offset so that the smallest voltage effectively becomes zero, and all higher voltages are positive. \-This method checks the voltages of each incoming dish state and updates the offsets if necessary.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state to check \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 76 of file cat\-\_\-creator.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Cat\-Creator@{\-Cat\-Creator}!burst\-\_\-sub\-\_\-@{burst\-\_\-sub\-\_\-}}
+\index{burst\-\_\-sub\-\_\-@{burst\-\_\-sub\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{burst\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Cat\-Creator\-::burst\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_acee6df7c18d847704aae05ad7e2090f3}
+
+
+\-Definition at line 73 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!ca\-\_\-pub\-\_\-@{ca\-\_\-pub\-\_\-}}
+\index{ca\-\_\-pub\-\_\-@{ca\-\_\-pub\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{ca\-\_\-pub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Cat\-Creator\-::ca\-\_\-pub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a484c57f529b81949db33a04954626b93}
+
+
+\-Definition at line 76 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!cat\-\_\-file\-\_\-@{cat\-\_\-file\-\_\-}}
+\index{cat\-\_\-file\-\_\-@{cat\-\_\-file\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{cat\-\_\-file\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ofstream {\bf \-Cat\-Creator\-::cat\-\_\-file\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a23010557ce5edaa3137c12c02f094419}
+
+
+\-Definition at line 77 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!cat\-\_\-pub\-\_\-@{cat\-\_\-pub\-\_\-}}
+\index{cat\-\_\-pub\-\_\-@{cat\-\_\-pub\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{cat\-\_\-pub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Cat\-Creator\-::cat\-\_\-pub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a1ea753ec5f97931cd08273cb40f3d525}
+
+
+\-Definition at line 75 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!file\-\_\-name\-\_\-@{file\-\_\-name\-\_\-}}
+\index{file\-\_\-name\-\_\-@{file\-\_\-name\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{file\-\_\-name\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string {\bf \-Cat\-Creator\-::file\-\_\-name\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a72e673e64b719b99ffc5a5f3adf5f4dc}
+
+
+\-Definition at line 78 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!is\-\_\-init\-\_\-@{is\-\_\-init\-\_\-}}
+\index{is\-\_\-init\-\_\-@{is\-\_\-init\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{is\-\_\-init\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Cat\-Creator\-::is\-\_\-init\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_abd3547835085628b098dc1319dd17841}
+
+
+\-Definition at line 82 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Cat\-Creator\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a157aa9ec24dd1fc6c4bf50324afbcb9e}
+
+
+\-Definition at line 72 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!offsets\-\_\-@{offsets\-\_\-}}
+\index{offsets\-\_\-@{offsets\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{offsets\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Cat\-Creator\-::offsets\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a0e4dbc1ff33a62d8b44f0586c80f0d47}
+
+
+\-Definition at line 79 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!ranges\-\_\-sub\-\_\-@{ranges\-\_\-sub\-\_\-}}
+\index{ranges\-\_\-sub\-\_\-@{ranges\-\_\-sub\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{ranges\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Cat\-Creator\-::ranges\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_aad5e42c6bd347bc5d942d80ed0da529f}
+
+
+\-Definition at line 74 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!save\-\_\-to\-\_\-file\-\_\-@{save\-\_\-to\-\_\-file\-\_\-}}
+\index{save\-\_\-to\-\_\-file\-\_\-@{save\-\_\-to\-\_\-file\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{save\-\_\-to\-\_\-file\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Cat\-Creator\-::save\-\_\-to\-\_\-file\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a5070f156d650bd7e8d0433a6ebd0787e}
+
+
+\-Definition at line 81 of file cat\-\_\-creator.\-h.
+
+\index{\-Cat\-Creator@{\-Cat\-Creator}!thresholds\-\_\-@{thresholds\-\_\-}}
+\index{thresholds\-\_\-@{thresholds\-\_\-}!CatCreator@{\-Cat\-Creator}}
+\subsubsection[{thresholds\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Cat\-Creator\-::thresholds\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classCatCreator_a170801897a689342af7ba274efc2c047}
+
+
+\-Definition at line 80 of file cat\-\_\-creator.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf cat\-\_\-creator.\-h}\item 
+{\bf cat\-\_\-creator.\-cpp}\end{DoxyCompactItemize}

@@ -1,22 +1,28 @@
-// =============================================================================
-// Name   : cat_creator.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "cat_creator". This node calculates and publishes
-// CATs (center of activity trajectories). A CAT is a sequence of CAs  (centers
-// of activity).
-// =============================================================================
+/*
+ * cat_creator.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "burst_calc/cat_creator.h"
 #include <cstdio>
 
+/*!
+ * \brief Closes the log file before the object is destroyed
+ */
 CatCreator::~CatCreator()
 {
     if (cat_file_.is_open())
         cat_file_.close();
 }
 
+
+/*!
+ * \brief Initializes the node
+ *
+ * Gets server parameters, initializes publishers and subscribers, starts
+ * the log file, and runs the spin loop.
+ */
 void CatCreator::init()
 {
     is_init_ = false;
@@ -44,6 +50,9 @@ void CatCreator::init()
     ros::spin();
 }
 
+/*!
+ * \brief Gets server parameters
+ */
 void CatCreator::getParams()
 {
     // Get cat log path parameter
@@ -54,6 +63,16 @@ void CatCreator::getParams()
     }
 }
 
+/*!
+ * \brief Updates the offsets for each each channel
+ *
+ * To account for negative voltages, each channel has an offset so that the
+ * smallest voltage effectively becomes zero, and all higher voltages are
+ * positive. This method checks the voltages of each incoming dish state and
+ * updates the offsets if necessary.
+ *
+ * \param d the dish state to check
+ */
 void CatCreator::updateOffsets(const neuro_recv::dish_state& d)
 {
     for (int i = 0; i < 60; i++)
@@ -66,6 +85,14 @@ void CatCreator::updateOffsets(const neuro_recv::dish_state& d)
     }
 }
 
+/*!
+ * \brief Callback for burst messages
+ *
+ * This method is called automatically when the node receives a burst message.
+ * It creates and publishes a CAT from this burst.
+ *
+ * \param b the received message
+ */
 void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
 {
     if (is_init_)
@@ -113,6 +140,15 @@ void CatCreator::callback(const burst_calc::burst::ConstPtr& b)
         ROS_ERROR("Minimum voltages not initialized, skipping CAT creation");
 }
 
+/*!
+ * \brief Callback for range messages
+ *
+ * This method is called automatically when the node receives a range message.
+ * This should only happen once. The values in the message are used to calculate
+ * the initial offsets.
+ *
+ * \param r the received message
+ */
 void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
     ROS_INFO("CAT Creator initialized");
@@ -134,6 +170,14 @@ void CatCreator::rangesCallback(const burst_calc::ranges::ConstPtr& r)
     is_init_ = true;
 }
 
+/*!
+ * \brief Checks if a center of activity exists in a dish state
+ *
+ * CA can only be calculated from spiking activity.
+ *
+ * \param d the dish state to be checked
+ * \return true if at least 1 spike exists in the dish state, false otherwise
+ */
 bool CatCreator::caExists(const neuro_recv::dish_state& d)
 {
     // Only dish states with at least 1 spike will have a CA calculated
@@ -147,6 +191,14 @@ bool CatCreator::caExists(const neuro_recv::dish_state& d)
     return false;
 }
 
+/*!
+ * \brief Generates a CA (center of activity) from a dish state
+ *
+ * Center of activity = summation(position*activity) / total activity
+ *
+ * \param d the source dish state
+ * \return the new CA
+ */
 const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
 {
     // Center of activity = summation(position*activity) / total activity
@@ -190,6 +242,10 @@ const burst_calc::ca CatCreator::getCa(const neuro_recv::dish_state& d)
     return ca;
 }
 
+/*!
+ * \brief Initializes a new CSV log file for recording CATs
+ * \param cat_file the path of the file
+ */
 void CatCreator::initFile(const char* cat_file)
 {
     cat_file_.open(cat_file, std::ios_base::trunc | std::ios_base::out);
@@ -208,6 +264,10 @@ void CatCreator::initFile(const char* cat_file)
     cat_file_ << '\n';
 }
 
+/*!
+ * \brief Writes a header for a burst to the log file
+ * \param b the burst being logged
+ */
 void CatCreator::headerToFile(const burst_calc::burst& b)
 {
     cat_file_ << "begin_time," << b.header.stamp.toSec() << ",\n";
@@ -218,6 +278,11 @@ void CatCreator::headerToFile(const burst_calc::burst& b)
         cat_file_ << static_cast<int>(b.channels[i]) << ",\n";
 }
 
+/*!
+ * \brief Writes a dish state and its center of activity to the log file
+ * \param d the dish state being logged
+ * \param c the CA being logged
+ */
 void CatCreator::toFile(int i, const neuro_recv::dish_state& d,
                         const burst_calc::ca& c)
 {
@@ -228,6 +293,10 @@ void CatCreator::toFile(int i, const neuro_recv::dish_state& d,
     cat_file_ << '\n';
 }
 
+/*!
+ * \brief Writes a dish state with no center of activity to the log file
+ * \param d the dish state being logged
+ */
 void CatCreator::toFile(int i, const neuro_recv::dish_state& d)
 {
     cat_file_ << i << ',' << d.header.stamp.toSec() << ",,,";
@@ -236,6 +305,9 @@ void CatCreator::toFile(int i, const neuro_recv::dish_state& d)
     cat_file_ << '\n';
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "cat_creator");

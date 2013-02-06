@@ -1,6 +1,7 @@
 /*
  * teleop_arm_key.h
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
  */
 
 #ifndef TELEOP_ARM_KEY_H_

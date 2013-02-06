@@ -1,13 +1,18 @@
 /*
  * dish_viz.cpp
- *
- *  Created on: Jun 4, 2012
- *      Author: ams & Jonathan Hasenzahl
+ * Copyright 2013 University of Massachusetts Lowell
+ * Authors: Abraham Shultz, Jonathan Hasenzahl
  */
 
 #include "dish_viz/dish_viz.h"
 #include "time_server/time_srv.h"
 
+/*!
+ * \brief Initializes the node
+ *
+ * Gets server parameters, initializes the visualizer, initializes subscribers,
+ * and runs the spin loop.
+ */
 void DataHandler::init()
 {
     // Get parameters
@@ -37,6 +42,9 @@ void DataHandler::init()
     run();
 }
 
+/*!
+ * \brief Gets server parameters
+ */
 void DataHandler::getParams()
 {
     // Get loop rate parameter
@@ -54,6 +62,11 @@ void DataHandler::getParams()
     }
 }
 
+/*!
+ * \brief Main spin loop
+ *
+ * Spins until the queue is empty, ROS shuts down, or Ctrl+C is pressed.
+ */
 void DataHandler::run()
 {
     ROS_INFO("Running visualizer");
@@ -80,6 +93,9 @@ void DataHandler::run()
     ROS_INFO("Visualizer queue empty: shutting down");
 }
 
+/*!
+ * \brief Plots a center of activity on the visualizer
+ */
 void DataHandler::plotCa()
 {
     if (!cas_.empty())
@@ -111,6 +127,14 @@ void DataHandler::plotCa()
     }
 }
 
+/*!
+ * \brief Updates minimum and maximum values for each channel
+ *
+ * This is a self-correcting feature of the visualizer, or else colors could
+ * become inaccurate the longer the node runs.
+ *
+ * \param d the dish state used for the update
+ */
 void DataHandler::updateMinMax(const neuro_recv::dish_state& d)
 {
     for (int i = 0; i < 60; i++)
@@ -130,6 +154,15 @@ void DataHandler::updateMinMax(const neuro_recv::dish_state& d)
     }
 }
 
+/*!
+ * \brief Callback for dish state messages
+ *
+ * This method is called automatically when the node receives a dish state
+ * message. The minimum and maximum voltages are updated, and the dish state
+ * is pushed onto the display queue.
+ *
+ * \param d the received message
+ */
 void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
 {
     updateMinMax(*d);
@@ -137,16 +170,42 @@ void DataHandler::dishCallback(const neuro_recv::dish_state::ConstPtr &d)
     //printf("Queue size: %d\n", static_cast<int>(queue_.size()));
 }
 
+/*!
+ * \brief Callback for center of activity messages
+ *
+ * This method is called automatically when the node receives a CA message. The
+ * CA is pushed onto the display queue.
+ *
+ * \param c the received message
+ */
 void DataHandler::caCallback(const burst_calc::ca::ConstPtr& c)
 {
     cas_.push(*c);
 }
 
+/*!
+ * \brief Callback for burst messages
+ *
+ * This method is called automatically when the node receives a burst message.
+ * This should only happen once. This is just a signal to tell the visualizer
+ * to start playback.
+ *
+ * \param r the received message
+ */
 void DataHandler::burstCallback(const burst_calc::burst::ConstPtr &b)
 {
     start_ = true;
 }
 
+/*!
+ * \brief Callback for ranges messages
+ *
+ * This method is called automatically when the node receives a ranges message.
+ * This should only happen once. The range values are used for calculating the
+ * display colors of voltages on each channel.
+ *
+ * \param r the received message
+ */
 void DataHandler::rangesCallback(const burst_calc::ranges::ConstPtr& r)
 {
     dviz_.setVoltRanges(r->baselines, r->thresholds, r->min_volts, r->max_volts);
@@ -158,6 +217,9 @@ void DataHandler::rangesCallback(const burst_calc::ranges::ConstPtr& r)
     */
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "dish_viz");

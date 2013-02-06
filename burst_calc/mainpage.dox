@@ -2,13 +2,108 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b spike 
+\b burst_calc is a ROS package for detecting bursts of spiking activity in a
+neural network. A center of activity trajectory (CAT) is calculated for each
+burst which is then forwarded to a dish teleop node to facilitate ARM movement. 
+The package consists of a burst creator node, a CAT creator node, and several 
+helper classes. This package relies on the other packages in the arm_project 
+stack to perform properly.
 
-<!-- 
-Provide an overview of your package.
--->
+\section codeapi Code API
 
--->
+- Run the burst creator node by creating an \link BurstCreator \endlink object.
+- Run the CAT creator node by creating a \link CatCreator \endlink object.
+
+\section rosapi ROS API
+
+List of nodes:
+- \b burst_creator
+- \b cat_creator
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection burst_creator burst_creator
+
+arm_control receives dish states from a receiver node and then detects and
+creates burst sequences, which are forwarded to the CAT creator node.
+
+\subsubsection Usage
+\verbatim
+$ rosrun burst_calc burst_creator
+\endverbatim
 
 
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b "dish_states_to_burst_creator": [neuro_recv/dish_state] incoming dish states
+
+Publishes to:
+- \b "bursts_to_cat_creator": [burst_calc/burst] bursts sent to the CAT creator node
+- \b "bursts_to_dish_viz": [burst_calc/burst] bursts sent to the visualizer node
+- \b "ranges_to_cat_creator": [burst_calc/ranges] channel ranges sent to the CAT creator node
+- \b "ranges_to_dish_viz": [burst_calc/ranges] channel ranges sent to the visualizer node
+
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b buffer_size
+- \b stdev_mult
+- \b burst_window
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b "time_service": [time_server/time_srv] polls system time to keep the node in sync
+
+<!-- END: copy for each node -->
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection cat_creator cat_creator
+
+cat_creator receives bursts from the burst creator node and calculates a CAT
+for each burst. It then publishes the CAT to the dish teleop node for ARM 
+movement.
+
+\subsubsection Usage
+\verbatim
+$ rosrun burst_calc cat_creator
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b "bursts_to_cat_creator": [burst_calc/burst] bursts received from the burst creator node
+- \b "ranges_to_cat_creator": [burst_calc/ranges] channel ranges received from the burst creator node
+
+Publishes to:
+- \b "cats": [burst_calc/cat] CAT messages for the dish teleop node
+- \b "cas": [burst_calc/ca] CA messages for the visualizer node
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b cat_log_path
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
 */

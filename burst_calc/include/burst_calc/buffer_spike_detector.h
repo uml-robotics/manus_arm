@@ -1,11 +1,8 @@
-// =============================================================================
-// Name   : buffer_spike_detector.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Buffer class for the ROS node "spike_detector". Calculates baseline and
-// standard deviation for determining spikes.
-// =============================================================================
+/*
+ * buffer_spike_detector.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef BUFFER_SPIKE_DETECTOR_H_
 #define BUFFER_SPIKE_DETECTOR_H_
@@ -13,6 +10,15 @@
 #include "neuro_recv/dish_state.h"
 #include "burst_calc/ranges.h"
 
+/*!
+ * \brief Helper class for the burst_creator node
+ *
+ * Calculates baselines and spike thresholds for each of the 60 channels in a
+ * multi-electrode array.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class BufferSpikeDetector
 {
 public:

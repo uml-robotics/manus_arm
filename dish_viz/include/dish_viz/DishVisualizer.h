@@ -1,9 +1,7 @@
 /*
- * Visualizer.h
- *
- *  Created on: Mar 29, 2012
-
- *      Author: ams
+ * DishVisualizer.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Authors: Abraham Shultz, Jonathan Hasenzahl
  */
 
 #ifndef _DISH_VISUALIZER_H
@@ -25,6 +23,16 @@
 
 #define MAX_COLOR 65535
 
+/*!
+ * \brief Helper class for the dish_viz node
+ *
+ * Creates a visualizer on screen so the user can see the spiking activity
+ * which is causing ARM movement.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Abraham Shultz
+ * \author Jonathan Hasenzahl
+ */
 class DishVisualizer {
 private:
 	XPlotter *plotter;

@@ -1,8 +1,7 @@
 /*
- * Visualizer.h
- *
- *  Created on: Mar 29, 2012
- *      Author: ams & Jonathan Hasenzahl
+ * dish_viz.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Authors: Abraham Shultz, Jonathan Hasenzahl
  */
 
 #ifndef DISH_VIZ_H
@@ -17,6 +16,18 @@
 #include <queue>
 #include <string>
 
+/*!
+ * \brief Node for visualing dish activity
+ *
+ * This node receives dish states from a receiver node and then plots that
+ * activity on screen for the user to see. It also receives centers of activity
+ * from the CAT creator node and plots those as well. This node is in sync with
+ * the movements of the ARM.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Abraham Shultz
+ * \author Jonathan Hasenzahl
+ */
 class DataHandler
 {
 public:

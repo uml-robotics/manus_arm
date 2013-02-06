@@ -1,0 +1,60 @@
+
+
+{\bfseries \doxyref{dish\-\_\-viz}{p.}{namespacedish__viz}} is a \-R\-O\-S package for visualizing the activity of a neural network. \-Spikes and centers of activity are plotted in sync with the movement of the \-A\-R\-M, allowing for a visual representation of what is causing the movement. \-The package consists of a single node, and relies on the other packages in the arm\-\_\-project stack to perform properly.\section{\-Code A\-P\-I}\label{index_codeapi}
+
+\begin{DoxyItemize}
+\item \-Run the visualizer node by creating an \doxyref{\-Data\-Handler}{p.}{classDataHandler} object.
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item \-To initialize the visualizer\-: \doxyref{\-Dish\-Visualizer\-::init}{p.}{classDishVisualizer_ae49a0ff5fcd5fb0bfc87edd8ad3197a5}
+\item \-To update voltage data for a channel\-: \doxyref{\-Dish\-Visualizer\-::update}{p.}{classDishVisualizer_a7c7a9807ff9fed5c28a7e6aa1e29067e}
+\item \-To update the center of activity\-: \doxyref{\-Dish\-Visualizer\-::update\-Ca}{p.}{classDishVisualizer_aaef501d6cee310c081396fef4a6dd7b9}
+\item \-To redraw the visualizer screen\-: \doxyref{\-Dish\-Visualizer\-::redraw}{p.}{classDishVisualizer_a21408b6a0ddc4cd747f45be4a428315f}
+\item \-To set volt ranges for each channel\-: \doxyref{\-Dish\-Visualizer\-::set\-Volt\-Ranges}{p.}{classDishVisualizer_a0d5ce889e9fda73aee98d036cf132a56}
+\item \-To correct ranges\-: \doxyref{\-Dish\-Visualizer\-::set\-Min\-Volt}{p.}{classDishVisualizer_ac7c3de90762f66e32f13f80a0a8ab9ab} and \doxyref{\-Dish\-Visualizer\-::set\-Max\-Volt}{p.}{classDishVisualizer_aba726db2c95125a62c5f1415150746e8}
+\end{DoxyItemize}\section{\-R\-O\-S A\-P\-I}\label{index_rosapi}
+\-List of nodes\-:
+\begin{DoxyItemize}
+\item {\bfseries \doxyref{dish\-\_\-viz}{p.}{namespacedish__viz}} 
+\end{DoxyItemize}
+
+
+
+\subsection{dish\-\_\-viz}\label{index_dish_viz}
+\doxyref{dish\-\_\-viz}{p.}{namespacedish__viz} receives dish states from a receiver node and then plots that activity on screen for the user to see. \-It also receives centers of activity from the \-C\-A\-T creator node and plots those as well. \-This node is in sync with the movements of the \-A\-R\-M.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun dish_viz dish_viz
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-dish\-\_\-viz\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] incoming dish states
+\item {\bfseries \char`\"{}cas\char`\"{}}\-: [neuro\-\_\-recv/ca] incoming centers of activity
+\item {\bfseries \char`\"{}bursts\-\_\-to\-\_\-dish\-\_\-viz\char`\"{}}\-: [neuro\-\_\-recv/burst] used to signal start of playback
+\item {\bfseries \char`\"{}ranges\-\_\-to\-\_\-dish\-\_\-viz\char`\"{}}\-: [neuro\-\_\-recv/ranges] used for color calculation
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item \-N/\-A
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries loop\-\_\-rate} 
+\item {\bfseries visualizer\-\_\-color\-\_\-mode} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] polls system time to keep the node in sync 
+\end{DoxyItemize}

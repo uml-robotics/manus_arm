@@ -1,21 +1,24 @@
-// =============================================================================
-// Name   : burst_merger.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Burst merger class for the ROS node "spike_detector". Ensures bursts are
-// unique and merges them if necessary.
-// =============================================================================
+/*
+ * burst_merger.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "burst_calc/burst_merger.h"
 #include <cstdio>
 
+/*!
+ * \brief Sets values to their initial states
+ */
 BurstMerger::BurstMerger()
 {
     for (int i = 0; i < 60; i++)
         times_[i] = NULL;
 }
 
+/*!
+ * \brief Frees up memory allocated to burst checker time pointers
+ */
 BurstMerger::~BurstMerger()
 {
     for (int i = 0; i < 60; i++)
@@ -25,9 +28,12 @@ BurstMerger::~BurstMerger()
     }
 }
 
-// First, check all stored bursts and merge any that can be. Then compare all
-// stored bursts against the times to determine if any of them can be published.
-// Returns true if there is a burst ready to be published, false otherwise.
+/*!
+ * \brief Performs the merge operation after new bursts have been added
+ *
+ * First, check all stored bursts and merge any that can be. Then compare all
+ * stored bursts against the times to determine if any of them can be published.
+ */
 void BurstMerger::update()
 {
     std::vector<int> delete_indexes;
@@ -124,6 +130,15 @@ void BurstMerger::update()
     }
 }
 
+/*!
+ * \brief Updates the burst checker time pointer for a channel
+ *
+ * The pointer either points to the start time of that channel's possible
+ * burst, or is null if there is no possible burst.
+ *
+ * \param index the index of the channel
+ * \param t the time pointer of the channel's burst checker
+ */
 void BurstMerger::updateTime(int index, const ros::Time* t)
 {
     if (times_[index])
@@ -137,8 +152,16 @@ void BurstMerger::updateTime(int index, const ros::Time* t)
         times_[index] = NULL;
 }
 
-// Merges two bursts b1 and b2 into a single burst. Required conditions: the
-// time span of the bursts must overlap in some way.
+
+/*!
+ * \brief Merges two bursts into a single burst
+ *
+ * Pre-condition: the time span of the bursts must overlap in some way.
+ *
+ * \param b1 one of the bursts to be merged
+ * \param b2 the other burst to be merged
+ * \return the merged burst
+ */
 burst_calc::burst BurstMerger::merge(const burst_calc::burst& b1,
                                      const burst_calc::burst& b2)
 {

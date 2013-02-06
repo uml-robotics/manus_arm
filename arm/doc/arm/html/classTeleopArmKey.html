@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#a8c5bb748eb474b509008b070eddd338f">TeleopArmKey</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a8c5bb748eb474b509008b070eddd338f"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the command publisher and runs the init method.  <a href="#a8c5bb748eb474b509008b070eddd338f"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeleopArmKey.html#ab057ffe0264575ff949a9e55fb613d91">getCommand</a> (const char c)</td></tr>
@@ -88,7 +88,7 @@ Private Attributes</h2></td></tr>
 <dl class="copyright"><dt><b>Copyright:</b></dt><dd>2013 University of Massachusetts Lowell </dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jonathan Hasenzahl </dd></dl>
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00052">52</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00053">53</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a8c5bb748eb474b509008b070eddd338f"></a><!-- doxytag: member="TeleopArmKey::TeleopArmKey" ref="a8c5bb748eb474b509008b070eddd338f" args="()" -->
 <div class="memitem">
@@ -104,10 +104,9 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Default constructor. </p>
-<p>Starts the command publisher, and the runs the init method. </p>
+<p>Starts the command publisher and runs the init method. </p>
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00031">31</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00019">19</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -136,7 +135,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true if a new command was registered, false otherwise </dd></dl>
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00111">111</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00099">99</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -157,7 +156,7 @@ Private Attributes</h2></td></tr>
 <p>Initializes the node. </p>
 <p>Waits for a subscriber to the command publisher, and then runs the keyLoop method. </p>
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00047">47</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00035">35</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -177,7 +176,7 @@ Private Attributes</h2></td></tr>
 
 <p>Interprets user keypresses into ARM control commands. </p>
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00058">58</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00046">46</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -197,7 +196,7 @@ Private Attributes</h2></td></tr>
 
 <p>Prints movement states to the screen. </p>
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00239">239</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8cpp_source.html#l00227">227</a> of file <a class="el" href="teleop__arm__key_8cpp_source.html">teleop_arm_key.cpp</a>.</p>
 
 </div>
 </div>
@@ -213,7 +212,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00065">65</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00066">66</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 
 </div>
 </div>
@@ -228,7 +227,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00064">64</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00065">65</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 
 </div>
 </div>
@@ -243,7 +242,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00063">63</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
+<p>Definition at line <a class="el" href="teleop__arm__key_8h_source.html#l00064">64</a> of file <a class="el" href="teleop__arm__key_8h_source.html">teleop_arm_key.h</a>.</p>
 
 </div>
 </div>
@@ -270,8 +269,8 @@ Private Attributes</h2></td></tr>
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
-Author(s): Jon</br />
-<small>autogenerated on Wed Feb 6 2013 15:09:24</small>
+Author(s): Jonathan Hasenzahl</br />
+<small>autogenerated on Wed Feb 6 2013 18:21:39</small>
 </div>
 </body>
 </html>

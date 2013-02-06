@@ -1,6 +1,7 @@
 /*
  * ManusArm.cpp
  * Copyright 2013 University of Massachusetts Lowell
+ * Authors: Abraham Shultz, Jonathan Hasenzahl
  */
 
 #include "arm/ManusArm.hpp"

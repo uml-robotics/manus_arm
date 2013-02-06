@@ -1,6 +1,7 @@
 /*
  * movement_definitions.h
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
  */
 
 #ifndef MOVEMENT_DEFINITIONS_H_

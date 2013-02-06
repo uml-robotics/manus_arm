@@ -1,6 +1,7 @@
 /*
  * teleop_arm_key.cpp
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
  */
 
 #include "arm/teleop_arm_key.h"
@@ -13,9 +14,7 @@ int kfd = 0;
 struct termios cooked, raw;
 
 /*!
- * \brief Default constructor.
- *
- * Starts the command publisher, and the runs the init method.
+ * \brief Starts the command publisher and runs the init method
  */
 TeleopArmKey::TeleopArmKey()
 {

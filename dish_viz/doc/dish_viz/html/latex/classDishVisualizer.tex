@@ -1,0 +1,402 @@
+\section{\-Dish\-Visualizer \-Class \-Reference}
+\label{classDishVisualizer}\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}}
+
+
+\-Helper class for the \doxyref{dish\-\_\-viz}{p.}{namespacedish__viz} node.  
+
+
+
+
+{\ttfamily \#include $<$\-Dish\-Visualizer.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Dish\-Visualizer} ()
+\item 
+double {\bf get\-Max\-Volt} (int index)
+\item 
+double {\bf get\-Min\-Volt} (int index)
+\item 
+int {\bf init} (int mode)
+\begin{DoxyCompactList}\small\item\em \-Initializes the visualizer. \end{DoxyCompactList}\item 
+void {\bf redraw} ()
+\begin{DoxyCompactList}\small\item\em \-Redraws the visualizer screen. \end{DoxyCompactList}\item 
+void {\bf set\-Max\-Volt} (int index, double volt)
+\item 
+void {\bf set\-Min\-Volt} (int index, double volt)
+\item 
+void {\bf set\-Volt\-Ranges} (const boost\-::array$<$ double, 60 $>$ \&b, const boost\-::array$<$ double, 60 $>$ \&t, const boost\-::array$<$ double, 60 $>$ \&min, const boost\-::array$<$ double, 60 $>$ \&max)
+\begin{DoxyCompactList}\small\item\em \-Sets the ranges for each channel (used for determining colors) \end{DoxyCompactList}\item 
+void {\bf update} (int channel, double new\-Value)
+\begin{DoxyCompactList}\small\item\em \-Updates the visualizer with new voltage data for a channel. \end{DoxyCompactList}\item 
+void {\bf update\-Ca} (const burst\-\_\-calc\-::ca \&c)
+\begin{DoxyCompactList}\small\item\em \-Updates the center of activity to be displayed. \end{DoxyCompactList}\item 
+virtual {\bf $\sim$\-Dish\-Visualizer} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bf is\-Init}
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf int\-Map} (double input, double min\-\_\-in, double max\-\_\-in, int min\-\_\-out, int max\-\_\-out)
+\begin{DoxyCompactList}\small\item\em \-Generates color values based on input data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf baselines} [60]
+\item 
+burst\-\_\-calc\-::ca {\bf ca}
+\item 
+vector$<$ vector$<$ int $>$ $>$ {\bf centers}
+\item 
+int {\bf color\-\_\-mode}
+\item 
+vector$<$ double $>$ {\bf data}
+\item 
+boost\-::mutex {\bf data\-Update}
+\item 
+double {\bf max\-\_\-volts} [60]
+\item 
+double {\bf min\-\_\-volts} [60]
+\item 
+bool {\bf plot\-\_\-ca}
+\item 
+\-X\-Plotter $\ast$ {\bf plotter}
+\item 
+double {\bf thresholds} [60]
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Helper class for the \doxyref{dish\-\_\-viz}{p.}{namespacedish__viz} node. 
+
+\-Creates a visualizer on screen so the user can see the spiking activity which is causing \-A\-R\-M movement.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Abraham \-Shultz 
+
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 36 of file \-Dish\-Visualizer.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!\-Dish\-Visualizer@{\-Dish\-Visualizer}}
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{\-Dish\-Visualizer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dish\-Visualizer\-::\-Dish\-Visualizer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classDishVisualizer_acf8ea910e3e6b14dcb90a5e55b964ac2}
+
+
+\-Definition at line 19 of file \-Dish\-Visualizer.\-cpp.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!$\sim$\-Dish\-Visualizer@{$\sim$\-Dish\-Visualizer}}
+\index{$\sim$\-Dish\-Visualizer@{$\sim$\-Dish\-Visualizer}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{$\sim$\-Dish\-Visualizer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dish\-Visualizer\-::$\sim$\-Dish\-Visualizer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [virtual]}}\label{classDishVisualizer_a1301874efc3285d81cb1c17d47c8c1ab}
+
+
+\-Definition at line 32 of file \-Dish\-Visualizer.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!get\-Max\-Volt@{get\-Max\-Volt}}
+\index{get\-Max\-Volt@{get\-Max\-Volt}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{get\-Max\-Volt}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dish\-Visualizer\-::get\-Max\-Volt} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classDishVisualizer_a8fa8f36ee813b1a278ef92355f959fb1}
+
+
+\-Definition at line 65 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!get\-Min\-Volt@{get\-Min\-Volt}}
+\index{get\-Min\-Volt@{get\-Min\-Volt}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{get\-Min\-Volt}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dish\-Visualizer\-::get\-Min\-Volt} (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classDishVisualizer_a9f1501b274749311f83e0877cc6d9ebb}
+
+
+\-Definition at line 64 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!init@{init}}
+\index{init@{init}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Dish\-Visualizer\-::init} (
+\begin{DoxyParamCaption}
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+)}\label{classDishVisualizer_ae49a0ff5fcd5fb0bfc87edd8ad3197a5}
+
+
+\-Initializes the visualizer. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em mode} & the color mode to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 
+\end{DoxyReturn}
+
+
+\-Definition at line 41 of file \-Dish\-Visualizer.\-cpp.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!int\-Map@{int\-Map}}
+\index{int\-Map@{int\-Map}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{int\-Map}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Dish\-Visualizer\-::int\-Map} (
+\begin{DoxyParamCaption}
+\item[{double}]{input, }
+\item[{double}]{min\-\_\-in, }
+\item[{double}]{max\-\_\-in, }
+\item[{int}]{min\-\_\-out, }
+\item[{int}]{max\-\_\-out}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_aa03b44fdf1e3075862296384e61b4a54}
+
+
+\-Generates color values based on input data. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em input} & the input voltage \\
+\hline
+{\em min\-\_\-in} & the minimum input voltage \\
+\hline
+{\em max\-\_\-in} & the maximum input voltage \\
+\hline
+{\em min\-\_\-out} & the minimum generated value \\
+\hline
+{\em max\-\_\-out} & the maximum generated value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the generated color value 
+\end{DoxyReturn}
+
+
+\-Definition at line 127 of file \-Dish\-Visualizer.\-cpp.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!redraw@{redraw}}
+\index{redraw@{redraw}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{redraw}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Dish\-Visualizer\-::redraw} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classDishVisualizer_a21408b6a0ddc4cd747f45be4a428315f}
+
+
+\-Redraws the visualizer screen. 
+
+
+
+\-Definition at line 146 of file \-Dish\-Visualizer.\-cpp.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!set\-Max\-Volt@{set\-Max\-Volt}}
+\index{set\-Max\-Volt@{set\-Max\-Volt}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{set\-Max\-Volt}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Dish\-Visualizer\-::set\-Max\-Volt} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{double}]{volt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classDishVisualizer_aba726db2c95125a62c5f1415150746e8}
+
+
+\-Definition at line 67 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!set\-Min\-Volt@{set\-Min\-Volt}}
+\index{set\-Min\-Volt@{set\-Min\-Volt}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{set\-Min\-Volt}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Dish\-Visualizer\-::set\-Min\-Volt} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{double}]{volt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classDishVisualizer_ac7c3de90762f66e32f13f80a0a8ab9ab}
+
+
+\-Definition at line 66 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!set\-Volt\-Ranges@{set\-Volt\-Ranges}}
+\index{set\-Volt\-Ranges@{set\-Volt\-Ranges}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{set\-Volt\-Ranges}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Dish\-Visualizer\-::set\-Volt\-Ranges} (
+\begin{DoxyParamCaption}
+\item[{const boost\-::array$<$ double, 60 $>$ \&}]{b, }
+\item[{const boost\-::array$<$ double, 60 $>$ \&}]{t, }
+\item[{const boost\-::array$<$ double, 60 $>$ \&}]{min, }
+\item[{const boost\-::array$<$ double, 60 $>$ \&}]{max}
+\end{DoxyParamCaption}
+)}\label{classDishVisualizer_a0d5ce889e9fda73aee98d036cf132a56}
+
+
+\-Sets the ranges for each channel (used for determining colors) 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em b} & baselines for each channel \\
+\hline
+{\em t} & thresholds for each channel \\
+\hline
+{\em min} & minimum voltages for each channel \\
+\hline
+{\em max} & maximum voltages for each channel \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 280 of file \-Dish\-Visualizer.\-cpp.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!update@{update}}
+\index{update@{update}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Dish\-Visualizer\-::update} (
+\begin{DoxyParamCaption}
+\item[{int}]{channel, }
+\item[{double}]{new\-Value}
+\end{DoxyParamCaption}
+)}\label{classDishVisualizer_a7c7a9807ff9fed5c28a7e6aa1e29067e}
+
+
+\-Updates the visualizer with new voltage data for a channel. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em channel} & the channel being updated \\
+\hline
+{\em new\-Value} & the new value for the channel \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 247 of file \-Dish\-Visualizer.\-cpp.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!update\-Ca@{update\-Ca}}
+\index{update\-Ca@{update\-Ca}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{update\-Ca}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Dish\-Visualizer\-::update\-Ca} (
+\begin{DoxyParamCaption}
+\item[{const burst\-\_\-calc\-::ca \&}]{c}
+\end{DoxyParamCaption}
+)}\label{classDishVisualizer_aaef501d6cee310c081396fef4a6dd7b9}
+
+
+\-Updates the center of activity to be displayed. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em c} & the \-C\-A to be displayed \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 261 of file \-Dish\-Visualizer.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!baselines@{baselines}}
+\index{baselines@{baselines}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{baselines}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dish\-Visualizer\-::baselines}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_ab2abc5dcc2568a294d78a3ab11b87e2c}
+
+
+\-Definition at line 45 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!ca@{ca}}
+\index{ca@{ca}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{ca}]{\setlength{\rightskip}{0pt plus 5cm}burst\-\_\-calc\-::ca {\bf \-Dish\-Visualizer\-::ca}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a3d3fee1babc9f64b521887b39eff9e25}
+
+
+\-Definition at line 41 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!centers@{centers}}
+\index{centers@{centers}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{centers}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ vector$<$int$>$ $>$ {\bf \-Dish\-Visualizer\-::centers}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_afe3a1d0c84c7ca8b82b8de963b0e4503}
+
+
+\-Definition at line 39 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!color\-\_\-mode@{color\-\_\-mode}}
+\index{color\-\_\-mode@{color\-\_\-mode}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{color\-\_\-mode}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Dish\-Visualizer\-::color\-\_\-mode}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_ace67d28056e895238cfdf7383125dcd4}
+
+
+\-Definition at line 49 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!data@{data}}
+\index{data@{data}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ {\bf \-Dish\-Visualizer\-::data}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a86f197e893747de460cf6f64a0add16f}
+
+
+\-Definition at line 40 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!data\-Update@{data\-Update}}
+\index{data\-Update@{data\-Update}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{data\-Update}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::mutex {\bf \-Dish\-Visualizer\-::data\-Update}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a339f0367c6df2927a2477295bafe3783}
+
+
+\-Definition at line 44 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!is\-Init@{is\-Init}}
+\index{is\-Init@{is\-Init}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{is\-Init}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Dish\-Visualizer\-::is\-Init}}\label{classDishVisualizer_a4e31d162f13ae007ab153c324184a180}
+
+
+\-Definition at line 55 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!max\-\_\-volts@{max\-\_\-volts}}
+\index{max\-\_\-volts@{max\-\_\-volts}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{max\-\_\-volts}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dish\-Visualizer\-::max\-\_\-volts}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a2e8396fb785e680f6b6a4f797d2d26e2}
+
+
+\-Definition at line 48 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!min\-\_\-volts@{min\-\_\-volts}}
+\index{min\-\_\-volts@{min\-\_\-volts}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{min\-\_\-volts}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dish\-Visualizer\-::min\-\_\-volts}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a0039dc71974f3152f9fc5bd7ebbc6f1c}
+
+
+\-Definition at line 47 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!plot\-\_\-ca@{plot\-\_\-ca}}
+\index{plot\-\_\-ca@{plot\-\_\-ca}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{plot\-\_\-ca}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Dish\-Visualizer\-::plot\-\_\-ca}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a48c512615ccb7ea31603dff8ee964ce5}
+
+
+\-Definition at line 42 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!plotter@{plotter}}
+\index{plotter@{plotter}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{plotter}]{\setlength{\rightskip}{0pt plus 5cm}\-X\-Plotter$\ast$ {\bf \-Dish\-Visualizer\-::plotter}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_ae5f87a528b81a18250c654ca496b975b}
+
+
+\-Definition at line 38 of file \-Dish\-Visualizer.\-h.
+
+\index{\-Dish\-Visualizer@{\-Dish\-Visualizer}!thresholds@{thresholds}}
+\index{thresholds@{thresholds}!DishVisualizer@{\-Dish\-Visualizer}}
+\subsubsection[{thresholds}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Dish\-Visualizer\-::thresholds}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classDishVisualizer_a34f77320bb7d59581778a0379a0ccf07}
+
+
+\-Definition at line 46 of file \-Dish\-Visualizer.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf \-Dish\-Visualizer.\-h}\item 
+{\bf \-Dish\-Visualizer.\-cpp}\end{DoxyCompactItemize}

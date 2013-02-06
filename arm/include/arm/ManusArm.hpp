@@ -1,6 +1,7 @@
 /*
  * ManusArm.hpp
  * Copyright 2013 University of Massachusetts Lowell
+ * Authors: Abraham Shultz, Jonathan Hasenzahl
  */
 
 #ifndef MANUS_ARM_HPP_
@@ -94,7 +95,7 @@ struct armState
 /*!
  * \brief Singleton class representing the ARM.
  * \copyright Copyright 2013 University of Massachusetts Lowell
- * \author Abe Shultz
+ * \author Abraham Shultz
  * \author Jonathan Hasenzahl
  */
 class ManusArm

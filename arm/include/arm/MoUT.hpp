@@ -1,6 +1,7 @@
 /*
  * MoUT.hpp
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Abraham Shultz
  * The Museum of Useful Things contains code that does useful, but not terribly specific, things.
  */
 

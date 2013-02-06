@@ -1,0 +1,301 @@
+\section{\-Burst\-Creator \-Class \-Reference}
+\label{classBurstCreator}\index{\-Burst\-Creator@{\-Burst\-Creator}}
+
+
+\-Node for creating bursts.  
+
+
+
+
+{\ttfamily \#include $<$burst\-\_\-creator.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Burst\-Creator} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf add\-Dish} ()
+\begin{DoxyCompactList}\small\item\em \-Processes a new dish state from the queue. \end{DoxyCompactList}\item 
+void {\bf callback} (const neuro\-\_\-recv\-::dish\-\_\-state\-::\-Const\-Ptr \&d)
+\begin{DoxyCompactList}\small\item\em \-Callback for dish state messages. \end{DoxyCompactList}\item 
+void {\bf finish} ()
+\begin{DoxyCompactList}\small\item\em \-Closes out any remaining bursts on the channels after the end of new dish states. \end{DoxyCompactList}\item 
+void {\bf get\-Params} ()
+\begin{DoxyCompactList}\small\item\em \-Gets server parameters. \end{DoxyCompactList}\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\item 
+void {\bf run} ()
+\begin{DoxyCompactList}\small\item\em \-Main spin loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Buffer\-Spike\-Detector} {\bf buf\-\_\-}
+\item 
+int {\bf buffer\-\_\-size\-\_\-}
+\item 
+ros\-::\-Publisher {\bf burst\-\_\-pub\-\_\-cat\-\_\-}
+\item 
+ros\-::\-Publisher {\bf burst\-\_\-pub\-\_\-viz\-\_\-}
+\item 
+int {\bf burst\-\_\-window\-\_\-}
+\item 
+{\bf \-Burst\-Checker} {\bf bursts\-\_\-} [60]
+\item 
+ros\-::\-Subscriber {\bf dish\-\_\-state\-\_\-sub\-\_\-}
+\item 
+{\bf \-Burst\-Merger} {\bf merger\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+std\-::queue\*
+$<$ neuro\-\_\-recv\-::dish\-\_\-state $>$ {\bf queue\-\_\-}
+\item 
+ros\-::\-Publisher {\bf ranges\-\_\-pub\-\_\-cat\-\_\-}
+\item 
+ros\-::\-Publisher {\bf ranges\-\_\-pub\-\_\-viz\-\_\-}
+\item 
+double {\bf stdev\-\_\-mult\-\_\-}
+\item 
+ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Node for creating bursts. 
+
+\-This node receives dish states from a receiver node and then detects and creates burst sequences, which are forwarded to the \-C\-A\-T creator node. \-The operation of the node is autonomous; after the object has been created, the node will run with no further operation.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 30 of file burst\-\_\-creator.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Burst\-Creator@{\-Burst\-Creator}!\-Burst\-Creator@{\-Burst\-Creator}}
+\index{\-Burst\-Creator@{\-Burst\-Creator}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{\-Burst\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Burst\-Creator\-::\-Burst\-Creator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBurstCreator_ae993a5e585afb9929f928059bf4d0384}
+
+
+\-Definition at line 33 of file burst\-\_\-creator.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Burst\-Creator@{\-Burst\-Creator}!add\-Dish@{add\-Dish}}
+\index{add\-Dish@{add\-Dish}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{add\-Dish}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Creator\-::add\-Dish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a20bea0d3014c713d09b08be03136e001}
+
+
+\-Processes a new dish state from the queue. 
+
+\-If the buffer hasn't finished, the dish state is used in the buffer. \-If the buffer has finished, then the dish state is added to the burst checkers. \-The burst merger then runs, and a new merged burst is published if ready. 
+
+\-Definition at line 97 of file burst\-\_\-creator.\-cpp.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!callback@{callback}}
+\index{callback@{callback}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Creator\-::callback} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state\-::\-Const\-Ptr \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a92c5638f01eea311e17debba0aac9ad4}
+
+
+\-Callback for dish state messages. 
+
+\-This method is called automatically when the node receives a dish state message. \-If the dish state is marked as the \char`\"{}last dish\char`\"{}, the finish method is called. \-Otherwise, the dish state is added to the queue.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 235 of file burst\-\_\-creator.\-cpp.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!finish@{finish}}
+\index{finish@{finish}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Creator\-::finish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a4d49ff9f90784b54071bc62e20ea8a10}
+
+
+\-Closes out any remaining bursts on the channels after the end of new dish states. 
+
+
+
+\-Definition at line 183 of file burst\-\_\-creator.\-cpp.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Creator\-::get\-Params} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_aae14f2f59c59e51c2c7725ab5bd7dca7}
+
+
+\-Gets server parameters. 
+
+
+
+\-Definition at line 51 of file burst\-\_\-creator.\-cpp.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!init@{init}}
+\index{init@{init}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Creator\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a7c4693e8a4f26f27cc6af83cf770a1aa}
+
+
+\-Initializes the node. 
+
+\-Gets server parameters, initializes publishers and subscriber, and runs the spin loop. 
+
+\-Definition at line 18 of file burst\-\_\-creator.\-cpp.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!run@{run}}
+\index{run@{run}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Creator\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a743f342a51e97e02645cc55206eae9ef}
+
+
+\-Main spin loop. 
+
+\-Spins until \-R\-O\-S shuts down or \-Ctrl+\-C is pressed. 
+
+\-Definition at line 80 of file burst\-\_\-creator.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Burst\-Creator@{\-Burst\-Creator}!buf\-\_\-@{buf\-\_\-}}
+\index{buf\-\_\-@{buf\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{buf\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Buffer\-Spike\-Detector} {\bf \-Burst\-Creator\-::buf\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a54da722e310ebd11f7bb12782f553868}
+
+
+\-Definition at line 53 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!buffer\-\_\-size\-\_\-@{buffer\-\_\-size\-\_\-}}
+\index{buffer\-\_\-size\-\_\-@{buffer\-\_\-size\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{buffer\-\_\-size\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Burst\-Creator\-::buffer\-\_\-size\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a73b31c069a171ff34be23e898f9b5a9a}
+
+
+\-Definition at line 57 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!burst\-\_\-pub\-\_\-cat\-\_\-@{burst\-\_\-pub\-\_\-cat\-\_\-}}
+\index{burst\-\_\-pub\-\_\-cat\-\_\-@{burst\-\_\-pub\-\_\-cat\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{burst\-\_\-pub\-\_\-cat\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Burst\-Creator\-::burst\-\_\-pub\-\_\-cat\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_afe7e746ef36586c2524c2b9f98f268ac}
+
+
+\-Definition at line 45 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!burst\-\_\-pub\-\_\-viz\-\_\-@{burst\-\_\-pub\-\_\-viz\-\_\-}}
+\index{burst\-\_\-pub\-\_\-viz\-\_\-@{burst\-\_\-pub\-\_\-viz\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{burst\-\_\-pub\-\_\-viz\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Burst\-Creator\-::burst\-\_\-pub\-\_\-viz\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_ae7d05b0e866d99e96a378f62c1836c72}
+
+
+\-Definition at line 46 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!burst\-\_\-window\-\_\-@{burst\-\_\-window\-\_\-}}
+\index{burst\-\_\-window\-\_\-@{burst\-\_\-window\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{burst\-\_\-window\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Burst\-Creator\-::burst\-\_\-window\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_ad942ac5694f5765da1b1a49f3ac51ffe}
+
+
+\-Definition at line 59 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!bursts\-\_\-@{bursts\-\_\-}}
+\index{bursts\-\_\-@{bursts\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{bursts\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Burst\-Checker} {\bf \-Burst\-Creator\-::bursts\-\_\-}[60]\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_ad45ae072ecb8ee5c895926cd4474fa7c}
+
+
+\-Definition at line 54 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!dish\-\_\-state\-\_\-sub\-\_\-@{dish\-\_\-state\-\_\-sub\-\_\-}}
+\index{dish\-\_\-state\-\_\-sub\-\_\-@{dish\-\_\-state\-\_\-sub\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{dish\-\_\-state\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Burst\-Creator\-::dish\-\_\-state\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_a8f031e07319a88555b998b08f67ca761}
+
+
+\-Definition at line 44 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!merger\-\_\-@{merger\-\_\-}}
+\index{merger\-\_\-@{merger\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{merger\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Burst\-Merger} {\bf \-Burst\-Creator\-::merger\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_affd99155a0768c4f31ab31cc4852bdb6}
+
+
+\-Definition at line 55 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Burst\-Creator\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_adb68a95ef58aaffe8809ae2ba8f3842c}
+
+
+\-Definition at line 43 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!queue\-\_\-@{queue\-\_\-}}
+\index{queue\-\_\-@{queue\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{queue\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::queue$<$neuro\-\_\-recv\-::dish\-\_\-state$>$ {\bf \-Burst\-Creator\-::queue\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_afc7c28789c569b386d1edc732d29ce27}
+
+
+\-Definition at line 51 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!ranges\-\_\-pub\-\_\-cat\-\_\-@{ranges\-\_\-pub\-\_\-cat\-\_\-}}
+\index{ranges\-\_\-pub\-\_\-cat\-\_\-@{ranges\-\_\-pub\-\_\-cat\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{ranges\-\_\-pub\-\_\-cat\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Burst\-Creator\-::ranges\-\_\-pub\-\_\-cat\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_ab86be8c5b297e82bf23e4aa9a254c823}
+
+
+\-Definition at line 47 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!ranges\-\_\-pub\-\_\-viz\-\_\-@{ranges\-\_\-pub\-\_\-viz\-\_\-}}
+\index{ranges\-\_\-pub\-\_\-viz\-\_\-@{ranges\-\_\-pub\-\_\-viz\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{ranges\-\_\-pub\-\_\-viz\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Burst\-Creator\-::ranges\-\_\-pub\-\_\-viz\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_aefe70e294adcdf047f5df52f5a4fc02e}
+
+
+\-Definition at line 48 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!stdev\-\_\-mult\-\_\-@{stdev\-\_\-mult\-\_\-}}
+\index{stdev\-\_\-mult\-\_\-@{stdev\-\_\-mult\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{stdev\-\_\-mult\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Burst\-Creator\-::stdev\-\_\-mult\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_aa399410aade18b8d67e37dfb56a6f8f8}
+
+
+\-Definition at line 58 of file burst\-\_\-creator.\-h.
+
+\index{\-Burst\-Creator@{\-Burst\-Creator}!time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}}
+\index{time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}!BurstCreator@{\-Burst\-Creator}}
+\subsubsection[{time\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client {\bf \-Burst\-Creator\-::time\-\_\-client\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstCreator_aa041d74abf60d13124938deee8d80cc0}
+
+
+\-Definition at line 49 of file burst\-\_\-creator.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf burst\-\_\-creator.\-h}\item 
+{\bf burst\-\_\-creator.\-cpp}\end{DoxyCompactItemize}

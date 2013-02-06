@@ -1,8 +1,7 @@
 /*
  * DishVisualizer.cpp
- *
- *  Created on: Jun 4, 2012
- *      Author: ams
+ * Copyright 2013 University of Massachusetts Lowell
+ * Authors: Abraham Shultz, Jonathan Hasenzahl
  */
 
 #include "dish_viz/DishVisualizer.h"
@@ -34,6 +33,11 @@ DishVisualizer::~DishVisualizer() {
 	isInit = FALSE;
 }
 
+/*!
+ * \brief Initializes the visualizer
+ * \param mode the color mode to use
+ * \return 0
+ */
 int DishVisualizer::init(int mode) {
 	isInit = FALSE;
 
@@ -111,6 +115,15 @@ int DishVisualizer::init(int mode) {
 
 }
 
+/*!
+ * \brief Generates color values based on input data
+ * \param input the input voltage
+ * \param min_in the minimum input voltage
+ * \param max_in the maximum input voltage
+ * \param min_out the minimum generated value
+ * \param max_out the maximum generated value
+ * \return the generated color value
+ */
 int DishVisualizer::intMap(double input, double min_in, double max_in,
 		int min_out, int max_out) {
 	int retVal = 0;
@@ -127,6 +140,9 @@ int DishVisualizer::intMap(double input, double min_in, double max_in,
 	return retVal;
 }
 
+/*!
+ * \brief Redraws the visualizer screen
+ */
 void DishVisualizer::redraw() {
 	while (isInit) {
         for (uint showChan = 0; showChan < data.size(); showChan++) {
@@ -223,6 +239,11 @@ void DishVisualizer::redraw() {
 	}
 }
 
+/*!
+ * \brief Updates the visualizer with new voltage data for a channel
+ * \param channel the channel being updated
+ * \param newValue the new value for the channel
+ */
 void DishVisualizer::update(int channel, double newValue) {
 	if (isInit) {
 		boost::mutex::scoped_lock lock(dataUpdate);
@@ -233,6 +254,10 @@ void DishVisualizer::update(int channel, double newValue) {
 	}
 }
 
+/*!
+ * \brief Updates the center of activity to be displayed
+ * \param c the CA to be displayed
+ */
 void DishVisualizer::updateCa(const burst_calc::ca& c)
 {
     if (isInit)
@@ -245,6 +270,13 @@ void DishVisualizer::updateCa(const burst_calc::ca& c)
         ROS_ERROR("Visualizer attempted to be updated while not initialized");
 }
 
+/*!
+ * \brief Sets the ranges for each channel (used for determining colors)
+ * \param b baselines for each channel
+ * \param t thresholds for each channel
+ * \param min minimum voltages for each channel
+ * \param max maximum voltages for each channel
+ */
 void DishVisualizer::setVoltRanges(const boost::array<double, 60>& b,
                                    const boost::array<double, 60>& t,
                                    const boost::array<double, 60>& min,

@@ -1,10 +1,8 @@
-// =============================================================================
-// Name   : burst_creator.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "burst_creator".
-// =============================================================================
+/*
+ * burst_creator.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef BURST_CREATOR_H_
 #define BURST_CREATOR_H_
@@ -18,6 +16,17 @@
 #include <queue>
 #include <string>
 
+/*!
+ * \brief Node for creating bursts
+ *
+ * This node receives dish states from a receiver node and then detects and
+ * creates burst sequences, which are forwarded to the CAT creator node. The
+ * operation of the node is autonomous; after the object has been created, the
+ * node will run with no further operation.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class BurstCreator
 {
 public:

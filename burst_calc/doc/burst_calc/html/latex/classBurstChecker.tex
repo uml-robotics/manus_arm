@@ -1,0 +1,287 @@
+\section{\-Burst\-Checker \-Class \-Reference}
+\label{classBurstChecker}\index{\-Burst\-Checker@{\-Burst\-Checker}}
+
+
+\-Helper class for the burst\-\_\-creator node.  
+
+
+
+
+{\ttfamily \#include $<$burst\-\_\-checker.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Burst\-Checker} ()
+\begin{DoxyCompactList}\small\item\em \-Sets values to their initial states. \end{DoxyCompactList}\item 
+bool {\bf end\-Of\-Burst} ()
+\item 
+const {\bf burst\-\_\-calc\-::burst} \& {\bf get\-Burst} ()
+\item 
+const ros\-::\-Time $\ast$ {\bf get\-Time\-Ptr} ()
+\begin{DoxyCompactList}\small\item\em \-Returns a pointer to the start time of the burst. \end{DoxyCompactList}\item 
+void {\bf init} (int index, double baseline, double threshold, int burst\-\_\-window)
+\begin{DoxyCompactList}\small\item\em \-Gives the object values needed for later calculations. \end{DoxyCompactList}\item 
+bool {\bf is\-Bursting} ()
+\item 
+void {\bf reset} ()
+\begin{DoxyCompactList}\small\item\em \-Resets the burst checker. \end{DoxyCompactList}\item 
+void {\bf update} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Updates the burst checker with a new dish state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf baseline\-\_\-}
+\item 
+{\bf burst\-\_\-calc\-::burst} {\bf burst\-\_\-}
+\item 
+int {\bf burst\-\_\-window\-\_\-}
+\item 
+bool {\bf end\-\_\-of\-\_\-burst\-\_\-}
+\item 
+int {\bf frame\-\_\-count\-\_\-}
+\item 
+int {\bf index\-\_\-}
+\item 
+bool {\bf is\-\_\-bursting\-\_\-}
+\item 
+bool {\bf is\-\_\-possible\-\_\-burst\-\_\-}
+\item 
+int {\bf spike\-\_\-count\-\_\-}
+\item 
+double {\bf threshold\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Helper class for the burst\-\_\-creator node. 
+
+\-Monitors a single channel for bursting activity. \-A burst is defined as 3 or more spikes in a period in which the activity does not drop below baseline.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 22 of file burst\-\_\-checker.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Burst\-Checker@{\-Burst\-Checker}!\-Burst\-Checker@{\-Burst\-Checker}}
+\index{\-Burst\-Checker@{\-Burst\-Checker}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{\-Burst\-Checker}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Burst\-Checker\-::\-Burst\-Checker} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classBurstChecker_a43302103fd45527ae7eb37b1b5d3c5ad}
+
+
+\-Sets values to their initial states. 
+
+
+
+\-Definition at line 13 of file burst\-\_\-checker.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Burst\-Checker@{\-Burst\-Checker}!end\-Of\-Burst@{end\-Of\-Burst}}
+\index{end\-Of\-Burst@{end\-Of\-Burst}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{end\-Of\-Burst}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Burst\-Checker\-::end\-Of\-Burst} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBurstChecker_a3817a2f576881add3288da254f74787d}
+
+
+\-Definition at line 33 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!get\-Burst@{get\-Burst}}
+\index{get\-Burst@{get\-Burst}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{get\-Burst}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf burst\-\_\-calc\-::burst}\& {\bf \-Burst\-Checker\-::get\-Burst} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBurstChecker_a1c9a147550277317db14d4c927d9233b}
+
+
+\-Definition at line 31 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!get\-Time\-Ptr@{get\-Time\-Ptr}}
+\index{get\-Time\-Ptr@{get\-Time\-Ptr}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{get\-Time\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}const ros\-::\-Time $\ast$ {\bf \-Burst\-Checker\-::get\-Time\-Ptr} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classBurstChecker_ae8f2e6722cbc737c3a26ac1262c3e2af}
+
+
+\-Returns a pointer to the start time of the burst. 
+
+\begin{DoxyReturn}{\-Returns}
+if there is a possible burst, returns a pointer to the start time of the; returns a null pointer otherwise 
+\end{DoxyReturn}
+
+
+\-Definition at line 144 of file burst\-\_\-checker.\-cpp.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!init@{init}}
+\index{init@{init}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Checker\-::init} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{double}]{baseline, }
+\item[{double}]{threshold, }
+\item[{int}]{burst\-\_\-window}
+\end{DoxyParamCaption}
+)}\label{classBurstChecker_a7e7a6f2b1be2d756ca6363bec7ce2025}
+
+
+\-Gives the object values needed for later calculations. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & the index of the channel, from 0 to 59 \\
+\hline
+{\em baseline} & the baseline voltage of the channel \\
+\hline
+{\em threshold} & the spike threshold of the channel \\
+\hline
+{\em burst\-\_\-window} & the size (in dish states) of the burst window \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 29 of file burst\-\_\-checker.\-cpp.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!is\-Bursting@{is\-Bursting}}
+\index{is\-Bursting@{is\-Bursting}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{is\-Bursting}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Burst\-Checker\-::is\-Bursting} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classBurstChecker_af6b56fc7bf8a180003b49e3e7db64dc6}
+
+
+\-Definition at line 32 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!reset@{reset}}
+\index{reset@{reset}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Checker\-::reset} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classBurstChecker_a3a6e05c437f0b8cab66bc6164f16bc16}
+
+
+\-Resets the burst checker. 
+
+\-This should be called after the end of a burst has been detected (is\-Bursting) and the burst has been retrieved (get\-Burst). 
+
+\-Definition at line 131 of file burst\-\_\-checker.\-cpp.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!update@{update}}
+\index{update@{update}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Burst\-Checker\-::update} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)}\label{classBurstChecker_aa3402f8b0a4f2cf6fcad2dd131039c79}
+
+
+\-Updates the burst checker with a new dish state. 
+
+\-This method contains the logic for determining if a burst is occurring on this channel.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state being added \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 47 of file burst\-\_\-checker.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Burst\-Checker@{\-Burst\-Checker}!baseline\-\_\-@{baseline\-\_\-}}
+\index{baseline\-\_\-@{baseline\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{baseline\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Burst\-Checker\-::baseline\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_ac4f75b97e41a821be44400854a15706d}
+
+
+\-Definition at line 38 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!burst\-\_\-@{burst\-\_\-}}
+\index{burst\-\_\-@{burst\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{burst\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf burst\-\_\-calc\-::burst} {\bf \-Burst\-Checker\-::burst\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_ab88dde232fd565bce5e01131ecec87cc}
+
+
+\-Definition at line 36 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!burst\-\_\-window\-\_\-@{burst\-\_\-window\-\_\-}}
+\index{burst\-\_\-window\-\_\-@{burst\-\_\-window\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{burst\-\_\-window\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Burst\-Checker\-::burst\-\_\-window\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_aa784791a8d29207f86b2fb6e128b6a91}
+
+
+\-Definition at line 45 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!end\-\_\-of\-\_\-burst\-\_\-@{end\-\_\-of\-\_\-burst\-\_\-}}
+\index{end\-\_\-of\-\_\-burst\-\_\-@{end\-\_\-of\-\_\-burst\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{end\-\_\-of\-\_\-burst\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Burst\-Checker\-::end\-\_\-of\-\_\-burst\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_ab877d0fb4c70f73380cb2075bba31a0c}
+
+
+\-Definition at line 44 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!frame\-\_\-count\-\_\-@{frame\-\_\-count\-\_\-}}
+\index{frame\-\_\-count\-\_\-@{frame\-\_\-count\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{frame\-\_\-count\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Burst\-Checker\-::frame\-\_\-count\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_a0454c65fd580a5e278fa0c51fa43b9e8}
+
+
+\-Definition at line 40 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!index\-\_\-@{index\-\_\-}}
+\index{index\-\_\-@{index\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{index\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Burst\-Checker\-::index\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_a1ca2b10001d0fdf031a47f8f7e8cb31b}
+
+
+\-Definition at line 37 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!is\-\_\-bursting\-\_\-@{is\-\_\-bursting\-\_\-}}
+\index{is\-\_\-bursting\-\_\-@{is\-\_\-bursting\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{is\-\_\-bursting\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Burst\-Checker\-::is\-\_\-bursting\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_ab3e25774086140a5bbaa98a4abcb38a2}
+
+
+\-Definition at line 42 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!is\-\_\-possible\-\_\-burst\-\_\-@{is\-\_\-possible\-\_\-burst\-\_\-}}
+\index{is\-\_\-possible\-\_\-burst\-\_\-@{is\-\_\-possible\-\_\-burst\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{is\-\_\-possible\-\_\-burst\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Burst\-Checker\-::is\-\_\-possible\-\_\-burst\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_ad7ddd78308ad4f5a3cc3d1c835e749cd}
+
+
+\-Definition at line 43 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!spike\-\_\-count\-\_\-@{spike\-\_\-count\-\_\-}}
+\index{spike\-\_\-count\-\_\-@{spike\-\_\-count\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{spike\-\_\-count\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Burst\-Checker\-::spike\-\_\-count\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_ae2df448015f969dd344ddf191041f0b6}
+
+
+\-Definition at line 41 of file burst\-\_\-checker.\-h.
+
+\index{\-Burst\-Checker@{\-Burst\-Checker}!threshold\-\_\-@{threshold\-\_\-}}
+\index{threshold\-\_\-@{threshold\-\_\-}!BurstChecker@{\-Burst\-Checker}}
+\subsubsection[{threshold\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Burst\-Checker\-::threshold\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classBurstChecker_a3beac5bf72ad37dc372ef9258153e826}
+
+
+\-Definition at line 39 of file burst\-\_\-checker.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf burst\-\_\-checker.\-h}\item 
+{\bf burst\-\_\-checker.\-cpp}\end{DoxyCompactItemize}

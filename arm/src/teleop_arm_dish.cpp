@@ -1,6 +1,7 @@
 /*
  * teleop_arm_dish.h
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
  */
 
 #include "arm/teleop_arm_dish.h"
@@ -14,8 +15,7 @@
 #define MIDPOINT 4.5
 
 /*!
- * \brief Default constructor
- * Calls the init and run methods.
+ * \brief Calls the init and run methods
  */
 TeleopArmDish::TeleopArmDish()
 {

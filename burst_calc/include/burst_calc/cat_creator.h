@@ -1,10 +1,8 @@
-// =============================================================================
-// Name   : cat_creator.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "cat_creator".
-// =============================================================================
+/*
+ * cat_creator.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef CAT_CREATOR_H_
 #define CAT_CREATOR_H_
@@ -35,6 +33,22 @@ const int Y_COORD_[60] = {    1, 1, 1, 1, 1, 1,
                            7, 7, 7, 7, 7, 7, 7, 7,
                               8, 8, 8, 8, 8, 8    };
 
+/*!
+ * \brief Node for creating CATs (center of activity trajectories)
+ *
+ * This node receives bursts from the burst creator node and calculates a CAT
+ * for each burst. It then publishes the CAT to the dish teleop node for
+ * ARM movement.
+ *
+ * The CAT metric is described in this paper:
+ *
+ * Chao ZC, Bakkum DJ, Potter SM (2007). "Region-specific network plasticity in
+ * simulated and living cortical networks: comparison of the Center of Activity
+ * Trajectory (CAT) with other metrics." J. Neural Eng. 4, 294-308.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class CatCreator
 {
 public:

@@ -1,6 +1,7 @@
 /*
  * arm_control.h
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
  */
 
 #ifndef ARM_CONTROL_H_

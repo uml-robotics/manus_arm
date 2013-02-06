@@ -1,18 +1,20 @@
-// =============================================================================
-// Name   : burst_creator.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "burst_creator". This node determines when incoming
-// dish state activity is spiking, and then creates and publishes
-// non-overlapping bursts.
-// =============================================================================
+/*
+ * burst_creator.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "burst_calc/burst_creator.h"
 #include "burst_calc/ranges.h"
 #include "time_server/time_srv.h"
 #include <cstdio>
 
+/*!
+ * \brief Initializes the node
+ *
+ * Gets server parameters, initializes publishers and subscriber, and runs the
+ * spin loop.
+ */
 void BurstCreator::init()
 {
     // Get parameters
@@ -43,6 +45,9 @@ void BurstCreator::init()
     run();
 }
 
+/*!
+ * \brief Gets server parameters
+ */
 void BurstCreator::getParams()
 {
     // Get buffer_size parameter
@@ -67,6 +72,11 @@ void BurstCreator::getParams()
     }
 }
 
+/*!
+ * \brief Main spin loop
+ *
+ * Spins until ROS shuts down or Ctrl+C is pressed.
+ */
 void BurstCreator::run()
 {
     while (ros::ok())
@@ -77,6 +87,13 @@ void BurstCreator::run()
     }
 }
 
+/*!
+ * \brief Processes a new dish state from the queue
+ *
+ * If the buffer hasn't finished, the dish state is used in the buffer. If the
+ * buffer has finished, then the dish state is added to the burst checkers. The
+ * burst merger then runs, and a new merged burst is published if ready.
+ */
 void BurstCreator::addDish()
 {
     neuro_recv::dish_state d = queue_.front();
@@ -159,8 +176,10 @@ void BurstCreator::addDish()
     }
 }
 
-// Closes out any remaining bursts on the channels after the end of new dish
-// states.
+/*!
+ * \brief Closes out any remaining bursts on the channels after the end of new
+ *        dish states
+ */
 void BurstCreator::finish()
 {
     ROS_INFO("Finishing burst creator node");
@@ -204,6 +223,15 @@ void BurstCreator::finish()
     }
 }
 
+/*!
+ * \brief Callback for dish state messages
+ *
+ * This method is called automatically when the node receives a dish state
+ * message. If the dish state is marked as the "last dish", the finish method
+ * is called. Otherwise, the dish state is added to the queue.
+ *
+ * \param d the received message
+ */
 void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
     // Check to see if this is the last dish
@@ -213,6 +241,9 @@ void BurstCreator::callback(const neuro_recv::dish_state::ConstPtr& d)
         queue_.push(*d);
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "burst_creator");

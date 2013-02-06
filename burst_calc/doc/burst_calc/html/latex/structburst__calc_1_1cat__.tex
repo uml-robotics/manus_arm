@@ -1,0 +1,197 @@
+\section{burst\-\_\-calc\-:\-:cat\-\_\-$<$ \-Container\-Allocator $>$ \-Struct \-Template \-Reference}
+\label{structburst__calc_1_1cat__}\index{burst\-\_\-calc\-::cat\-\_\-$<$ Container\-Allocator $>$@{burst\-\_\-calc\-::cat\-\_\-$<$ Container\-Allocator $>$}}
+
+
+{\ttfamily \#include $<$cat.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\-::vector\*
+$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}\*
+$<$ \-Container\-Allocator $>$\*
+, typename \*
+\-Container\-Allocator\-::template \*
+rebind$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}\*
+$<$ \-Container\-Allocator $>$\*
+ $>$\-::other $>$ {\bf \-\_\-cas\-\_\-type}
+\item 
+typedef std\-::vector$<$ int8\-\_\-t, \*
+typename \*
+\-Container\-Allocator\-::template \*
+rebind$<$ int8\-\_\-t $>$\-::other $>$ {\bf \-\_\-channels\-\_\-type}
+\item 
+typedef ros\-::\-Time {\bf \-\_\-end\-\_\-type}
+\item 
+typedef \-::std\-\_\-msgs\-::\-Header\-\_\-\*
+$<$ \-Container\-Allocator $>$ {\bf \-\_\-header\-\_\-type}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf burst\-\_\-calc\-::cat\-\_\-}\*
+$<$ \-Container\-Allocator $>$ const  $>$ {\bf \-Const\-Ptr}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf burst\-\_\-calc\-::cat\-\_\-}\*
+$<$ \-Container\-Allocator $>$ $>$ {\bf \-Ptr}
+\item 
+typedef {\bf cat\-\_\-}$<$ \-Container\-Allocator $>$ {\bf \-Type}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf cat\-\_\-} ()
+\item 
+{\bf cat\-\_\-} (const \-Container\-Allocator \&\-\_\-alloc)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::shared\-\_\-ptr$<$ std\-::map\*
+$<$ std\-::string, std\-::string $>$ $>$ {\bf \-\_\-\-\_\-connection\-\_\-header}
+\item 
+std\-::vector$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}\*
+$<$ \-Container\-Allocator $>$\*
+, typename \*
+\-Container\-Allocator\-::template \*
+rebind$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}\*
+$<$ \-Container\-Allocator $>$\*
+ $>$\-::other $>$ {\bf cas}
+\item 
+std\-::vector$<$ int8\-\_\-t, typename \*
+\-Container\-Allocator\-::template \*
+rebind$<$ int8\-\_\-t $>$\-::other $>$ {\bf channels}
+\item 
+ros\-::\-Time {\bf end}
+\item 
+\-::std\-\_\-msgs\-::\-Header\-\_\-\*
+$<$ \-Container\-Allocator $>$ {\bf header}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\subsubsection*{template$<$class Container\-Allocator$>$struct burst\-\_\-calc\-::cat\-\_\-$<$ Container\-Allocator $>$}
+
+
+
+\-Definition at line 23 of file cat.\-h.
+
+
+
+\subsection{\-Member \-Typedef \-Documentation}
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-\_\-cas\-\_\-type@{\-\_\-cas\-\_\-type}}
+\index{\-\_\-cas\-\_\-type@{\-\_\-cas\-\_\-type}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-\_\-cas\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef std\-::vector$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}$<$\-Container\-Allocator$>$ , typename \-Container\-Allocator\-::template rebind$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}$<$\-Container\-Allocator$>$ $>$\-::other $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-cas\-\_\-type}}\label{structburst__calc_1_1cat___ad60d84ad2f3e806136330ac35723371e}
+
+
+\-Definition at line 51 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-\_\-channels\-\_\-type@{\-\_\-channels\-\_\-type}}
+\index{\-\_\-channels\-\_\-type@{\-\_\-channels\-\_\-type}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-\_\-channels\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef std\-::vector$<$int8\-\_\-t, typename \-Container\-Allocator\-::template rebind$<$int8\-\_\-t$>$\-::other $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-channels\-\_\-type}}\label{structburst__calc_1_1cat___acd73ea68fd2b3586cf79fd33043a4cef}
+
+
+\-Definition at line 48 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-\_\-end\-\_\-type@{\-\_\-end\-\_\-type}}
+\index{\-\_\-end\-\_\-type@{\-\_\-end\-\_\-type}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-\_\-end\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef ros\-::\-Time {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-end\-\_\-type}}\label{structburst__calc_1_1cat___a65b318a8870a26fea3af29e87e41c0ab}
+
+
+\-Definition at line 45 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-\_\-header\-\_\-type@{\-\_\-header\-\_\-type}}
+\index{\-\_\-header\-\_\-type@{\-\_\-header\-\_\-type}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-\_\-header\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef \-::std\-\_\-msgs\-::\-Header\-\_\-$<$\-Container\-Allocator$>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-header\-\_\-type}}\label{structburst__calc_1_1cat___a034c952902181e3acd79465d8e3403e0}
+
+
+\-Definition at line 42 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-Const\-Ptr@{\-Const\-Ptr}}
+\index{\-Const\-Ptr@{\-Const\-Ptr}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-Const\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef boost\-::shared\-\_\-ptr$<$ \-::{\bf burst\-\_\-calc\-::cat\-\_\-}$<$\-Container\-Allocator$>$ const$>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-Const\-Ptr}}\label{structburst__calc_1_1cat___a729148dad07631c8c38c8b6408a67a40}
+
+
+\-Definition at line 56 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-Ptr@{\-Ptr}}
+\index{\-Ptr@{\-Ptr}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef boost\-::shared\-\_\-ptr$<$ \-::{\bf burst\-\_\-calc\-::cat\-\_\-}$<$\-Container\-Allocator$>$ $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-Ptr}}\label{structburst__calc_1_1cat___a7e80bad6dc04ae31ef3c2c60b6477d79}
+
+
+\-Definition at line 55 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-Type@{\-Type}}
+\index{\-Type@{\-Type}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef {\bf cat\-\_\-}$<$\-Container\-Allocator$>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-Type}}\label{structburst__calc_1_1cat___ad457731e8162617fe65f80d31da13920}
+
+
+\-Definition at line 24 of file cat.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!cat\-\_\-@{cat\-\_\-}}
+\index{cat\-\_\-@{cat\-\_\-}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{cat\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf cat\-\_\-} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{structburst__calc_1_1cat___ac0a6ab2807edc72945e5e788fb523d85}
+
+
+\-Definition at line 26 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!cat\-\_\-@{cat\-\_\-}}
+\index{cat\-\_\-@{cat\-\_\-}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{cat\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf cat\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{const \-Container\-Allocator \&}]{\-\_\-alloc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{structburst__calc_1_1cat___a725caa4caf24cc83ecf2dd7bbcde3921}
+
+
+\-Definition at line 34 of file cat.\-h.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!\-\_\-\-\_\-connection\-\_\-header@{\-\_\-\-\_\-connection\-\_\-header}}
+\index{\-\_\-\-\_\-connection\-\_\-header@{\-\_\-\-\_\-connection\-\_\-header}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{\-\_\-\-\_\-connection\-\_\-header}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ boost\-::shared\-\_\-ptr$<$std\-::map$<$std\-::string, std\-::string$>$ $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-\-\_\-connection\-\_\-header}}\label{structburst__calc_1_1cat___a19d90075f45912cc882f819cebcc012f}
+
+
+\-Definition at line 57 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!cas@{cas}}
+\index{cas@{cas}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{cas}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ std\-::vector$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}$<$\-Container\-Allocator$>$ , typename \-Container\-Allocator\-::template rebind$<$ \-::{\bf burst\-\_\-calc\-::ca\-\_\-}$<$\-Container\-Allocator$>$ $>$\-::other $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf cas}}\label{structburst__calc_1_1cat___adb62ec4a17ffa061e8d9b8e7784e30dd}
+
+
+\-Definition at line 52 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!channels@{channels}}
+\index{channels@{channels}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{channels}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ std\-::vector$<$int8\-\_\-t, typename \-Container\-Allocator\-::template rebind$<$int8\-\_\-t$>$\-::other $>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf channels}}\label{structburst__calc_1_1cat___a1645e3cff0f94a8652b510c92c286889}
+
+
+\-Definition at line 49 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!end@{end}}
+\index{end@{end}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ ros\-::\-Time {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf end}}\label{structburst__calc_1_1cat___a49db8d057f7a640f6096d9f78c7dee19}
+
+
+\-Definition at line 46 of file cat.\-h.
+
+\index{burst\-\_\-calc\-::cat\-\_\-@{burst\-\_\-calc\-::cat\-\_\-}!header@{header}}
+\index{header@{header}!burst_calc::cat_@{burst\-\_\-calc\-::cat\-\_\-}}
+\subsubsection[{header}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ \-::std\-\_\-msgs\-::\-Header\-\_\-$<$\-Container\-Allocator$>$ {\bf burst\-\_\-calc\-::cat\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf header}}\label{structburst__calc_1_1cat___a7cd0e13c2684ef1485658be0abb46bb5}
+
+
+\-Definition at line 43 of file cat.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+{\bf cat.\-h}\end{DoxyCompactItemize}

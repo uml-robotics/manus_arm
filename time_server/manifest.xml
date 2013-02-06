@@ -4,7 +4,7 @@
      time_server
 
   </description>
-  <author>Jon</author>
+  <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/time_server</url>

@@ -10,9 +10,9 @@ node for keyboard teleop and a node for neuron dish activity teleop.
 
 \section codeapi Code API
 
-- Start the ARM control node by creating an \link ArmControl \endlink object.
-- Start the dish teleop node by creating a \link TeleopArmDish \endlink object.
-- Start the keyboard teleop node by creating a \link TeleopArmKey \endlink object.
+- Run the ARM control node by creating an \link ArmControl \endlink object.
+- Run the dish teleop node by creating a \link TeleopArmDish \endlink object.
+- Run the keyboard teleop node by creating a \link TeleopArmKey \endlink object.
 
 - To get an instance of the ARM: \link ManusArm::instance \endlink
 - To init the ARM: \link ManusArm::init \endlink

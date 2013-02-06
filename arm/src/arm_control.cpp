@@ -1,6 +1,7 @@
 /*
  * arm_control.cpp
  * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
  */
 
 #include "arm/arm_control.h"
@@ -8,9 +9,7 @@
 #include <cmath>
 
 /*!
- * \brief Default constructor
- *
- * Calls the init and run methods.
+ * \brief Calls the init and run methods
  */
 ArmControl::ArmControl()
 {

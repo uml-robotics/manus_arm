@@ -1,11 +1,8 @@
-// =============================================================================
-// Name   : burst_merger.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Burst merger class for the ROS node "spike_detector". Ensures bursts are
-// unique and merges them if necessary.
-// =============================================================================
+/*
+ * burst_merger.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef BURST_MERGER_H_
 #define BURST_MERGER_H_
@@ -15,6 +12,15 @@
 #include "burst_calc/burst.h"
 #include <vector>
 
+/*!
+ * \brief Helper class for the burst_creator node
+ *
+ * Checks for overlapping bursts from each channel. If there are overlapping
+ * bursts, they will be merged so duplicates are eliminated.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class BurstMerger
 {
 public:

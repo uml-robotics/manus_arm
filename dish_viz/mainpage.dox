@@ -1,0 +1,72 @@
+/**
+\mainpage
+\htmlinclude manifest.html
+
+\b dish_viz is a ROS package for visualizing the activity of a neural network. 
+Spikes and centers of activity are plotted in sync with the movement of the ARM,
+allowing for a visual representation of what is causing the movement. The 
+package consists of a single node, and relies on the other packages in the 
+arm_project stack to perform properly.
+
+\section codeapi Code API
+
+- Run the visualizer node by creating an \link DataHandler \endlink object.
+
+- To initialize the visualizer: \link DishVisualizer::init \endlink
+- To update voltage data for a channel: \link DishVisualizer::update \endlink
+- To update the center of activity: \link DishVisualizer::updateCa \endlink
+- To redraw the visualizer screen: \link DishVisualizer::redraw \endlink
+- To set volt ranges for each channel: \link DishVisualizer::setVoltRanges \endlink
+- To correct ranges: \link DishVisualizer::setMinVolt \endlink and \link DishVisualizer::setMaxVolt \endlink
+
+\section rosapi ROS API
+
+List of nodes:
+- \b dish_viz
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection dish_viz dish_viz
+
+dish_viz receives dish states from a receiver node and then plots that activity 
+on screen for the user to see. It also receives centers of activity from the CAT 
+creator node and plots those as well. This node is in sync with the movements of 
+the ARM.
+
+\subsubsection Usage
+\verbatim
+$ rosrun dish_viz dish_viz
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b "dish_states_to_dish_viz": [neuro_recv/dish_state] incoming dish states
+- \b "cas": [neuro_recv/ca] incoming centers of activity
+- \b "bursts_to_dish_viz": [neuro_recv/burst] used to signal start of playback
+- \b "ranges_to_dish_viz": [neuro_recv/ranges] used for color calculation
+
+Publishes to:
+- N/A
+
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b loop_rate
+- \b visualizer_color_mode
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b "time_service": [time_server/time_srv] polls system time to keep the node in sync
+
+<!-- END: copy for each node -->
+*/

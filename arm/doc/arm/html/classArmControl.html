@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#aab877c5a01fae591a514fdcdc690d9ea">ArmControl</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#aab877c5a01fae591a514fdcdc690d9ea"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls the init and run methods.  <a href="#aab877c5a01fae591a514fdcdc690d9ea"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1">cartesianMovesCallback</a> (const <a class="el" href="structarm_1_1cartesian__moves__.html#a67d795ed2a3b937e0fd0af5685117006">arm::cartesian_moves::ConstPtr</a> &amp;cmd)</td></tr>
@@ -96,7 +96,7 @@ Private Attributes</h2></td></tr>
 <dl class="copyright"><dt><b>Copyright:</b></dt><dd>Copyright 2013 University of Massachusetts Lowell </dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jonathan Hasenzahl </dd></dl>
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00029">29</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00030">30</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aab877c5a01fae591a514fdcdc690d9ea"></a><!-- doxytag: member="ArmControl::ArmControl" ref="aab877c5a01fae591a514fdcdc690d9ea" args="()" -->
 <div class="memitem">
@@ -112,10 +112,9 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Default constructor. </p>
 <p>Calls the init and run methods. </p>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00015">15</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00014">14</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -144,7 +143,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00114">114</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00113">113</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -172,7 +171,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00169">169</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00168">168</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -200,7 +199,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00198">198</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00197">197</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -221,7 +220,7 @@ Private Attributes</h2></td></tr>
 <p>Initializes the node. </p>
 <p>There are two functions of the init method: it first subscribes to the necessary ROS topics to receive movement commands, and it then initializes the arm hardware. </p>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00028">28</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00027">27</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -242,7 +241,7 @@ Private Attributes</h2></td></tr>
 <p>Runs the node in a loop until a shutdown message is received. </p>
 <p>Before the main loop, the arm is moved into its origin position. The method then enters a spin loop until the shutdown flag is set to true (via a ROS message) or Ctrl+C is pressed. After the loop exits, the arm is moved into its final position. </p>
 
-<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00064">64</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8cpp_source.html#l00063">63</a> of file <a class="el" href="arm__control_8cpp_source.html">arm_control.cpp</a>.</p>
 
 </div>
 </div>
@@ -258,7 +257,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00046">46</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00047">47</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -273,7 +272,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00047">47</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00048">48</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -288,7 +287,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00042">42</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00043">43</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -303,7 +302,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00048">48</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00049">49</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -318,7 +317,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00043">43</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00044">44</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -333,7 +332,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00044">44</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00045">45</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -348,7 +347,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00041">41</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00042">42</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -363,7 +362,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00049">49</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00050">50</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +377,7 @@ Private Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00045">45</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
+<p>Definition at line <a class="el" href="arm__control_8h_source.html#l00046">46</a> of file <a class="el" href="arm__control_8h_source.html">arm_control.h</a>.</p>
 
 </div>
 </div>
@@ -405,8 +404,8 @@ Private Attributes</h2></td></tr>
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
-Author(s): Jon</br />
-<small>autogenerated on Wed Feb 6 2013 15:09:24</small>
+Author(s): Jonathan Hasenzahl</br />
+<small>autogenerated on Wed Feb 6 2013 18:21:39</small>
 </div>
 </body>
 </html>

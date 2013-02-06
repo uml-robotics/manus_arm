@@ -1,0 +1,364 @@
+\section{\-Data\-Handler \-Class \-Reference}
+\label{classDataHandler}\index{\-Data\-Handler@{\-Data\-Handler}}
+
+
+\-Node for visualing dish activity.  
+
+
+
+
+{\ttfamily \#include $<$dish\-\_\-viz.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Data\-Handler} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf burst\-Callback} (const burst\-\_\-calc\-::burst\-::\-Const\-Ptr \&b)
+\begin{DoxyCompactList}\small\item\em \-Callback for burst messages. \end{DoxyCompactList}\item 
+void {\bf ca\-Callback} (const burst\-\_\-calc\-::ca\-::\-Const\-Ptr \&c)
+\begin{DoxyCompactList}\small\item\em \-Callback for center of activity messages. \end{DoxyCompactList}\item 
+void {\bf dish\-Callback} (const neuro\-\_\-recv\-::dish\-\_\-state\-::\-Const\-Ptr \&d)
+\begin{DoxyCompactList}\small\item\em \-Callback for dish state messages. \end{DoxyCompactList}\item 
+void {\bf get\-Params} ()
+\begin{DoxyCompactList}\small\item\em \-Gets server parameters. \end{DoxyCompactList}\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\item 
+void {\bf plot\-Ca} ()
+\begin{DoxyCompactList}\small\item\em \-Plots a center of activity on the visualizer. \end{DoxyCompactList}\item 
+void {\bf ranges\-Callback} (const burst\-\_\-calc\-::ranges\-::\-Const\-Ptr \&r)
+\begin{DoxyCompactList}\small\item\em \-Callback for ranges messages. \end{DoxyCompactList}\item 
+void {\bf run} ()
+\begin{DoxyCompactList}\small\item\em \-Main spin loop. \end{DoxyCompactList}\item 
+void {\bf update\-Min\-Max} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Updates minimum and maximum values for each channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Subscriber {\bf burst\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf ca\-\_\-sub\-\_\-}
+\item 
+std\-::queue$<$ burst\-\_\-calc\-::ca $>$ {\bf cas\-\_\-}
+\item 
+int {\bf color\-\_\-mode\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf dish\-\_\-sub\-\_\-}
+\item 
+{\bf \-Dish\-Visualizer} {\bf dviz\-\_\-}
+\item 
+int {\bf loop\-\_\-rate\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+std\-::queue\*
+$<$ neuro\-\_\-recv\-::dish\-\_\-state $>$ {\bf queue\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf ranges\-\_\-sub\-\_\-}
+\item 
+bool {\bf start\-\_\-}
+\item 
+ros\-::\-Service\-Client {\bf time\-\_\-client\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Node for visualing dish activity. 
+
+\-This node receives dish states from a receiver node and then plots that activity on screen for the user to see. \-It also receives centers of activity from the \-C\-A\-T creator node and plots those as well. \-This node is in sync with the movements of the \-A\-R\-M.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Abraham \-Shultz 
+
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 31 of file dish\-\_\-viz.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Data\-Handler@{\-Data\-Handler}!\-Data\-Handler@{\-Data\-Handler}}
+\index{\-Data\-Handler@{\-Data\-Handler}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Data\-Handler\-::\-Data\-Handler} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classDataHandler_a51d845c1d9bbeef44607ec7592ba3c1d}
+
+
+\-Definition at line 34 of file dish\-\_\-viz.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Data\-Handler@{\-Data\-Handler}!burst\-Callback@{burst\-Callback}}
+\index{burst\-Callback@{burst\-Callback}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{burst\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::burst\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const burst\-\_\-calc\-::burst\-::\-Const\-Ptr \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a8369e1f46e9fb206b97c28831baa58a8}
+
+
+\-Callback for burst messages. 
+
+\-This method is called automatically when the node receives a burst message. \-This should only happen once. \-This is just a signal to tell the visualizer to start playback.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em r} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 195 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!ca\-Callback@{ca\-Callback}}
+\index{ca\-Callback@{ca\-Callback}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{ca\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::ca\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const burst\-\_\-calc\-::ca\-::\-Const\-Ptr \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_aaf80878cad1a3aef9206c3de3f62f4b9}
+
+
+\-Callback for center of activity messages. 
+
+\-This method is called automatically when the node receives a \-C\-A message. \-The \-C\-A is pushed onto the display queue.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em c} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 181 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!dish\-Callback@{dish\-Callback}}
+\index{dish\-Callback@{dish\-Callback}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{dish\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::dish\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state\-::\-Const\-Ptr \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_aab066adae3491c3f93d24e8b92e51395}
+
+
+\-Callback for dish state messages. 
+
+\-This method is called automatically when the node receives a dish state message. \-The minimum and maximum voltages are updated, and the dish state is pushed onto the display queue.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 166 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::get\-Params} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a8bbc32b52230b19ac0be8704f55a3b2b}
+
+
+\-Gets server parameters. 
+
+
+
+\-Definition at line 48 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!init@{init}}
+\index{init@{init}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_ae5273acf8e5464a7b6a84e543f2ec79f}
+
+
+\-Initializes the node. 
+
+\-Gets server parameters, initializes the visualizer, initializes subscribers, and runs the spin loop. 
+
+\-Definition at line 16 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!plot\-Ca@{plot\-Ca}}
+\index{plot\-Ca@{plot\-Ca}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{plot\-Ca}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::plot\-Ca} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a9eed4e7c0a4aedcd0d78bece5174fc01}
+
+
+\-Plots a center of activity on the visualizer. 
+
+
+
+\-Definition at line 99 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!ranges\-Callback@{ranges\-Callback}}
+\index{ranges\-Callback@{ranges\-Callback}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{ranges\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::ranges\-Callback} (
+\begin{DoxyParamCaption}
+\item[{const burst\-\_\-calc\-::ranges\-::\-Const\-Ptr \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_aba861df39d00d5c8ef8a6293f2bf0fa7}
+
+
+\-Callback for ranges messages. 
+
+\-This method is called automatically when the node receives a ranges message. \-This should only happen once. \-The range values are used for calculating the display colors of voltages on each channel.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em r} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 209 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!run@{run}}
+\index{run@{run}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::run} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_aa2a034914b9f16e594017e01d3fdfdcb}
+
+
+\-Main spin loop. 
+
+\-Spins until the queue is empty, \-R\-O\-S shuts down, or \-Ctrl+\-C is pressed. 
+
+\-Definition at line 70 of file dish\-\_\-viz.\-cpp.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!update\-Min\-Max@{update\-Min\-Max}}
+\index{update\-Min\-Max@{update\-Min\-Max}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{update\-Min\-Max}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Data\-Handler\-::update\-Min\-Max} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a953f5075b9ac82ea314a7259fe270433}
+
+
+\-Updates minimum and maximum values for each channel. 
+
+\-This is a self-\/correcting feature of the visualizer, or else colors could become inaccurate the longer the node runs.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state used for the update \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 138 of file dish\-\_\-viz.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Data\-Handler@{\-Data\-Handler}!burst\-\_\-sub\-\_\-@{burst\-\_\-sub\-\_\-}}
+\index{burst\-\_\-sub\-\_\-@{burst\-\_\-sub\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{burst\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Data\-Handler\-::burst\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a21d9ec2c571f64ec3ff84add67eb8822}
+
+
+\-Definition at line 50 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!ca\-\_\-sub\-\_\-@{ca\-\_\-sub\-\_\-}}
+\index{ca\-\_\-sub\-\_\-@{ca\-\_\-sub\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{ca\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Data\-Handler\-::ca\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_adeb7b9a4cf31a7b3bd2a2c23b91fc098}
+
+
+\-Definition at line 49 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!cas\-\_\-@{cas\-\_\-}}
+\index{cas\-\_\-@{cas\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{cas\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::queue$<$burst\-\_\-calc\-::ca$>$ {\bf \-Data\-Handler\-::cas\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_aa492ecade33dce7c1d15f38784c3a5c7}
+
+
+\-Definition at line 56 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!color\-\_\-mode\-\_\-@{color\-\_\-mode\-\_\-}}
+\index{color\-\_\-mode\-\_\-@{color\-\_\-mode\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{color\-\_\-mode\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Data\-Handler\-::color\-\_\-mode\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a58143515ea32c18033a5eb99092b1e87}
+
+
+\-Definition at line 58 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!dish\-\_\-sub\-\_\-@{dish\-\_\-sub\-\_\-}}
+\index{dish\-\_\-sub\-\_\-@{dish\-\_\-sub\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{dish\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Data\-Handler\-::dish\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a1614f9646f2e37e964b2ae130dcdaf66}
+
+
+\-Definition at line 48 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!dviz\-\_\-@{dviz\-\_\-}}
+\index{dviz\-\_\-@{dviz\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{dviz\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Dish\-Visualizer} {\bf \-Data\-Handler\-::dviz\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_ad0f8439ce69d5d57bf43db32becffb7c}
+
+
+\-Definition at line 54 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!loop\-\_\-rate\-\_\-@{loop\-\_\-rate\-\_\-}}
+\index{loop\-\_\-rate\-\_\-@{loop\-\_\-rate\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{loop\-\_\-rate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Data\-Handler\-::loop\-\_\-rate\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a5f78aaaa39bcf9bc18d46a75692801bd}
+
+
+\-Definition at line 57 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Data\-Handler\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_ab1c02192a00c082dd6aee91ccabd9fb9}
+
+
+\-Definition at line 47 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!queue\-\_\-@{queue\-\_\-}}
+\index{queue\-\_\-@{queue\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{queue\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::queue$<$neuro\-\_\-recv\-::dish\-\_\-state$>$ {\bf \-Data\-Handler\-::queue\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a454ba02433af88a56992142996e2d24c}
+
+
+\-Definition at line 55 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!ranges\-\_\-sub\-\_\-@{ranges\-\_\-sub\-\_\-}}
+\index{ranges\-\_\-sub\-\_\-@{ranges\-\_\-sub\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{ranges\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Data\-Handler\-::ranges\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_af43b29b6fb97c8f98a81e6806e2db798}
+
+
+\-Definition at line 51 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!start\-\_\-@{start\-\_\-}}
+\index{start\-\_\-@{start\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{start\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Data\-Handler\-::start\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_a5410141c534bf0de36802e362e83eaa2}
+
+
+\-Definition at line 59 of file dish\-\_\-viz.\-h.
+
+\index{\-Data\-Handler@{\-Data\-Handler}!time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}}
+\index{time\-\_\-client\-\_\-@{time\-\_\-client\-\_\-}!DataHandler@{\-Data\-Handler}}
+\subsubsection[{time\-\_\-client\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client {\bf \-Data\-Handler\-::time\-\_\-client\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classDataHandler_aacb6c5c3b1b623865284d77653a3827b}
+
+
+\-Definition at line 52 of file dish\-\_\-viz.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf dish\-\_\-viz.\-h}\item 
+{\bf dish\-\_\-viz.\-cpp}\end{DoxyCompactItemize}
