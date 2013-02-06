@@ -17,12 +17,11 @@
 #include <list>
 
 /*!
- * \brief Arm control node
+ * \brief Node for controlling the ARM
  *
  * This node receives movement commands from teleop nodes and moves the arm
  * hardware appropriately. The operation of the node is autonomous; after
- * the ArmControl object has been created, the node will run with no further
- * operation.
+ * the object has been created, the node will run with no further operation.
  *
  * \copyright Copyright 2013 University of Massachusetts Lowell
  * \author Jonathan Hasenzahl

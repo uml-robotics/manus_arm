@@ -68,30 +68,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="movement__definitions_8h.html">movement_definitions.h</a>&quot;</span>
 <a name="l00017"></a>00017 <span class="preprocessor">#include &lt;list&gt;</span>
 <a name="l00018"></a>00018 
-<a name="l00030"></a><a class="code" href="classArmControl.html">00030</a> <span class="keyword">class </span><a class="code" href="classArmControl.html" title="Arm control node.">ArmControl</a> 
-<a name="l00031"></a>00031 {
-<a name="l00032"></a>00032 <span class="keyword">public</span>:
-<a name="l00033"></a>00033     <a class="code" href="classArmControl.html#aab877c5a01fae591a514fdcdc690d9ea" title="Default constructor.">ArmControl</a>();
-<a name="l00034"></a>00034     
-<a name="l00035"></a>00035 <span class="keyword">private</span>:
-<a name="l00036"></a>00036     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894" title="Initializes the node.">init</a>();
-<a name="l00037"></a>00037     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1" title="Runs the node in a loop until a shutdown message is received.">run</a>();
-<a name="l00038"></a>00038     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1" title="Callback for cartesian movement messages.">cartesianMovesCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1cartesian__moves__.html#a67d795ed2a3b937e0fd0af5685117006">arm::cartesian_moves::ConstPtr</a>&amp; cmd);
-<a name="l00039"></a>00039     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f" title="Callback for constant movement messages.">constantMoveCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__.html#a1159b3cf465f7e977508fa5c7b48fe95">arm::constant_move::ConstPtr</a>&amp; cmd);
-<a name="l00040"></a>00040     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb" title="Callback for constant movement by time messages.">constantMoveTimeCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__time__.html#a190e8a8e76a293224c1982b864823965">arm::constant_move_time::ConstPtr</a>&amp; cmd);
-<a name="l00041"></a>00041     
-<a name="l00042"></a><a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">00042</a>     ros::NodeHandle <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>;
-<a name="l00043"></a><a class="code" href="classArmControl.html#aae25864b22982a34d0cbe530a11cd0c1">00043</a>     ros::Subscriber <a class="code" href="classArmControl.html#aae25864b22982a34d0cbe530a11cd0c1">cartesian_sub_</a>;
-<a name="l00044"></a><a class="code" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">00044</a>     ros::Subscriber <a class="code" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">constant_sub_</a>;
-<a name="l00045"></a><a class="code" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">00045</a>     ros::Subscriber <a class="code" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">constant_time_sub_</a>;
-<a name="l00046"></a><a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">00046</a>     ros::ServiceClient <a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a>;
-<a name="l00047"></a><a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">00047</a>     <a class="code" href="classManusArm.html" title="Singleton class representing the ARM. Copyright 2013 University of Massachusetts Lowell.">ManusArm</a>* <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>;
-<a name="l00048"></a><a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">00048</a>     <a class="code" href="structCartesianMove.html" title="Struct for holding Cartesian movement data.">CartesianMove</a> <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>;
-<a name="l00049"></a><a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">00049</a>     <a class="code" href="structConstantMove.html" title="Struct for holding constant movement data.">ConstantMove</a> <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>;
-<a name="l00050"></a><a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">00050</a>     <span class="keywordtype">bool</span> <a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a>;
-<a name="l00051"></a>00051 };
-<a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="preprocessor">#endif</span>
+<a name="l00029"></a><a class="code" href="classArmControl.html">00029</a> <span class="keyword">class </span><a class="code" href="classArmControl.html" title="Node for controlling the ARM.">ArmControl</a> 
+<a name="l00030"></a>00030 {
+<a name="l00031"></a>00031 <span class="keyword">public</span>:
+<a name="l00032"></a>00032     <a class="code" href="classArmControl.html#aab877c5a01fae591a514fdcdc690d9ea" title="Default constructor.">ArmControl</a>();
+<a name="l00033"></a>00033     
+<a name="l00034"></a>00034 <span class="keyword">private</span>:
+<a name="l00035"></a>00035     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5b40302a815aa323eca4d1707d61894" title="Initializes the node.">init</a>();
+<a name="l00036"></a>00036     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#aed3b3556089c901822260d73a2c03fa1" title="Runs the node in a loop until a shutdown message is received.">run</a>();
+<a name="l00037"></a>00037     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#ae5fcc5aaf85dbe14bf218ae7d85087c1" title="Callback for cartesian movement messages.">cartesianMovesCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1cartesian__moves__.html#a67d795ed2a3b937e0fd0af5685117006">arm::cartesian_moves::ConstPtr</a>&amp; cmd);
+<a name="l00038"></a>00038     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#a2ab204386791f95e261187e63ce9a91f" title="Callback for constant movement messages.">constantMoveCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__.html#a1159b3cf465f7e977508fa5c7b48fe95">arm::constant_move::ConstPtr</a>&amp; cmd);
+<a name="l00039"></a>00039     <span class="keywordtype">void</span> <a class="code" href="classArmControl.html#af4cee7d890cad44225e17fa63ebdd8fb" title="Callback for constant movement by time messages.">constantMoveTimeCallback</a>(<span class="keyword">const</span> <a class="code" href="structarm_1_1constant__move__time__.html#a190e8a8e76a293224c1982b864823965">arm::constant_move_time::ConstPtr</a>&amp; cmd);
+<a name="l00040"></a>00040     
+<a name="l00041"></a><a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">00041</a>     ros::NodeHandle <a class="code" href="classArmControl.html#ac7aac224c9d677c0ae7fe94de9d8f5ce">n_</a>;
+<a name="l00042"></a><a class="code" href="classArmControl.html#aae25864b22982a34d0cbe530a11cd0c1">00042</a>     ros::Subscriber <a class="code" href="classArmControl.html#aae25864b22982a34d0cbe530a11cd0c1">cartesian_sub_</a>;
+<a name="l00043"></a><a class="code" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">00043</a>     ros::Subscriber <a class="code" href="classArmControl.html#a51f82f2c94949fc24393d496dc41f16b">constant_sub_</a>;
+<a name="l00044"></a><a class="code" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">00044</a>     ros::Subscriber <a class="code" href="classArmControl.html#abb25af1f32fb8fec007972182d54d7d1">constant_time_sub_</a>;
+<a name="l00045"></a><a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">00045</a>     ros::ServiceClient <a class="code" href="classArmControl.html#aa2dabe49a9e661441d6a641e4aec94e9">time_client_</a>;
+<a name="l00046"></a><a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">00046</a>     <a class="code" href="classManusArm.html" title="Singleton class representing the ARM. Copyright 2013 University of Massachusetts Lowell.">ManusArm</a>* <a class="code" href="classArmControl.html#af06b9f6f206277e7100bba772c91c04f">arm_</a>;
+<a name="l00047"></a><a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">00047</a>     <a class="code" href="structCartesianMove.html" title="Struct for holding Cartesian movement data.">CartesianMove</a> <a class="code" href="classArmControl.html#aac4f84304fb05a479ec652fd9063d83d">cartesian_move_</a>;
+<a name="l00048"></a><a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">00048</a>     <a class="code" href="structConstantMove.html" title="Struct for holding constant movement data.">ConstantMove</a> <a class="code" href="classArmControl.html#a891d406c9be6c6e3801a2e392364fcd1">constant_move_</a>;
+<a name="l00049"></a><a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">00049</a>     <span class="keywordtype">bool</span> <a class="code" href="classArmControl.html#ad5509d7953165026c865c1cb64785ab3">shutdown_</a>;
+<a name="l00050"></a>00050 };
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 <span class="preprocessor">#endif</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -112,7 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Mon Feb 4 2013 15:42:47</small>
+<small>autogenerated on Wed Feb 6 2013 15:09:24</small>
 </div>
 </body>
 </html>

@@ -1,11 +1,23 @@
 
 
-{\bfseries my\-\_\-package} is ... \-In addition to providing an overview of your package, this is the section where the specification and design/architecture should be detailed. \-While the original specification may be done on the wiki, it should be transferred here once your package starts to take shape. \-You can then link to this documentation page from the \-Wiki.\section{\-Code A\-P\-I}\label{index_codeapi}
-\-Provide links to specific auto-\/generated \-A\-P\-I documentation within your package that is of particular interest to a reader. \-Doxygen will document pretty much every part of your code, so do your best here to point the reader to the actual \-A\-P\-I.
+{\bfseries arm} is a \-R\-O\-S package for controlling a \-Manus \-A\-R\-M. \-The package consists of one control node and two teleop nodes. \-You must have a \-Manus \-A\-R\-M properly connected and configured in order for this package to be of any use. \-You must have both a teleop node and the control node running in order to move the \-A\-R\-M. \-There is a node for keyboard teleop and a node for neuron dish activity teleop.\section{\-Code A\-P\-I}\label{index_codeapi}
 
-\-If your codebase is fairly large or has different sets of \-A\-P\-Is, you should use the doxygen 'group' tag to keep these \-A\-P\-Is together. \-For example, the roscpp documentation has 'libros' and 'botherder' groups so that those can be viewed separately. \-The rospy documentation similarly has a 'client-\/api' group that pulls together \-A\-P\-Is for a \-Client \-A\-P\-I page.\section{\-R\-O\-S A\-P\-I}\label{index_rosapi}
-\-Every \-R\-O\-S name in your code must be documented. \-Names are very important in \-R\-O\-S because they are the \-A\-P\-I to nodes and services. \-They are also capable of being remapped on the command-\/line, so it is \-V\-E\-R\-Y \-I\-M\-P\-O\-R\-T\-A\-N\-T \-T\-H\-A\-T \-Y\-O\-U \-L\-I\-S\-T \-N\-A\-M\-E\-S \-A\-S \-T\-H\-E\-Y \-A\-P\-P\-E\-A\-R \-I\-N \-T\-H\-E \-C\-O\-D\-E. \-It is also important that you write your code so that the names can be easily remapped.
+\begin{DoxyItemize}
+\item \-Start the \-A\-R\-M control node by creating an \doxyref{\-Arm\-Control}{p.}{classArmControl} object.
+\item \-Start the dish teleop node by creating a \doxyref{\-Teleop\-Arm\-Dish}{p.}{classTeleopArmDish} object.
+\item \-Start the keyboard teleop node by creating a \doxyref{\-Teleop\-Arm\-Key}{p.}{classTeleopArmKey} object.
+\end{DoxyItemize}
 
+
+\begin{DoxyItemize}
+\item \-To get an instance of the \-A\-R\-M\-: \doxyref{\-Manus\-Arm\-::instance}{p.}{classManusArm_a70516aaf8fa75276f7bb7bcd1912671c}
+\item \-To init the \-A\-R\-M\-: \doxyref{\-Manus\-Arm\-::init}{p.}{classManusArm_aeb2e212f64c683e45a6f5bb90afb1a70}
+\item \-To move the \-A\-R\-M\-: \doxyref{\-Manus\-Arm\-::move\-Cartesian}{p.}{classManusArm_a66cd2a077fbcdc00d19c76677c900380} and \doxyref{\-Manus\-Arm\-::move\-Constant}{p.}{classManusArm_ab76c4573bfc84e4ce5fe2ad36a8b2522}
+\item \-To check if cartesian movement is finished\-: \doxyref{\-Manus\-Arm\-::is\-Move\-Complete}{p.}{classManusArm_a1cff3017b09dfaace5f2c9ca4844d21e}
+\item \-To end cartesian movement early\-: \doxyref{\-Manus\-Arm\-::set\-Move\-Complete}{p.}{classManusArm_a4369585e90bd37e57dab71c0e7771d8a}
+\item \-To fold/unfold\-: \doxyref{\-Manus\-Arm\-::fold}{p.}{classManusArm_a379092d8f07c767962911d2a410d9d63} and \doxyref{\-Manus\-Arm\-::unfold}{p.}{classManusArm_a29b633fe436ba500058634b8e0a029e5}
+\item \-To get joint positions\-: \doxyref{\-Manus\-Arm\-::get\-Print\-State}{p.}{classManusArm_ac6fa919efbacf860202362c1b3611f48} and \doxyref{\-Manus\-Arm\-::get\-Csv\-State}{p.}{classManusArm_a7584b3f88ddc538a8308d7bb7ff1fb89}
+\end{DoxyItemize}\section{\-R\-O\-S A\-P\-I}\label{index_rosapi}
 \-List of nodes\-:
 \begin{DoxyItemize}
 \item {\bfseries arm\-\_\-control} 
@@ -16,24 +28,16 @@
 
 
 \subsection{arm\-\_\-control}\label{index_arm_control}
-arm\-\_\-control does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
-\begin{DoxyVerb}
-$ rosrun arm arm_control
-\end{DoxyVerb}
-
-
-\begin{DoxyParagraph}{\-Example}
-
-\end{DoxyParagraph}
+arm\-\_\-control controls the \-A\-R\-M. \-It receives movement commands from teleop nodes and moves the arm hardware appropriately.\subsubsection{\-Usage}\label{index_Usage}
 \begin{DoxyVerb}
 $ rosrun arm arm_control
 \end{DoxyVerb}
 \subsubsection{\-R\-O\-S topics}\label{index_topics}
 \-Subscribes to\-:
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}cartesian\-\_\-moves\char`\"{}}\-: [arm/cartesian\-\_\-moves] message that contains cartesian movement commands
-\item {\bfseries \char`\"{}constant\-\_\-moves\char`\"{}}\-: [arm/constant\-\_\-move] message that contains a constant movement command
-\item {\bfseries \char`\"{}constant\-\_\-move\-\_\-times\char`\"{}}\-: [arm/constant\-\_\-move\-\_\-time] message that contains constant movement by time commands
+\item {\bfseries \char`\"{}cartesian\-\_\-moves\char`\"{}}\-: [arm/cartesian\-\_\-moves] cartesian movement commands
+\item {\bfseries \char`\"{}constant\-\_\-moves\char`\"{}}\-: [arm/constant\-\_\-move] constant movement commands
+\item {\bfseries \char`\"{}constant\-\_\-move\-\_\-times\char`\"{}}\-: [arm/constant\-\_\-move\-\_\-time] constant movement by time commands
 \end{DoxyItemize}
 
 \-Publishes to\-:
@@ -55,107 +59,94 @@ $ rosrun arm arm_control
 \end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] service that polls system time to keep nodes in sync
+\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] polls system time to keep the node in sync
 \end{DoxyItemize}
 
 
 
 \subsection{teleop\-\_\-arm\-\_\-dish}\label{index_teleop_arm_dish}
-teleop\-\_\-arm\-\_\-dish does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
-\begin{DoxyVerb}
-$ rosrun arm teleop_arm_dish
-\end{DoxyVerb}
-
-
-\begin{DoxyParagraph}{\-Example}
-
-\end{DoxyParagraph}
+teleop\-\_\-arm\-\_\-dish creates movement commands for the arm based on \-C\-A\-T (center of activity trajectory) data received from the \-C\-A\-T creator node.\subsubsection{\-Usage}\label{index_Usage}
 \begin{DoxyVerb}
 $ rosrun arm teleop_arm_dish
 \end{DoxyVerb}
 \subsubsection{\-R\-O\-S topics}\label{index_topics}
 \-Subscribes to\-:
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}in\char`\"{}}\-: [std\-\_\-msgs/\-Foo\-Type] description of in
+\item {\bfseries \char`\"{}cats\char`\"{}}\-: [burst\-\_\-calc/cat] center of activity trajectories
 \end{DoxyItemize}
 
 \-Publishes to\-:
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}out\char`\"{}}\-: [std\-\_\-msgs/\-Foo\-Type] description of out
+\item {\bfseries \char`\"{}cartesian\-\_\-moves\char`\"{}}\-: [arm/cartesian\-\_\-moves] cartesian movement commands
+\item {\bfseries \char`\"{}constant\-\_\-move\-\_\-times\char`\"{}}\-: [arm/constant\-\_\-move\-\_\-time] constant movement by time commands
 \end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
 \-Reads the following parameters from the parameter server
 
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}$\sim$param\-\_\-name\char`\"{}} \-: {\bfseries }[type] description of param\-\_\-name
-\item {\bfseries \char`\"{}$\sim$my\-\_\-param\char`\"{}} \-: {\bfseries }[string] description of my\-\_\-param
+\item {\bfseries arm\-\_\-speed} 
+\item {\bfseries arm\-\_\-safe\-\_\-range} 
+\item {\bfseries max\-\_\-range\-\_\-from\-\_\-midpoint} 
 \end{DoxyItemize}
 
 \-Sets the following parameters on the parameter server
 
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}$\sim$param\-\_\-name\char`\"{}} \-: {\bfseries }[type] description of param\-\_\-name
+\item {\bfseries \-N/\-A} 
 \end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] service that polls system time to keep nodes in sync
+\item {\bfseries \char`\"{}time\-\_\-service\char`\"{}}\-: [time\-\_\-server/time\-\_\-srv] polls system time to keep the node in sync
 \end{DoxyItemize}
 
 
 
 \subsection{teleop\-\_\-arm\-\_\-key}\label{index_teleop_arm_key}
-teleop\-\_\-arm\-\_\-key does (provide a basic description of your node)\subsubsection{\-Usage}\label{index_Usage}
+teleop\-\_\-arm\-\_\-key creates movement commands for the arm based on keyboard input.\subsubsection{\-Usage}\label{index_Usage}
 \begin{DoxyVerb}
-$ node_type1 [standard ROS args]
-\end{DoxyVerb}
-
-
-\begin{DoxyParagraph}{\-Example}
-
-\end{DoxyParagraph}
-\begin{DoxyVerb}
-$ node_type1
+$ rosrun arm teleop_arm_key
 \end{DoxyVerb}
 \subsubsection{\-R\-O\-S topics}\label{index_topics}
 \-Subscribes to\-:
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}in\char`\"{}}\-: [std\-\_\-msgs/\-Foo\-Type] description of in
+\item {\bfseries \-N/\-A} 
 \end{DoxyItemize}
 
 \-Publishes to\-:
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}out\char`\"{}}\-: [std\-\_\-msgs/\-Foo\-Type] description of out
+\item {\bfseries \char`\"{}constant\-\_\-moves\char`\"{}}\-: [arm/constant\-\_\-move] constant movement commands
 \end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
 \-Reads the following parameters from the parameter server
 
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}$\sim$param\-\_\-name\char`\"{}} \-: {\bfseries }[type] description of param\-\_\-name
-\item {\bfseries \char`\"{}$\sim$my\-\_\-param\char`\"{}} \-: {\bfseries }[string] description of my\-\_\-param
+\item {\bfseries \-N/\-A} 
 \end{DoxyItemize}
 
 \-Sets the following parameters on the parameter server
 
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}$\sim$param\-\_\-name\char`\"{}} \-: {\bfseries }[type] description of param\-\_\-name
+\item {\bfseries \-N/\-A} 
 \end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
 
 \begin{DoxyItemize}
-\item {\bfseries \char`\"{}foo\-\_\-service\char`\"{}}\-: [std\-\_\-srvs/\-Foo\-Type] description of foo\-\_\-service
+\item {\bfseries \-N/\-A} 
 \end{DoxyItemize}\section{\-Command-\/line tools}\label{index_commandline}
-\-This section is a catch-\/all for any additional tools that your package provides or uses that may be of use to the reader. \-For example\-:
+\-There are several launch files available to simplify running all of the nodes. \-Each launch file has a corresponding parameter file. \-They are as follows\-:
 
 
 \begin{DoxyItemize}
-\item tools/scripts (e.\-g. rospack, roscd)
-\item roslaunch .launch files
-\item xmlparam files
-\end{DoxyItemize}\subsection{script\-\_\-name}\label{index_script_name}
-\-Description of what this script/file does.\subsubsection{\-Usage}\label{index_Usage}
+\item brian\-\_\-csv.\-launch
+\item brian\-\_\-sim.\-launch
+\item csv.\-launch
+\item volt\-\_\-only\-\_\-brian\-\_\-csv.\-launch
+\item volt\-\_\-only\-\_\-brian\-\_\-sim.\-launch
+\item volt\-\_\-only\-\_\-csv.\-launch
+\end{DoxyItemize}\subsection{\-Usage}\label{index_Usage}
 \begin{DoxyVerb}
-$ ./script_name [args]
+$ roslaunch [package] [file]
 \end{DoxyVerb}
 
 
@@ -163,6 +154,6 @@ $ ./script_name [args]
 
 \end{DoxyParagraph}
 \begin{DoxyVerb}
-$ ./script_name foo bar
+$ roslaunch arm csv.launch
 \end{DoxyVerb}
  

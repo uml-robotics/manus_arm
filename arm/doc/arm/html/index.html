@@ -55,14 +55,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Homepage: <a href="http://ros.org/wiki/arm">http://ros.org/wiki/arm</a></li>
 </p>
 </div>
-<p><b>my_package</b> is ... In addition to providing an overview of your package, this is the section where the specification and design/architecture should be detailed. While the original specification may be done on the wiki, it should be transferred here once your package starts to take shape. You can then link to this documentation page from the Wiki.</p>
+<p><b>arm</b> is a ROS package for controlling a Manus ARM. The package consists of one control node and two teleop nodes. You must have a Manus ARM properly connected and configured in order for this package to be of any use. You must have both a teleop node and the control node running in order to move the ARM. There is a node for keyboard teleop and a node for neuron dish activity teleop.</p>
 <h2><a class="anchor" id="codeapi"></a>
 Code API</h2>
-<p>Provide links to specific auto-generated API documentation within your package that is of particular interest to a reader. Doxygen will document pretty much every part of your code, so do your best here to point the reader to the actual API.</p>
-<p>If your codebase is fairly large or has different sets of APIs, you should use the doxygen 'group' tag to keep these APIs together. For example, the roscpp documentation has 'libros' and 'botherder' groups so that those can be viewed separately. The rospy documentation similarly has a 'client-api' group that pulls together APIs for a Client API page.</p>
+<ul>
+<li>Start the ARM control node by creating an <a class="el" href="classArmControl.html">ArmControl</a> object.</li>
+<li>Start the dish teleop node by creating a <a class="el" href="classTeleopArmDish.html">TeleopArmDish</a> object.</li>
+<li>Start the keyboard teleop node by creating a <a class="el" href="classTeleopArmKey.html">TeleopArmKey</a> object.</li>
+</ul>
+<ul>
+<li>To get an instance of the ARM: <a class="el" href="classManusArm.html#a70516aaf8fa75276f7bb7bcd1912671c">ManusArm::instance</a></li>
+<li>To init the ARM: <a class="el" href="classManusArm.html#aeb2e212f64c683e45a6f5bb90afb1a70">ManusArm::init</a></li>
+<li>To move the ARM: <a class="el" href="classManusArm.html#a66cd2a077fbcdc00d19c76677c900380">ManusArm::moveCartesian</a> and <a class="el" href="classManusArm.html#ab76c4573bfc84e4ce5fe2ad36a8b2522">ManusArm::moveConstant</a></li>
+<li>To check if cartesian movement is finished: <a class="el" href="classManusArm.html#a1cff3017b09dfaace5f2c9ca4844d21e">ManusArm::isMoveComplete</a></li>
+<li>To end cartesian movement early: <a class="el" href="classManusArm.html#a4369585e90bd37e57dab71c0e7771d8a">ManusArm::setMoveComplete</a></li>
+<li>To fold/unfold: <a class="el" href="classManusArm.html#a379092d8f07c767962911d2a410d9d63">ManusArm::fold</a> and <a class="el" href="classManusArm.html#a29b633fe436ba500058634b8e0a029e5">ManusArm::unfold</a></li>
+<li>To get joint positions: <a class="el" href="classManusArm.html#ac6fa919efbacf860202362c1b3611f48">ManusArm::getPrintState</a> and <a class="el" href="classManusArm.html#a7584b3f88ddc538a8308d7bb7ff1fb89">ManusArm::getCsvState</a></li>
+</ul>
 <h2><a class="anchor" id="rosapi"></a>
 ROS API</h2>
-<p>Every ROS name in your code must be documented. Names are very important in ROS because they are the API to nodes and services. They are also capable of being remapped on the command-line, so it is VERY IMPORTANT THAT YOU LIST NAMES AS THEY APPEAR IN THE CODE. It is also important that you write your code so that the names can be easily remapped.</p>
 <p>List of nodes:</p>
 <ul>
 <li><b>arm_control</b> </li>
@@ -72,21 +83,18 @@ ROS API</h2>
 <hr/>
 <h3><a class="anchor" id="arm_control"></a>
 arm_control</h3>
-<p>arm_control does (provide a basic description of your node)</p>
+<p>arm_control controls the ARM. It receives movement commands from teleop nodes and moves the arm hardware appropriately.</p>
 <h4><a class="anchor" id="Usage"></a>
 Usage</h4>
-<div class="fragment"><pre class="fragment">
-$ rosrun arm arm_control
-</pre></div><dl class="user"><dt><b>Example</b></dt><dd></dd></dl>
 <div class="fragment"><pre class="fragment">
 $ rosrun arm arm_control
 </pre></div><h4><a class="anchor" id="topics"></a>
 ROS topics</h4>
 <p>Subscribes to:</p>
 <ul>
-<li><b>"cartesian_moves"</b>: [arm/cartesian_moves] message that contains cartesian movement commands</li>
-<li><b>"constant_moves"</b>: [arm/constant_move] message that contains a constant movement command</li>
-<li><b>"constant_move_times"</b>: [arm/constant_move_time] message that contains constant movement by time commands</li>
+<li><b>"cartesian_moves"</b>: [arm/cartesian_moves] cartesian movement commands</li>
+<li><b>"constant_moves"</b>: [arm/constant_move] constant movement commands</li>
+<li><b>"constant_move_times"</b>: [arm/constant_move_time] constant movement by time commands</li>
 </ul>
 <p>Publishes to:</p>
 <ul>
@@ -105,100 +113,95 @@ ROS parameters</h4>
 <h4><a class="anchor" id="services"></a>
 ROS services</h4>
 <ul>
-<li><b>"time_service"</b>: [time_server/time_srv] service that polls system time to keep nodes in sync</li>
+<li><b>"time_service"</b>: [time_server/time_srv] polls system time to keep the node in sync</li>
 </ul>
 <hr/>
 <h3><a class="anchor" id="teleop_arm_dish"></a>
 teleop_arm_dish</h3>
-<p>teleop_arm_dish does (provide a basic description of your node)</p>
+<p>teleop_arm_dish creates movement commands for the arm based on CAT (center of activity trajectory) data received from the CAT creator node.</p>
 <h4><a class="anchor" id="Usage"></a>
 Usage</h4>
-<div class="fragment"><pre class="fragment">
-$ rosrun arm teleop_arm_dish
-</pre></div><dl class="user"><dt><b>Example</b></dt><dd></dd></dl>
 <div class="fragment"><pre class="fragment">
 $ rosrun arm teleop_arm_dish
 </pre></div><h4><a class="anchor" id="topics"></a>
 ROS topics</h4>
 <p>Subscribes to:</p>
 <ul>
-<li><b>"in"</b>: [std_msgs/FooType] description of in</li>
+<li><b>"cats"</b>: [burst_calc/cat] center of activity trajectories</li>
 </ul>
 <p>Publishes to:</p>
 <ul>
-<li><b>"out"</b>: [std_msgs/FooType] description of out</li>
+<li><b>"cartesian_moves"</b>: [arm/cartesian_moves] cartesian movement commands</li>
+<li><b>"constant_move_times"</b>: [arm/constant_move_time] constant movement by time commands</li>
 </ul>
 <h4><a class="anchor" id="parameters"></a>
 ROS parameters</h4>
 <p>Reads the following parameters from the parameter server</p>
 <ul>
-<li><b>"~param_name"</b> : <b></b>[type] description of param_name</li>
-<li><b>"~my_param"</b> : <b></b>[string] description of my_param</li>
+<li><b>arm_speed</b> </li>
+<li><b>arm_safe_range</b> </li>
+<li><b>max_range_from_midpoint</b> </li>
 </ul>
 <p>Sets the following parameters on the parameter server</p>
 <ul>
-<li><b>"~param_name"</b> : <b></b>[type] description of param_name</li>
+<li><b>N/A</b> </li>
 </ul>
 <h4><a class="anchor" id="services"></a>
 ROS services</h4>
 <ul>
-<li><b>"time_service"</b>: [time_server/time_srv] service that polls system time to keep nodes in sync</li>
+<li><b>"time_service"</b>: [time_server/time_srv] polls system time to keep the node in sync</li>
 </ul>
 <hr/>
 <h3><a class="anchor" id="teleop_arm_key"></a>
 teleop_arm_key</h3>
-<p>teleop_arm_key does (provide a basic description of your node)</p>
+<p>teleop_arm_key creates movement commands for the arm based on keyboard input.</p>
 <h4><a class="anchor" id="Usage"></a>
 Usage</h4>
 <div class="fragment"><pre class="fragment">
-$ node_type1 [standard ROS args]
-</pre></div><dl class="user"><dt><b>Example</b></dt><dd></dd></dl>
-<div class="fragment"><pre class="fragment">
-$ node_type1
+$ rosrun arm teleop_arm_key
 </pre></div><h4><a class="anchor" id="topics"></a>
 ROS topics</h4>
 <p>Subscribes to:</p>
 <ul>
-<li><b>"in"</b>: [std_msgs/FooType] description of in</li>
+<li><b>N/A</b> </li>
 </ul>
 <p>Publishes to:</p>
 <ul>
-<li><b>"out"</b>: [std_msgs/FooType] description of out</li>
+<li><b>"constant_moves"</b>: [arm/constant_move] constant movement commands</li>
 </ul>
 <h4><a class="anchor" id="parameters"></a>
 ROS parameters</h4>
 <p>Reads the following parameters from the parameter server</p>
 <ul>
-<li><b>"~param_name"</b> : <b></b>[type] description of param_name</li>
-<li><b>"~my_param"</b> : <b></b>[string] description of my_param</li>
+<li><b>N/A</b> </li>
 </ul>
 <p>Sets the following parameters on the parameter server</p>
 <ul>
-<li><b>"~param_name"</b> : <b></b>[type] description of param_name</li>
+<li><b>N/A</b> </li>
 </ul>
 <h4><a class="anchor" id="services"></a>
 ROS services</h4>
 <ul>
-<li><b>"foo_service"</b>: [std_srvs/FooType] description of foo_service</li>
+<li><b>N/A</b> </li>
 </ul>
 <h2><a class="anchor" id="commandline"></a>
 Command-line tools</h2>
-<p>This section is a catch-all for any additional tools that your package provides or uses that may be of use to the reader. For example:</p>
+<p>There are several launch files available to simplify running all of the nodes. Each launch file has a corresponding parameter file. They are as follows:</p>
 <ul>
-<li>tools/scripts (e.g. rospack, roscd)</li>
-<li>roslaunch .launch files</li>
-<li>xmlparam files</li>
+<li>brian_csv.launch</li>
+<li>brian_sim.launch</li>
+<li>csv.launch</li>
+<li>volt_only_brian_csv.launch</li>
+<li>volt_only_brian_sim.launch</li>
+<li>volt_only_csv.launch</li>
 </ul>
-<h3><a class="anchor" id="script_name"></a>
-script_name</h3>
-<p>Description of what this script/file does.</p>
-<h4><a class="anchor" id="Usage"></a>
-Usage</h4>
+<h3><a class="anchor" id="Usage"></a>
+Usage</h3>
 <div class="fragment"><pre class="fragment">
-$ ./script_name [args]
+$ roslaunch [package] [file]
 </pre></div><dl class="user"><dt><b>Example</b></dt><dd></dd></dl>
 <div class="fragment"><pre class="fragment">
-$ ./script_name foo bar
+$ roslaunch arm csv.launch
 </pre></div> </div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -219,7 +222,7 @@ $ ./script_name foo bar
 <hr size="1"><div style="align: right;">
 <a href="http://ros.org/wiki/arm">arm</a><br />
 Author(s): Jon</br />
-<small>autogenerated on Mon Feb 4 2013 15:42:47</small>
+<small>autogenerated on Wed Feb 6 2013 15:09:24</small>
 </div>
 </body>
 </html>

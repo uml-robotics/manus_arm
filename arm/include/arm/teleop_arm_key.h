@@ -41,7 +41,7 @@
 #define KEYCODE_Q         0x71 // QUIT
 
 /*!
- * \brief Keyboard teleop node
+ * \brief Node for ARM teleop from the keyboard
  *
  * This node controls the ARM with the keyboard. The controls are mapped in this
  * file. Movement keys are a toggle (push to start, push to stop).

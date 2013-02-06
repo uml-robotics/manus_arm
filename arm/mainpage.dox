@@ -2,42 +2,32 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b my_package is ... In addition to providing an overview of your package,
-this is the section where the specification and design/architecture 
-should be detailed. While the original specification may be done on the
-wiki, it should be transferred here once your package starts to take shape.
-You can then link to this documentation page from the Wiki.
-
+\b arm is a ROS package for controlling a Manus ARM. The package consists of one
+control node and two teleop nodes. You must have a Manus ARM properly connected
+and configured in order for this package to be of any use. You must have both
+a teleop node and the control node running in order to move the ARM. There is a
+node for keyboard teleop and a node for neuron dish activity teleop.
 
 \section codeapi Code API
 
-Provide links to specific auto-generated API documentation within your
-package that is of particular interest to a reader. Doxygen will
-document pretty much every part of your code, so do your best here to
-point the reader to the actual API.
+- Start the ARM control node by creating an \link ArmControl \endlink object.
+- Start the dish teleop node by creating a \link TeleopArmDish \endlink object.
+- Start the keyboard teleop node by creating a \link TeleopArmKey \endlink object.
 
-If your codebase is fairly large or has different sets of APIs, you
-should use the doxygen 'group' tag to keep these APIs together. For
-example, the roscpp documentation has 'libros' and 'botherder' groups
-so that those can be viewed separately. The rospy documentation
-similarly has a 'client-api' group that pulls together APIs for a
-Client API page.
-
+- To get an instance of the ARM: \link ManusArm::instance \endlink
+- To init the ARM: \link ManusArm::init \endlink
+- To move the ARM: \link ManusArm::moveCartesian \endlink and \link ManusArm::moveConstant \endlink
+- To check if cartesian movement is finished: \link ManusArm::isMoveComplete \endlink
+- To end cartesian movement early: \link ManusArm::setMoveComplete \endlink
+- To fold/unfold: \link ManusArm::fold \endlink and \link ManusArm::unfold \endlink
+- To get joint positions: \link ManusArm::getPrintState \endlink and \link ManusArm::getCsvState \endlink
 
 \section rosapi ROS API
-
-Every ROS name in your code must be documented. Names are very
-important in ROS because they are the API to nodes and services. They
-are also capable of being remapped on the command-line, so it is VERY
-IMPORTANT THAT YOU LIST NAMES AS THEY APPEAR IN THE CODE. It is also
-important that you write your code so that the names can be easily
-remapped.
 
 List of nodes:
 - \b arm_control
 - \b teleop_arm_dish
 - \b teleop_arm_key
-
 
 <!-- START: copy for each node -->
 
@@ -45,15 +35,10 @@ List of nodes:
 
 \subsection arm_control arm_control
 
-arm_control does (provide a basic description of your node)
+arm_control controls the ARM. It receives movement commands from teleop nodes
+and moves the arm hardware appropriately.
 
 \subsubsection Usage
-\verbatim
-$ rosrun arm arm_control
-\endverbatim
-
-\par Example
-
 \verbatim
 $ rosrun arm arm_control
 \endverbatim
@@ -62,9 +47,9 @@ $ rosrun arm arm_control
 \subsubsection topics ROS topics
 
 Subscribes to:
-- \b "cartesian_moves": [arm/cartesian_moves] message that contains cartesian movement commands
-- \b "constant_moves": [arm/constant_move] message that contains a constant movement command
-- \b "constant_move_times": [arm/constant_move_time] message that contains constant movement by time commands
+- \b "cartesian_moves": [arm/cartesian_moves] cartesian movement commands
+- \b "constant_moves": [arm/constant_move] constant movement commands
+- \b "constant_move_times": [arm/constant_move_time] constant movement by time commands
 
 Publishes to:
 - \b N/A
@@ -81,8 +66,7 @@ Sets the following parameters on the parameter server
 
 
 \subsubsection services ROS services
-- \b "time_service": [time_server/time_srv] service that polls system time to keep nodes in sync
-
+- \b "time_service": [time_server/time_srv] polls system time to keep the node in sync
 
 <!-- END: copy for each node -->
 
@@ -92,15 +76,10 @@ Sets the following parameters on the parameter server
 
 \subsection teleop_arm_dish teleop_arm_dish
 
-teleop_arm_dish does (provide a basic description of your node)
+teleop_arm_dish creates movement commands for the arm based on CAT (center of
+activity trajectory) data received from the CAT creator node.
 
 \subsubsection Usage
-\verbatim
-$ rosrun arm teleop_arm_dish
-\endverbatim
-
-\par Example
-
 \verbatim
 $ rosrun arm teleop_arm_dish
 \endverbatim
@@ -109,26 +88,27 @@ $ rosrun arm teleop_arm_dish
 \subsubsection topics ROS topics
 
 Subscribes to:
-- \b "in": [std_msgs/FooType] description of in
+- \b "cats": [burst_calc/cat] center of activity trajectories
 
 Publishes to:
-- \b "out": [std_msgs/FooType] description of out
+- \b "cartesian_moves": [arm/cartesian_moves] cartesian movement commands
+- \b "constant_move_times": [arm/constant_move_time] constant movement by time commands
 
 \subsubsection parameters ROS parameters
 
 Reads the following parameters from the parameter server
 
-- \b "~param_name" : \b [type] description of param_name
-- \b "~my_param" : \b [string] description of my_param
+- \b arm_speed
+- \b arm_safe_range
+- \b max_range_from_midpoint
 
 Sets the following parameters on the parameter server
 
-- \b "~param_name" : \b [type] description of param_name
+- \b N/A
 
 
 \subsubsection services ROS services
-- \b "time_service": [time_server/time_srv] service that polls system time to keep nodes in sync
-
+- \b "time_service": [time_server/time_srv] polls system time to keep the node in sync
 
 <!-- END: copy for each node -->
 
@@ -138,67 +118,58 @@ Sets the following parameters on the parameter server
 
 \subsection teleop_arm_key teleop_arm_key
 
-teleop_arm_key does (provide a basic description of your node)
+teleop_arm_key creates movement commands for the arm based on keyboard input.
 
 \subsubsection Usage
 \verbatim
-$ node_type1 [standard ROS args]
-\endverbatim
-
-\par Example
-
-\verbatim
-$ node_type1
+$ rosrun arm teleop_arm_key
 \endverbatim
 
 
 \subsubsection topics ROS topics
 
 Subscribes to:
-- \b "in": [std_msgs/FooType] description of in
+- \b N/A
 
 Publishes to:
-- \b "out": [std_msgs/FooType] description of out
+- \b "constant_moves": [arm/constant_move] constant movement commands
 
 \subsubsection parameters ROS parameters
 
 Reads the following parameters from the parameter server
 
-- \b "~param_name" : \b [type] description of param_name
-- \b "~my_param" : \b [string] description of my_param
+- \b N/A
 
 Sets the following parameters on the parameter server
 
-- \b "~param_name" : \b [type] description of param_name
+- \b N/A
 
 
 \subsubsection services ROS services
-- \b "foo_service": [std_srvs/FooType] description of foo_service
-
+- \b N/A
 
 <!-- END: copy for each node -->
 
 \section commandline Command-line tools
 
-This section is a catch-all for any additional tools that your package
-provides or uses that may be of use to the reader. For example:
+There are several launch files available to simplify running all of the nodes.
+Each launch file has a corresponding parameter file. They are as follows:
 
-- tools/scripts (e.g. rospack, roscd)
-- roslaunch .launch files
-- xmlparam files
+- brian_csv.launch
+- brian_sim.launch
+- csv.launch
+- volt_only_brian_csv.launch
+- volt_only_brian_sim.launch
+- volt_only_csv.launch
 
-\subsection script_name script_name
-
-Description of what this script/file does.
-
-\subsubsection Usage
+\subsection Usage
 \verbatim
-$ ./script_name [args]
+$ roslaunch [package] [file]
 \endverbatim
 
 \par Example
 
 \verbatim
-$ ./script_name foo bar
+$ roslaunch arm csv.launch
 \endverbatim
 */

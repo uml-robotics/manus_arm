@@ -11,11 +11,11 @@
 #include <queue>
 
 /*!
- * \brief Neuron dish teleop node
+ * \brief Node for ARM teleop from the neuron dish
  *
  * This node receives CAT (center of activity trajectory) data from the CAT
  * creator node and then creates and publishes movement commands. The operation
- * of the node is autonomous; after the ArmControl object has been created, the
+ * of the node is autonomous; after the object has been created, the
  * node will run with no further operation.
  *
  * \copyright 2013 University of Massachusetts Lowell

@@ -3,17 +3,6 @@
  * Copyright 2013 University of Massachusetts Lowell
  */
 
-// =============================================================================
-// Name   : teleop_arm_key.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "teleop_arm_key". This node accepts keyboard input to
-// pass commands to the "arm_control" node. The code used for getting input from
-// the keyboard was originally found in teleop_turtle_key.cpp inside the
-// "turtlesim" package on ros.org.
-// =============================================================================
-
 #include "arm/teleop_arm_key.h"
 #include "arm/movement_definitions.h"
 #include <signal.h>
