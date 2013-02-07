@@ -1,11 +1,8 @@
-// =============================================================================
-// Name   : volt_distr_creator.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Voltage distribution creator class for the ROS node "volt_distr". Creates
-// a distribution of recorded voltages on each channel.
-// =============================================================================
+/*
+ * volt_distr_creator.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef VOLT_DISTR_CREATOR_H_
 #define VOLT_DISTR_CREATOR_H_
@@ -15,7 +12,11 @@
 #include <vector>
 #include <fstream>
 
-// Truncates a double to a max of 4 digits after the decimal
+/*!
+ * \brief Truncates a double to a max of 4 digits after the decimal
+ * \param val the value to be truncated
+ * \return the truncated result
+ */
 double truncate(double val)
 {
     if (val > 0)
@@ -26,6 +27,14 @@ double truncate(double val)
         return val;
 }
 
+/*!
+ * \brief Helper class for the volt_distr node
+ *
+ * Creates a distribution of recorded voltages on each channel.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class VoltDistrCreator
 {
 public:

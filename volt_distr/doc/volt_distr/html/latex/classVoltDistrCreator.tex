@@ -1,0 +1,187 @@
+\section{\-Volt\-Distr\-Creator \-Class \-Reference}
+\label{classVoltDistrCreator}\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}}
+
+
+\-Helper class for the volt\-\_\-distr node.  
+
+
+
+
+{\ttfamily \#include $<$volt\-\_\-distr\-\_\-creator.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf add} (const neuro\-\_\-recv\-::dish\-\_\-state \&d)
+\begin{DoxyCompactList}\small\item\em \-Adds the values of a dish state to the distribution. \end{DoxyCompactList}\item 
+boost\-::array$<$ double, 60 $>$ {\bf get\-Percents} ()
+\begin{DoxyCompactList}\small\item\em \-Gets the percentage of negative dishes for each channel. \end{DoxyCompactList}\item 
+void {\bf set\-Do\-Truncate\-Volts} (int i)
+\item 
+void {\bf to\-File} (const std\-::string \&file\-\_\-path)
+\begin{DoxyCompactList}\small\item\em \-Saves the distrubution data to file in \-C\-S\-V format. \end{DoxyCompactList}\item 
+{\bf \-Volt\-Distr\-Creator} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bf do\-\_\-truncate\-\_\-volts\-\_\-}
+\item 
+std\-::ofstream {\bf log\-\_\-file\-\_\-}
+\item 
+boost\-::array$<$ int, 60 $>$ {\bf negatives\-\_\-}
+\item 
+int {\bf total\-\_\-dishes\-\_\-}
+\item 
+std\-::map$<$ double, std\-::vector\*
+$<$ int $>$ $>$ {\bf volts\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Helper class for the volt\-\_\-distr node. 
+
+\-Creates a distribution of recorded voltages on each channel.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 38 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}}
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{\-Volt\-Distr\-Creator}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-Creator\-::\-Volt\-Distr\-Creator} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classVoltDistrCreator_af469f2ccb0872686eece638498e5fcdc}
+
+
+\-Definition at line 10 of file volt\-\_\-distr\-\_\-creator.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!add@{add}}
+\index{add@{add}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-Creator\-::add} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state \&}]{d}
+\end{DoxyParamCaption}
+)}\label{classVoltDistrCreator_a08bf3012c9644829da389e3d45b3971c}
+
+
+\-Adds the values of a dish state to the distribution. 
+
+\-The class maintains a histogram of voltages, as well as a count of negative voltages, for each channel.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the dish state being added \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 25 of file volt\-\_\-distr\-\_\-creator.\-cpp.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!get\-Percents@{get\-Percents}}
+\index{get\-Percents@{get\-Percents}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{get\-Percents}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::array$<$ double, 60 $>$ {\bf \-Volt\-Distr\-Creator\-::get\-Percents} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classVoltDistrCreator_aca810a781bd14fb6e9a486ccaf0e8a1c}
+
+
+\-Gets the percentage of negative dishes for each channel. 
+
+\begin{DoxyReturn}{\-Returns}
+an array of doubles representing the percentage of negative dishes for each channel 
+\end{DoxyReturn}
+
+
+\-Definition at line 98 of file volt\-\_\-distr\-\_\-creator.\-cpp.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!set\-Do\-Truncate\-Volts@{set\-Do\-Truncate\-Volts}}
+\index{set\-Do\-Truncate\-Volts@{set\-Do\-Truncate\-Volts}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{set\-Do\-Truncate\-Volts}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-Creator\-::set\-Do\-Truncate\-Volts} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classVoltDistrCreator_a6e4079db98363dac76d126ea87b8f33c}
+
+
+\-Definition at line 47 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!to\-File@{to\-File}}
+\index{to\-File@{to\-File}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{to\-File}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-Creator\-::to\-File} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-\_\-path}
+\end{DoxyParamCaption}
+)}\label{classVoltDistrCreator_a86fbccf86de8f64ec19b336cbd0f2143}
+
+
+\-Saves the distrubution data to file in \-C\-S\-V format. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em file\-\_\-path} & the path of the file to be saved \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 64 of file volt\-\_\-distr\-\_\-creator.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!do\-\_\-truncate\-\_\-volts\-\_\-@{do\-\_\-truncate\-\_\-volts\-\_\-}}
+\index{do\-\_\-truncate\-\_\-volts\-\_\-@{do\-\_\-truncate\-\_\-volts\-\_\-}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{do\-\_\-truncate\-\_\-volts\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Volt\-Distr\-Creator\-::do\-\_\-truncate\-\_\-volts\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrCreator_a3c822431dfdfeb02495d9253d2c932c3}
+
+
+\-Definition at line 52 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!log\-\_\-file\-\_\-@{log\-\_\-file\-\_\-}}
+\index{log\-\_\-file\-\_\-@{log\-\_\-file\-\_\-}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{log\-\_\-file\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ofstream {\bf \-Volt\-Distr\-Creator\-::log\-\_\-file\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrCreator_a981df09a8cfd8b196b0ba37898405891}
+
+
+\-Definition at line 51 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!negatives\-\_\-@{negatives\-\_\-}}
+\index{negatives\-\_\-@{negatives\-\_\-}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{negatives\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::array$<$int, 60$>$ {\bf \-Volt\-Distr\-Creator\-::negatives\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrCreator_a6485760555518275cbd98cad32eb80b4}
+
+
+\-Definition at line 53 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!total\-\_\-dishes\-\_\-@{total\-\_\-dishes\-\_\-}}
+\index{total\-\_\-dishes\-\_\-@{total\-\_\-dishes\-\_\-}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{total\-\_\-dishes\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Volt\-Distr\-Creator\-::total\-\_\-dishes\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrCreator_acdee717646fde35c4c405ed6eefd8590}
+
+
+\-Definition at line 54 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+\index{\-Volt\-Distr\-Creator@{\-Volt\-Distr\-Creator}!volts\-\_\-@{volts\-\_\-}}
+\index{volts\-\_\-@{volts\-\_\-}!VoltDistrCreator@{\-Volt\-Distr\-Creator}}
+\subsubsection[{volts\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::map$<$double, std\-::vector$<$int$>$ $>$ {\bf \-Volt\-Distr\-Creator\-::volts\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrCreator_a3aa508e2444509a3b6879099786fd165}
+
+
+\-Definition at line 50 of file volt\-\_\-distr\-\_\-creator.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf volt\-\_\-distr\-\_\-creator.\-h}\item 
+{\bf volt\-\_\-distr\-\_\-creator.\-cpp}\end{DoxyCompactItemize}

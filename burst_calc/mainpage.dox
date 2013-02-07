@@ -11,7 +11,7 @@ stack to perform properly.
 
 \section codeapi Code API
 
-- Run the burst creator node by creating an \link BurstCreator \endlink object.
+- Run the burst creator node by creating a \link BurstCreator \endlink object.
 - Run the CAT creator node by creating a \link CatCreator \endlink object.
 
 \section rosapi ROS API

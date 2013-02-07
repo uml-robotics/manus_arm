@@ -1,0 +1,158 @@
+\section{\-Volt\-Distr\-Viz \-Class \-Reference}
+\label{classVoltDistrViz}\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}}
+
+
+\-Helper class for the volt\-\_\-distr node.  
+
+
+
+
+{\ttfamily \#include $<$volt\-\_\-distr\-\_\-viz.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf draw} (const boost\-::array$<$ double, 60 $>$ \&percents)
+\begin{DoxyCompactList}\small\item\em \-Plots the voltage distribution of each channel. \end{DoxyCompactList}\item 
+{\bf \-Volt\-Distr\-Viz} (const std\-::string \&file\-\_\-name)
+\item 
+{\bf $\sim$\-Volt\-Distr\-Viz} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf init} (const std\-::string \&file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em \-Initializes the visualizer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ boost\-::array$<$ int, 4 $>$ $>$ {\bf coords\-\_\-}
+\item 
+std\-::ofstream {\bf file\-\_\-}
+\item 
+bool {\bf is\-\_\-ok\-\_\-}
+\item 
+\-S\-V\-G\-Plotter $\ast$ {\bf plotter\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Helper class for the volt\-\_\-distr node. 
+
+\-Voltage distribution visualizer class. \-Creates a \-S\-V\-G image showing the voltage distribution of each channel.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 35 of file volt\-\_\-distr\-\_\-viz.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}}
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{\-Volt\-Distr\-Viz}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-Viz\-::\-Volt\-Distr\-Viz} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classVoltDistrViz_af1b7f730121694686f93a0df689a63a0}
+
+\begin{DoxyParams}{\-Parameters}
+{\em file\-\_\-name} & the file path for saving the image \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 41 of file volt\-\_\-distr\-\_\-viz.\-h.
+
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!$\sim$\-Volt\-Distr\-Viz@{$\sim$\-Volt\-Distr\-Viz}}
+\index{$\sim$\-Volt\-Distr\-Viz@{$\sim$\-Volt\-Distr\-Viz}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{$\sim$\-Volt\-Distr\-Viz}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-Viz\-::$\sim$\-Volt\-Distr\-Viz} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classVoltDistrViz_ab09637f1ac85120b634e2cc96a596612}
+
+
+\-Definition at line 21 of file volt\-\_\-distr\-\_\-viz.\-cpp.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!draw@{draw}}
+\index{draw@{draw}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{draw}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-Viz\-::draw} (
+\begin{DoxyParamCaption}
+\item[{const boost\-::array$<$ double, 60 $>$ \&}]{percents}
+\end{DoxyParamCaption}
+)}\label{classVoltDistrViz_a22e15b03897fced9fe169ad1fd334cf2}
+
+
+\-Plots the voltage distribution of each channel. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em percents} & an array of doubles, each representing what percentage of total voltages were negative for that channel \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 89 of file volt\-\_\-distr\-\_\-viz.\-cpp.
+
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!init@{init}}
+\index{init@{init}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-Viz\-::init} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrViz_a07473014a299088640e76dfca76cc465}
+
+
+\-Initializes the visualizer. 
+
+
+
+\-Definition at line 29 of file volt\-\_\-distr\-\_\-viz.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!coords\-\_\-@{coords\-\_\-}}
+\index{coords\-\_\-@{coords\-\_\-}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{coords\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ boost\-::array$<$int, 4$>$ $>$ {\bf \-Volt\-Distr\-Viz\-::coords\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrViz_ac42afb95ab83e70d3d12afb1732954c9}
+
+
+\-Definition at line 51 of file volt\-\_\-distr\-\_\-viz.\-h.
+
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!file\-\_\-@{file\-\_\-}}
+\index{file\-\_\-@{file\-\_\-}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{file\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ofstream {\bf \-Volt\-Distr\-Viz\-::file\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrViz_a988bebf7069ec9ec78503572082d0a5a}
+
+
+\-Definition at line 50 of file volt\-\_\-distr\-\_\-viz.\-h.
+
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!is\-\_\-ok\-\_\-@{is\-\_\-ok\-\_\-}}
+\index{is\-\_\-ok\-\_\-@{is\-\_\-ok\-\_\-}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{is\-\_\-ok\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Volt\-Distr\-Viz\-::is\-\_\-ok\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrViz_aec9c99287d1edefe5177a957cefbbe86}
+
+
+\-Definition at line 53 of file volt\-\_\-distr\-\_\-viz.\-h.
+
+\index{\-Volt\-Distr\-Viz@{\-Volt\-Distr\-Viz}!plotter\-\_\-@{plotter\-\_\-}}
+\index{plotter\-\_\-@{plotter\-\_\-}!VoltDistrViz@{\-Volt\-Distr\-Viz}}
+\subsubsection[{plotter\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\-S\-V\-G\-Plotter$\ast$ {\bf \-Volt\-Distr\-Viz\-::plotter\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistrViz_a35a429c09c9ac71c2bd8781e88eb3470}
+
+
+\-Definition at line 49 of file volt\-\_\-distr\-\_\-viz.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf volt\-\_\-distr\-\_\-viz.\-h}\item 
+{\bf volt\-\_\-distr\-\_\-viz.\-cpp}\end{DoxyCompactItemize}

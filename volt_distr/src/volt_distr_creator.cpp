@@ -1,11 +1,8 @@
-// =============================================================================
-// Name   : volt_distr_creator.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Voltage distribution creator class for the ROS node "volt_distr". Creates
-// a distribution of recorded voltages on each channel.
-// =============================================================================
+/*
+ * volt_distr_creator.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "volt_distr/volt_distr_creator.h"
 #include "ros/ros.h"
@@ -17,6 +14,14 @@ VoltDistrCreator::VoltDistrCreator()
     total_dishes_ = 0;
 }
 
+/*!
+ * \brief Adds the values of a dish state to the distribution
+ *
+ * The class maintains a histogram of voltages, as well as a count of negative
+ * voltages, for each channel.
+ *
+ * \param d the dish state being added
+ */
 void VoltDistrCreator::add(const neuro_recv::dish_state& d)
 {
     total_dishes_++;
@@ -52,6 +57,10 @@ void VoltDistrCreator::add(const neuro_recv::dish_state& d)
     }
 }
 
+/*!
+ * \brief Saves the distrubution data to file in CSV format
+ * \param file_path the path of the file to be saved
+ */
 void VoltDistrCreator::toFile(const std::string& file_path)
 {
     log_file_.open(file_path.c_str(), std::ios_base::trunc | std::ios_base::out);
@@ -81,6 +90,11 @@ void VoltDistrCreator::toFile(const std::string& file_path)
     log_file_.close();
 }
 
+/*!
+ * \brief Gets the percentage of negative dishes for each channel
+ * \return an array of doubles representing the percentage of negative dishes
+ *         for each channel
+ */
 boost::array<double, 60> VoltDistrCreator::getPercents()
 {
     boost::array<double, 60> percents;

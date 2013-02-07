@@ -1,11 +1,8 @@
-// =============================================================================
-// Name   : volt_distr_viz.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Voltage distribution visualizer class for the ROS node "volt_distr". Creates
-// an SVG image showing voltage tendencies of each channel.
-// =============================================================================
+/*
+ * volt_distr_viz.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "volt_distr/volt_distr_viz.h"
 
@@ -26,6 +23,9 @@ VoltDistrViz::~VoltDistrViz()
     delete plotter_;
 }
 
+/*!
+ * \brief Initializes the visualizer
+ */
 void VoltDistrViz::init(const std::string& file_name)
 {
     is_ok_ = true;
@@ -81,6 +81,11 @@ void VoltDistrViz::init(const std::string& file_name)
     }
 }
 
+/*!
+ * \brief Plots the voltage distribution of each channel
+ * \param percents an array of doubles, each representing what percentage of
+ *        total voltages were negative for that channel
+ */
 void VoltDistrViz::draw(const boost::array<double, 60>& percents)
 {
     if (!is_ok_)

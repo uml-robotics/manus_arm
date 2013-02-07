@@ -1,10 +1,8 @@
-// =============================================================================
-// Name   : volt_distr.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "volt_distr".
-// =============================================================================
+/*
+ * volt_distr.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef VOLT_DISTR_H_
 #define VOLT_DISTR_H_
@@ -16,6 +14,16 @@
 #include <string>
 #include <fstream>
 
+/*!
+ * \brief Node for recording and visualizing voltage distributions.
+ *
+ * This node receives dish states from a receiver node and then maintains a
+ * voltage histogram for each channel. It then will save this data as a CSV
+ * file and/or an image.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class VoltDistr
 {
 public:

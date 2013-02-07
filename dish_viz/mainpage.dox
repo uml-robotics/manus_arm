@@ -10,7 +10,7 @@ arm_project stack to perform properly.
 
 \section codeapi Code API
 
-- Run the visualizer node by creating an \link DataHandler \endlink object.
+- Run the visualizer node by creating a \link DataHandler \endlink object.
 
 - To initialize the visualizer: \link DishVisualizer::init \endlink
 - To update voltage data for a channel: \link DishVisualizer::update \endlink

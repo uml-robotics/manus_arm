@@ -1,0 +1,141 @@
+\section{\-Time\-Server \-Class \-Reference}
+\label{classTimeServer}\index{\-Time\-Server@{\-Time\-Server}}
+
+
+\-Node that provides a time service to keep other nodes in sync.  
+
+
+
+
+{\ttfamily \#include $<$time\-\_\-server.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Time\-Server} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\item 
+bool {\bf service} ({\bf time\-\_\-server\-::time\-\_\-srv\-::\-Request} \&req, {\bf time\-\_\-server\-::time\-\_\-srv\-::\-Response} \&res)
+\begin{DoxyCompactList}\small\item\em \-Callback for time service request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+ros\-::\-Duration {\bf offset\-\_\-}
+\item 
+ros\-::\-Service\-Server {\bf service\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Node that provides a time service to keep other nodes in sync. 
+
+\-The clock starts at 0, and begins the first time the service is called.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 21 of file time\-\_\-server.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Time\-Server@{\-Time\-Server}!\-Time\-Server@{\-Time\-Server}}
+\index{\-Time\-Server@{\-Time\-Server}!TimeServer@{\-Time\-Server}}
+\subsubsection[{\-Time\-Server}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Time\-Server\-::\-Time\-Server} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classTimeServer_ac30689d3305fff4b2edd1fa1c5205ebf}
+
+
+\-Definition at line 24 of file time\-\_\-server.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Time\-Server@{\-Time\-Server}!init@{init}}
+\index{init@{init}!TimeServer@{\-Time\-Server}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Time\-Server\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTimeServer_a423126e887e3d4f795d55df9e1bb2ccc}
+
+
+\-Initializes the node. 
+
+\-Advertises the service and starts the spin loop. 
+
+\-Definition at line 14 of file time\-\_\-server.\-cpp.
+
+\index{\-Time\-Server@{\-Time\-Server}!service@{service}}
+\index{service@{service}!TimeServer@{\-Time\-Server}}
+\subsubsection[{service}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Time\-Server\-::service} (
+\begin{DoxyParamCaption}
+\item[{{\bf time\-\_\-server\-::time\-\_\-srv\-::\-Request} \&}]{req, }
+\item[{{\bf time\-\_\-server\-::time\-\_\-srv\-::\-Response} \&}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classTimeServer_a4997d13ae9b4bad016109c3d00de37e3}
+
+
+\-Callback for time service request. 
+
+\-This method is called automatically when the node receives a service request. \-The node responds with the current clock time and the difference between the request time and the actual time.
+
+\-If this is the first request received, the node starts its clock (from 0).
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em req} & the client request \\
+\hline
+{\em res} & the server response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+true 
+\end{DoxyReturn}
+
+
+\-Definition at line 33 of file time\-\_\-server.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Time\-Server@{\-Time\-Server}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!TimeServer@{\-Time\-Server}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Time\-Server\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTimeServer_a3a120f8433f6312e8eaaa5061fec6202}
+
+
+\-Definition at line 31 of file time\-\_\-server.\-h.
+
+\index{\-Time\-Server@{\-Time\-Server}!offset\-\_\-@{offset\-\_\-}}
+\index{offset\-\_\-@{offset\-\_\-}!TimeServer@{\-Time\-Server}}
+\subsubsection[{offset\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Duration {\bf \-Time\-Server\-::offset\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTimeServer_abf5c6991563319da5ea6ec79893d9605}
+
+
+\-Definition at line 33 of file time\-\_\-server.\-h.
+
+\index{\-Time\-Server@{\-Time\-Server}!service\-\_\-@{service\-\_\-}}
+\index{service\-\_\-@{service\-\_\-}!TimeServer@{\-Time\-Server}}
+\subsubsection[{service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server {\bf \-Time\-Server\-::service\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classTimeServer_ad751f7e701fdf12cb9be7fe08dfc838d}
+
+
+\-Definition at line 32 of file time\-\_\-server.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf time\-\_\-server.\-h}\item 
+{\bf time\-\_\-server.\-cpp}\end{DoxyCompactItemize}

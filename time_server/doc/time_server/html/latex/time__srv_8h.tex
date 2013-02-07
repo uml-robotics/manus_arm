@@ -1,0 +1,114 @@
+\section{time\-\_\-srv.\-h \-File \-Reference}
+\label{time__srv_8h}\index{time\-\_\-srv.\-h@{time\-\_\-srv.\-h}}
+{\ttfamily \#include $<$string$>$}\*
+{\ttfamily \#include $<$vector$>$}\*
+{\ttfamily \#include $<$map$>$}\*
+{\ttfamily \#include $<$ostream$>$}\*
+{\ttfamily \#include \char`\"{}ros/serialization.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}ros/builtin\-\_\-message\-\_\-traits.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}ros/message\-\_\-operations.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}ros/time.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}ros/macros.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}ros/assert.\-h\char`\"{}}\*
+{\ttfamily \#include \char`\"{}ros/service\-\_\-traits.\-h\char`\"{}}\*
+\-Include dependency graph for time\-\_\-srv.\-h\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__srv_8h__incl}
+\end{center}
+\end{figure}
+\-This graph shows which files directly or indirectly include this file\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{time__srv_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Data\-Type$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Data\-Type$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::service\-\_\-traits\-::\-Data\-Type$<$ time\-\_\-server\-::time\-\_\-srv $>$}
+\item 
+struct {\bf ros\-::service\-\_\-traits\-::\-Data\-Type$<$ time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::service\-\_\-traits\-::\-Data\-Type$<$ time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Definition$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Definition$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Is\-Fixed\-Size$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Is\-Fixed\-Size$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Is\-Message$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Is\-Message$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$const  $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Is\-Message$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-Is\-Message$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$const  $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-M\-D5\-Sum$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::message\-\_\-traits\-::\-M\-D5\-Sum$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::service\-\_\-traits\-::\-M\-D5\-Sum$<$ time\-\_\-server\-::time\-\_\-srv $>$}
+\item 
+struct {\bf ros\-::service\-\_\-traits\-::\-M\-D5\-Sum$<$ time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::service\-\_\-traits\-::\-M\-D5\-Sum$<$ time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::serialization\-::\-Serializer$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf ros\-::serialization\-::\-Serializer$<$ \-::time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$ $>$}
+\item 
+struct {\bf time\-\_\-server\-::time\-\_\-srv}
+\item 
+struct {\bf time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-$<$ Container\-Allocator $>$}
+\item 
+struct {\bf time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-$<$ Container\-Allocator $>$}
+\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace {\bf ros}
+\item 
+namespace {\bf ros\-::message\-\_\-traits}
+\item 
+namespace {\bf ros\-::serialization}
+\item 
+namespace {\bf ros\-::service\-\_\-traits}
+\item 
+namespace {\bf time\-\_\-server}
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \*
+\-::{\bf time\-\_\-server\-::time\-\_\-srv\-Request\-\_\-}\*
+$<$ std\-::allocator$<$ void $>$ $>$ {\bf time\-\_\-server\-::time\-\_\-srv\-Request}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf time\-\_\-server\-::time\-\_\-srv\-Request} \*
+const  $>$ {\bf time\-\_\-server\-::time\-\_\-srv\-Request\-Const\-Ptr}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf time\-\_\-server\-::time\-\_\-srv\-Request} $>$ {\bf time\-\_\-server\-::time\-\_\-srv\-Request\-Ptr}
+\item 
+typedef \*
+\-::{\bf time\-\_\-server\-::time\-\_\-srv\-Response\-\_\-}\*
+$<$ std\-::allocator$<$ void $>$ $>$ {\bf time\-\_\-server\-::time\-\_\-srv\-Response}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf time\-\_\-server\-::time\-\_\-srv\-Response} \*
+const  $>$ {\bf time\-\_\-server\-::time\-\_\-srv\-Response\-Const\-Ptr}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf time\-\_\-server\-::time\-\_\-srv\-Response} $>$ {\bf time\-\_\-server\-::time\-\_\-srv\-Response\-Ptr}
+\end{DoxyCompactItemize}

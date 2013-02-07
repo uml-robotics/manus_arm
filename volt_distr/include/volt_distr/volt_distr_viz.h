@@ -1,3 +1,9 @@
+/*
+ * volt_distr_viz.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
+
 // =============================================================================
 // Name   : volt_distr_viz.h
 // Author : Jonathan Hasenzahl
@@ -17,9 +23,21 @@
 #include <string>
 #include <vector>
 
+/*!
+ * \brief Helper class for the volt_distr node
+ *
+ * Voltage distribution visualizer class. Creates a SVG image showing the
+ * voltage distribution of each channel.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class VoltDistrViz
 {
 public:
+	/*!
+	 * \param file_name the file path for saving the image
+	 */
     VoltDistrViz(const std::string& file_name) { init(file_name); }
     ~VoltDistrViz();
 

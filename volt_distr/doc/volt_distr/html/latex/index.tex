@@ -1,0 +1,57 @@
+
+
+{\bfseries volt\-\_\-distr} is a \-R\-O\-S package for recording and visualizing voltage distributions. \-The package consists of one node and two helper classes.\section{\-Code A\-P\-I}\label{index_codeapi}
+
+\begin{DoxyItemize}
+\item \-Run the voltage distribution node by creating a \doxyref{\-Volt\-Distr}{p.}{classVoltDistr} object.
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item \-To add a dish state to the data\-: \doxyref{\-Volt\-Distr\-Creator\-::add}{p.}{classVoltDistrCreator_a08bf3012c9644829da389e3d45b3971c}
+\item \-To save the data to a \-C\-S\-V file\-: \doxyref{\-Volt\-Distr\-Creator\-::to\-File}{p.}{classVoltDistrCreator_a86fbccf86de8f64ec19b336cbd0f2143}
+\item \-To get an array of percent-\/negative values\-: \doxyref{\-Volt\-Distr\-Creator\-::get\-Percents}{p.}{classVoltDistrCreator_aca810a781bd14fb6e9a486ccaf0e8a1c}
+\item \-To make an image of the percent-\/negative values\-: \doxyref{\-Volt\-Distr\-Viz\-::draw}{p.}{classVoltDistrViz_a22e15b03897fced9fe169ad1fd334cf2}
+\item \-To truncate voltage data (may make histogram much easier to read)\-: \doxyref{\-Volt\-Distr\-Creator\-::set\-Do\-Truncate\-Volts}{p.}{classVoltDistrCreator_a6e4079db98363dac76d126ea87b8f33c}
+\end{DoxyItemize}\section{\-R\-O\-S A\-P\-I}\label{index_rosapi}
+\-List of nodes\-:
+\begin{DoxyItemize}
+\item {\bfseries volt\-\_\-distr} 
+\end{DoxyItemize}
+
+
+
+\subsection{volt\-\_\-distr}\label{index_volt_distr}
+\-This node receives dish states from a receiver node and then maintains a voltage histogram for each channel. \-It then will save this data as a \-C\-S\-V file and/or an image.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun volt_distr volt_distr
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-volt\-\_\-distr\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] incoming dish states
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries volt\-\_\-distr\-\_\-log\-\_\-path} 
+\item {\bfseries volt\-\_\-distr\-\_\-img\-\_\-path} 
+\item {\bfseries do\-\_\-truncate\-\_\-volts} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}

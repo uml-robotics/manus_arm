@@ -2,13 +2,54 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b time_server 
+\b time_server is a ROS package for keeping other nodes synced. The package 
+consists of one node that provides a time checking service.
 
-<!-- 
-Provide an overview of your package.
--->
+\section codeapi Code API
 
--->
+- Run the time service node by creating a \link TimeServer \endlink object.
+
+\section rosapi ROS API
+
+List of nodes:
+- \b time_server
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection time_server time_server
+
+This node provides a time service to keep other nodes in sync. The clock starts 
+at 0, and begins the first time the service is called.
+
+\subsubsection Usage
+\verbatim
+$ rosrun time_server time_server
+\endverbatim
 
 
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b N/A
+
+Publishes to:
+- \b N/A
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b N/A
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b "time_service": [time_server/time_srv] provides running time to keep the node in sync
+
+<!-- END: copy for each node -->
 */

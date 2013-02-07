@@ -1,16 +1,16 @@
-// =============================================================================
-// Name   : volt_distr.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "volt_distr". This node receives dish states from the
-// receiver and records voltage distributions for each channel. It then outputs
-// the results to a CSV file and to an image file. The dish states are then
-// published again for the burst_creator node.
-// =============================================================================
+/*
+ * volt_distr.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "volt_distr/volt_distr.h"
 
+/*!
+ * \brief Initializes the node
+ *
+ * Gets server parameters, initializes the subscriber, and runs the spin loop.
+ */
 void VoltDistr::init()
 {
     do_log_ = true;
@@ -29,6 +29,9 @@ void VoltDistr::init()
     ros::spin();
 }
 
+/*!
+ * \brief Gets server parameters
+ */
 void VoltDistr::getParams()
 {
     // Get volt_distr_log_path parameter
@@ -53,6 +56,16 @@ void VoltDistr::getParams()
     }
 }
 
+/*!
+ * \brief Callback for dish state messages
+ *
+ * This method is called automatically when the node receives a dish state
+ * message. If the dish state is marked as the "last dish", the data collected
+ * thus far is written to a CSV file and/or PNG image. Otherwise, the dish
+ * state is added to the creator object.
+ *
+ * \param d the received message
+ */
 void VoltDistr::callback(const neuro_recv::dish_state::ConstPtr& d)
 {
     if (d->last_dish)
@@ -72,6 +85,9 @@ void VoltDistr::callback(const neuro_recv::dish_state::ConstPtr& d)
         data_.add(*d);
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "volt_distr");

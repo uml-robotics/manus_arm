@@ -1,0 +1,217 @@
+\section{\-Volt\-Distr \-Class \-Reference}
+\label{classVoltDistr}\index{\-Volt\-Distr@{\-Volt\-Distr}}
+
+
+\-Node for recording and visualizing voltage distributions.  
+
+
+
+
+{\ttfamily \#include $<$volt\-\_\-distr.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Volt\-Distr} ()
+\item 
+{\bf $\sim$\-Volt\-Distr} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf callback} (const neuro\-\_\-recv\-::dish\-\_\-state\-::\-Const\-Ptr \&d)
+\begin{DoxyCompactList}\small\item\em \-Callback for dish state messages. \end{DoxyCompactList}\item 
+void {\bf get\-Params} ()
+\begin{DoxyCompactList}\small\item\em \-Gets server parameters. \end{DoxyCompactList}\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes the node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Volt\-Distr\-Creator} {\bf data\-\_\-}
+\item 
+ros\-::\-Subscriber {\bf dish\-\_\-sub\-\_\-}
+\item 
+bool {\bf do\-\_\-img\-\_\-}
+\item 
+bool {\bf do\-\_\-log\-\_\-}
+\item 
+bool {\bf do\-\_\-truncate\-\_\-}
+\item 
+std\-::string {\bf img\-\_\-path\-\_\-}
+\item 
+std\-::string {\bf log\-\_\-path\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+{\bf \-Volt\-Distr\-Viz} $\ast$ {\bf viz\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Node for recording and visualizing voltage distributions. 
+
+\-This node receives dish states from a receiver node and then maintains a voltage histogram for each channel. \-It then will save this data as a \-C\-S\-V file and/or an image.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 27 of file volt\-\_\-distr.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Volt\-Distr@{\-Volt\-Distr}!\-Volt\-Distr@{\-Volt\-Distr}}
+\index{\-Volt\-Distr@{\-Volt\-Distr}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{\-Volt\-Distr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-::\-Volt\-Distr} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classVoltDistr_aa258ecfcaf87368c3c555d9c9cb6fc87}
+
+
+\-Definition at line 30 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!$\sim$\-Volt\-Distr@{$\sim$\-Volt\-Distr}}
+\index{$\sim$\-Volt\-Distr@{$\sim$\-Volt\-Distr}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{$\sim$\-Volt\-Distr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-::$\sim$\-Volt\-Distr} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classVoltDistr_a5744a914da8242ccd34e8c31b17abbde}
+
+
+\-Definition at line 31 of file volt\-\_\-distr.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Volt\-Distr@{\-Volt\-Distr}!callback@{callback}}
+\index{callback@{callback}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-::callback} (
+\begin{DoxyParamCaption}
+\item[{const neuro\-\_\-recv\-::dish\-\_\-state\-::\-Const\-Ptr \&}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_a31ff9e7bf7a1f69aacb4ba41d4d55196}
+
+
+\-Callback for dish state messages. 
+
+\-This method is called automatically when the node receives a dish state message. \-If the dish state is marked as the \char`\"{}last dish\char`\"{}, the data collected thus far is written to a \-C\-S\-V file and/or \-P\-N\-G image. \-Otherwise, the dish state is added to the creator object.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em d} & the received message \\
+\hline
+\end{DoxyParams}
+
+
+\-Definition at line 69 of file volt\-\_\-distr.\-cpp.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-::get\-Params} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_acedcbcb971c11aa629520243819f6f4b}
+
+
+\-Gets server parameters. 
+
+
+
+\-Definition at line 35 of file volt\-\_\-distr.\-cpp.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!init@{init}}
+\index{init@{init}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Volt\-Distr\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_af12dd45f1bf74ea6541ed2ec583ce429}
+
+
+\-Initializes the node. 
+
+\-Gets server parameters, initializes the subscriber, and runs the spin loop. 
+
+\-Definition at line 14 of file volt\-\_\-distr.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Volt\-Distr@{\-Volt\-Distr}!data\-\_\-@{data\-\_\-}}
+\index{data\-\_\-@{data\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{data\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-Creator} {\bf \-Volt\-Distr\-::data\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_a12901fff509fb592e3740db8ba2ed68e}
+
+
+\-Definition at line 41 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!dish\-\_\-sub\-\_\-@{dish\-\_\-sub\-\_\-}}
+\index{dish\-\_\-sub\-\_\-@{dish\-\_\-sub\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{dish\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber {\bf \-Volt\-Distr\-::dish\-\_\-sub\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_a1ce39a7bd86173c1dfe2a607dc15e6f4}
+
+
+\-Definition at line 39 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!do\-\_\-img\-\_\-@{do\-\_\-img\-\_\-}}
+\index{do\-\_\-img\-\_\-@{do\-\_\-img\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{do\-\_\-img\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Volt\-Distr\-::do\-\_\-img\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_ad6dc52adb38fd717576f08742e8f7e8e}
+
+
+\-Definition at line 48 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!do\-\_\-log\-\_\-@{do\-\_\-log\-\_\-}}
+\index{do\-\_\-log\-\_\-@{do\-\_\-log\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{do\-\_\-log\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Volt\-Distr\-::do\-\_\-log\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_af16e9dc2186890603f3f28860f795660}
+
+
+\-Definition at line 47 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!do\-\_\-truncate\-\_\-@{do\-\_\-truncate\-\_\-}}
+\index{do\-\_\-truncate\-\_\-@{do\-\_\-truncate\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{do\-\_\-truncate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Volt\-Distr\-::do\-\_\-truncate\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_aca8c94a9df326855c8b2cd58e8c82065}
+
+
+\-Definition at line 49 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!img\-\_\-path\-\_\-@{img\-\_\-path\-\_\-}}
+\index{img\-\_\-path\-\_\-@{img\-\_\-path\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{img\-\_\-path\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string {\bf \-Volt\-Distr\-::img\-\_\-path\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_a94fd318d0e512a33d6e436557549cf6b}
+
+
+\-Definition at line 45 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!log\-\_\-path\-\_\-@{log\-\_\-path\-\_\-}}
+\index{log\-\_\-path\-\_\-@{log\-\_\-path\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{log\-\_\-path\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string {\bf \-Volt\-Distr\-::log\-\_\-path\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_ab296165293edefb511067c182994d1a3}
+
+
+\-Definition at line 44 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Volt\-Distr\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_a483f20db6b29c236a322f7cb848917ff}
+
+
+\-Definition at line 38 of file volt\-\_\-distr.\-h.
+
+\index{\-Volt\-Distr@{\-Volt\-Distr}!viz\-\_\-@{viz\-\_\-}}
+\index{viz\-\_\-@{viz\-\_\-}!VoltDistr@{\-Volt\-Distr}}
+\subsubsection[{viz\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Volt\-Distr\-Viz}$\ast$ {\bf \-Volt\-Distr\-::viz\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classVoltDistr_a32c2d3297b1c1a8dac4888dba7f2dd9d}
+
+
+\-Definition at line 42 of file volt\-\_\-distr.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf volt\-\_\-distr.\-h}\item 
+{\bf volt\-\_\-distr.\-cpp}\end{DoxyCompactItemize}

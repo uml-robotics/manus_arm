@@ -2,13 +2,65 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b volt_distr 
+\b volt_distr is a ROS package for recording and visualizing voltage 
+distributions. The package consists of one node and two helper classes.
 
-<!-- 
-Provide an overview of your package.
--->
+\section codeapi Code API
 
--->
+- Run the voltage distribution node by creating a \link VoltDistr \endlink object.
+
+- To add a dish state to the data: \link VoltDistrCreator::add \endlink
+- To save the data to a CSV file: \link VoltDistrCreator::toFile \endlink
+- To get an array of percent-negative values: \link VoltDistrCreator::getPercents \endlink
+- To make an image of the percent-negative values: \link VoltDistrViz::draw \endlink
+- To truncate voltage data (may make histogram much easier to read): \link VoltDistrCreator::setDoTruncateVolts \endlink
 
 
+\section rosapi ROS API
+
+List of nodes:
+- \b volt_distr
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection volt_distr volt_distr
+
+This node receives dish states from a receiver node and then maintains a
+voltage histogram for each channel. It then will save this data as a CSV file 
+and/or an image.
+
+\subsubsection Usage
+\verbatim
+$ rosrun volt_distr volt_distr
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b "dish_states_to_volt_distr": [neuro_recv/dish_state] incoming dish states
+
+Publishes to:
+- \b N/A
+
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b volt_distr_log_path
+- \b volt_distr_img_path
+- \b do_truncate_volts
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
 */

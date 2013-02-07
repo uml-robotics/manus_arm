@@ -1,19 +1,35 @@
-// =============================================================================
-// Name   : time_server.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "time_server".
-// =============================================================================
+/*
+ * time_server.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "time_server/time_server.h"
 
+/*!
+ * \brief Initializes the node
+ *
+ * Advertises the service and starts the spin loop.
+ */
 void TimeServer::init()
 {
     service_ = n_.advertiseService("time_service", &TimeServer::service, this);
     ros::spin();
 }
 
+/*!
+ * \brief Callback for time service request
+ *
+ * This method is called automatically when the node receives a service request.
+ * The node responds with the current clock time and the difference between
+ * the request time and the actual time.
+ *
+ * If this is the first request received, the node starts its clock (from 0).
+ *
+ * \param req the client request
+ * \param res the server response
+ * \return true
+ */
 bool TimeServer::service(time_server::time_srv::Request& req,
                          time_server::time_srv::Response& res)
 {
@@ -38,6 +54,9 @@ bool TimeServer::service(time_server::time_srv::Request& req,
     return true;
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "time_server");
