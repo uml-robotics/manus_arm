@@ -1,13 +1,15 @@
 <package>
-  <description brief="time_server">
+  <description brief="This package helps keep nodes in sync by providing a global clock and a time
+request service.">
 
-     time_server
+time_server is a ROS package for keeping other nodes synced. The package 
+consists of one node that provides a time checking service.
 
   </description>
   <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/time_server</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend package="roscpp"/>
 
 </package>

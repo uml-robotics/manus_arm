@@ -1,12 +1,17 @@
 <stack>
-  <description brief="manus_arm">
+  <description brief="A ROS implementation of Manus ARM control via spiking neural networks.">
   
-    manus_arm
+The ROS stack manus_arm allows a Manus ARM to be controlled by activity from a
+spiking neural network. Dish simulation and pre-recorded playback is currently
+supported, with a live link connection planned.
+
+If you are only interested in code to control the Manus ARM, that can be found
+in the "arm" package.
     
   </description>
   <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://pr.willowgarage.com/wiki/manus_arm</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend stack="ros"/>
 </stack>

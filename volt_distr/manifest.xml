@@ -1,13 +1,14 @@
 <package>
-  <description brief="volt_distr">
+  <description brief="This package records voltage distributions for each channel.">
 
-     volt_distr
+volt_distr is a ROS package for recording and visualizing voltage distributions. 
+The package consists of one node and two helper classes.
 
   </description>
   <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/volt_distr</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend package="roscpp"/>
   <depend package="neuro_recv"/>
 

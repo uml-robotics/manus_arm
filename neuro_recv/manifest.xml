@@ -1,13 +1,15 @@
 <package>
-  <description brief="neuro_recv">
+  <description brief="This package is responsible for generating dish states from various sources.">
 
-     neuro_recv
+arm is a ROS package for generating dish states from a source (currently either 
+recorded data or simulation) and publishing them to other nodes. The package 
+consists of two broadcast nodes, two standalone nodes, and a test node.
 
   </description>
   <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/neuro_recv</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend package="roscpp"/>
   <depend package="rospy"/>
 

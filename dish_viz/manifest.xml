@@ -1,13 +1,17 @@
 <package>
-  <description brief="dish_viz">
+  <description brief="This package provides a visual representation of dish states.">
 
-     dish_viz
+dish_viz is a ROS package for visualizing the activity of a neural network. 
+Spikes and centers of activity are plotted in sync with the movement of the ARM, 
+allowing for a visual representation of what is causing the movement. The 
+package consists of a single node, and relies on the other packages in the 
+arm_project stack to perform properly.
 
   </description>
   <author>Abraham Shultz</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/dish_viz</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend package="roscpp"/>
   <depend package="neuro_recv"/>
   <depend package="burst_calc"/>

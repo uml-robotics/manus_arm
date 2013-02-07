@@ -1,13 +1,18 @@
 <package>
-  <description brief="burst_calc">
+  <description brief="Dish states generated from a receiver node are sent here for spike and burst detection. ">
 
-     electrode
+burst_calc is a ROS package for detecting bursts of spiking activity in a neural 
+network. A center of activity trajectory (CAT) is calculated for each burst which 
+is then forwarded to a dish teleop node to facilitate ARM movement. The package 
+consists of a burst creator node, a CAT creator node, and several helper classes. 
+This package relies on the other packages in the arm_project stack to perform 
+properly.
 
   </description>
   <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/burst_calc</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend package="roscpp"/>
   <depend package="neuro_recv"/>
   <depend package="time_server"/>

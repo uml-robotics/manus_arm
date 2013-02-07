@@ -1,13 +1,17 @@
 <package>
-  <description brief="arm">
+  <description brief="The arm package controls the ARM and creates movement commands.">
 
-     arm
+arm is a ROS package for controlling a Manus ARM. The package consists of one 
+control node and two teleop nodes. You must have a Manus ARM properly connected 
+and configured in order for this package to be of any use. You must have both a 
+teleop node and the control node running in order to move the ARM. There is a 
+node for keyboard teleop and a node for neuron dish activity teleop.
 
   </description>
   <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/arm</url>
+  <url>https://github.com/uml-robotics/manus_arm</url>
   <depend package="roscpp"/>
   <depend package="burst_calc"/>
   <depend package="time_server"/>

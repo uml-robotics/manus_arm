@@ -28,7 +28,7 @@ Table of Contents
 
 I. Introduction
 
-The ROS stack arm_project allows a Manus ARM to be controlled by activity from a
+The ROS stack manus_arm allows a Manus ARM to be controlled by activity from a
 spiking neural network. Dish simulation and pre-recorded playback is currently
 supported, with a live link connection planned.
 
@@ -273,7 +273,7 @@ This package controls the ARM and creates movement commands.
 VII. Package: burst_calc
 
 This package is where the magic happens. All the dish states generated from a 
-received node are sent here for spike and burst detection. 
+receiver node are sent here for spike and burst detection. 
 
     A. Node: burst_creator
     
