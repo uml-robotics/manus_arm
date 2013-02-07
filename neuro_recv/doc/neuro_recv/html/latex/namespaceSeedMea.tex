@@ -1,0 +1,570 @@
+\section{\-Seed\-Mea \-Namespace \-Reference}
+\label{namespaceSeedMea}\index{\-Seed\-Mea@{\-Seed\-Mea}}
+
+
+\-This is a \-R\-O\-S node that is used by itself to generate network connectivity pickle files for the \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py} and \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py} nodes.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf \-Channel}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a \-M\-E\-A channel pad neurons\-: list of neurons within range of the pad total\-\_\-weight\-: combined weights of all the neurons. \end{DoxyCompactList}\item 
+class {\bf \-Close\-Neuron}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a neuron that is close to a channel pad. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def {\bf count\-Cells}
+\item 
+def {\bf density\-Reap}
+\item 
+def {\bf displace}
+\item 
+def {\bf di\-Sq\-Plasma}
+\item 
+def {\bf gauss\-Connect}
+\begin{DoxyCompactList}\small\item\em \-Calculate the probability of a connection between two neurons, based on their distance apart. \end{DoxyCompactList}\item 
+def {\bf gen\-P\-Cell}
+\begin{DoxyCompactList}\small\item\em \-Takes a 2-\/\-D \-Numpy array and fill it in with a density map. \end{DoxyCompactList}\item 
+def {\bf grim\-Reap}
+\item 
+def {\bf next\-Pow\-Two}
+\begin{DoxyCompactList}\small\item\em \-Find the next highest power of two, to get a shape that's good for plasma fractal generation. \end{DoxyCompactList}\item 
+def {\bf render\-Map}
+\begin{DoxyCompactList}\small\item\em \-Use pygame to render an array. \end{DoxyCompactList}\item 
+def {\bf square\-Plasma}
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf axon\-\_\-growth} = 220
+\item 
+{\bf axon\-\_\-max} = {\bf dish\-\_\-width}
+\item 
+tuple {\bf \-Ce} = \-Connection({\bf \-P}, {\bf \-P}, 'ge')
+\item 
+int {\bf cell\-\_\-density} = 900
+\item 
+tuple {\bf cells\-\_\-per\-\_\-edge} = int({\bf dish\-\_\-width}/{\bf soma\-\_\-dia})
+\item 
+tuple {\bf \-Ci} = \-Connection({\bf \-P}, {\bf \-P}, 'gi')
+\item 
+tuple {\bf close\-\_\-neurons} = {\bf \-Channel}()
+\item 
+tuple {\bf conn\-\_\-graph} = nx.\-Di\-Graph()
+\item 
+list {\bf conn\-\_\-list} = [$\,$]
+\item 
+int {\bf connectivity\-\_\-rate} = 55
+\item 
+int {\bf dendrite\-\_\-max} = 180
+\item 
+tuple {\bf density\-\_\-map} = np.\-zeros(({\bf edge\-\_\-len}, {\bf edge\-\_\-len}))
+\item 
+int {\bf dish\-\_\-width} = 2500
+\item 
+tuple {\bf dist} = math.\-sqrt(({\bf neuron\-\_\-x\-\_\-loc} -\/ {\bf pad\-\_\-x\-\_\-loc})$\ast$$\ast$2 + ({\bf neuron\-\_\-y\-\_\-loc} -\/ {\bf pad\-\_\-y\-\_\-loc})$\ast$$\ast$2)
+\item 
+tuple {\bf distance} = math.\-sqrt((from\-\_\-neuron[0][0] -\/ to\-\_\-neuron[0][0])$\ast$$\ast$2 + (from\-\_\-neuron[0][1] -\/ to\-\_\-neuron[0][1])$\ast$$\ast$2)
+\item 
+tuple {\bf edge\-\_\-len} = {\bf next\-Pow\-Two}({\bf cells\-\_\-per\-\_\-edge})
+\item 
+string {\bf eqs}
+\item 
+tuple {\bf excitory\-\_\-count} = int({\bf neuron\-\_\-count} $\ast$ 0.\-75)
+\item 
+tuple {\bf expected\-\_\-cells} = ({\bf dish\-\_\-width}/1000)
+\item 
+string {\bf file\-\_\-date} = \char`\"{}\{0\}-\/\{1\}-\/\{2\}-\/\{3\}\-:\{4\}\-:\{5\}\char`\"{}
+\item 
+{\bf ignore\-\_\-corners} = \-True
+\item 
+{\bf inhib\-\_\-count} = {\bf neuron\-\_\-count}-\/{\bf excitory\-\_\-count}
+\item 
+tuple {\bf inhib\-\_\-neurons} = random.\-sample(xrange({\bf neuron\-\_\-count}), {\bf inhib\-\_\-count})
+\item 
+tuple {\bf neuron\-\_\-count} = int({\bf count\-Cells}({\bf density\-\_\-map}))
+\item 
+int {\bf neuron\-\_\-id} = 0
+\item 
+list {\bf neuron\-\_\-list} = [$\,$]
+\item 
+list {\bf neuron\-\_\-x\-\_\-loc} = neuron[0]
+\item 
+list {\bf neuron\-\_\-y\-\_\-loc} = neuron[0]
+\item 
+tuple {\bf now} = datetime.\-datetime.\-now()
+\item 
+tuple {\bf \-P} = \-Neuron\-Group({\bf neuron\-\_\-count}, {\bf eqs}, threshold=-\/50$\ast$m\-V, reset=-\/60$\ast$m\-V)
+\item 
+int {\bf pad\-\_\-cols} = 8
+\item 
+int {\bf pad\-\_\-dia} = 30
+\item 
+dictionary {\bf pad\-\_\-neuron\-\_\-map} = \{\}
+\item 
+int {\bf pad\-\_\-rows} = 8
+\item 
+int {\bf pad\-\_\-spacing} = 200
+\item 
+int {\bf pad\-\_\-threshold} = 40
+\item 
+{\bf pad\-\_\-x\-\_\-loc} = pad\-\_\-x$\ast${\bf pad\-\_\-spacing}
+\item 
+{\bf pad\-\_\-y\-\_\-loc} = pad\-\_\-y$\ast${\bf pad\-\_\-spacing}
+\item 
+int {\bf soma\-\_\-dia} = 30
+\item 
+int {\bf survival\-\_\-rate} = 65
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This is a \-R\-O\-S node that is used by itself to generate network connectivity pickle files for the \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py} and \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py} nodes. \-This node creates the connectivity maps, and those nodes run the actual simulation. \-You only need to run this node if you do not yet have pickle files or you want to generate new ones.
+
+\-More info\-:
+
+\-Generates a connectivity map by simulating growth of seeded neuron cells.
+
+\-The growth simulation is a three-\/stage process\-: 1. \-Determine the cell density for each region of the \-M\-E\-A. 2. \-Assign cells to locations based on density. 3. \-Connect the cells based on a connectivity function.
+
+\-Cell density is assigned based on random midpoint displacement fractals, aka \char`\"{}plasma fractals\char`\"{}. \-This approach was chosen because it provides a stochastic approach that is computationally efficient. \-If it is not a good model of the actual distribution of neurons, a different algorithm can be used.
+
+\-Cells are probabilistically assigned to locations based on the cell density (actually cell probability) at that point. \-Cells are modeled as point locations.
+
+\-For each pair of cells, the probability of their connection is determined based on the distance between the cells and the cells are connected accordingly. \-Note that this results in \-N(\-N-\/1) comparisons, so roughly n$^\wedge$2 connections. \-Put that in your \-N\-P pipe and smoke it.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Abraham \-Shultz 
+
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\subsection{\-Function \-Documentation}
+\index{\-Seed\-Mea@{\-Seed\-Mea}!count\-Cells@{count\-Cells}}
+\index{count\-Cells@{count\-Cells}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{count\-Cells}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-count\-Cells} (
+\begin{DoxyParamCaption}
+\item[{}]{density\-\_\-map}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a1d7b089a34bdc4115da2b2a074cc7028}
+
+
+\-Definition at line 217 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!density\-Reap@{density\-Reap}}
+\index{density\-Reap@{density\-Reap}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{density\-Reap}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-density\-Reap} (
+\begin{DoxyParamCaption}
+\item[{}]{density\-\_\-map, }
+\item[{}]{expected\-\_\-cells}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a908153bb16f966409a043d3170ea6b0d}
+
+
+\-Definition at line 196 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!displace@{displace}}
+\index{displace@{displace}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{displace}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-displace} (
+\begin{DoxyParamCaption}
+\item[{}]{size, }
+\item[{}]{original\-Size}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a53c1350b90f73e1801c4ccb49caba2e7}
+
+
+\-Definition at line 109 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!di\-Sq\-Plasma@{di\-Sq\-Plasma}}
+\index{di\-Sq\-Plasma@{di\-Sq\-Plasma}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{di\-Sq\-Plasma}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-di\-Sq\-Plasma} (
+\begin{DoxyParamCaption}
+\item[{}]{array}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a555bf9eba2cb4e12b72682eb1ace8984}
+
+
+\-Definition at line 114 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!gauss\-Connect@{gauss\-Connect}}
+\index{gauss\-Connect@{gauss\-Connect}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{gauss\-Connect}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-gauss\-Connect} (
+\begin{DoxyParamCaption}
+\item[{}]{distance, }
+\item[{}]{center}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a8cf4530083e53cc3ce9089b67694827e}
+
+
+\-Calculate the probability of a connection between two neurons, based on their distance apart. 
+
+\-Generates a value from 0 to 1, centered at 
+
+\-Definition at line 159 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!gen\-P\-Cell@{gen\-P\-Cell}}
+\index{gen\-P\-Cell@{gen\-P\-Cell}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{gen\-P\-Cell}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-gen\-P\-Cell} (
+\begin{DoxyParamCaption}
+\item[{}]{density\-\_\-map}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a7723fb6e3e8fca9aac8e1f2d2562c3ca}
+
+
+\-Takes a 2-\/\-D \-Numpy array and fill it in with a density map. 
+
+\-The map values are in the range 0-\/1 and describe the probability of there being a cell soma located at that location. 1 is a cell, 0 is no cell. 
+
+\-Definition at line 95 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!grim\-Reap@{grim\-Reap}}
+\index{grim\-Reap@{grim\-Reap}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{grim\-Reap}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-grim\-Reap} (
+\begin{DoxyParamCaption}
+\item[{}]{density\-\_\-map, }
+\item[{}]{survival\-\_\-rate}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_acbf218200874b8b464f4f431741b1e33}
+
+
+\-Definition at line 188 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!next\-Pow\-Two@{next\-Pow\-Two}}
+\index{next\-Pow\-Two@{next\-Pow\-Two}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{next\-Pow\-Two}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-next\-Pow\-Two} (
+\begin{DoxyParamCaption}
+\item[{}]{start}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_a34fd64e0278e6b846ebeb7d86cdf3426}
+
+
+\-Find the next highest power of two, to get a shape that's good for plasma fractal generation. 
+
+
+
+\-Definition at line 152 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!render\-Map@{render\-Map}}
+\index{render\-Map@{render\-Map}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{render\-Map}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-render\-Map} (
+\begin{DoxyParamCaption}
+\item[{}]{density\-Data, }
+\item[{}]{title}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_af9a28b1fc762f7db779fc62477d4d02d}
+
+
+\-Use pygame to render an array. 
+
+\-The result is an image of the same dimensionality as the array, with each pixel set to 255$\ast$the value of the corresponding array location. 
+
+\-Definition at line 164 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!square\-Plasma@{square\-Plasma}}
+\index{square\-Plasma@{square\-Plasma}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{square\-Plasma}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf \-Seed\-Mea.\-square\-Plasma} (
+\begin{DoxyParamCaption}
+\item[{}]{array}
+\end{DoxyParamCaption}
+)}\label{namespaceSeedMea_ac149b2c4f6b5e559301cb807b70a1f8f}
+
+
+\-Definition at line 117 of file \-Seed\-Mea.\-py.
+
+
+
+\subsection{\-Variable \-Documentation}
+\index{\-Seed\-Mea@{\-Seed\-Mea}!axon\-\_\-growth@{axon\-\_\-growth}}
+\index{axon\-\_\-growth@{axon\-\_\-growth}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{axon\-\_\-growth}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::axon\-\_\-growth} = 220}\label{namespaceSeedMea_a93afa84334df2cb0728db36ab46676b1}
+
+
+\-Definition at line 234 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!axon\-\_\-max@{axon\-\_\-max}}
+\index{axon\-\_\-max@{axon\-\_\-max}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{axon\-\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Seed\-Mea\-::axon\-\_\-max} = {\bf dish\-\_\-width}}\label{namespaceSeedMea_a661ff27caa966fee9b408c444454c7ed}
+
+
+\-Definition at line 236 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!\-Ce@{\-Ce}}
+\index{\-Ce@{\-Ce}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{\-Ce}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::\-Ce} = \-Connection({\bf \-P}, {\bf \-P}, 'ge')}\label{namespaceSeedMea_a965def02ac8eb299dcb890238a4c5b0b}
+
+
+\-Definition at line 355 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!cell\-\_\-density@{cell\-\_\-density}}
+\index{cell\-\_\-density@{cell\-\_\-density}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{cell\-\_\-density}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::cell\-\_\-density} = 900}\label{namespaceSeedMea_a34f110a19d67b1c4aefca78a864f2650}
+
+
+\-Definition at line 242 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!cells\-\_\-per\-\_\-edge@{cells\-\_\-per\-\_\-edge}}
+\index{cells\-\_\-per\-\_\-edge@{cells\-\_\-per\-\_\-edge}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{cells\-\_\-per\-\_\-edge}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::cells\-\_\-per\-\_\-edge} = int({\bf dish\-\_\-width}/{\bf soma\-\_\-dia})}\label{namespaceSeedMea_aa40bd7f42da651dc0553e32248858457}
+
+
+\-Definition at line 246 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!\-Ci@{\-Ci}}
+\index{\-Ci@{\-Ci}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{\-Ci}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::\-Ci} = \-Connection({\bf \-P}, {\bf \-P}, 'gi')}\label{namespaceSeedMea_aa5e9a1fa7ec3176f1ab859e13447ff4c}
+
+
+\-Definition at line 356 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!close\-\_\-neurons@{close\-\_\-neurons}}
+\index{close\-\_\-neurons@{close\-\_\-neurons}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{close\-\_\-neurons}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::close\-\_\-neurons} = {\bf \-Channel}()}\label{namespaceSeedMea_a43b65684f18a6ea5e64257b20fda4dae}
+
+
+\-Definition at line 396 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!conn\-\_\-graph@{conn\-\_\-graph}}
+\index{conn\-\_\-graph@{conn\-\_\-graph}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{conn\-\_\-graph}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::conn\-\_\-graph} = nx.\-Di\-Graph()}\label{namespaceSeedMea_a078b3f26d432c76ac65f21332d8147a6}
+
+
+\-Definition at line 315 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!conn\-\_\-list@{conn\-\_\-list}}
+\index{conn\-\_\-list@{conn\-\_\-list}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{conn\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}list {\bf \-Seed\-Mea\-::conn\-\_\-list} = [$\,$]}\label{namespaceSeedMea_a19b0d7f80c2b08909fa84f8062c4cc28}
+
+
+\-Definition at line 297 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!connectivity\-\_\-rate@{connectivity\-\_\-rate}}
+\index{connectivity\-\_\-rate@{connectivity\-\_\-rate}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{connectivity\-\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::connectivity\-\_\-rate} = 55}\label{namespaceSeedMea_aabd16203f37b7b5d95cffa2dd740d8e4}
+
+
+\-Definition at line 240 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!dendrite\-\_\-max@{dendrite\-\_\-max}}
+\index{dendrite\-\_\-max@{dendrite\-\_\-max}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{dendrite\-\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::dendrite\-\_\-max} = 180}\label{namespaceSeedMea_a2f8c80df7b489537126ef444f639590c}
+
+
+\-Definition at line 232 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!density\-\_\-map@{density\-\_\-map}}
+\index{density\-\_\-map@{density\-\_\-map}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{density\-\_\-map}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::density\-\_\-map} = np.\-zeros(({\bf edge\-\_\-len}, {\bf edge\-\_\-len}))}\label{namespaceSeedMea_a327e508236cd2eb78056aad1d273e463}
+
+
+\-Definition at line 252 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!dish\-\_\-width@{dish\-\_\-width}}
+\index{dish\-\_\-width@{dish\-\_\-width}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{dish\-\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::dish\-\_\-width} = 2500}\label{namespaceSeedMea_accd59ac96036ca73eea21d1311f79359}
+
+
+\-Definition at line 231 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!dist@{dist}}
+\index{dist@{dist}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{dist}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::dist} = math.\-sqrt(({\bf neuron\-\_\-x\-\_\-loc} -\/ {\bf pad\-\_\-x\-\_\-loc})$\ast$$\ast$2 + ({\bf neuron\-\_\-y\-\_\-loc} -\/ {\bf pad\-\_\-y\-\_\-loc})$\ast$$\ast$2)}\label{namespaceSeedMea_a750c657596a590db428d04ced52398fc}
+
+
+\-Definition at line 402 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!distance@{distance}}
+\index{distance@{distance}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{distance}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::distance} = math.\-sqrt((from\-\_\-neuron[0][0] -\/ to\-\_\-neuron[0][0])$\ast$$\ast$2 + (from\-\_\-neuron[0][1] -\/ to\-\_\-neuron[0][1])$\ast$$\ast$2)}\label{namespaceSeedMea_ac233f70e6385e94262acd3e7365321f7}
+
+
+\-Definition at line 301 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!edge\-\_\-len@{edge\-\_\-len}}
+\index{edge\-\_\-len@{edge\-\_\-len}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{edge\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::edge\-\_\-len} = {\bf next\-Pow\-Two}({\bf cells\-\_\-per\-\_\-edge})}\label{namespaceSeedMea_a31c4ca84152fa77f3fac6f9620bdb92f}
+
+
+\-Definition at line 249 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!eqs@{eqs}}
+\index{eqs@{eqs}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{eqs}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Seed\-Mea\-::eqs}}\label{namespaceSeedMea_ae7acc4400235b64387c4ecc85f4c123e}
+{\bfseries \-Initial value\-:}
+\begin{DoxyCode}
+1 '''
+2     dv/dt = (ge+gi-(v+49*mV))/(20*ms) : volt
+3     dge/dt = -ge/(5*ms) : volt
+4     dgi/dt = -gi/(10*ms) : volt
+5     '''
+\end{DoxyCode}
+
+
+\-Definition at line 334 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!excitory\-\_\-count@{excitory\-\_\-count}}
+\index{excitory\-\_\-count@{excitory\-\_\-count}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{excitory\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::excitory\-\_\-count} = int({\bf neuron\-\_\-count} $\ast$ 0.\-75)}\label{namespaceSeedMea_a161390ca1f4a9ee8e80bf96b34b9fdc6}
+
+
+\-Definition at line 346 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!expected\-\_\-cells@{expected\-\_\-cells}}
+\index{expected\-\_\-cells@{expected\-\_\-cells}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{expected\-\_\-cells}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::expected\-\_\-cells} = ({\bf dish\-\_\-width}/1000)}\label{namespaceSeedMea_a05dd745258afe1405244def1e21681fe}
+
+
+\-Definition at line 269 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!file\-\_\-date@{file\-\_\-date}}
+\index{file\-\_\-date@{file\-\_\-date}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{file\-\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Seed\-Mea\-::file\-\_\-date} = \char`\"{}\{0\}-\/\{1\}-\/\{2\}-\/\{3\}\-:\{4\}\-:\{5\}\char`\"{}}\label{namespaceSeedMea_ab5b9efb8d9acafb65dd1d09d74e08bd1}
+
+
+\-Definition at line 312 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!ignore\-\_\-corners@{ignore\-\_\-corners}}
+\index{ignore\-\_\-corners@{ignore\-\_\-corners}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{ignore\-\_\-corners}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Seed\-Mea\-::ignore\-\_\-corners} = \-True}\label{namespaceSeedMea_a31f19c36a2d655102a45fcb661e20df1}
+
+
+\-Definition at line 370 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!inhib\-\_\-count@{inhib\-\_\-count}}
+\index{inhib\-\_\-count@{inhib\-\_\-count}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{inhib\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Seed\-Mea\-::inhib\-\_\-count} = {\bf neuron\-\_\-count}-\/{\bf excitory\-\_\-count}}\label{namespaceSeedMea_a3b0ec8328ca575e702a2835b78661ab3}
+
+
+\-Definition at line 347 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!inhib\-\_\-neurons@{inhib\-\_\-neurons}}
+\index{inhib\-\_\-neurons@{inhib\-\_\-neurons}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{inhib\-\_\-neurons}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::inhib\-\_\-neurons} = random.\-sample(xrange({\bf neuron\-\_\-count}), {\bf inhib\-\_\-count})}\label{namespaceSeedMea_a77fb713444f59f59f4e0982c9b59f9b9}
+
+
+\-Definition at line 354 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!neuron\-\_\-count@{neuron\-\_\-count}}
+\index{neuron\-\_\-count@{neuron\-\_\-count}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{neuron\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::neuron\-\_\-count} = int({\bf count\-Cells}({\bf density\-\_\-map}))}\label{namespaceSeedMea_a212d5e5a346814acf0f200ff472ca7f9}
+
+
+\-Definition at line 341 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!neuron\-\_\-id@{neuron\-\_\-id}}
+\index{neuron\-\_\-id@{neuron\-\_\-id}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{neuron\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::neuron\-\_\-id} = 0}\label{namespaceSeedMea_adc0c87798f0bdba3c0b6c3cdef1bf79a}
+
+
+\-Definition at line 287 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!neuron\-\_\-list@{neuron\-\_\-list}}
+\index{neuron\-\_\-list@{neuron\-\_\-list}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{neuron\-\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}list {\bf \-Seed\-Mea\-::neuron\-\_\-list} = [$\,$]}\label{namespaceSeedMea_aaa09a1249abce8ce316b89eceb1099ca}
+
+
+\-Definition at line 286 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!neuron\-\_\-x\-\_\-loc@{neuron\-\_\-x\-\_\-loc}}
+\index{neuron\-\_\-x\-\_\-loc@{neuron\-\_\-x\-\_\-loc}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{neuron\-\_\-x\-\_\-loc}]{\setlength{\rightskip}{0pt plus 5cm}list {\bf \-Seed\-Mea\-::neuron\-\_\-x\-\_\-loc} = neuron[0]}\label{namespaceSeedMea_aaf45b5ff5a94e790d74ff0aaa9d32c5d}
+
+
+\-Definition at line 399 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!neuron\-\_\-y\-\_\-loc@{neuron\-\_\-y\-\_\-loc}}
+\index{neuron\-\_\-y\-\_\-loc@{neuron\-\_\-y\-\_\-loc}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{neuron\-\_\-y\-\_\-loc}]{\setlength{\rightskip}{0pt plus 5cm}list {\bf \-Seed\-Mea\-::neuron\-\_\-y\-\_\-loc} = neuron[0]}\label{namespaceSeedMea_a3eca89960de6cb81af51d9e94877c721}
+
+
+\-Definition at line 400 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!now@{now}}
+\index{now@{now}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{now}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::now} = datetime.\-datetime.\-now()}\label{namespaceSeedMea_af3591ccb8bde1d03480a5f3df432b954}
+
+
+\-Definition at line 311 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!\-P@{\-P}}
+\index{\-P@{\-P}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{\-P}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf \-Seed\-Mea\-::\-P} = \-Neuron\-Group({\bf neuron\-\_\-count}, {\bf eqs}, threshold=-\/50$\ast$m\-V, reset=-\/60$\ast$m\-V)}\label{namespaceSeedMea_a0849ac0af6b257b79e3d0e717bb56454}
+
+
+\-Definition at line 342 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-cols@{pad\-\_\-cols}}
+\index{pad\-\_\-cols@{pad\-\_\-cols}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-cols}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::pad\-\_\-cols} = 8}\label{namespaceSeedMea_a6352648c545eddd87141a87fdded4c3b}
+
+
+\-Definition at line 369 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-dia@{pad\-\_\-dia}}
+\index{pad\-\_\-dia@{pad\-\_\-dia}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-dia}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::pad\-\_\-dia} = 30}\label{namespaceSeedMea_a96f9aecd00f22231a1583357c9b034b6}
+
+
+\-Definition at line 371 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-neuron\-\_\-map@{pad\-\_\-neuron\-\_\-map}}
+\index{pad\-\_\-neuron\-\_\-map@{pad\-\_\-neuron\-\_\-map}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-neuron\-\_\-map}]{\setlength{\rightskip}{0pt plus 5cm}dictionary {\bf \-Seed\-Mea\-::pad\-\_\-neuron\-\_\-map} = \{\}}\label{namespaceSeedMea_adef54ce730873e628e075cb09dd02312}
+
+
+\-Definition at line 378 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-rows@{pad\-\_\-rows}}
+\index{pad\-\_\-rows@{pad\-\_\-rows}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-rows}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::pad\-\_\-rows} = 8}\label{namespaceSeedMea_af649907924fcac4bd790e6735b5943c8}
+
+
+\-Definition at line 368 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-spacing@{pad\-\_\-spacing}}
+\index{pad\-\_\-spacing@{pad\-\_\-spacing}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-spacing}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::pad\-\_\-spacing} = 200}\label{namespaceSeedMea_a42ac1a442f39fba6b71b6b693e44ceb1}
+
+
+\-Definition at line 372 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-threshold@{pad\-\_\-threshold}}
+\index{pad\-\_\-threshold@{pad\-\_\-threshold}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-threshold}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::pad\-\_\-threshold} = 40}\label{namespaceSeedMea_adecfe906df602a5e899485cbc266f21d}
+
+
+\-Definition at line 373 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-x\-\_\-loc@{pad\-\_\-x\-\_\-loc}}
+\index{pad\-\_\-x\-\_\-loc@{pad\-\_\-x\-\_\-loc}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-x\-\_\-loc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Seed\-Mea\-::pad\-\_\-x\-\_\-loc} = pad\-\_\-x$\ast${\bf pad\-\_\-spacing}}\label{namespaceSeedMea_a722ed674a08d11e95c5f09f529510719}
+
+
+\-Definition at line 392 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!pad\-\_\-y\-\_\-loc@{pad\-\_\-y\-\_\-loc}}
+\index{pad\-\_\-y\-\_\-loc@{pad\-\_\-y\-\_\-loc}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{pad\-\_\-y\-\_\-loc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Seed\-Mea\-::pad\-\_\-y\-\_\-loc} = pad\-\_\-y$\ast${\bf pad\-\_\-spacing}}\label{namespaceSeedMea_aa561b6da9c4a24195734d03cf20e14f0}
+
+
+\-Definition at line 393 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!soma\-\_\-dia@{soma\-\_\-dia}}
+\index{soma\-\_\-dia@{soma\-\_\-dia}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{soma\-\_\-dia}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::soma\-\_\-dia} = 30}\label{namespaceSeedMea_a762bda90eb3fc69600f399764f4b072e}
+
+
+\-Definition at line 230 of file \-Seed\-Mea.\-py.
+
+\index{\-Seed\-Mea@{\-Seed\-Mea}!survival\-\_\-rate@{survival\-\_\-rate}}
+\index{survival\-\_\-rate@{survival\-\_\-rate}!SeedMea@{\-Seed\-Mea}}
+\subsubsection[{survival\-\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Seed\-Mea\-::survival\-\_\-rate} = 65}\label{namespaceSeedMea_ad35920d3e60d5038af478d91a731e9bc}
+
+
+\-Definition at line 238 of file \-Seed\-Mea.\-py.
+

@@ -1,0 +1,127 @@
+\section{brian\-\_\-to\-\_\-csv \-Namespace \-Reference}
+\label{namespacebrian__to__csv}\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}}
+
+
+\-This is a \-R\-O\-S node that is used by itself to generate \-C\-S\-V data files by running \-Brian simulations.  
+
+
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf \-Channel}
+\begin{DoxyCompactList}\small\item\em structure for a \-M\-E\-A channel pad neurons\-: list of neurons within range of the pad total\-\_\-weight\-: combined weights of all the neurons \end{DoxyCompactList}\item 
+class {\bf \-Close\-Neuron}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a neuron that is close to a channel pad. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def {\bf brian\-Recv}
+\begin{DoxyCompactList}\small\item\em \-Runs a \-Brian simulation \char`\"{}\-P\char`\"{} and records and publishes voltages captured by the multielectrode array \char`\"{}channels\char`\"{}. \end{DoxyCompactList}\item 
+def {\bf channelizer}
+\begin{DoxyCompactList}\small\item\em \-Populates a 60-\/channel list using data from an x,y map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple {\bf channels} = {\bf channelizer}({\bf pad\-\_\-neuron\-\_\-map})
+\item 
+tuple {\bf connections} = \-Unpickler({\bf connections\-\_\-file})
+\item 
+tuple {\bf connections\-\_\-file} = open({\bf connections\-\_\-file\-\_\-name})
+\item 
+tuple {\bf connections\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-connections\-\_\-file\-\_\-path')
+\item 
+tuple {\bf pad\-\_\-neuron\-\_\-map} = \-Unpickler({\bf pad\-\_\-neuron\-\_\-map\-\_\-file})
+\item 
+tuple {\bf pad\-\_\-neuron\-\_\-map\-\_\-file} = open({\bf pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name})
+\item 
+tuple {\bf pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-path')
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This is a \-R\-O\-S node that is used by itself to generate \-C\-S\-V data files by running \-Brian simulations. \-Use this node to generate a \-C\-S\-V file, and then use the csv\-\_\-recv node to read the generated file. 
+
+\subsection{\-Function \-Documentation}
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!brian\-Recv@{brian\-Recv}}
+\index{brian\-Recv@{brian\-Recv}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{brian\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-to\-\_\-csv.\-brian\-Recv} (
+\begin{DoxyParamCaption}
+\item[{}]{connections, }
+\item[{}]{channels}
+\end{DoxyParamCaption}
+)}\label{namespacebrian__to__csv_a353f1ee33c7a0784d4a320f129720691}
+
+
+\-Runs a \-Brian simulation \char`\"{}\-P\char`\"{} and records and publishes voltages captured by the multielectrode array \char`\"{}channels\char`\"{}. 
+
+
+
+\-Definition at line 67 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!channelizer@{channelizer}}
+\index{channelizer@{channelizer}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{channelizer}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-to\-\_\-csv.\-channelizer} (
+\begin{DoxyParamCaption}
+\item[{}]{pad\-\_\-neuron\-\_\-map}
+\end{DoxyParamCaption}
+)}\label{namespacebrian__to__csv_a8d1c52906b62ebc545b0f6424ce8ce97}
+
+
+\-Populates a 60-\/channel list using data from an x,y map. 
+
+
+
+\-Definition at line 168 of file brian\-\_\-to\-\_\-csv.\-py.
+
+
+
+\subsection{\-Variable \-Documentation}
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!channels@{channels}}
+\index{channels@{channels}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{channels}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::channels} = {\bf channelizer}({\bf pad\-\_\-neuron\-\_\-map})}\label{namespacebrian__to__csv_a6e4b8dab1cba7e318e7b3a07026a9ad5}
+
+
+\-Definition at line 206 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!connections@{connections}}
+\index{connections@{connections}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{connections}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::connections} = \-Unpickler({\bf connections\-\_\-file})}\label{namespacebrian__to__csv_aef6ec09a4fd056864160363aefbd2962}
+
+
+\-Definition at line 200 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!connections\-\_\-file@{connections\-\_\-file}}
+\index{connections\-\_\-file@{connections\-\_\-file}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{connections\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::connections\-\_\-file} = open({\bf connections\-\_\-file\-\_\-name})}\label{namespacebrian__to__csv_a45dd171eb193f66a8c83d818bfd1a105}
+
+
+\-Definition at line 195 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!connections\-\_\-file\-\_\-name@{connections\-\_\-file\-\_\-name}}
+\index{connections\-\_\-file\-\_\-name@{connections\-\_\-file\-\_\-name}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{connections\-\_\-file\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::connections\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-connections\-\_\-file\-\_\-path')}\label{namespacebrian__to__csv_a27455a7b619a3fdde4d33d4ceb2d1289}
+
+
+\-Definition at line 188 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!pad\-\_\-neuron\-\_\-map@{pad\-\_\-neuron\-\_\-map}}
+\index{pad\-\_\-neuron\-\_\-map@{pad\-\_\-neuron\-\_\-map}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{pad\-\_\-neuron\-\_\-map}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::pad\-\_\-neuron\-\_\-map} = \-Unpickler({\bf pad\-\_\-neuron\-\_\-map\-\_\-file})}\label{namespacebrian__to__csv_add9e83cbd525e65df961b720b5d6f173}
+
+
+\-Definition at line 201 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!pad\-\_\-neuron\-\_\-map\-\_\-file@{pad\-\_\-neuron\-\_\-map\-\_\-file}}
+\index{pad\-\_\-neuron\-\_\-map\-\_\-file@{pad\-\_\-neuron\-\_\-map\-\_\-file}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{pad\-\_\-neuron\-\_\-map\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::pad\-\_\-neuron\-\_\-map\-\_\-file} = open({\bf pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name})}\label{namespacebrian__to__csv_a4b3dc32d11a9a638dfddb7f799bcdd76}
+
+
+\-Definition at line 196 of file brian\-\_\-to\-\_\-csv.\-py.
+
+\index{brian\-\_\-to\-\_\-csv@{brian\-\_\-to\-\_\-csv}!pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name@{pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name}}
+\index{pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name@{pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name}!brian_to_csv@{brian\-\_\-to\-\_\-csv}}
+\subsubsection[{pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}tuple {\bf brian\-\_\-to\-\_\-csv\-::pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-path')}\label{namespacebrian__to__csv_a82603e0870888b85fe1851ef75cb497c}
+
+
+\-Definition at line 189 of file brian\-\_\-to\-\_\-csv.\-py.
+

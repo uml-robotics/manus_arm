@@ -1,27 +1,43 @@
 #!/usr/bin/env python
 
 '''
-
-Generates a connectivity map by simulating growth of seeded neuron cells. 
-
-The growth simulation is a three-stage process:
-1. Determine the cell density for each region of the MEA.
-2. Assign cells to locations based on density. 
-3. Connect the cells based on a connectivity function. 
-
-Cell density is assigned based on random midpoint displacement fractals, aka "plasma fractals". 
-This approach was chosen because it provides a stochastic approach that is computationally 
-efficient. If it is not a good model of the actual distribution of neurons, a different algorithm
-can be used. 
-
-Cells are probabilistically assigned to locations based on the cell density (actually cell probability)
-at that point. Cells are modeled as point locations. 
-
-For each pair of cells, the probability of their connection is determined based on the distance 
-between the cells and the cells are connected accordingly. Note that this results in N(N-1) comparisons, 
-so roughly n^2 connections. Put that in your NP pipe and smoke it. 
-
+SeedMea.py
+Copyright 2013 University of Massachusetts Lowell
+Author: Abraham Shultz, Jonathan Hasenzahl
 '''
+
+## @package SeedMea
+#
+# This is a ROS node that is used by itself to generate network connectivity
+# pickle files for the brian_recv.py and brian_to_csv.py nodes. This node creates
+# the connectivity maps, and those nodes run the actual simulation. You only need
+# to run this node if you do not yet have pickle files or you want to generate
+# new ones.
+#
+# More info:
+# 
+# Generates a connectivity map by simulating growth of seeded neuron cells. 
+# 
+# The growth simulation is a three-stage process:
+# 1. Determine the cell density for each region of the MEA.
+# 2. Assign cells to locations based on density. 
+# 3. Connect the cells based on a connectivity function. 
+#
+# Cell density is assigned based on random midpoint displacement fractals, aka "plasma fractals". 
+# This approach was chosen because it provides a stochastic approach that is computationally 
+# efficient. If it is not a good model of the actual distribution of neurons, a different algorithm
+# can be used. 
+#
+# Cells are probabilistically assigned to locations based on the cell density (actually cell probability)
+# at that point. Cells are modeled as point locations. 
+#
+# For each pair of cells, the probability of their connection is determined based on the distance 
+# between the cells and the cells are connected accordingly. Note that this results in N(N-1) comparisons, 
+# so roughly n^2 connections. Put that in your NP pipe and smoke it. 
+#
+# @copyright Copyright 2013 University of Massachusetts Lowell
+# @author Abraham Shultz
+# @author Jonathan Hasenzahl
 
 import roslib; roslib.load_manifest('neuro_recv')
 import rospy
@@ -36,11 +52,10 @@ import random
 from pprint import pprint
 import Image
 
-'''
-Data structure for a MEA channel pad
-    neurons: list of neurons within range of the pad
-    total_weight: combined weights of all the neurons
-'''
+
+## @brief Data structure for a MEA channel pad
+#  neurons: list of neurons within range of the pad
+#  total_weight: combined weights of all the neurons
 class Channel():
     def __init__(self):
         self.neurons = []
@@ -62,11 +77,9 @@ class Channel():
     def size(self):
         return len(self.neurons)
 
-'''
-Data structure for a neuron that is close to a channel pad.
-    data: unique id of the neuron
-    weight: distance from the center of the pad
-'''
+## @brief Data structure for a neuron that is close to a channel pad.
+#   data: unique id of the neuron
+#   weight: distance from the center of the pad
 class CloseNeuron():
     def __init__(self, data, dist):
         self.data = data
@@ -75,11 +88,10 @@ class CloseNeuron():
     def __str__(self):
         return str(self.data) + ':' + str(self.weight)
 
-'''
-Take a 2-D Numpy array and fill it in with a density map. The map values are in the range 
-0-1 and describe the probability of there being a cell soma located at that location. 
-1 is a cell, 0 is no cell. 
-'''
+
+## Takes a 2-D Numpy array and fill it in with a density map. The map values are in the range 
+#  0-1 and describe the probability of there being a cell soma located at that location. 
+#  1 is a cell, 0 is no cell. 
 def genPCell(density_map):
     #Assign a random value to each corner of the array
     max_x, max_y = density_map.shape
@@ -135,26 +147,20 @@ def squarePlasma(array):
     squarePlasma(array[height/2:height,0:width/2+1])
     squarePlasma(array[height/2:height,width/2:width])
     
-'''
-Find the next highest power of two, to get a shape that's good for
-plasma fractal generation 
-'''      
+## Find the next highest power of two, to get a shape that's good for
+# plasma fractal generation    
 def nextPowTwo(start):
     y = math.floor(math.log(start,2))
     return int(math.pow(2, y+1))
 
-'''
-Calculate the probability of a connection between two neurons, 
-based on their distance apart.  
-Generates a value from 0 to 1, centered at 
-'''
+## Calculate the probability of a connection between two neurons, 
+#  based on their distance apart.  
+#  Generates a value from 0 to 1, centered at 
 def gaussConnect(distance, center):
     return math.e - ((distance - center)**2)/(2*center/2)**2
 
-'''
-Use pygame to render an array. The result is an image of the same dimensionality as the
-array, with each pixel set to 255*the value of the corresponding array location. 
-'''
+## Use pygame to render an array. The result is an image of the same dimensionality as the
+#  array, with each pixel set to 255*the value of the corresponding array location. 
 def renderMap(densityData, title):
     if densityData.ndim != 2:
         print "Can only render 2-D arrays"

@@ -1,0 +1,208 @@
+
+
+{\bfseries arm} is a \-R\-O\-S package for generating dish states from a source (currently either recorded data or simulation) and publishing them to other nodes. \-The package consists of two broadcast nodes, two standalone nodes, and a test node.\section{\-Code A\-P\-I}\label{index_codeapi}
+
+\begin{DoxyItemize}
+\item \-Run the \-C\-S\-V receiver node by creating a \doxyref{\-Csv\-Receiver}{p.}{classCsvReceiver} object.
+\item \-Run the \-Brian receiver node by running \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py}.
+\item \-Run the \-Brian to \-C\-S\-V node by running \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py}.
+\item \-Run the \-Brian connectivity map generator by running \doxyref{\-Seed\-Mea.\-py}{p.}{SeedMea_8py}
+\end{DoxyItemize}\section{\-R\-O\-S A\-P\-I}\label{index_rosapi}
+\-List of nodes\-:
+\begin{DoxyItemize}
+\item {\bfseries csv\-\_\-recv} 
+\item {\bfseries \doxyref{brian\-\_\-recv}{p.}{namespacebrian__recv}} 
+\item {\bfseries \doxyref{brian\-\_\-to\-\_\-csv}{p.}{namespacebrian__to__csv}} 
+\item {\bfseries seed\-\_\-mea} 
+\item {\bfseries dish\-\_\-generator} 
+\end{DoxyItemize}
+
+
+
+\subsection{csv\-\_\-recv}\label{index_csv_recv}
+csv\-\_\-recv receives data from a \-C\-S\-V file in order to test other nodes without needing a live link. \-The file path of the \-C\-S\-V file is a server parameter.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun neuro_recv csv_recv
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-burst\-\_\-creator\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states to the burst creator
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-dish\-\_\-viz\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states to the dish visualizer
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-volt\-\_\-distr\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states to the voltage distribution visualizer
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries csv\-\_\-file\-\_\-path} 
+\item {\bfseries do\-\_\-volt\-\_\-distr} 
+\item {\bfseries do\-\_\-burst\-\_\-calc} 
+\item {\bfseries csv\-\_\-skip\-\_\-lines} 
+\item {\bfseries buffer\-\_\-size} 
+\item {\bfseries loop\-\_\-rate} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+
+
+\subsection{brian\-\_\-recv}\label{index_brian_recv}
+\doxyref{brian\-\_\-recv}{p.}{namespacebrian__recv} is a \-R\-O\-S node that runs a \-Brian simulation, then creates and publishes dish\-\_\-states using the generated data.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun neuro_recv brian_recv.py
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-burst\-\_\-creator\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states to the burst creator
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-dish\-\_\-viz\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states to the dish visualizer
+\item {\bfseries \char`\"{}dish\-\_\-states\-\_\-to\-\_\-volt\-\_\-distr\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states to the voltage distribution visualizer
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries brian\-\_\-running\-\_\-time} 
+\item {\bfseries do\-\_\-volt\-\_\-distr} 
+\item {\bfseries do\-\_\-burst\-\_\-calc} 
+\item {\bfseries buffer\-\_\-size} 
+\item {\bfseries loop\-\_\-rate} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+
+
+\subsection{brian\-\_\-to\-\_\-csv}\label{index_brian_to_csv}
+\doxyref{brian\-\_\-to\-\_\-csv}{p.}{namespacebrian__to__csv} is a \-R\-O\-S node that is used by itself to generate \-C\-S\-V data files by running \-Brian simulations. \-Use this node to generate a \-C\-S\-V file, and then use the csv\-\_\-recv node to read the generated file.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun neuro_recv brian_to_csv.py
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries brian\-\_\-running\-\_\-time} 
+\item {\bfseries brian\-\_\-connections\-\_\-file\-\_\-path} 
+\item {\bfseries brian\-\_\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-path} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+
+
+\subsection{seed\-\_\-mea}\label{index_seed_mea}
+seed\-\_\-mea is a \-R\-O\-S node that is used by itself to generate network connectivity pickle files for the \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py} and \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py} nodes. \-This node creates the connectivity maps, and those nodes run the actual simulation. \-You only need to run this node if you do not yet have pickle files or you want to generate new ones.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun neuro_recv SeedMea.py
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+
+
+\subsection{dish\-\_\-generator}\label{index_dish_generator}
+dish\-\_\-generator is a test node that generates and publishes pseudorandom dish states. \-It can be useful if you are lacking in \-C\-S\-V files and don't want to run a \-Brian simulation. \-It has not been updated in a while; it would need some modification to work properly with the other nodes.\subsubsection{\-Usage}\label{index_Usage}
+\begin{DoxyVerb}
+$ rosrun neuro_recv dish_generator
+\end{DoxyVerb}
+\subsubsection{\-R\-O\-S topics}\label{index_topics}
+\-Subscribes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Publishes to\-:
+\begin{DoxyItemize}
+\item {\bfseries \char`\"{}dish\-\_\-states\char`\"{}}\-: [neuro\-\_\-recv/dish\-\_\-state] publish dish states
+\end{DoxyItemize}\subsubsection{\-R\-O\-S parameters}\label{index_parameters}
+\-Reads the following parameters from the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}
+
+\-Sets the following parameters on the parameter server
+
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}\subsubsection{\-R\-O\-S services}\label{index_services}
+
+\begin{DoxyItemize}
+\item {\bfseries \-N/\-A} 
+\end{DoxyItemize}

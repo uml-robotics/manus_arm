@@ -1,4 +1,22 @@
 #!/usr/bin/env python
+
+'''
+brian_recv.py
+Copyright 2013 University of Massachusetts Lowell
+Author: Jonathan Hasenzahl, Abraham Shultz
+'''
+
+## @package brian_recv
+#
+# brian_recv is a ROS node that runs a Brian simulation, then creates and 
+# publishes dish_states using the generated data. Running network simulations in 
+# Brian can take quite a while. An alternate method is to generate a CSV file 
+# using the brian_to_csv.py node and then use the csv_recv node. 
+#
+# @copyright Copyright 2013 University of Massachusetts Lowell
+# @author Jonathan Hasenzahl
+# @author Abraham Shultz
+
 import roslib; roslib.load_manifest('neuro_recv')
 import rospy
 from neuro_recv.msg import dish_state
@@ -6,10 +24,9 @@ from brian import *
 from pickle import Unpickler
 import random
 
-'''
-Runs a Brian simulation, then creates and publishes dish_states using
-the generated data.
-'''
+
+## Runs a Brian simulation, then creates and publishes dish_states using
+#  the generated data.
 class BrianSimulation():
     def __init__(self, connections, channels):
         self.connections = connections
@@ -32,7 +49,8 @@ class BrianSimulation():
         
         # Publish the rest of the dishes
         self.publish()
-        
+    
+    ## Gets ROS server parameters    
     def getParams(self):
         # Get brian_running_time parameter
         try:
@@ -68,7 +86,8 @@ class BrianSimulation():
         except KeyError:
             rospy.logerr('Could not get loop_rate parameter, default is 200')
             self.loop_rate = 200
-            
+    
+    ## Initializes ROS publishers        
     def initPubs(self):
         rospy.loginfo('Waiting for subscribers...')
         
@@ -84,7 +103,8 @@ class BrianSimulation():
             self.dish_pub_burst = rospy.Publisher('dish_states_to_burst_creator', dish_state)
             while self.dish_pub_viz.get_num_connections() < 1 and self.dish_pub_burst.get_num_connections() < 1 and not rospy.is_shutdown():
                 pass
-            
+    
+    ## Runs Brian simulation        
     def runSimulation(self):            
         # LIF model, different time constants for excitory and inhibitory
         eqs = Equations('''
@@ -144,7 +164,8 @@ class BrianSimulation():
         rospy.loginfo("Running simulation...")
         run(self.running_time * second)
         rospy.loginfo("Simulation finished")
-        
+    
+    ## Publishes buffer dishes    
     def publishBuffer(self):
         rospy.loginfo("Publishing buffer dishes...")
         loop_rate = rospy.Rate(self.loop_rate)
@@ -173,7 +194,8 @@ class BrianSimulation():
             if self.do_burst_calc == True:
                 self.dish_pub_burst.publish(d)
                 loop_rate.sleep()
-                        
+    
+    ## Publishes remaininig dishes after buffer completes                    
     def publish(self):
         rospy.loginfo("Publishing dishes...")
         loop_rate = rospy.Rate(self.loop_rate)
@@ -222,11 +244,10 @@ class BrianSimulation():
             
         rospy.loginfo('Publishing finished')        
             
-'''
-Data structure for a multi electrode array channel pad
-    neurons      : list of neurons within range of the pad
-    total_weight : combined weights of all the neurons
-'''
+
+## @brief Data structure for a multi electrode array channel pad
+#  neurons : list of neurons within range of the pad
+#  total_weight : combined weights of all the neurons
 class Channel():
     def __init__(self):
         self.neurons = []
@@ -248,12 +269,10 @@ class Channel():
     def size(self):
         return len(self.neurons)
 
-'''
-Data structure representing a neuron that is within range of a channel pad
-    self.data   : unique id of the neuron
-    self.weight : how much weight this neuron has in calculating average
-                  activity for its channel
-'''
+## @brief Data structure representing a neuron that is within range of a channel pad
+#  self.data   : unique id of the neuron
+#  self.weight : how much weight this neuron has in calculating average
+#                activity for its channel
 class CloseNeuron():
     def __init__(self, data, dist):
         self.data = data
@@ -262,9 +281,7 @@ class CloseNeuron():
     def __str__(self):
         return str(self.data) + ':' + str(self.weight)
 
-'''
-Channelizer takes data from an 8x8 map and populates a 60-channel list.
-'''
+## Channelizer takes data from an 8x8 map and populates a 60-channel list.
 def channelizer(pad_neuron_map):
     channels = []
     for row in range(8):

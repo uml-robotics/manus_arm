@@ -1,0 +1,38 @@
+\section{brian\-\_\-to\-\_\-csv.\-py \-File \-Reference}
+\label{brian__to__csv_8py}\index{brian\-\_\-to\-\_\-csv.\-py@{brian\-\_\-to\-\_\-csv.\-py}}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf brian\-\_\-to\-\_\-csv.\-Channel}
+\begin{DoxyCompactList}\small\item\em structure for a \-M\-E\-A channel pad neurons\-: list of neurons within range of the pad total\-\_\-weight\-: combined weights of all the neurons \end{DoxyCompactList}\item 
+class {\bf brian\-\_\-to\-\_\-csv.\-Close\-Neuron}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a neuron that is close to a channel pad. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace {\bf brian\-\_\-to\-\_\-csv}
+\begin{DoxyCompactList}\small\item\em \-This is a \-R\-O\-S node that is used by itself to generate \-C\-S\-V data files by running \-Brian simulations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def {\bf brian\-\_\-to\-\_\-csv.\-brian\-Recv}
+\begin{DoxyCompactList}\small\item\em \-Runs a \-Brian simulation \char`\"{}\-P\char`\"{} and records and publishes voltages captured by the multielectrode array \char`\"{}channels\char`\"{}. \end{DoxyCompactList}\item 
+def {\bf brian\-\_\-to\-\_\-csv.\-channelizer}
+\begin{DoxyCompactList}\small\item\em \-Populates a 60-\/channel list using data from an x,y map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-channels} = channelizer(pad\-\_\-neuron\-\_\-map)
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-connections} = \-Unpickler(connections\-\_\-file)
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-connections\-\_\-file} = open(connections\-\_\-file\-\_\-name)
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-connections\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-connections\-\_\-file\-\_\-path')
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-pad\-\_\-neuron\-\_\-map} = \-Unpickler(pad\-\_\-neuron\-\_\-map\-\_\-file)
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-pad\-\_\-neuron\-\_\-map\-\_\-file} = open(pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name)
+\item 
+tuple {\bf brian\-\_\-to\-\_\-csv.\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-path')
+\end{DoxyCompactItemize}

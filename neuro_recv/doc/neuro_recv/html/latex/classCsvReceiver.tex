@@ -1,0 +1,291 @@
+\section{\-Csv\-Receiver \-Class \-Reference}
+\label{classCsvReceiver}\index{\-Csv\-Receiver@{\-Csv\-Receiver}}
+
+
+\-Node for publishing dish states from a \-C\-S\-V file.  
+
+
+
+
+{\ttfamily \#include $<$csv\-\_\-recv.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf \-Csv\-Receiver} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bf get\-Params} ()
+\begin{DoxyCompactList}\small\item\em \-Gets server parameters. \end{DoxyCompactList}\item 
+void {\bf init} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes and runs the node. \end{DoxyCompactList}\item 
+void {\bf init\-Pubs} ()
+\begin{DoxyCompactList}\small\item\em \-Initializes \-R\-O\-S publishers. \end{DoxyCompactList}\item 
+const {\bf neuro\-\_\-recv\-::dish\-\_\-state} {\bf parse} (const std\-::string \&, bool record\-\_\-time)
+\begin{DoxyCompactList}\small\item\em \-Parses a single line in a \-C\-S\-V file and returns a new dish state. \end{DoxyCompactList}\item 
+void {\bf publish} ()
+\begin{DoxyCompactList}\small\item\em \-Publishes all remaining dish states. \end{DoxyCompactList}\item 
+void {\bf publish\-Buffer} ()
+\begin{DoxyCompactList}\small\item\em \-Publishes dish states used to buffer the burst creator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf buffer\-\_\-size\-\_\-}
+\item 
+ros\-::\-Publisher {\bf dish\-\_\-pub\-\_\-burst\-\_\-}
+\item 
+ros\-::\-Publisher {\bf dish\-\_\-pub\-\_\-viz\-\_\-}
+\item 
+ros\-::\-Publisher {\bf dish\-\_\-pub\-\_\-volt\-\_\-}
+\item 
+bool {\bf do\-\_\-burst\-\_\-calc\-\_\-}
+\item 
+bool {\bf do\-\_\-volt\-\_\-distr\-\_\-}
+\item 
+std\-::ifstream {\bf file\-\_\-}
+\item 
+std\-::string {\bf file\-\_\-name\-\_\-}
+\item 
+int {\bf loop\-\_\-rate\-\_\-}
+\item 
+ros\-::\-Node\-Handle {\bf n\-\_\-}
+\item 
+ros\-::\-Duration {\bf offset\-\_\-}
+\item 
+int {\bf skip\-\_\-lines\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Node for publishing dish states from a \-C\-S\-V file. 
+
+\-This node receives data from a \-C\-S\-V file in order to test other nodes without needing a live link. \-The file path of the \-C\-S\-V file is a server parameter.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}
+
+
+\-Definition at line 24 of file csv\-\_\-recv.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!\-Csv\-Receiver@{\-Csv\-Receiver}}
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{\-Csv\-Receiver}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Csv\-Receiver\-::\-Csv\-Receiver} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{classCsvReceiver_a1ad217d8bb9667cce39ebec7ada68767}
+
+
+\-Definition at line 27 of file csv\-\_\-recv.\-h.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Csv\-Receiver\-::get\-Params} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_ad9006808089cfe555085624f07300029}
+
+
+\-Gets server parameters. 
+
+\begin{DoxyReturn}{\-Returns}
+true if csv\-\_\-file\-\_\-path exists as a parameter, false otherwise 
+\end{DoxyReturn}
+
+
+\-Definition at line 54 of file csv\-\_\-recv.\-cpp.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!init@{init}}
+\index{init@{init}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Csv\-Receiver\-::init} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a4d2565d3eca1f35c7820fca92bec4abb}
+
+
+\-Initializes and runs the node. 
+
+\-Gets server parameters, attempts to open the \-C\-S\-V file, initializes publishers, reads and parses file data, and publishes the dish states. 
+
+\-Definition at line 16 of file csv\-\_\-recv.\-cpp.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!init\-Pubs@{init\-Pubs}}
+\index{init\-Pubs@{init\-Pubs}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{init\-Pubs}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Csv\-Receiver\-::init\-Pubs} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a82eb39563776756c7ac762ad3c9ebab9}
+
+
+\-Initializes \-R\-O\-S publishers. 
+
+
+
+\-Definition at line 104 of file csv\-\_\-recv.\-cpp.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!parse@{parse}}
+\index{parse@{parse}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{parse}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf neuro\-\_\-recv\-::dish\-\_\-state} {\bf \-Csv\-Receiver\-::parse} (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{s, }
+\item[{bool}]{record\-\_\-time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a743338d1e4c4b99a5a7ad6b258455a32}
+
+
+\-Parses a single line in a \-C\-S\-V file and returns a new dish state. 
+
+\-The input string must be 61 comma-\/separated values. \-The first value is an index and is ignored. \-The remaining 60 values are voltages for each channel in the \-M\-E\-A.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em s} & the input string \\
+\hline
+{\em record\-\_\-time} & whether or not to record the current time in the dish state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+the new dish state 
+\end{DoxyReturn}
+
+
+\-Definition at line 221 of file csv\-\_\-recv.\-cpp.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!publish@{publish}}
+\index{publish@{publish}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{publish}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Csv\-Receiver\-::publish} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a05c2543e8926da3e5a2e0f9f9ba16545}
+
+
+\-Publishes all remaining dish states. 
+
+\-These dish states are sent to burst\-\_\-creator, dish\-\_\-viz, and volt\-\_\-distr. \-This method must be called after publish\-Buffer. 
+
+\-Definition at line 163 of file csv\-\_\-recv.\-cpp.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!publish\-Buffer@{publish\-Buffer}}
+\index{publish\-Buffer@{publish\-Buffer}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{publish\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Csv\-Receiver\-::publish\-Buffer} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a5e8f8a69ff560fe5d59f327317470ca1}
+
+
+\-Publishes dish states used to buffer the burst creator. 
+
+\-These dish states are only sent to the burst\-\_\-creator node. \-This method must be called before publish. 
+
+\-Definition at line 134 of file csv\-\_\-recv.\-cpp.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!buffer\-\_\-size\-\_\-@{buffer\-\_\-size\-\_\-}}
+\index{buffer\-\_\-size\-\_\-@{buffer\-\_\-size\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{buffer\-\_\-size\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Csv\-Receiver\-::buffer\-\_\-size\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a0da87c113f0da5fd45cf7c1c4a6a006d}
+
+
+\-Definition at line 49 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!dish\-\_\-pub\-\_\-burst\-\_\-@{dish\-\_\-pub\-\_\-burst\-\_\-}}
+\index{dish\-\_\-pub\-\_\-burst\-\_\-@{dish\-\_\-pub\-\_\-burst\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{dish\-\_\-pub\-\_\-burst\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Csv\-Receiver\-::dish\-\_\-pub\-\_\-burst\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a790f1b626b4742122683d57b8d7d8c4f}
+
+
+\-Definition at line 40 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!dish\-\_\-pub\-\_\-viz\-\_\-@{dish\-\_\-pub\-\_\-viz\-\_\-}}
+\index{dish\-\_\-pub\-\_\-viz\-\_\-@{dish\-\_\-pub\-\_\-viz\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{dish\-\_\-pub\-\_\-viz\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Csv\-Receiver\-::dish\-\_\-pub\-\_\-viz\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a57e5d61099e7c4b1d7f6ad71c02bbe38}
+
+
+\-Definition at line 39 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!dish\-\_\-pub\-\_\-volt\-\_\-@{dish\-\_\-pub\-\_\-volt\-\_\-}}
+\index{dish\-\_\-pub\-\_\-volt\-\_\-@{dish\-\_\-pub\-\_\-volt\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{dish\-\_\-pub\-\_\-volt\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher {\bf \-Csv\-Receiver\-::dish\-\_\-pub\-\_\-volt\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a122eec9ee25499444f35424e3a4f786b}
+
+
+\-Definition at line 38 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!do\-\_\-burst\-\_\-calc\-\_\-@{do\-\_\-burst\-\_\-calc\-\_\-}}
+\index{do\-\_\-burst\-\_\-calc\-\_\-@{do\-\_\-burst\-\_\-calc\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{do\-\_\-burst\-\_\-calc\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Csv\-Receiver\-::do\-\_\-burst\-\_\-calc\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_ae5f8ec95144d272aec83e804bf82533c}
+
+
+\-Definition at line 47 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!do\-\_\-volt\-\_\-distr\-\_\-@{do\-\_\-volt\-\_\-distr\-\_\-}}
+\index{do\-\_\-volt\-\_\-distr\-\_\-@{do\-\_\-volt\-\_\-distr\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{do\-\_\-volt\-\_\-distr\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Csv\-Receiver\-::do\-\_\-volt\-\_\-distr\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a9b69ff34cd4512cda198cbb41f618b74}
+
+
+\-Definition at line 46 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!file\-\_\-@{file\-\_\-}}
+\index{file\-\_\-@{file\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{file\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ifstream {\bf \-Csv\-Receiver\-::file\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a62a32649f29ed050f210cdad6d1c7647}
+
+
+\-Definition at line 44 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!file\-\_\-name\-\_\-@{file\-\_\-name\-\_\-}}
+\index{file\-\_\-name\-\_\-@{file\-\_\-name\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{file\-\_\-name\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string {\bf \-Csv\-Receiver\-::file\-\_\-name\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_aa1dfa06b34deafe53884484b18bf4856}
+
+
+\-Definition at line 43 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!loop\-\_\-rate\-\_\-@{loop\-\_\-rate\-\_\-}}
+\index{loop\-\_\-rate\-\_\-@{loop\-\_\-rate\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{loop\-\_\-rate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Csv\-Receiver\-::loop\-\_\-rate\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a93cff9fe0c9fb7a8454a6ec8ea1457bd}
+
+
+\-Definition at line 50 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!n\-\_\-@{n\-\_\-}}
+\index{n\-\_\-@{n\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{n\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle {\bf \-Csv\-Receiver\-::n\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_ac305dde78f112b425572c16bf0bd3679}
+
+
+\-Definition at line 37 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!offset\-\_\-@{offset\-\_\-}}
+\index{offset\-\_\-@{offset\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{offset\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Duration {\bf \-Csv\-Receiver\-::offset\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a9790415eb601fc6b56cd84e02eb7ba8e}
+
+
+\-Definition at line 41 of file csv\-\_\-recv.\-h.
+
+\index{\-Csv\-Receiver@{\-Csv\-Receiver}!skip\-\_\-lines\-\_\-@{skip\-\_\-lines\-\_\-}}
+\index{skip\-\_\-lines\-\_\-@{skip\-\_\-lines\-\_\-}!CsvReceiver@{\-Csv\-Receiver}}
+\subsubsection[{skip\-\_\-lines\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Csv\-Receiver\-::skip\-\_\-lines\-\_\-}\hspace{0.3cm}{\ttfamily  [private]}}\label{classCsvReceiver_a86f7e4074bb6cf08db1e7308afe31db0}
+
+
+\-Definition at line 48 of file csv\-\_\-recv.\-h.
+
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+{\bf csv\-\_\-recv.\-h}\item 
+{\bf csv\-\_\-recv.\-cpp}\end{DoxyCompactItemize}

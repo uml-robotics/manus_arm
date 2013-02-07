@@ -2,13 +2,239 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b neuro_recv 
+\b arm is a ROS package for generating dish states from a source (currently
+either recorded data or simulation) and publishing them to other nodes. The 
+package consists of two broadcast nodes, two standalone nodes, and a test node. 
 
-<!-- 
-Provide an overview of your package.
--->
+\section codeapi Code API
 
--->
+- Run the CSV receiver node by creating a \link CsvReceiver \endlink object.
+- Run the Brian receiver node by running brian_recv.py.
+- Run the Brian to CSV node by running brian_to_csv.py.
+- Run the Brian connectivity map generator by running SeedMea.py
+
+\section rosapi ROS API
+
+List of nodes:
+- \b csv_recv
+- \b brian_recv
+- \b brian_to_csv
+- \b seed_mea
+- \b dish_generator
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection csv_recv csv_recv
+
+csv_recv receives data from a CSV file in order to test other nodes without 
+needing a live link. The file path of the CSV file is a server parameter.
+
+\subsubsection Usage
+\verbatim
+$ rosrun neuro_recv csv_recv
+\endverbatim
 
 
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b N/A
+
+Publishes to:
+- \b "dish_states_to_burst_creator": [neuro_recv/dish_state] publish dish states to the burst creator
+- \b "dish_states_to_dish_viz": [neuro_recv/dish_state] publish dish states to the dish visualizer
+- \b "dish_states_to_volt_distr": [neuro_recv/dish_state] publish dish states to the voltage distribution visualizer
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b csv_file_path
+- \b do_volt_distr
+- \b do_burst_calc
+- \b csv_skip_lines
+- \b buffer_size
+- \b loop_rate
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection brian_recv brian_recv
+
+brian_recv is a ROS node that runs a Brian simulation, then creates and 
+publishes dish_states using the generated data.
+
+\subsubsection Usage
+\verbatim
+$ rosrun neuro_recv brian_recv.py
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b N/A
+
+Publishes to:
+- \b "dish_states_to_burst_creator": [neuro_recv/dish_state] publish dish states to the burst creator
+- \b "dish_states_to_dish_viz": [neuro_recv/dish_state] publish dish states to the dish visualizer
+- \b "dish_states_to_volt_distr": [neuro_recv/dish_state] publish dish states to the voltage distribution visualizer
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b brian_running_time
+- \b do_volt_distr
+- \b do_burst_calc
+- \b buffer_size
+- \b loop_rate
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection brian_to_csv brian_to_csv
+
+brian_to_csv is a ROS node that is used by itself to generate CSV data files by 
+running Brian simulations. Use this node to generate a CSV file, and then use 
+the csv_recv node to read the generated file.
+
+\subsubsection Usage
+\verbatim
+$ rosrun neuro_recv brian_to_csv.py
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b N/A
+
+Publishes to:
+- \b N/A
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b brian_running_time
+- \b brian_connections_file_path
+- \b brian_pad_neuron_map_file_path
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection seed_mea seed_mea
+
+seed_mea is a ROS node that is used by itself to generate network connectivity
+pickle files for the brian_recv.py and brian_to_csv.py nodes. This node creates
+the connectivity maps, and those nodes run the actual simulation. You only need
+to run this node if you do not yet have pickle files or you want to generate
+new ones.
+
+\subsubsection Usage
+\verbatim
+$ rosrun neuro_recv SeedMea.py
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b N/A
+
+Publishes to:
+- \b N/A
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b N/A
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection dish_generator dish_generator
+
+dish_generator is a test node that generates and publishes pseudorandom dish 
+states. It can be useful if you are lacking in CSV files and don't want to run
+a Brian simulation. It has not been updated in a while; it would need some 
+modification to work properly with the other nodes.
+
+\subsubsection Usage
+\verbatim
+$ rosrun neuro_recv dish_generator
+\endverbatim
+
+
+\subsubsection topics ROS topics
+
+Subscribes to:
+- \b N/A
+
+Publishes to:
+- \b "dish_states": [neuro_recv/dish_state] publish dish states
+
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b N/A
+
+Sets the following parameters on the parameter server
+
+- \b N/A
+
+
+\subsubsection services ROS services
+- \b N/A
+
+<!-- END: copy for each node -->
 */

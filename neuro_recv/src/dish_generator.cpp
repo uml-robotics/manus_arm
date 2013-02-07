@@ -1,12 +1,8 @@
-// =============================================================================
-// Name   : dish_generator.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "dish_generator". This is a test node used to
-// publish pseudo-random "dish_state" messages in lieu of the real thing. New
-// version uses Abe's algorithm to generate random numbers.
-// =============================================================================
+/*
+ * dish_generator.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "ros/ros.h"
 #include "neuro_recv/dish_state.h"
@@ -17,6 +13,11 @@
 
 #define LIMIT 0.003
 
+/*!
+ * \brief Test node that generates and publishes pseudorandom dish states
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "dish_generator");

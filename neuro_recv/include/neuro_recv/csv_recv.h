@@ -1,10 +1,8 @@
-// =============================================================================
-// Name   : csv_recv.h
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Header file for the ROS node "csv_receiver".
-// =============================================================================
+/*
+ * csv_recv.h
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #ifndef CSV_RECEIVER_H_
 #define CSV_RECEIVER_H_
@@ -14,6 +12,15 @@
 #include <string>
 #include <fstream>
 
+/*!
+ * \brief Node for publishing dish states from a CSV file
+ *
+ * This node receives data from a CSV file in order to test other nodes without
+ * needing a live link. The file path of the CSV file is a server parameter.
+ *
+ * \copyright Copyright 2013 University of Massachusetts Lowell
+ * \author Jonathan Hasenzahl
+ */
 class CsvReceiver
 {
 public:

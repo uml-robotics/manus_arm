@@ -1,15 +1,18 @@
-// =============================================================================
-// Name   : csv_recv.cpp
-// Author : Jonathan Hasenzahl
-// Date   : 2012
-//
-// Implements the ROS node "csv_receiver". This node receives data from a CSV
-// file in order to test other nodes without needing a live link.
-// =============================================================================
+/*
+ * csv_recv.cpp
+ * Copyright 2013 University of Massachusetts Lowell
+ * Author: Jonathan Hasenzahl
+ */
 
 #include "neuro_recv/csv_recv.h"
 #include <cstdio>
 
+/*!
+ * \brief Initializes and runs the node
+ *
+ * Gets server parameters, attempts to open the CSV file, initializes
+ * publishers, reads and parses file data, and publishes the dish states.
+ */
 void CsvReceiver::init()
 {
     if (getParams())
@@ -44,6 +47,10 @@ void CsvReceiver::init()
         ROS_FATAL("Could not open file");
 }
 
+/*!
+ * \brief Gets server parameters
+ * \return true if csv_file_path exists as a parameter, false otherwise
+ */
 bool CsvReceiver::getParams()
 {
     // Get file_name parameter
@@ -91,6 +98,9 @@ bool CsvReceiver::getParams()
     return true;
 }
 
+/*!
+ * \brief Initializes ROS publishers
+ */
 void CsvReceiver::initPubs()
 {
     ROS_INFO("Waiting for subscribers...");
@@ -115,6 +125,12 @@ void CsvReceiver::initPubs()
     }
 }
 
+/*!
+ * \brief Publishes dish states used to buffer the burst creator
+ *
+ * These dish states are only sent to the burst_creator node. This method must
+ * be called before publish.
+ */
 void CsvReceiver::publishBuffer()
 {
     ROS_INFO("Publishing buffer dishes...");
@@ -138,6 +154,12 @@ void CsvReceiver::publishBuffer()
     }
 }
 
+/*!
+ * \brief Publishes all remaining dish states
+ *
+ * These dish states are sent to burst_creator, dish_viz, and volt_distr. This
+ * method must be called after publishBuffer.
+ */
 void CsvReceiver::publish()
 {
     ROS_INFO("Publishing dishes...");
@@ -185,6 +207,17 @@ void CsvReceiver::publish()
         dish_pub_burst_.publish(end);
 }
 
+/*!
+ * \brief Parses a single line in a CSV file and returns a new dish state
+ *
+ * The input string must be 61 comma-separated values. The first value is an
+ * index and is ignored. The remaining 60 values are voltages for each channel
+ * in the MEA.
+ *
+ * \param s the input string
+ * \param record_time whether or not to record the current time in the dish state
+ * \return the new dish state
+ */
 const neuro_recv::dish_state CsvReceiver::parse(const std::string& s,
                                                 bool record_time)
 {
@@ -206,6 +239,9 @@ const neuro_recv::dish_state CsvReceiver::parse(const std::string& s,
     return dish;
 }
 
+/*!
+ * \brief Creates an instance of the node
+ */
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "csv_receiver");

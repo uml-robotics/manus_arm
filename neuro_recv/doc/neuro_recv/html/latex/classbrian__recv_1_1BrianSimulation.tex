@@ -1,0 +1,253 @@
+\section{brian\-\_\-recv.\-Brian\-Simulation \-Class \-Reference}
+\label{classbrian__recv_1_1BrianSimulation}\index{brian\-\_\-recv.\-Brian\-Simulation@{brian\-\_\-recv.\-Brian\-Simulation}}
+
+
+\-Runs a \-Brian simulation, then creates and publishes dish\-\_\-states using the generated data.  
+
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def {\bf \-\_\-\-\_\-init\-\_\-\-\_\-}
+\item 
+def {\bf get\-Params}
+\begin{DoxyCompactList}\small\item\em \-Gets \-R\-O\-S server parameters. \end{DoxyCompactList}\item 
+def {\bf init\-Pubs}
+\begin{DoxyCompactList}\small\item\em \-Initializes \-R\-O\-S publishers. \end{DoxyCompactList}\item 
+def {\bf publish}
+\begin{DoxyCompactList}\small\item\em \-Publishes remaininig dishes after buffer completes. \end{DoxyCompactList}\item 
+def {\bf publish\-Buffer}
+\begin{DoxyCompactList}\small\item\em \-Publishes buffer dishes. \end{DoxyCompactList}\item 
+def {\bf run\-Simulation}
+\begin{DoxyCompactList}\small\item\em \-Runs \-Brian simulation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bf buffer\-\_\-size}
+\item 
+{\bf channels}
+\item 
+{\bf connections}
+\item 
+{\bf dish\-\_\-pub\-\_\-burst}
+\item 
+{\bf dish\-\_\-pub\-\_\-viz}
+\item 
+{\bf dish\-\_\-pub\-\_\-volt}
+\item 
+{\bf do\-\_\-burst\-\_\-calc}
+\item 
+{\bf do\-\_\-volt\-\_\-distr}
+\item 
+{\bf loop\-\_\-rate}
+\item 
+{\bf \-M}
+\item 
+{\bf offset}
+\item 
+{\bf recorded\-\_\-neurons}
+\item 
+{\bf running\-\_\-time}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Runs a \-Brian simulation, then creates and publishes dish\-\_\-states using the generated data. 
+
+
+
+\-Definition at line 30 of file brian\-\_\-recv.\-py.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-recv.\-Brian\-Simulation.\-\_\-\-\_\-init\-\_\-\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{connections, }
+\item[{}]{channels}
+\end{DoxyParamCaption}
+)}\label{classbrian__recv_1_1BrianSimulation_a018d3aedb8134315d222dace3c8bd6b5}
+
+
+\-Definition at line 31 of file brian\-\_\-recv.\-py.
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!get\-Params@{get\-Params}}
+\index{get\-Params@{get\-Params}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{get\-Params}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-recv.\-Brian\-Simulation.\-get\-Params} (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classbrian__recv_1_1BrianSimulation_acac759413728859516112d5ef78d5e2c}
+
+
+\-Gets \-R\-O\-S server parameters. 
+
+
+
+\-Definition at line 54 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!init\-Pubs@{init\-Pubs}}
+\index{init\-Pubs@{init\-Pubs}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{init\-Pubs}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-recv.\-Brian\-Simulation.\-init\-Pubs} (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classbrian__recv_1_1BrianSimulation_a88cd5d03e05798e358ea6065a32f697c}
+
+
+\-Initializes \-R\-O\-S publishers. 
+
+
+
+\-Definition at line 91 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!publish@{publish}}
+\index{publish@{publish}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{publish}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-recv.\-Brian\-Simulation.\-publish} (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classbrian__recv_1_1BrianSimulation_a7abd436c3cf93e024e0445063a7faa04}
+
+
+\-Publishes remaininig dishes after buffer completes. 
+
+
+
+\-Definition at line 199 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!publish\-Buffer@{publish\-Buffer}}
+\index{publish\-Buffer@{publish\-Buffer}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{publish\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-recv.\-Brian\-Simulation.\-publish\-Buffer} (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classbrian__recv_1_1BrianSimulation_a91e34cc75c31960be68538886358973b}
+
+
+\-Publishes buffer dishes. 
+
+
+
+\-Definition at line 169 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!run\-Simulation@{run\-Simulation}}
+\index{run\-Simulation@{run\-Simulation}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{run\-Simulation}]{\setlength{\rightskip}{0pt plus 5cm}def {\bf brian\-\_\-recv.\-Brian\-Simulation.\-run\-Simulation} (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classbrian__recv_1_1BrianSimulation_a9924eaebc84bb27c640cfe21df97f476}
+
+
+\-Runs \-Brian simulation. 
+
+
+
+\-Definition at line 108 of file brian\-\_\-recv.\-py.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!buffer\-\_\-size@{buffer\-\_\-size}}
+\index{buffer\-\_\-size@{buffer\-\_\-size}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{buffer\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::buffer\-\_\-size}}\label{classbrian__recv_1_1BrianSimulation_a6713cd12b1f8b291ce0518fad0b37aa0}
+
+
+\-Definition at line 54 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!channels@{channels}}
+\index{channels@{channels}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{channels}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::channels}}\label{classbrian__recv_1_1BrianSimulation_ae9562a1148fff816271f80e57d03271a}
+
+
+\-Definition at line 31 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!connections@{connections}}
+\index{connections@{connections}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{connections}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::connections}}\label{classbrian__recv_1_1BrianSimulation_a8abd8b3db2802442ae9debd4640c5526}
+
+
+\-Definition at line 31 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!dish\-\_\-pub\-\_\-burst@{dish\-\_\-pub\-\_\-burst}}
+\index{dish\-\_\-pub\-\_\-burst@{dish\-\_\-pub\-\_\-burst}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{dish\-\_\-pub\-\_\-burst}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::dish\-\_\-pub\-\_\-burst}}\label{classbrian__recv_1_1BrianSimulation_a712d6e45afbd61def659e093f09f7e5b}
+
+
+\-Definition at line 91 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!dish\-\_\-pub\-\_\-viz@{dish\-\_\-pub\-\_\-viz}}
+\index{dish\-\_\-pub\-\_\-viz@{dish\-\_\-pub\-\_\-viz}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{dish\-\_\-pub\-\_\-viz}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::dish\-\_\-pub\-\_\-viz}}\label{classbrian__recv_1_1BrianSimulation_a337ee084ac08b00ad48aba09f5f6757b}
+
+
+\-Definition at line 91 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!dish\-\_\-pub\-\_\-volt@{dish\-\_\-pub\-\_\-volt}}
+\index{dish\-\_\-pub\-\_\-volt@{dish\-\_\-pub\-\_\-volt}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{dish\-\_\-pub\-\_\-volt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::dish\-\_\-pub\-\_\-volt}}\label{classbrian__recv_1_1BrianSimulation_a6def1e66fb9a72684d6d1fd44ae9c895}
+
+
+\-Definition at line 91 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!do\-\_\-burst\-\_\-calc@{do\-\_\-burst\-\_\-calc}}
+\index{do\-\_\-burst\-\_\-calc@{do\-\_\-burst\-\_\-calc}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{do\-\_\-burst\-\_\-calc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::do\-\_\-burst\-\_\-calc}}\label{classbrian__recv_1_1BrianSimulation_ab7d57ddfe1960d3ffa00762f72af4829}
+
+
+\-Definition at line 54 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!do\-\_\-volt\-\_\-distr@{do\-\_\-volt\-\_\-distr}}
+\index{do\-\_\-volt\-\_\-distr@{do\-\_\-volt\-\_\-distr}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{do\-\_\-volt\-\_\-distr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::do\-\_\-volt\-\_\-distr}}\label{classbrian__recv_1_1BrianSimulation_a5ffa9c9af9acb964dbf6c6377d1d1ae3}
+
+
+\-Definition at line 54 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!loop\-\_\-rate@{loop\-\_\-rate}}
+\index{loop\-\_\-rate@{loop\-\_\-rate}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{loop\-\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::loop\-\_\-rate}}\label{classbrian__recv_1_1BrianSimulation_af0a7be27df573319abcebc2f08cf9373}
+
+
+\-Definition at line 54 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!\-M@{\-M}}
+\index{\-M@{\-M}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{\-M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::\-M}}\label{classbrian__recv_1_1BrianSimulation_ad396cac42a57f18c54ed64fb9a74d136}
+
+
+\-Definition at line 112 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!offset@{offset}}
+\index{offset@{offset}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{offset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::offset}}\label{classbrian__recv_1_1BrianSimulation_a8db247c746839cb7b818afe1d86b8513}
+
+
+\-Definition at line 31 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!recorded\-\_\-neurons@{recorded\-\_\-neurons}}
+\index{recorded\-\_\-neurons@{recorded\-\_\-neurons}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{recorded\-\_\-neurons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::recorded\-\_\-neurons}}\label{classbrian__recv_1_1BrianSimulation_a119b46c96f407bf684d2c50fe0bd5b3b}
+
+
+\-Definition at line 112 of file brian\-\_\-recv.\-py.
+
+\index{brian\-\_\-recv\-::\-Brian\-Simulation@{brian\-\_\-recv\-::\-Brian\-Simulation}!running\-\_\-time@{running\-\_\-time}}
+\index{running\-\_\-time@{running\-\_\-time}!brian_recv::BrianSimulation@{brian\-\_\-recv\-::\-Brian\-Simulation}}
+\subsubsection[{running\-\_\-time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf brian\-\_\-recv.\-Brian\-Simulation\-::running\-\_\-time}}\label{classbrian__recv_1_1BrianSimulation_abe493c049964af3d78f6ee88ac69a756}
+
+
+\-Definition at line 54 of file brian\-\_\-recv.\-py.
+
+
+
+\-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+{\bf brian\-\_\-recv.\-py}\end{DoxyCompactItemize}

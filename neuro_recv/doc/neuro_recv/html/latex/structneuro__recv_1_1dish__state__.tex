@@ -1,0 +1,162 @@
+\section{neuro\-\_\-recv\-:\-:dish\-\_\-state\-\_\-$<$ \-Container\-Allocator $>$ \-Struct \-Template \-Reference}
+\label{structneuro__recv_1_1dish__state__}\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-$<$ Container\-Allocator $>$@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-$<$ Container\-Allocator $>$}}
+
+
+{\ttfamily \#include $<$dish\-\_\-state.\-h$>$}
+
+\subsection*{\-Public \-Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \-::std\-\_\-msgs\-::\-Header\-\_\-\*
+$<$ \-Container\-Allocator $>$ {\bf \-\_\-header\-\_\-type}
+\item 
+typedef uint8\-\_\-t {\bf \-\_\-last\-\_\-dish\-\_\-type}
+\item 
+typedef boost\-::array$<$ double, 60 $>$ {\bf \-\_\-samples\-\_\-type}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}\*
+$<$ \-Container\-Allocator $>$ const  $>$ {\bf \-Const\-Ptr}
+\item 
+typedef boost\-::shared\-\_\-ptr\*
+$<$ \-::{\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}\*
+$<$ \-Container\-Allocator $>$ $>$ {\bf \-Ptr}
+\item 
+typedef {\bf dish\-\_\-state\-\_\-}\*
+$<$ \-Container\-Allocator $>$ {\bf \-Type}
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf dish\-\_\-state\-\_\-} ()
+\item 
+{\bf dish\-\_\-state\-\_\-} (const \-Container\-Allocator \&\-\_\-alloc)
+\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::shared\-\_\-ptr$<$ std\-::map\*
+$<$ std\-::string, std\-::string $>$ $>$ {\bf \-\_\-\-\_\-connection\-\_\-header}
+\item 
+\-::std\-\_\-msgs\-::\-Header\-\_\-\*
+$<$ \-Container\-Allocator $>$ {\bf header}
+\item 
+uint8\-\_\-t {\bf last\-\_\-dish}
+\item 
+boost\-::array$<$ double, 60 $>$ {\bf samples}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\subsubsection*{template$<$class Container\-Allocator$>$struct neuro\-\_\-recv\-::dish\-\_\-state\-\_\-$<$ Container\-Allocator $>$}
+
+
+
+\-Definition at line 22 of file dish\-\_\-state.\-h.
+
+
+
+\subsection{\-Member \-Typedef \-Documentation}
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-\_\-header\-\_\-type@{\-\_\-header\-\_\-type}}
+\index{\-\_\-header\-\_\-type@{\-\_\-header\-\_\-type}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-\_\-header\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef \-::std\-\_\-msgs\-::\-Header\-\_\-$<$\-Container\-Allocator$>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-header\-\_\-type}}\label{structneuro__recv_1_1dish__state___a42f42ac272b5d462bf512bfaf77e1064}
+
+
+\-Definition at line 41 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-\_\-last\-\_\-dish\-\_\-type@{\-\_\-last\-\_\-dish\-\_\-type}}
+\index{\-\_\-last\-\_\-dish\-\_\-type@{\-\_\-last\-\_\-dish\-\_\-type}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-\_\-last\-\_\-dish\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef uint8\-\_\-t {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-last\-\_\-dish\-\_\-type}}\label{structneuro__recv_1_1dish__state___af5f2beed223788695a2a68312554a2bf}
+
+
+\-Definition at line 47 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-\_\-samples\-\_\-type@{\-\_\-samples\-\_\-type}}
+\index{\-\_\-samples\-\_\-type@{\-\_\-samples\-\_\-type}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-\_\-samples\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef boost\-::array$<$double, 60$>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-samples\-\_\-type}}\label{structneuro__recv_1_1dish__state___a28439f4d481458e5847c89a76c46465f}
+
+
+\-Definition at line 44 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-Const\-Ptr@{\-Const\-Ptr}}
+\index{\-Const\-Ptr@{\-Const\-Ptr}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-Const\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef boost\-::shared\-\_\-ptr$<$ \-::{\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$\-Container\-Allocator$>$ const$>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-Const\-Ptr}}\label{structneuro__recv_1_1dish__state___a67a30921268af5c19aad11c014993563}
+
+
+\-Definition at line 52 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-Ptr@{\-Ptr}}
+\index{\-Ptr@{\-Ptr}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef boost\-::shared\-\_\-ptr$<$ \-::{\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$\-Container\-Allocator$>$ $>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-Ptr}}\label{structneuro__recv_1_1dish__state___a0ba6a25015e08fde0bae038b09a42aea}
+
+
+\-Definition at line 51 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-Type@{\-Type}}
+\index{\-Type@{\-Type}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ typedef {\bf dish\-\_\-state\-\_\-}$<$\-Container\-Allocator$>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-Type}}\label{structneuro__recv_1_1dish__state___a2e8f59f9aff552c95f5a9385f292e8f5}
+
+
+\-Definition at line 23 of file dish\-\_\-state.\-h.
+
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!dish\-\_\-state\-\_\-@{dish\-\_\-state\-\_\-}}
+\index{dish\-\_\-state\-\_\-@{dish\-\_\-state\-\_\-}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{dish\-\_\-state\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf dish\-\_\-state\-\_\-} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{structneuro__recv_1_1dish__state___a80a32a5149115cd55ac59f4da75644e5}
+
+
+\-Definition at line 25 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!dish\-\_\-state\-\_\-@{dish\-\_\-state\-\_\-}}
+\index{dish\-\_\-state\-\_\-@{dish\-\_\-state\-\_\-}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{dish\-\_\-state\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf dish\-\_\-state\-\_\-} (
+\begin{DoxyParamCaption}
+\item[{const \-Container\-Allocator \&}]{\-\_\-alloc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  [inline]}}\label{structneuro__recv_1_1dish__state___a4c4f4364ff3192963d3b4d0985e8b08c}
+
+
+\-Definition at line 33 of file dish\-\_\-state.\-h.
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!\-\_\-\-\_\-connection\-\_\-header@{\-\_\-\-\_\-connection\-\_\-header}}
+\index{\-\_\-\-\_\-connection\-\_\-header@{\-\_\-\-\_\-connection\-\_\-header}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{\-\_\-\-\_\-connection\-\_\-header}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ boost\-::shared\-\_\-ptr$<$std\-::map$<$std\-::string, std\-::string$>$ $>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf \-\_\-\-\_\-connection\-\_\-header}}\label{structneuro__recv_1_1dish__state___aa58b6bfcfc13fcca8547ac5cc5327979}
+
+
+\-Definition at line 53 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!header@{header}}
+\index{header@{header}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{header}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ \-::std\-\_\-msgs\-::\-Header\-\_\-$<$\-Container\-Allocator$>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf header}}\label{structneuro__recv_1_1dish__state___a9e7e74618588be94ff27db06983c1be3}
+
+
+\-Definition at line 42 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!last\-\_\-dish@{last\-\_\-dish}}
+\index{last\-\_\-dish@{last\-\_\-dish}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{last\-\_\-dish}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ uint8\-\_\-t {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf last\-\_\-dish}}\label{structneuro__recv_1_1dish__state___a53be60cb1bc2667646c026f1a433bfb6}
+
+
+\-Definition at line 48 of file dish\-\_\-state.\-h.
+
+\index{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}!samples@{samples}}
+\index{samples@{samples}!neuro_recv::dish_state_@{neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}}
+\subsubsection[{samples}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\-Allocator $>$ boost\-::array$<$double, 60$>$ {\bf neuro\-\_\-recv\-::dish\-\_\-state\-\_\-}$<$ \-Container\-Allocator $>$\-::{\bf samples}}\label{structneuro__recv_1_1dish__state___a2aba4f9e058937f492f1901dcce90c10}
+
+
+\-Definition at line 45 of file dish\-\_\-state.\-h.
+
+
+
+\-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+{\bf dish\-\_\-state.\-h}\end{DoxyCompactItemize}

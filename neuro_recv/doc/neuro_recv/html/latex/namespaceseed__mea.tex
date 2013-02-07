@@ -1,0 +1,32 @@
+\section{seed\-\_\-mea \-Namespace \-Reference}
+\label{namespaceseed__mea}\index{seed\-\_\-mea@{seed\-\_\-mea}}
+
+
+\-This is a \-R\-O\-S node that is used by itself to generate network connectivity pickle files for the \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py} and \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py} nodes.  
+
+
+
+
+\subsection{\-Detailed \-Description}
+\-This is a \-R\-O\-S node that is used by itself to generate network connectivity pickle files for the \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py} and \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py} nodes. \-This node creates the connectivity maps, and those nodes run the actual simulation. \-You only need to run this node if you do not yet have pickle files or you want to generate new ones.
+
+\-More info\-:
+
+\-Generates a connectivity map by simulating growth of seeded neuron cells.
+
+\-The growth simulation is a three-\/stage process\-: 1. \-Determine the cell density for each region of the \-M\-E\-A. 2. \-Assign cells to locations based on density. 3. \-Connect the cells based on a connectivity function.
+
+\-Cell density is assigned based on random midpoint displacement fractals, aka \char`\"{}plasma fractals\char`\"{}. \-This approach was chosen because it provides a stochastic approach that is computationally efficient. \-If it is not a good model of the actual distribution of neurons, a different algorithm can be used.
+
+\-Cells are probabilistically assigned to locations based on the cell density (actually cell probability) at that point. \-Cells are modeled as point locations.
+
+\-For each pair of cells, the probability of their connection is determined based on the distance between the cells and the cells are connected accordingly. \-Note that this results in \-N(\-N-\/1) comparisons, so roughly n$^\wedge$2 connections. \-Put that in your \-N\-P pipe and smoke it.
+
+\begin{DoxyCopyright}{\-Copyright}
+\-Copyright 2013 \-University of \-Massachusetts \-Lowell 
+\end{DoxyCopyright}
+\begin{DoxyAuthor}{\-Author}
+\-Abraham \-Shultz 
+
+\-Jonathan \-Hasenzahl 
+\end{DoxyAuthor}

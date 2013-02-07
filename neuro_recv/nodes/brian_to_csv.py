@@ -1,15 +1,34 @@
 #!/usr/bin/env python
+
+'''
+brian_to_csv.py
+Copyright 2013 University of Massachusetts Lowell
+Author: Jonathan Hasenzahl, Abraham Shultz
+'''
+
+## @package brian_to_csv
+#
+# This is a ROS node that is used by itself to generate CSV data files by running
+# Brian simulations. Use this node to generate a CSV file, and then use the
+# csv_recv node to read the generated file.
+
+# Note: The CSV file path is currently hardcoded at line 133; it would be nice
+#       to make this a server parameter at some point.
+#
+# @copyright Copyright 2013 University of Massachusetts Lowell
+# @author Jonathan Hasenzahl
+# @author Abraham Shultz
+
 import roslib; roslib.load_manifest('neuro_recv')
 import rospy
 from brian import *
 from pickle import Unpickler
 import random
 
-'''
-Data structure for a MEA channel pad
-    neurons: list of neurons within range of the pad
-    total_weight: combined weights of all the neurons
-'''
+
+## @briefData structure for a MEA channel pad
+#  neurons: list of neurons within range of the pad
+#  total_weight: combined weights of all the neurons
 class Channel():
     def __init__(self):
         self.neurons = []
@@ -31,11 +50,10 @@ class Channel():
     def size(self):
         return len(self.neurons)
 
-'''
-Data structure for a neuron that is close to a channel pad.
-    data: unique id of the neuron
-    weight: distance from the center of the pad
-'''
+
+## @brief Data structure for a neuron that is close to a channel pad.
+#  data: unique id of the neuron
+#  weight: distance from the center of the pad
 class CloseNeuron():
     def __init__(self, data, dist):
         self.data = data
@@ -44,8 +62,8 @@ class CloseNeuron():
     def __str__(self):
         return str(self.data) + ':' + str(self.weight)
 
-# Runs a Brian simulation "P" and records and publishes voltages captured by
-# the multielectrode array "channels"
+## Runs a Brian simulation "P" and records and publishes voltages captured by
+#  the multielectrode array "channels"
 def brianRecv(connections, channels):
     # LIF model, different time constants for excitory and inhibitory
     eqs = Equations('''
@@ -116,6 +134,7 @@ def brianRecv(connections, channels):
     rospy.loginfo('Recording dish states...')
         
     # Open CSV file for recording
+    # TODO: Make this a server parameter
     log = open('/home/jon/ros_workspace/other_stuff/csv/brian.csv', 'w')
     log.write('index,')
     for index in range(60):
@@ -145,7 +164,7 @@ def brianRecv(connections, channels):
     
     rospy.loginfo('Recording finished')
 
-# Populates a 60-channel list using data from an x,y map
+## Populates a 60-channel list using data from an x,y map
 def channelizer(pad_neuron_map):
     channels = []
     for row in range(8):

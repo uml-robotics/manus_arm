@@ -1,0 +1,120 @@
+\section{\-Seed\-Mea.\-py \-File \-Reference}
+\label{SeedMea_8py}\index{\-Seed\-Mea.\-py@{\-Seed\-Mea.\-py}}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf \-Seed\-Mea.\-Channel}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a \-M\-E\-A channel pad neurons\-: list of neurons within range of the pad total\-\_\-weight\-: combined weights of all the neurons. \end{DoxyCompactList}\item 
+class {\bf \-Seed\-Mea.\-Close\-Neuron}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a neuron that is close to a channel pad. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace {\bf \-Seed\-Mea}
+\begin{DoxyCompactList}\small\item\em \-This is a \-R\-O\-S node that is used by itself to generate network connectivity pickle files for the \doxyref{brian\-\_\-recv.\-py}{p.}{brian__recv_8py} and \doxyref{brian\-\_\-to\-\_\-csv.\-py}{p.}{brian__to__csv_8py} nodes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def {\bf \-Seed\-Mea.\-count\-Cells}
+\item 
+def {\bf \-Seed\-Mea.\-density\-Reap}
+\item 
+def {\bf \-Seed\-Mea.\-displace}
+\item 
+def {\bf \-Seed\-Mea.\-di\-Sq\-Plasma}
+\item 
+def {\bf \-Seed\-Mea.\-gauss\-Connect}
+\begin{DoxyCompactList}\small\item\em \-Calculate the probability of a connection between two neurons, based on their distance apart. \end{DoxyCompactList}\item 
+def {\bf \-Seed\-Mea.\-gen\-P\-Cell}
+\begin{DoxyCompactList}\small\item\em \-Takes a 2-\/\-D \-Numpy array and fill it in with a density map. \end{DoxyCompactList}\item 
+def {\bf \-Seed\-Mea.\-grim\-Reap}
+\item 
+def {\bf \-Seed\-Mea.\-next\-Pow\-Two}
+\begin{DoxyCompactList}\small\item\em \-Find the next highest power of two, to get a shape that's good for plasma fractal generation. \end{DoxyCompactList}\item 
+def {\bf \-Seed\-Mea.\-render\-Map}
+\begin{DoxyCompactList}\small\item\em \-Use pygame to render an array. \end{DoxyCompactList}\item 
+def {\bf \-Seed\-Mea.\-square\-Plasma}
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf \-Seed\-Mea.\-axon\-\_\-growth} = 220
+\item 
+{\bf \-Seed\-Mea.\-axon\-\_\-max} = dish\-\_\-width
+\item 
+tuple {\bf \-Seed\-Mea.\-Ce} = \-Connection(\-P, \-P, 'ge')
+\item 
+int {\bf \-Seed\-Mea.\-cell\-\_\-density} = 900
+\item 
+tuple {\bf \-Seed\-Mea.\-cells\-\_\-per\-\_\-edge} = int(dish\-\_\-width/soma\-\_\-dia)
+\item 
+tuple {\bf \-Seed\-Mea.\-Ci} = \-Connection(\-P, \-P, 'gi')
+\item 
+tuple {\bf \-Seed\-Mea.\-close\-\_\-neurons} = \-Channel()
+\item 
+tuple {\bf \-Seed\-Mea.\-conn\-\_\-graph} = nx.\-Di\-Graph()
+\item 
+list {\bf \-Seed\-Mea.\-conn\-\_\-list} = [$\,$]
+\item 
+int {\bf \-Seed\-Mea.\-connectivity\-\_\-rate} = 55
+\item 
+int {\bf \-Seed\-Mea.\-dendrite\-\_\-max} = 180
+\item 
+tuple {\bf \-Seed\-Mea.\-density\-\_\-map} = np.\-zeros((edge\-\_\-len, edge\-\_\-len))
+\item 
+int {\bf \-Seed\-Mea.\-dish\-\_\-width} = 2500
+\item 
+tuple {\bf \-Seed\-Mea.\-dist} = math.\-sqrt((neuron\-\_\-x\-\_\-loc -\/ pad\-\_\-x\-\_\-loc)$\ast$$\ast$2 + (neuron\-\_\-y\-\_\-loc -\/ pad\-\_\-y\-\_\-loc)$\ast$$\ast$2)
+\item 
+tuple {\bf \-Seed\-Mea.\-distance} = math.\-sqrt((from\-\_\-neuron[0][0] -\/ to\-\_\-neuron[0][0])$\ast$$\ast$2 + (from\-\_\-neuron[0][1] -\/ to\-\_\-neuron[0][1])$\ast$$\ast$2)
+\item 
+tuple {\bf \-Seed\-Mea.\-edge\-\_\-len} = next\-Pow\-Two(cells\-\_\-per\-\_\-edge)
+\item 
+string {\bf \-Seed\-Mea.\-eqs}
+\item 
+tuple {\bf \-Seed\-Mea.\-excitory\-\_\-count} = int(neuron\-\_\-count $\ast$ 0.\-75)
+\item 
+tuple {\bf \-Seed\-Mea.\-expected\-\_\-cells} = (dish\-\_\-width/1000)
+\item 
+string {\bf \-Seed\-Mea.\-file\-\_\-date} = \char`\"{}\{0\}-\/\{1\}-\/\{2\}-\/\{3\}\-:\{4\}\-:\{5\}\char`\"{}
+\item 
+{\bf \-Seed\-Mea.\-ignore\-\_\-corners} = \-True
+\item 
+{\bf \-Seed\-Mea.\-inhib\-\_\-count} = neuron\-\_\-count-\/excitory\-\_\-count
+\item 
+tuple {\bf \-Seed\-Mea.\-inhib\-\_\-neurons} = random.\-sample(xrange(neuron\-\_\-count), inhib\-\_\-count)
+\item 
+tuple {\bf \-Seed\-Mea.\-neuron\-\_\-count} = int(count\-Cells(density\-\_\-map))
+\item 
+int {\bf \-Seed\-Mea.\-neuron\-\_\-id} = 0
+\item 
+list {\bf \-Seed\-Mea.\-neuron\-\_\-list} = [$\,$]
+\item 
+list {\bf \-Seed\-Mea.\-neuron\-\_\-x\-\_\-loc} = neuron[0]
+\item 
+list {\bf \-Seed\-Mea.\-neuron\-\_\-y\-\_\-loc} = neuron[0]
+\item 
+tuple {\bf \-Seed\-Mea.\-now} = datetime.\-datetime.\-now()
+\item 
+tuple {\bf \-Seed\-Mea.\-P} = \-Neuron\-Group(neuron\-\_\-count, eqs, threshold=-\/50$\ast$m\-V, reset=-\/60$\ast$m\-V)
+\item 
+int {\bf \-Seed\-Mea.\-pad\-\_\-cols} = 8
+\item 
+int {\bf \-Seed\-Mea.\-pad\-\_\-dia} = 30
+\item 
+dictionary {\bf \-Seed\-Mea.\-pad\-\_\-neuron\-\_\-map} = \{\}
+\item 
+int {\bf \-Seed\-Mea.\-pad\-\_\-rows} = 8
+\item 
+int {\bf \-Seed\-Mea.\-pad\-\_\-spacing} = 200
+\item 
+int {\bf \-Seed\-Mea.\-pad\-\_\-threshold} = 40
+\item 
+{\bf \-Seed\-Mea.\-pad\-\_\-x\-\_\-loc} = pad\-\_\-x$\ast$pad\-\_\-spacing
+\item 
+{\bf \-Seed\-Mea.\-pad\-\_\-y\-\_\-loc} = pad\-\_\-y$\ast$pad\-\_\-spacing
+\item 
+int {\bf \-Seed\-Mea.\-soma\-\_\-dia} = 30
+\item 
+int {\bf \-Seed\-Mea.\-survival\-\_\-rate} = 65
+\end{DoxyCompactItemize}

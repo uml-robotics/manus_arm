@@ -1,12 +1,12 @@
 ================================================================================
 
-arm_project
+manus_arm
 
 A ROS implementation of Manus ARM control via spiking neural networks.
 
-Authors      : Jonathan Hasenzahl, Abe Shultz
-               University of Massachusetts Lowell
-Last updated : 8/22/12
+Copyright 2013 University of Massachusetts Lowell
+Authors: Jonathan Hasenzahl, Abraham Shultz
+Last updated: 02/07/13
 
 ================================================================================
 
@@ -22,6 +22,7 @@ Table of Contents
     IX.   Package: neuro_recv
     X.    Package: time_server
     XI.   Package: volt_distr
+    XII.  License
 
 ================================================================================
 
@@ -30,6 +31,9 @@ I. Introduction
 The ROS stack arm_project allows a Manus ARM to be controlled by activity from a
 spiking neural network. Dish simulation and pre-recorded playback is currently
 supported, with a live link connection planned.
+
+If you are only interested in code to control the Manus ARM, that can be found
+in the "arm" package.
 
 ================================================================================
 
@@ -395,3 +399,32 @@ This package records voltage distributions for each channel.
     red indicates a majority of negative voltages.
 
 ================================================================================
+
+XII. License
+
+Copyright 2013 University of Massachusetts Lowell
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer. 
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies, 
+either expressed or implied, of the FreeBSD Project.

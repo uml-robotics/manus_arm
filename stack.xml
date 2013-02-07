@@ -1,12 +1,12 @@
 <stack>
-  <description brief="arm_project">
+  <description brief="manus_arm">
   
-    arm_project
+    manus_arm
     
   </description>
-  <author>Jon</author>
+  <author>Jonathan Hasenzahl</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://pr.willowgarage.com/wiki/arm_project</url>
+  <url>http://pr.willowgarage.com/wiki/manus_arm</url>
   <depend stack="ros"/>
 </stack>

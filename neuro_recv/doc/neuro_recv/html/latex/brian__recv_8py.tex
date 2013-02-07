@@ -1,0 +1,40 @@
+\section{brian\-\_\-recv.\-py \-File \-Reference}
+\label{brian__recv_8py}\index{brian\-\_\-recv.\-py@{brian\-\_\-recv.\-py}}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf brian\-\_\-recv.\-Brian\-Simulation}
+\begin{DoxyCompactList}\small\item\em \-Runs a \-Brian simulation, then creates and publishes dish\-\_\-states using the generated data. \end{DoxyCompactList}\item 
+class {\bf brian\-\_\-recv.\-Channel}
+\begin{DoxyCompactList}\small\item\em \-Data structure for a multi electrode array channel pad neurons \-: list of neurons within range of the pad total\-\_\-weight \-: combined weights of all the neurons. \end{DoxyCompactList}\item 
+class {\bf brian\-\_\-recv.\-Close\-Neuron}
+\begin{DoxyCompactList}\small\item\em \-Data structure representing a neuron that is within range of a channel pad self.\-data \-: unique id of the neuron self.\-weight \-: how much weight this neuron has in calculating average activity for its channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace {\bf brian\-\_\-recv}
+\begin{DoxyCompactList}\small\item\em \doxyref{brian\-\_\-recv}{p.}{namespacebrian__recv} is a \-R\-O\-S node that runs a \-Brian simulation, then creates and publishes dish\-\_\-states using the generated data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+def {\bf brian\-\_\-recv.\-channelizer}
+\begin{DoxyCompactList}\small\item\em \-Channelizer takes data from an 8x8 map and populates a 60-\/channel list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple {\bf brian\-\_\-recv.\-brian} = \-Brian\-Simulation(connections, channels)
+\item 
+tuple {\bf brian\-\_\-recv.\-channels} = channelizer(pad\-\_\-neuron\-\_\-map)
+\item 
+tuple {\bf brian\-\_\-recv.\-connections} = \-Unpickler(connections\-\_\-file)
+\item 
+tuple {\bf brian\-\_\-recv.\-connections\-\_\-file} = open(connections\-\_\-file\-\_\-name)
+\item 
+tuple {\bf brian\-\_\-recv.\-connections\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-connections\-\_\-file\-\_\-path')
+\item 
+tuple {\bf brian\-\_\-recv.\-pad\-\_\-neuron\-\_\-map} = \-Unpickler(pad\-\_\-neuron\-\_\-map\-\_\-file)
+\item 
+tuple {\bf brian\-\_\-recv.\-pad\-\_\-neuron\-\_\-map\-\_\-file} = open(pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name)
+\item 
+tuple {\bf brian\-\_\-recv.\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-name} = rospy.\-get\-\_\-param('brian\-\_\-pad\-\_\-neuron\-\_\-map\-\_\-file\-\_\-path')
+\end{DoxyCompactItemize}
