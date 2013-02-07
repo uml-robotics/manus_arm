@@ -1,0 +1,11 @@
+mea.dot
+build/
+bin/
+lib/
+msg_gen/
+srv_gen/
+.cproject
+.project
+.pydevproject
+.settings
+cmake_install.cmake
